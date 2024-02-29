@@ -4,3 +4,15 @@
 @{
 }
 <h1>This is the dashboard Page</h1>
+@if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+{
+    <h2>Hello Admin</h2>
+}
+else if (User.Identity.IsAuthenticated && User.IsInRole("student"))
+{
+    <h2>Hello Student</h2>
+}
+else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
+{
+    <h2>Hello Employer</h2>
+}
