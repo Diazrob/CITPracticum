@@ -22,7 +22,7 @@ namespace CITPracticum.Controllers
         public IActionResult Login()
         {
             var response = new LoginViewModel();
-            return View();
+            return View(response);
         }
 
         [HttpPost]
@@ -64,5 +64,7 @@ namespace CITPracticum.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        
     }
 }
