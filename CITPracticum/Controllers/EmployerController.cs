@@ -57,5 +57,11 @@ namespace CITPracticum.Controllers
 
             return RedirectToAction("Index", "Employer");
         }
+
+        public async Task<IActionResult> Detail(string email)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(email);
+            return View(user);
+        }
     }
 }
