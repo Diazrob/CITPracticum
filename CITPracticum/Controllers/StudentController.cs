@@ -62,5 +62,22 @@ namespace CITPracticum.Controllers
             AppUser user = await _userManager.FindByEmailAsync(email);
             return View(user);
         }
+
+        public async Task<IActionResult> Delete(string email)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return View("Error");
+            return View(user);
+        }
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteStudent(string email)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return View("Error");
+
+            _userManager.DeleteAsync(user);
+
+            return RedirectToAction("index");
+        }
     }
 }

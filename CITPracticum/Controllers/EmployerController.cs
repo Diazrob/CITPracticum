@@ -40,7 +40,7 @@ namespace CITPracticum.Controllers
             {
                 TempData["Error"] = "This email address is already in use";
                 return View(registerVM);
-            }
+            } 
 
             var newUser = new AppUser()
             {
@@ -62,6 +62,22 @@ namespace CITPracticum.Controllers
         {
             AppUser user = await _userManager.FindByEmailAsync(email);
             return View(user);
+        }
+        public async Task<IActionResult> Delete(string email)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return View("Error");
+            return View(user);
+        }
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteEmployer(string email)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return View("Error");
+
+            _userManager.DeleteAsync(user);
+
+            return RedirectToAction("index");
         }
     }
 }

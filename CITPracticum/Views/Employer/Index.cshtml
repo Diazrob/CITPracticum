@@ -28,7 +28,7 @@
                                     <div class="btn-group">
                                     <a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Detail" asp-route-email="@item.Email">View</a>
                                         <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Remove</button>
+                                    <a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Delete" asp-route-email="@item.Email">Remove</a>
                                     </div>
                                 </div>
                             </div>
