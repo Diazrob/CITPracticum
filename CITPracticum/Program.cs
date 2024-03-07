@@ -1,6 +1,8 @@
 using CIT_Practicum.Data;
 using CITPracticum.Data;
+using CITPracticum.Interfaces;
 using CITPracticum.Models;
+using CITPracticum.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +19,9 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-// changed below default identity with identity roles on top for testing
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<IJobPostingRepository, JobPostingRepository>();
 
 var app = builder.Build();
 //TODO: check if users are added in database, try changing default password to this Coding@1234?

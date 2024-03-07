@@ -16,26 +16,37 @@
     <div class="container">
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Student Id</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
             @foreach (var item in Model)
             {
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                        <div class="card-body">
-                            <p class="card-text">Username: @item.UserName</p>
-                            <p class="card-text">Student ID @item.StudentId</p>
-                            <p class="card-text">Email Address: @item.Email</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Detail" asp-route-email="@item.Email">View</a>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    <a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Delete" asp-route-email="@item.Email">Remove</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <tr >
+                            <th scope="row"><img class="img-fluid" src="https://placehold.jp/30x30.png" alt="" /></th>
+                            <td>@item.FirstName @item.LastName</td>
+                            <td>@item.UserName</td>
+                            <td>@item.Email</td>
+                            <td>@item.StudentId</td>
+                            <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Detail" asp-route-email="@item.Email">View</a></td>
+                    <td><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></td>
+                    <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Delete" asp-route-email="@item.Email">Remove</a></td>
+                </tr>
             }
+
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

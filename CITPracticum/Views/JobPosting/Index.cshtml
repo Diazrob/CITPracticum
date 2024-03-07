@@ -1,12 +1,37 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<h1>Jobpostings page. Admin can see all job postings</h1>
+﻿@model IEnumerable<JobPosting>
 
-<li>Software Developer</li>
-<li>UX/UI Designer</li>
-<li>Network Administrator</li>
-<li>Business Analyst</li>
-<li>Project Manager</li>
+<section class="py-5 text-center container">
+    <div class="row py-lg-2">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Job Postings</h1>
+
+            <a class="btn btn-primary" asp-controller="JobPosting" asp-action="Create">Add a Job Posting</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="container px-4 py-5" id="hanging-icons">
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        @foreach (var item in Model) {
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2" /></svg>
+            </div>
+            <div>
+                <h2>@item.JobTitle</h2>
+                <p>@item.JobDescription</p>
+                <h6>@item.Company</h6>
+                <h6>@item.Location</h6>
+                <h6>Due Date: @item.DueDate</h6>
+                <h6>@item.PaymentCategory</h6>
+                <a href="@item.Link" target="_blank">@item.Link</a>
+                <div>
+                        <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

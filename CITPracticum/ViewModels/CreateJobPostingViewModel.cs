@@ -1,18 +1,16 @@
 ﻿using CITPracticum.Data.Enum;
-using System.ComponentModel.DataAnnotations;
 
-namespace CITPracticum.Models
+namespace CITPracticum.ViewModels
 {
-    public class JobPosting
+    public class CreateJobPostingViewModel
     {
-        [Key]
         public int Id { get; set; }
         public string JobTitle { get; set; }
         public string JobDescription { get; set; }
         public string DueDate { get; set; }
         public string Company { get; set; }
         public PaymentCategory PaymentCategory { get; set; }
+        public string JobLink { get; set; }
         public string Location { get; set; }
-        public string Link { get; set; }
     }
 }

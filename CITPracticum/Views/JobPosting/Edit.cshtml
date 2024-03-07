@@ -1,0 +1,76 @@
+﻿@using CITPracticum.Data.Enum;
+@using CITPracticum.ViewModels;
+
+@model EditJobPostingViewModel
+
+@{
+    ViewData["Title"] = "Edit a Job Posting";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <p>
+            <h4>Edit a Job Posting</h4>
+        </p>
+        @if (TempData["Error"] != null)
+        {
+            <div class="col-md-12 alert alert-danger">
+                <span><b>Sorry! </b>@TempData["Error"]</span>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                
+                <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                    <input type="hidden" value="Id" id="Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="JobTitle" class="control-label"></label>
+                        <input asp-for="JobTitle" class="form-control" />
+                        <span asp-validation-for="JobTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="JobDescription" class="control-label"></label>
+                        <textarea asp-for="JobDescription" class="form-control"></textarea>
+                        <span asp-validation-for="JobDescription" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DueDate" class="control-label"></label>
+                        <input type="date" asp-for="DueDate" class="form-control" />
+                        <span asp-validation-for="DueDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Company" class="control-label"></label>
+                        <input asp-for="Company" class="form-control" />
+                        <span asp-validation-for="Company" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Location" class="control-label"></label>
+                        <input asp-for="Location" class="form-control" />
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="PaymentCategory">Paid or Unpaid</label>
+                        <select asp-for="PaymentCategory" asp-items="@Html.GetEnumSelectList<PaymentCategory>()" class="form-control">
+                            <option>--Select--</option>
+                        </select>
+                        <span asp-validation-for="PaymentCategory" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="JobLink" class="control-label"></label>
+                        <input type="url" asp-for="JobLink" class="form-control" />
+                        <span asp-validation-for="JobLink" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="btn btn-outline-success float right" type="submit" value="Edit JobPosting" />
+                        <a class="btn btn-outline-secondary" asp-controller="JobPosting" asp-action="Index">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
