@@ -2,9 +2,13 @@
 
 @model LoginViewModel
 
+        @{
+            Layout = "_LoginLayout"; // This specifies that no layout should be used
+        }
+
         @if (TempData["Error"] != null)
         {
-            <div class="col-md-12 alert alert-danger">
+            <div class="col-md-12 mt-2 alert alert-danger">
                 <span><b>Sorry! </b>@TempData["Error"]</span>
             </div>
         }
@@ -56,14 +60,14 @@
 
         <div class="login-container">
             <div class="card login-card p-4 shadow">
-                <img src="~/images/lc.png" alt="Lethbridge College Logo" class="w-25 h-25 login-img mx-auto d-block">
+                <img src="~/images/lc.png" alt="Lethbridge College Logo"  class="w-50 h-50 login-img mx-auto d-block">
                 <div class="card-body">
                     <h4 class="card-title mb-4">CIT Practicum Login</h4>
                     <hr />
                     <form asp-action="Login">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="mb-3">
-                            <label asp-for="EmailAddress" class="form-label">Username</label>
+                    <label asp-for="EmailAddress" class="form-label">Email Address</label>
                             <input asp-for="EmailAddress" class="form-control" id="username" aria-describedby="usernameHelp">
                             <span asp-validation-for="EmailAddress" class="text-danger"></span>
                         </div>
@@ -101,11 +105,11 @@
                         <p>In order to reset your password you will need to enter your school email address. From there Stephen will contact you with a new password.</p>
                         <form id="forgotPasswordForm">
                             <div class="mb-3">
-                                <label for="emailForReset" class="form-label">Enter Email for Reset</label>
+                                <label for="emailForReset" class="form-label">Enter School Email Address</label>
                                 <input type="email" class="form-control" id="emailForReset">
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Send</button>
+                        <button type="submit" class="btn text-white" style="background-color: #6cb0e4;">Send</button>
                             </div>
                         </form>
                     </div>
