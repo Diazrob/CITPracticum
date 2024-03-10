@@ -1,4 +1,52 @@
-﻿    <div class="container mt-5">
+﻿<style>
+    /* Custom styles for the navigation tabs */
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background-color: #ffffff; /* Active tab background color */
+        color: #3431f4; /* Active tab text color */
+        border-color: #dee2e6 #dee2e6 #fff; /* Borders around the active tab */
+        border-radius: 0.25rem; /* Rounded corners on the top */
+    }
+
+    .nav-link {
+        color: #007bff; /* Non-active tab text color */
+        margin-right: 2px; /* Spacing between tabs */
+        border: 1px solid transparent; /* Transparent border for non-active tabs */
+        border-radius: 0.25rem; /* Rounded corners on the top */
+    }
+
+    .nav-tabs {
+        border-bottom: 1px solid #dee2e6; /* Bottom border for the whole nav */
+    }
+
+        /* Styles to align the button with the tab items */
+        .nav-tabs .nav-item:last-child {
+            margin-left: auto; /* Push the button to the right */
+        }
+
+    .btn-create-form {
+        margin-top: -8px; /* Adjust this value to align the button as desired */
+    }
+</style>
+
+<div class="container mt-5">
+    <!-- Tab navigation with button -->
+    <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" href="/PracticumForm/Index">Practicum Forms</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/PracticumForm/StudentSubmittedForms">Student Submitted Forms</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/PracticumForm/EmployerSubmittedForms">Employer Submitted Forms</a>
+        </li>
+        <!-- This is where the 'Create Form' button is placed -->
+        <li class="nav-item" role="presentation">
+            <button class="btn btn-primary btn-create-form" type="button" data-bs-toggle="modal" data-bs-target="#formCFModal">Create Form</button>
+        </li>
+    </ul>
+
+
         <!-- List of Forms as Cards -->
         <div class="card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formAModal">
             <div class="card-body">
@@ -12,13 +60,13 @@
             </div>
         </div>
 
-        <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formCModal">
+        <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formFOIPModal">
             <div class="card-body">
                 Form FOIP - Student Release-24WN
             </div>
         </div>
 
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formCModal">
+    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formIDModal">
         <div class="card-body">
             Form ID - Student Information-24WN
         </div>
@@ -26,7 +74,22 @@
 
     </div>
 
-    <!-- Modals -->
+<!-- Create Form Modal -->
+<div class="modal fade" id="formCFModal" tabindex="-1" aria-labelledby="formCFModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formCFModalLabel">Create Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Content for Form CF -->
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Form A Modal -->
     <div class="modal fade" id="formAModal" tabindex="-1" aria-labelledby="formAModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
@@ -40,3 +103,48 @@
             </div>
         </div>
     </div>
+
+<!-- Form B Modal -->
+<div class="modal fade" id="formBModal" tabindex="-1" aria-labelledby="formBModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formBModalLabel">Form B</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Content for Form B -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Form FOIP Modal -->
+<div class="modal fade" id="formFOIPModal" tabindex="-1" aria-labelledby="formFOIPModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formFOIPModalLabel">Form FOIP</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Content for Form FOIP -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Form ID Modal -->
+<div class="modal fade" id="formIDModal" tabindex="-1" aria-labelledby="formIDModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formIDModalLabel">Form ID</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Content for Form ID -->
+            </div>
+        </div>
+    </div>
+</div>

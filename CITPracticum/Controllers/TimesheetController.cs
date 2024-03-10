@@ -8,5 +8,9 @@ namespace CITPracticum.Controllers
         {
             return View();
         }
+        public IActionResult ViewTimesheet()
+        {
+            return View();
+        }
     }
 }

@@ -8,5 +8,13 @@ namespace CITPracticum.Controllers
         {
             return View();
         }
+        public IActionResult EmployerSubmittedForms()
+        {
+            return View();
+        }
+        public IActionResult StudentSubmittedForms()
+        {
+            return View();
+        }
     }
 }

@@ -48,22 +48,30 @@
     }
 </style>
 
-<!-- Tab navigation with button -->
-<ul class="nav nav-tabs mb-3" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active">Timesheets</a>
-    </li>
-    <!-- This is where the 'Create Form' button is placed -->
-    <li class="nav-item" role="presentation">
-        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
-    </li>
-</ul>
+<div class="container mt-5">
+    <!-- Tab navigation with button -->
+    <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" href="/PracticumForm/Index">Practicum Forms</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/PracticumForm/StudentSubmittedForms">Student Submitted Forms</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/PracticumForm/EmployerSubmittedForms">Employer Submitted Forms</a>
+        </li>
+        <!-- This is where the 'Create Form' button is placed -->
+        <li class="nav-item" role="presentation">
+            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
+        </li>
+    </ul>
 
-<table class="table">
+    <table class="table">
         <thead>
             <tr>
                 <th class="name-column">Name</th>
-            <th class="view-column">View</th>
+                <th class="form-column">Form</th>
+                <th class="view-column">View</th>
                 <th class="checkbox-column">
                     <div class="select-all-container">
                         <label for="select-all" class="select-all-label">Select All</label>
@@ -74,38 +82,33 @@
         </thead>
         <tbody>
             <tr>
-                <td>William Garcia</td>
-            <td>
-                <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-            </td>
+                <td>John Doe</td>
+                <td>Form C</td>
+                <td><button class="btn btn-link view-btn">View</button></td>
                 <td class="text-center"><input type="checkbox" class="form-check-input"></td>
             </tr>
             <tr>
-                <td>Sophia Martinez</td>
-            <td>
-                <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-            </td>
+                <td>Jane Smith</td>
+                <td>Form A</td>
+                <td><button class="btn btn-link view-btn">View</button></td>
                 <td class="text-center"><input type="checkbox" class="form-check-input"></td>
             </tr>
             <tr>
-                <td>James Wilson</td>
-            <td>
-                <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-            </td>
+                <td>Emily Johnson</td>
+                <td>Form B</td>
+                <td><button class="btn btn-link view-btn">View</button></td>
                 <td class="text-center"><input type="checkbox" class="form-check-input"></td>
             </tr>
             <tr>
-                <td>Isabella Miller</td>
-            <td>
-                <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-            </td>
+                <td>Michael Brown</td>
+                <td>FOIP</td>
+                <td><button class="btn btn-link view-btn">View</button></td>
                 <td class="text-center"><input type="checkbox" class="form-check-input"></td>
             </tr>
             <tr>
-                <td>Oliver Taylor</td>
-            <td>
-                <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-            </td>
+                <td>Jessica Davis</td>
+                <td>Form ID</td>
+                <td><button class="btn btn-link view-btn">View</button></td>
                 <td class="text-center"><input type="checkbox" class="form-check-input"></td>
             </tr>
         </tbody>
@@ -144,6 +147,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

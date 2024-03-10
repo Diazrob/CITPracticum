@@ -5,7 +5,7 @@ namespace CITPracticum.ViewModels
     public class LoginViewModel
     {
         [Display(Name = "Email Address")]
-        [Required(ErrorMessage = "Email addres is required")]
+        [Required(ErrorMessage = "Email address is required")]
         public string EmailAddress { get; set; }
         [Required]
         [DataType(DataType.Password)]

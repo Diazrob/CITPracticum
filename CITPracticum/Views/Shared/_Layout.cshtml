@@ -41,7 +41,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="PracticumForm" asp-action="Index">Practicum Forms</a>
                             </li>
-                            @if (User.IsInRole("student"))
+                            @if (User.IsInRole("student") || User.IsInRole("admin"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Timesheet" asp-action="Index">Time Sheets</a>
@@ -52,12 +52,11 @@
                             <button class="btn btn-outline-danger">Logout</button>
                         </form>
                     </div>
-                    }
-                    else
-                    {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CITPracticum</a>
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                    }
+                }
+                else
+                {
+                    Context.Response.Redirect("/");
+                }
    
             </div>
         </nav>
@@ -70,7 +69,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - CITPracticum - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - CITPracticum. All Rights Reserved.
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
