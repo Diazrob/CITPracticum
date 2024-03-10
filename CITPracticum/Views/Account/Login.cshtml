@@ -68,9 +68,10 @@
                             <span asp-validation-for="EmailAddress" class="text-danger"></span>
                         </div>
 
+                        <label asp-for="Password" class="form-label">Password</label>
                         <div class="input-group">
-                            <label asp-for="Password" class="form-label">Password</label>
-                            <input asp-for="Password" name="loginPassword" id="loginPassword" class="form-control" />
+                            <input asp-for="Password" id="loginPassword" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
                             <div class="input-group-append">
                                 <span class="input-group-text h-100" onclick="password_show_hide();">
                                     <i class="fa-solid fa-eye" id="show_eye"></i>
@@ -79,7 +80,7 @@
                             </div>
                         </div>
 
-                        <input type="submit" class="btn text-white btn-custom w-100 mb-2 mt-3" value="Log in"></input>
+                        <input type="submit" class="btn text-white btn-custom w-100 mb-2 mt-3" value="Log in" />
                         <button type="button" class="btn btn-link w-100" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
                             Forgot Password?
                         </button>
