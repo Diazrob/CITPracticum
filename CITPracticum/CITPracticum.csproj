@@ -16,4 +16,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.20" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\lc.png" />
+  </ItemGroup>
+
 </Project>

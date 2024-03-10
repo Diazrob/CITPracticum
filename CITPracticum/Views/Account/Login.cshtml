@@ -2,37 +2,112 @@
 
 @model LoginViewModel
 
-<div class="row">
-    <div class="col-md-6 offset-3">
-        <p>
-            <h4>Log in to your account</h4>
-        </p>
         @if (TempData["Error"] != null)
         {
             <div class="col-md-12 alert alert-danger">
                 <span><b>Sorry! </b>@TempData["Error"]</span>
             </div>
         }
-        <div class="row">
-            <div class="col-md-8 offset-2">
-                <form asp-action="Login">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="EmailAddress" class="control-label"></label>
-                        <input asp-for="EmailAddress" class="form-control" />
-                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input class="btn btn-outline-success float right" type="submit" value="Log in" />
-                        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Cancel</a>
-                    </div>
-                </form>
+
+        <script>
+            function password_show_hide() {
+                var x = document.getElementById("loginPassword");
+                var show_eye = document.getElementById("show_eye");
+                var hide_eye = document.getElementById("hide_eye");
+                hide_eye.classList.remove("d-none");
+                if (x.type === "password") {
+                    x.type = "text";
+                    show_eye.style.display = "none";
+                    hide_eye.style.display = "block";
+                } else {
+                    x.type = "password";
+                    show_eye.style.display = "block";
+                    hide_eye.style.display = "none";
+                }
+            }
+        </script>
+
+        <style>
+            .login-container {
+                min-height: 100vh; /* This makes sure that the container is full height */
+            }
+
+            .login-card {
+                max-width: 500px; /* Adjust the width of the card to your preference */
+                margin-left: auto; /* This centers the card vertically and horizontally */
+                margin-right: auto;
+                margin-top: 100px;
+            }
+
+            .login-img {
+                margin-bottom: 20px;
+            }
+
+            .btn-custom {
+                background-color: #69a620; /* This is a Bootstrap green color */
+                border-color: #69a620; /* Same as the background */
+            }
+
+            .btn-custom:hover {
+                background-color: #218838; /* A slightly darker green for hover effect */
+                border-color: #1e7e34;
+            }
+        </style>
+
+        <div class="login-container">
+            <div class="card login-card p-4 shadow">
+                <img src="~/images/lc.png" alt="Lethbridge College Logo" class="w-25 h-25 login-img mx-auto d-block">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">CIT Practicum Login</h4>
+                    <hr />
+                    <form asp-action="Login">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="mb-3">
+                            <label asp-for="EmailAddress" class="form-label">Username</label>
+                            <input asp-for="EmailAddress" class="form-control" id="username" aria-describedby="usernameHelp">
+                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                        </div>
+
+                        <div class="input-group">
+                            <label asp-for="Password" class="form-label">Password</label>
+                            <input asp-for="Password" name="loginPassword" id="loginPassword" class="form-control" />
+                            <div class="input-group-append">
+                                <span class="input-group-text h-100" onclick="password_show_hide();">
+                                    <i class="fa-solid fa-eye" id="show_eye"></i>
+                                    <i class="fa-solid fa-eye-slash d-none" id="hide_eye"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <input type="submit" class="btn text-white btn-custom w-100 mb-2 mt-3" value="Log in"></input>
+                        <button type="button" class="btn btn-link w-100" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+                            Forgot Password?
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>In order to reset your password you will need to enter your school email address. From there Stephen will contact you with a new password.</p>
+                        <form id="forgotPasswordForm">
+                            <div class="mb-3">
+                                <label for="emailForReset" class="form-label">Enter Email for Reset</label>
+                                <input type="email" class="form-control" id="emailForReset">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
