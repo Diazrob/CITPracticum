@@ -26,6 +26,53 @@
     .btn-create-form {
         margin-top: -8px; /* Adjust this value to align the button as desired */
     }
+
+    /* Additional CSS to style the modal to look more like the form in the image */
+.modal-logo {
+    width: 100px; /* Adjust as needed */
+    margin-right: 20px;
+}
+
+.modal-header {
+    align-items: center;
+}
+
+.modal-title {
+    flex-grow: 1;
+    text-align: center;
+}
+
+/* Input field styles */
+.modal-body .form-control {
+    background-color: #f7f7f7; /* Light gray background */
+    border: 1px solid #ddd; /* Light gray border */
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Adjust label spacing and alignment */
+.modal-body .form-label {
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Note paragraph styling */
+.modal-body .note {
+    font-size: 0.9em;
+    color: #555; /* Darker text for the note */
+    background-color: #e7e7e7; /* Light background for the note */
+    padding: 10px;
+    border-left: 3px solid #ccc; /* Vertical line on the left side */
+    margin-top: 20px; /* Spacing before the note */
+}
+
+/* Button styling */
+.modal-footer .btn-primary {
+    background-color: #0056b3; /* Adjust the color to match your theme */
+    border-color: #004080;
+    padding: 10px 20px;
+}
+
 </style>
 
 <div class="container mt-5">
@@ -89,20 +136,24 @@
     </div>
 </div>
 
-    <!-- Form A Modal -->
-    <div class="modal fade" id="formAModal" tabindex="-1" aria-labelledby="formAModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="formAModalLabel">Form A</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Content for Form A -->
-                </div>
+<!-- Form A Full-Screen Modal -->
+<div class="modal fade" id="formAModal" tabindex="-1" aria-labelledby="formAModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- Logo Here -->
+                <img src="path_to_your_logo.png" alt="Logo" class="modal-logo">
+                <h5 class="modal-title" id="formAModalLabel">Computer Information Technology Practicum - Host Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Rest of the form -->
             </div>
         </div>
     </div>
+</div>
+
+
 
 <!-- Form B Modal -->
 <div class="modal fade" id="formBModal" tabindex="-1" aria-labelledby="formBModalLabel" aria-hidden="true">
