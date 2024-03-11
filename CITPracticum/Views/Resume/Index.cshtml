@@ -1,5 +1,56 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<style>
+    body {
+        font-family: 'Gotham', sans-serif;
+        color: #275937; /* Sagebrush */
+    }
+
+    .nav-tabs .nav-link {
+        background-color: #fff;
+        color: #005157; /* Ammolite */
+        border: 1px solid #ddd;
+    }
+
+        .nav-tabs .nav-link.active {
+            background-color: #fff;
+            color: #739600; /* Coulee Green */
+            border-color: #ddd #ddd #fff;
+            border-bottom: 4px solid #739600; /* Coulee Green */
+        }
+
+    .nav-tabs {
+        border-bottom: 1px solid #ddd;
+    }
+
+    h1 {
+        color: #005157; /* Ammolite */
+    }
+
+    .btn-primary {
+        background-color: #739600; /* Coulee Green */
+        border-color: #739600; /* Coulee Green */
+    }
+
+        .btn-primary:hover {
+            background-color: #567d00; /* A darker shade of Coulee Green */
+            border-color: #567d00; /* A darker shade of Coulee Green */
+        }
+    /* Add more custom styles as needed */
+</style>
+</head>
+<body>
+
+    <!-- Navigation tabs -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="/AdminProfile/Resumes">Resume</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/AdminProfile/CoverLetters">Cover Letter</a>
+        </li>
+    </ul>
+
+    <!-- Content for the Resume page -->
+    <div class="container mt-4">
+        <h1>Admin Profile</h1>
+        <!-- Include your content here, like the list of resumes -->
+    </div>
