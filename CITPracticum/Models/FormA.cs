@@ -17,7 +17,7 @@ namespace CITPracticum.Models
         public string SVName { get; set; }
         public string SVPosition { get; set; }
         public string SVEmail { get; set; }
-        public int SVPhoneNumber { get; set; }
+        public string SVPhoneNumber { get; set; }
         public string SVCredentials { get; set; }
         public string? SVCredOther { get; set; }
         [ForeignKey("Address")]
@@ -25,7 +25,7 @@ namespace CITPracticum.Models
         public Address Address { get; set; }
         public DateOnly StartDate { get; set; }
         public PaymentCategory PaymentCategory { get; set; }
-        public int Submitted { get; set; }
+        public bool Submitted { get; set; }
 
     }
 }

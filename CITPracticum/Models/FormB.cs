@@ -16,7 +16,12 @@ namespace CITPracticum.Models
         public Address Address { get; set; }
         public string Position { get; set; }
         public string Email { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
+        public bool StuSign { get; set; }
+        public DateOnly StuSignDate { get; set; }
+        public bool EmpSign { get; set; }
+        public DateOnly EmpSignDate { get; set; }
+        public bool Submitted { get; set; }
 
     }
 }
