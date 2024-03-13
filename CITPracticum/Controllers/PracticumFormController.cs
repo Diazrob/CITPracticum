@@ -7,6 +7,7 @@ namespace CITPracticum.Controllers
         public IActionResult Index()
         {
             return View();
+            // test branch
         }
         public IActionResult EmployerSubmittedForms()
         {
