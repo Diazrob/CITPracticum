@@ -13,5 +13,7 @@ namespace CITPracticum.Data
 
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<JobPosting> JobPostings { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<FormA> FormAs { get; set; }
     }
 }
