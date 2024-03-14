@@ -1,4 +1,5 @@
-﻿using CITPracticum.Interfaces;
+﻿
+using CITPracticum.Interfaces;
 using CITPracticum.Models;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -15,45 +16,47 @@ namespace CITPracticum.Controllers
         }
         public IActionResult Index()
         {
+            
             return View();
             // test branch
         }
-
+        // Form A submission handler
         public IActionResult FormASubmit()
         {
-            var submitFormAVM = new SubmitFormAViewModel();
+            var submitFormAVM = new PracticumForms();
+            
             return View(submitFormAVM);
         }
         [HttpPost]
-        public async Task<IActionResult> FormASubmit(SubmitFormAViewModel submitFormAVM)
+        public async Task<IActionResult> FormASubmit(PracticumForms submitFormAVM)
         {
             if (ModelState.IsValid)
             {
                 var formA = new FormA()
                 {
-                    StuLastName = submitFormAVM.StuLastName,
-                    StuFirstName = submitFormAVM.StuFirstName,
-                    StuId = submitFormAVM.StuId,
+                    StuLastName = submitFormAVM.FormA.StuLastName,
+                    StuFirstName = submitFormAVM.FormA.StuFirstName,
+                    StuId = submitFormAVM.FormA.StuId,
                     Program = "Computer Information Technology",
-                    HostCompany = submitFormAVM.HostCompany,
-                    OrgType = submitFormAVM.OrgType,
-                    SVName = submitFormAVM.SVName,
-                    SVPosition = submitFormAVM.SVPosition,
-                    SVEmail = submitFormAVM.SVEmail,
-                    SVPhoneNumber = submitFormAVM.SVPhoneNumber,
-                    SVCredentials = submitFormAVM.SVCredentials,
-                    SVCredOther = submitFormAVM.SVCredOther,
+                    HostCompany = submitFormAVM.FormA.HostCompany,
+                    OrgType = submitFormAVM.FormA.OrgType,
+                    SVName = submitFormAVM.FormA.SVName,
+                    SVPosition = submitFormAVM.FormA.SVPosition,
+                    SVEmail = submitFormAVM.FormA.SVEmail,
+                    SVPhoneNumber = submitFormAVM.FormA.SVPhoneNumber,
+                    SVCredentialsCategory = submitFormAVM.FormA.SVCredentialsCategory,
+                    SVCredOther = submitFormAVM.FormA.SVCredOther,
                     Address = new Address()
                     {
-                        Street = submitFormAVM.Address.Street,
-                        City = submitFormAVM.Address.City,
-                        Prov = submitFormAVM.Address.Prov,
-                        Country = submitFormAVM.Address.Country,
-                        PostalCode = submitFormAVM.Address.PostalCode
+                        Street = submitFormAVM.FormA.Address.Street,
+                        City = submitFormAVM.FormA.Address.City,
+                        Prov = submitFormAVM.FormA.Address.Prov,
+                        Country = submitFormAVM.FormA.Address.Country,
+                        PostalCode = submitFormAVM.FormA.Address.PostalCode
                     },
-                    StartDate = submitFormAVM.StartDate,
-                    PaymentCategory = submitFormAVM.PaymentCategory,
-                    Submitted = submitFormAVM.Submitted
+                    StartDate = submitFormAVM.FormA.StartDate,
+                    PaymentCategory = submitFormAVM.FormA.PaymentCategory,
+                    Submitted = submitFormAVM.FormA.Submitted
                 };
                 _practicumFormsRepository.Add(formA);
                 return RedirectToAction("Index");
