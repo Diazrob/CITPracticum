@@ -12,12 +12,15 @@ namespace CITPracticum.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ApplicationDbContext _context;
+
+        // employer constructor
         public EmployerController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
         }
+        // displays all the employers
         public async Task<IActionResult> Index()
         {
             string roleName = "employer";
@@ -25,6 +28,7 @@ namespace CITPracticum.Controllers
             var users = await _userManager.GetUsersInRoleAsync(roleName);
             return View(users);
         }
+        // function to register a new employer
         public IActionResult Register()
         {
             var response = new RegisterEmployerViewModel();
@@ -57,12 +61,14 @@ namespace CITPracticum.Controllers
 
             return RedirectToAction("Index", "Employer");
         }
-
+        // shows the page of specific user
         public async Task<IActionResult> Detail(string email)
         {
             AppUser user = await _userManager.FindByEmailAsync(email);
             return View(user);
         }
+
+        // deletes a specific user
         public async Task<IActionResult> Delete(string email)
         {
             AppUser user = await _userManager.FindByEmailAsync(email);

@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CITPracticum.Models
 {
     public class FormB
     {
+        [Key]
         public int Id { get; set; }
         public string PracHost { get; set; }
         public string StuName { get; set; }
@@ -16,7 +18,12 @@ namespace CITPracticum.Models
         public Address Address { get; set; }
         public string Position { get; set; }
         public string Email { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
+        public bool StuSign { get; set; }
+        public DateOnly StuSignDate { get; set; }
+        public bool EmpSign { get; set; }
+        public DateOnly EmpSignDate { get; set; }
+        public bool Submitted { get; set; }
 
     }
 }

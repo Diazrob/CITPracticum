@@ -3,6 +3,7 @@ using CITPracticum.Models;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace CITPracticum.Controllers
 {
@@ -17,6 +18,8 @@ namespace CITPracticum.Controllers
             _signInManager = signInManager;
             _context = context;
         }
+
+        // displays all the students on index page
         public async Task<IActionResult> Index()
         {
             string roleName = "student";
@@ -24,6 +27,7 @@ namespace CITPracticum.Controllers
             var users = await _userManager.GetUsersInRoleAsync(roleName);
             return View(users);
         }
+        // add a new student user
         public IActionResult Register()
         {
             var response = new RegisterStudentViewModel();
@@ -56,13 +60,13 @@ namespace CITPracticum.Controllers
 
             return RedirectToAction("Index", "Student");
         }
-
+        // displays page of a student
         public async Task<IActionResult> Detail(string email)
         {
             AppUser user = await _userManager.FindByEmailAsync(email);
             return View(user);
         }
-
+        // deletes a student user
         public async Task<IActionResult> Delete(string email)
         {
             AppUser user = await _userManager.FindByEmailAsync(email);
