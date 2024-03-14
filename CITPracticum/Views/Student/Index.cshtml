@@ -39,9 +39,9 @@
                             <td>@item.UserName</td>
                             <td>@item.Email</td>
                             <td>@item.StudentId</td>
-                            <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Detail" asp-route-email="@item.Email">View</a></td>
+                            <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Detail" asp-route-email="@item.Email">View</a></td>
                     <td><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></td>
-                    <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Delete" asp-route-email="@item.Email">Remove</a></td>
+                    <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Delete" asp-route-email="@item.Email">Remove</a></td>
                 </tr>
             }
 

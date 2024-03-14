@@ -4,6 +4,7 @@ using CITPracticum.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CITPracticum.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240313184742_Forms-Part1")]
+    partial class FormsPart1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,11 +162,11 @@ namespace CITPracticum.Data.Migrations
 
             modelBuilder.Entity("CITPracticum.Models.FormA", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
@@ -187,6 +189,10 @@ namespace CITPracticum.Data.Migrations
                     b.Property<string>("SVCredOther")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SVCredentials")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SVEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -204,7 +210,7 @@ namespace CITPracticum.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("StuFirstName")
                         .IsRequired()
@@ -816,35 +822,6 @@ namespace CITPracticum.Data.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("CITPracticum.ViewModels.SVCredentialsViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("FormAId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsChecked")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FormAId");
-
-                    b.ToTable("SVCredentialsViewModel");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1082,13 +1059,6 @@ namespace CITPracticum.Data.Migrations
                     b.Navigation("Employer");
                 });
 
-            modelBuilder.Entity("CITPracticum.ViewModels.SVCredentialsViewModel", b =>
-                {
-                    b.HasOne("CITPracticum.Models.FormA", null)
-                        .WithMany("Checkboxes")
-                        .HasForeignKey("FormAId");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1145,11 +1115,6 @@ namespace CITPracticum.Data.Migrations
                     b.Navigation("Employers");
 
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("CITPracticum.Models.FormA", b =>
-                {
-                    b.Navigation("Checkboxes");
                 });
 #pragma warning restore 612, 618
         }

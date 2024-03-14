@@ -13,18 +13,21 @@ namespace CITPracticum.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ApplicationDbContext _context;
 
+        // Account constructor
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
         }
+        // Handles the log-in process of all accounts
         public IActionResult Login()
         {
             var response = new LoginViewModel();
             return View(response);
         }
 
+        
         [HttpPost]
 
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
