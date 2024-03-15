@@ -15,11 +15,19 @@ namespace CITPracticum.Controllers
             _practicumFormsRepository = practicumFormsRepository;
         }
         public IActionResult Index()
-        {
-            
+        {   
             return View();
-            // test branch
         }
+
+        public IActionResult EmployerSubmittedForms()
+        {
+            return View();
+        }
+        public IActionResult StudentSubmittedForms()
+        {
+            return View();
+        }
+
         // Form A submission handler
         public IActionResult FormASubmit()
         {
@@ -32,7 +40,7 @@ namespace CITPracticum.Controllers
         {
             if (ModelState.IsValid)
             {
-                string credentials = string.Join(",", credentialsList);
+                string credentials = string.Join(", ", credentialsList);
 
                 var formA = new FormA()
                 {
@@ -58,20 +66,38 @@ namespace CITPracticum.Controllers
                     },
                     StartDate = submitFormAVM.FormA.StartDate,
                     PaymentCategory = submitFormAVM.FormA.PaymentCategory,
-                    Submitted = submitFormAVM.FormA.Submitted
+                    Submitted = true
                 };
                 _practicumFormsRepository.Add(formA);
                 return RedirectToAction("Index");
             }
             return View(submitFormAVM);
         }
-        public IActionResult EmployerSubmittedForms()
+
+        // Form C submission handler
+        public IActionResult FormCSubmit()
         {
-            return View();
+            var submitFormCVM = new PracticumForms();
+
+            return View(submitFormCVM);
         }
-        public IActionResult StudentSubmittedForms()
+        [HttpPost]
+        public async Task<IActionResult> FormCSubmit(PracticumForms submitFormCVM, List<string> credentialsList)
         {
-            return View();
+            if (ModelState.IsValid)
+            { 
+                var formC = new FormC()
+                {
+                    PracSV = submitFormCVM.FormC.PracSV,
+                    Org = submitFormCVM.FormC.Org,
+                    StuName = submitFormCVM.FormC.StuName,
+
+
+                };
+                _practicumFormsRepository.Add(formC);
+                return RedirectToAction("Index");
+            }
+            return View(submitFormCVM);
         }
     }
 }
