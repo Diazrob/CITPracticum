@@ -28,10 +28,12 @@ namespace CITPracticum.Controllers
             return View(submitFormAVM);
         }
         [HttpPost]
-        public async Task<IActionResult> FormASubmit(PracticumForms submitFormAVM)
+        public async Task<IActionResult> FormASubmit(PracticumForms submitFormAVM, List<string> credentialsList)
         {
             if (ModelState.IsValid)
             {
+                string credentials = string.Join(",", credentialsList);
+
                 var formA = new FormA()
                 {
                     StuLastName = submitFormAVM.FormA.StuLastName,
@@ -44,7 +46,7 @@ namespace CITPracticum.Controllers
                     SVPosition = submitFormAVM.FormA.SVPosition,
                     SVEmail = submitFormAVM.FormA.SVEmail,
                     SVPhoneNumber = submitFormAVM.FormA.SVPhoneNumber,
-                    SVCredentialsCategory = submitFormAVM.FormA.SVCredentialsCategory,
+                    SVCredentials = credentials,
                     SVCredOther = submitFormAVM.FormA.SVCredOther,
                     Address = new Address()
                     {

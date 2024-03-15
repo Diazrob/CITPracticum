@@ -212,13 +212,35 @@
                         </div>
                         <!-- ... other fields ... -->
 
-                        <div class="form-check form-check-inline">
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="FormA.SVCredentials" class="form-label">Supervisor's Credentials'</label>
+                            <div class="col-md-9">
+                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
+                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
+                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
+                            </div>
+                            <span asp-validation-for="FormA.SVCredentials" class="text-danger"></span>
+                        </div>
+                        <div class="row mb-3">
+                            <div>
+                                <label asp-for="FormA.SVCredOther" class="form-label">Other Credentials:</label>
+                                <input asp-for="FormA.SVCredOther" type="text" class="form-control">
+                                <span asp-validation-for="FormA.SVCredOther" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+
+                        @* <div class="form-check form-check-inline">
                                     <label asp-for="FormA.SVCredentialsCategory">Supervisor Credential</label>
                                     <select asp-for="FormA.SVCredentialsCategory" asp-items="@Html.GetEnumSelectList<SVCredentialsCategory>()" class="form-control">
                                         <option>--Select--</option>
                                     </select>
                                     <span asp-validation-for="FormA.SVCredentialsCategory" class="text-danger"></span>
-                        </div>
+                        </div> *@
+
+
                          @* <div class="mb-3">
                             <label for="credentials" class="form-label">Supervisor's credentials:</label>
                             <div class="form-check">
@@ -233,11 +255,7 @@
                                 <input class="form-check-input" type="checkbox" id="degreeCS">
                                 <label class="form-check-label" for="degreeCS">CS Degree</label>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control mt-2" id="credentialsOther" placeholder="Other">
-                                </div>
-                            </div>
+                            
                         </div> *@
                         <!-- ... other fields ... -->
                         <div class="row mb-3">
