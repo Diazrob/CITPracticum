@@ -13,18 +13,20 @@ namespace CITPracticum.Controllers
         {
             _jobPostingRepository = jobPostingRepository;
         }
+        // displays all job postings on index page
         public async Task<IActionResult> Index()
         {
             IEnumerable<JobPosting> jobPostings = await _jobPostingRepository.GetAll();
             return View(jobPostings);
         }
 
-        //Detail page may be excluded
+        // goes to a specific job posting page
         public async Task<IActionResult> Detail(int id)
         {
             JobPosting jobPosting = await _jobPostingRepository.GetByIdAsync(id);
             return View(jobPosting);
         }
+        // creates a new job post
         public IActionResult Create()
         {
             var createJobPostingViewModel = new CreateJobPostingViewModel();
@@ -49,6 +51,8 @@ namespace CITPracticum.Controllers
             }
             return View(jobPostingVM);
         }
+
+        // edit a job post
         public async Task<IActionResult> Edit(int id)
         {
             var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
@@ -96,6 +100,7 @@ namespace CITPracticum.Controllers
                 return View(jobPostingVM);
             }
         }
+        // deletes a job post
         public async Task<IActionResult> Delete(int id)
         {
             var jobPostingDetails = await _jobPostingRepository.GetByIdAsync(id);

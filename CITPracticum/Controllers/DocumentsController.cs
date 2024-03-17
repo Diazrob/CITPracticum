@@ -2,7 +2,7 @@
 
 namespace CITPracticum.Controllers
 {
-    public class CoverletterController : Controller
+    public class DocumentsController : Controller
     {
         public IActionResult Index()
         {
