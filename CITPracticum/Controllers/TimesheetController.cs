@@ -12,5 +12,9 @@ namespace CITPracticum.Controllers
         {
             return View();
         }
+        public IActionResult Timestamp()
+        {
+            return View();
+        }
     }
 }
