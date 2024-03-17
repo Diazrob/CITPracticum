@@ -1,87 +1,61 @@
 ﻿@model IEnumerable<AppUser>
 
-<style>
-    /* Primary Colors adjusted for your color scheme */
-    :root {
-        --primary-color: #6AADE4; /* Adjust with your primary color */
-        --secondary-color: #739600; /* Adjust with your secondary color */
-        --background-color: #F3F3F3; /* Adjust with your background color */
-        --text-color: #62646C; /* Adjust with your text color */
-        --highlight-color: #3431f4; /* Adjust with your highlight color */
-    }
+<!-- ... Your existing style definitions ... -->
 
-    body {
-        font-family: 'Open Sans', sans-serif;
-        background-color: var(--background-color);
-        color: var(--text-color);
-    }
+<div class="container mt-5">
+    <!-- ... Your existing navigation tabs ... -->
 
-    /* ... Other styles ... */
+    <div class="container mt-4">
+        <h1 class="my-4">Students List</h1>
 
-    /* Custom styles for the navigation tabs */
-    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-        background-color: #ffffff; /* Active tab background color */
-        color: var(--highlight-color); /* Active tab text color */
-        border-color: #dee2e6 #dee2e6 #fff; /* Borders around the active tab */
-        border-radius: 0.25rem; /* Rounded corners on the top */
-    }
+        <!-- Batch upload button -->
+        <form asp-controller="Student" asp-action="BatchUploadPdf" method="post" enctype="multipart/form-data">
+            <input type="file" name="pdfFiles" multiple />
+            <button type="submit" class="btn btn-primary">Upload Files</button>
+        </form>
 
-    .nav-link {
-        color: var(--primary-color); /* Non-active tab text color */
-        margin-right: 2px;
-        border: 1px solid transparent;
-        border-radius: 0.25rem;
-    }
+        <!-- Download all button -->
+        <a class="btn btn-secondary" href="@Url.Action("DownloadAllPdfs")" role="button">Download All</a>
 
-    .nav-tabs {
-        border-bottom: 1px solid #dee2e6;
-    }
-
-</style>
-
-
-div class="container mt-5">
-
-<ul class="nav nav-tabs mb-3" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" href="@Url.Action("Resumes")">Resume</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="@Url.Action("CoverLetters")">Cover Letter</a>
-    </li>
-</ul>
-
-
-<div class="container mt-4">
-    <h1 class="my-4">Students List</h1>
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Student Name</th>
-                <th scope="col">Upload PDF</th>
-                <th scope="col">Download</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+        <!-- Students table with select all feature -->
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@item.FirstName @item.LastName</td>
-                    <td>
-                        <form asp-controller="Student" asp-action="UploadPdf" method="post" enctype="multipart/form-data">
-                            <input type="file" name="pdfFile" />
-                            <input type="hidden" name="studentId" value="@item.Id" />
-                            <button type="submit" class="btn btn-primary">Upload</button>
-                        </form>
-                    </td>
-                    <td>
-                        <a class="btn btn-secondary" href="@Url.Action("DownloadPdf", new { studentId = item.Id })" role="button">Download</a>
-                    </td>
+                    <th scope="col"><input type="checkbox" id="selectAll" /></th> <!-- Checkbox to select all -->
+                    <th scope="col">Student Name</th>
+                    <th scope="col">Individual Upload PDF</th>
+                    <th scope="col">Individual Download</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" name="selectedStudents" value="@item.Id" /></td> <!-- Checkbox for each student -->
+                        <td>@item.FirstName @item.LastName</td>
+                        <td>
+                            <form asp-controller="Student" asp-action="UploadPdf" method="post" enctype="multipart/form-data">
+                                <input type="file" name="pdfFile" />
+                                <input type="hidden" name="studentId" value="@item.Id" />
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                            </form>
+                        </td>
+                        <td>
+                            <a class="btn btn-secondary" href="@Url.Action("DownloadPdf", new { studentId = item.Id })" role="button">Download</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
+<script>
+    // JavaScript for select all checkboxes feature
+    document.getElementById('selectAll').addEventListener('change', function (event) {
+        var checkboxes = document.querySelectorAll('input[name="selectedStudents"]');
+        for (var checkbox of checkboxes) {
+            checkbox.checked = event.target.checked;
+        }
+    });
+</script>
