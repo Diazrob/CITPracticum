@@ -50,12 +50,3 @@
     </div>
 </div>
 
-<script>
-    // JavaScript for select all checkboxes feature
-    document.getElementById('selectAll').addEventListener('change', function (event) {
-        var checkboxes = document.querySelectorAll('input[name="selectedStudents"]');
-        for (var checkbox of checkboxes) {
-            checkbox.checked = event.target.checked;
-        }
-    });
-</script>
