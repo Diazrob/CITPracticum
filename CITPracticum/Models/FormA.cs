@@ -20,7 +20,7 @@ namespace CITPracticum.Models
         public string SVPosition { get; set; }
         public string SVEmail { get; set; }
         public string SVPhoneNumber { get; set; }
-        public SVCredentialsCategory SVCredentialsCategory { get; set; }
+        public string? SVCredentials { get; set; }
         public string? SVCredOther { get; set; }
         [ForeignKey("Address")]
         public int AddressId { get; set; }

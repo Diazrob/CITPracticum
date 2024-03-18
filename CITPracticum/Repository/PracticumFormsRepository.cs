@@ -14,13 +14,17 @@ namespace CITPracticum.Repository
         {
             _context = context;
         }
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
+        // Form A Functions
         public bool Add(FormA formA)
         {
             _context.Add(formA);
             return Save();
         }
- 
-
         public bool Delete(FormA formA)
         {
             _context.Remove(formA);
@@ -42,15 +46,141 @@ namespace CITPracticum.Repository
             return await _context.FormAs.ToListAsync();
         }
 
-        public bool Save()
-        {
-            var saved = _context.SaveChanges();
-            return saved > 0 ? true : false;
-        }
-
         public bool Update(FormA formA)
         {
             _context.Update(formA);
+            return Save();
+        }
+
+        // Form C Functions
+        public bool Add(FormC formC)
+        {
+            _context.Add(formC);
+            return Save();
+        }
+        public bool Delete(FormC formC)
+        {
+            _context.Remove(formC);
+            return Save();
+        }
+
+        public async Task<FormC> FormCGetByIdAsync(int id)
+        {
+            return await _context.FormCs.FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<FormC> FormCGetIdAsyncNoTracking(int id)
+        {
+            return await _context.FormCs.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<FormC>> GetAllFormC()
+        {
+            return await _context.FormCs.ToListAsync();
+        }
+
+        public bool Update(FormC formC)
+        {
+            _context.Update(formC);
+            return Save();
+        }
+
+        // Form D Functions
+        public bool Add(FormD formD)
+        {
+            _context.Add(formD);
+            return Save();
+        }
+        public bool Delete(FormD formD)
+        {
+            _context.Remove(formD);
+            return Save();
+        }
+
+        public async Task<FormD> FormDGetByIdAsync(int id)
+        {
+            return await _context.FormDs.FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<FormD> FormDGetIdAsyncNoTracking(int id)
+        {
+            return await _context.FormDs.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<FormD>> GetAllFormD()
+        {
+            return await _context.FormDs.ToListAsync();
+        }
+
+        public bool Update(FormD formD)
+        {
+            _context.Update(formD);
+            return Save();
+        }
+
+        // Form FOIP Functions
+        public bool Add(FormFOIP formFOIP)
+        {
+            _context.Add(formFOIP);
+            return Save();
+        }
+        public bool Delete(FormFOIP formFOIP)
+        {
+            _context.Remove(formFOIP);
+            return Save();
+        }
+
+        public async Task<FormFOIP> FormFOIPGetByIdAsync(int id)
+        {
+            return await _context.FormFOIPs.FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<FormFOIP> FormFOIPGetIdAsyncNoTracking(int id)
+        {
+            return await _context.FormFOIPs.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<FormFOIP>> GetAllFormFOIP()
+        {
+            return await _context.FormFOIPs.ToListAsync();
+        }
+
+        public bool Update(FormFOIP formFOIP)
+        {
+            _context.Update(formFOIP);
+            return Save();
+        }
+
+        // Form StuInfo Functions
+        public bool Add(FormStuInfo formStuInfo)
+        {
+            _context.Add(formStuInfo);
+            return Save();
+        }
+        public bool Delete(FormStuInfo formStuInfo)
+        {
+            _context.Remove(formStuInfo);
+            return Save();
+        }
+
+        public async Task<FormStuInfo> FormStuInfoGetByIdAsync(int id)
+        {
+            return await _context.FormStuInfos.FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<FormStuInfo> FormStuInfoGetIdAsyncNoTracking(int id)
+        {
+            return await _context.FormStuInfos.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<FormStuInfo>> GetAllFormStuInfo()
+        {
+            return await _context.FormStuInfos.ToListAsync();
+        }
+
+        public bool Update(FormStuInfo formStuInfo)
+        {
+            _context.Update(formStuInfo);
             return Save();
         }
     }

@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CITPracticum.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/formstyles.css" asp-append-version="true" />
     <link href="~/fontawesome6/css/all.css" rel="stylesheet">
+    
 </head>
 <body>
-    <header>
+    <header>     
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 flex-column">
             <div class="container-fluid">
                     
@@ -42,6 +42,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="PracticumForm" asp-action="Index">Practicum Forms</a>
                             </li>
+                            
                             @if (User.IsInRole("student") || User.IsInRole("admin"))
                             {
                                 <li class="nav-item">
@@ -62,7 +63,8 @@
                     Context.Response.Redirect("/");
                 }
    
-            </div>
+            </div>         
+
         </nav>
     </header>
     <div class="container">
