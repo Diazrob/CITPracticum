@@ -1,22 +1,12 @@
-﻿<style>
-    body {
-        font-family: 'Gotham', sans-serif;
-        color: #275937; /* Sagebrush */
-    }
+﻿@model IEnumerable<AppUser>
 
-    .nav-tabs .nav-link {
-        background-color: #fff;
-        color: #005157; /* Ammolite */
-        border: 1px solid #ddd;
-    }
+<!-- ... Your existing style definitions ... -->
 
-        .nav-tabs .nav-link.active {
-            background-color: #fff;
-            color: #739600; /* Coulee Green */
-            border-color: #ddd #ddd #fff;
-            border-bottom: 4px solid #739600; /* Coulee Green */
-        }
+<div class="container mt-5">
+    <!-- ... Your existing navigation tabs ... -->
 
+<<<<<<< HEAD
+=======
     .nav-tabs {
         border-bottom: 1px solid #ddd;
     }
@@ -49,7 +39,49 @@
     </ul>
 
     <!-- Content for the Resume page -->
+>>>>>>> 270d81c38914437015f45d42d749e4c4f0052ee8
     <div class="container mt-4">
-        <h1>Admin Profile</h1>
-        <!-- Include your content here, like the list of resumes -->
+        <h1 class="my-4">Students List</h1>
+
+        <!-- Batch upload button -->
+        <form asp-controller="Student" asp-action="BatchUploadPdf" method="post" enctype="multipart/form-data">
+            <input type="file" name="pdfFiles" multiple />
+            <button type="submit" class="btn btn-primary">Upload Files</button>
+        </form>
+
+        <!-- Download all button -->
+        <a class="btn btn-secondary" href="@Url.Action("DownloadAllPdfs")" role="button">Download All</a>
+
+        <!-- Students table with select all feature -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox" id="selectAll" /></th> <!-- Checkbox to select all -->
+                    <th scope="col">Student Name</th>
+                    <th scope="col">Individual Upload PDF</th>
+                    <th scope="col">Individual Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" name="selectedStudents" value="@item.Id" /></td> <!-- Checkbox for each student -->
+                        <td>@item.FirstName @item.LastName</td>
+                        <td>
+                            <form asp-controller="Student" asp-action="UploadPdf" method="post" enctype="multipart/form-data">
+                                <input type="file" name="pdfFile" />
+                                <input type="hidden" name="studentId" value="@item.Id" />
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                            </form>
+                        </td>
+                        <td>
+                            <a class="btn btn-secondary" href="@Url.Action("DownloadPdf", new { studentId = item.Id })" role="button">Download</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
+</div>
+
