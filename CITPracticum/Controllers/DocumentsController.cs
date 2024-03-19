@@ -8,5 +8,10 @@ namespace CITPracticum.Controllers
         {
             return View();
         }
+
+        public IActionResult Coverpage()
+        {
+            return View();
+        }
     }
 }
