@@ -6,6 +6,7 @@ namespace CITPracticum.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["ActivePage"] = "Documents";
             return View();
         }
     }

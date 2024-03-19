@@ -16,7 +16,7 @@ namespace CITPracticum.Controllers
         }
         public IActionResult Index()
         {
-            
+            ViewData["ActivePage"] = "PracForms";
             return View();
             // test branch
         }
@@ -65,10 +65,12 @@ namespace CITPracticum.Controllers
         }
         public IActionResult EmployerSubmittedForms()
         {
+            ViewData["ActivePage"] = "PracForms";
             return View();
         }
         public IActionResult StudentSubmittedForms()
         {
+            ViewData["ActivePage"] = "PracForms";
             return View();
         }
     }

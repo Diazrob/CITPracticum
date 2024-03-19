@@ -23,6 +23,7 @@ namespace CITPracticum.Controllers
         // displays all the employers
         public async Task<IActionResult> Index()
         {
+            ViewData["ActivePage"] = "Employer";
             string roleName = "employer";
 
             var users = await _userManager.GetUsersInRoleAsync(roleName);
@@ -31,12 +32,14 @@ namespace CITPracticum.Controllers
         // function to register a new employer
         public IActionResult Register()
         {
+            ViewData["ActivePage"] = "Employer";
             var response = new RegisterEmployerViewModel();
             return View(response);
         }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterEmployerViewModel registerVM)
         {
+            ViewData["ActivePage"] = "Employer";
             if (!ModelState.IsValid) return View(registerVM);
 
             var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
@@ -64,6 +67,7 @@ namespace CITPracticum.Controllers
         // shows the page of specific user
         public async Task<IActionResult> Detail(string email)
         {
+            ViewData["ActivePage"] = "Employer";
             AppUser user = await _userManager.FindByEmailAsync(email);
             return View(user);
         }
@@ -71,6 +75,7 @@ namespace CITPracticum.Controllers
         // deletes a specific user
         public async Task<IActionResult> Delete(string email)
         {
+            ViewData["ActivePage"] = "Employer";
             AppUser user = await _userManager.FindByEmailAsync(email);
             if (user == null) return View("Error");
             return View(user);
@@ -78,6 +83,7 @@ namespace CITPracticum.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteEmployer(string email)
         {
+            ViewData["ActivePage"] = "Employer";
             AppUser user = await _userManager.FindByEmailAsync(email);
             if (user == null) return View("Error");
 
