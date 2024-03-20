@@ -33,17 +33,27 @@
                     <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <th scope="row"><img class="img-fluid" src="https://placehold.jp/30x30.png" alt="" /></th>
-                            <td>@item.FirstName @item.LastName</td>
-                            <td>@item.UserName</td>
-                            <td>@item.Email</td>
-                            <td >@item.CompanyName</td>
-                            <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Detail" asp-route-email="@item.Email">View</a></td>
-                            <td><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></td>
-                            <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Delete" asp-route-email="@item.Email">Remove</a></td>
-                        </tr>
-                      }
+                        @if(item.Employer != null)
+                        {
+                            <tr>
+                                <th scope="row"><img class="img-fluid" src="https://placehold.jp/30x30.png" alt="" /></th>
+                                <td>@item.Employer.FirstName @item.Employer.LastName</td>
+                                <td>@item.UserName</td>
+                                <td>@item.Email</td>
+                                <td>@item.Employer.CompanyName</td>
+                                <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Detail" asp-route-id="@item.Employer.Id">View</a></td>
+                                <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Edit" asp-route-id="@item.Employer.Id">Edit</a></td>
+                                <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Delete" asp-route-email="@item.Email" asp-route-id="@item.Employer.Id">Delete</a></td>
+                            </tr>
+                        } else
+                        {
+                            <div class="col-lg-6 col-md-8 mx-auto">
+                                <h1>There are no Employers listed.</h1>
+                            </div>
+                            break;
+                        }
+
+                    }
                        
                     </tbody>
                 </table>

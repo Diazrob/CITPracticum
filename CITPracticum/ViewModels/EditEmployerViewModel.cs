@@ -1,16 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace CITPracticum.Models
+﻿namespace CITPracticum.ViewModels
 {
-    public class Employer
+    public class EditEmployerViewModel
     {
-        [Key]
         public int Id { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? CompanyName { get; set; }
         public string? EmpEmail { get; set; }
-
     }
 }

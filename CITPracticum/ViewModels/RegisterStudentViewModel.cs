@@ -6,10 +6,8 @@ namespace CITPracticum.ViewModels
     {
         [Display(Name = "Email Address")]
         [Required(ErrorMessage = "Email address is required")]
+        [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
-        [Display(Name = "User Name")]
-        [Required(ErrorMessage = "User Name is required")]
-        public string UserName { get; set; }
         [Display(Name = "First Name")]
         [Required(ErrorMessage = "First Name is required")]
         public string FirstName { get; set; }
@@ -18,8 +16,8 @@ namespace CITPracticum.ViewModels
         public string LastName { get; set; }
         [Display(Name = "Student Id")]
         [Required(ErrorMessage = "Student Id is required")]
-        public string StudentId { get; set; }
-        [Required]
+        public string StuId { get; set; }
+        [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [Display(Name = "Confirm Password")]

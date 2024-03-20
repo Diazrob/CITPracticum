@@ -1,10 +1,10 @@
-﻿@model AppUser
+﻿@model Student
 
 <div class="container">
 
     <!-- Portfolio Item Heading -->
     <h1 class="=my-4">
-        Employer Details Page
+        Students Details Page
     </h1>
 
     <!-- Porfolio Item Row -->
@@ -15,11 +15,11 @@
         </div>
 
         <div class="col-md-4">
-            <h3 class="my3">@Model.UserName</h3>
-            <p>@Model.Email</p>
+            <h3 class="my3">Hello @Model.FirstName</h3>
+            <p>@Model.StuEmail</p>
             <h3 class="my-3">User info</h3>
             <ul>
-                <li>@Model.StudentId</li>
+                <li>@Model.StuId</li>
                 <li>@Model.FirstName</li>
                 <li>@Model.LastName</li>
             </ul>
