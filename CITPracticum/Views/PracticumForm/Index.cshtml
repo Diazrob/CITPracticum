@@ -212,33 +212,24 @@
                         </div>
                         <!-- ... other fields ... -->
 
-                        <div class="form-check form-check-inline">
-                                    <label asp-for="FormA.SVCredentialsCategory">Supervisor Credential</label>
-                                    <select asp-for="FormA.SVCredentialsCategory" asp-items="@Html.GetEnumSelectList<SVCredentialsCategory>()" class="form-control">
-                                        <option>--Select--</option>
-                                    </select>
-                                    <span asp-validation-for="FormA.SVCredentialsCategory" class="text-danger"></span>
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="FormA.SVCredentials" class="form-label">Supervisor's Credentials'</label>
+                            <div class="col-md-9">
+                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
+                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
+                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
+                            </div>
+                            <span asp-validation-for="FormA.SVCredentials" class="text-danger"></span>
                         </div>
-                         @* <div class="mb-3">
-                            <label for="credentials" class="form-label">Supervisor's credentials:</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="diploma">
-                                <label class="form-check-label" for="diploma">CIT Diploma</label>
+                        <div class="row mb-3">
+                            <div>
+                                <label asp-for="FormA.SVCredOther" class="form-label">Other Credentials:</label>
+                                <input asp-for="FormA.SVCredOther" type="text" class="form-control">
+                                <span asp-validation-for="FormA.SVCredOther" class="text-danger"></span>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="degreeIS">
-                                <label class="form-check-label" for="degreeIS">IS Degree</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="degreeCS">
-                                <label class="form-check-label" for="degreeCS">CS Degree</label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control mt-2" id="credentialsOther" placeholder="Other">
-                                </div>
-                            </div>
-                        </div> *@
+                        </div>
+
                         <!-- ... other fields ... -->
                         <div class="row mb-3">
                             <div class="col-md-4">
@@ -318,19 +309,20 @@
             </div>
             <div class="modal-body d-flex justify-content-center">
                 <div class="mx-auto" style="width:50%;">
-                    <form>
+                    <form method="post" asp-action="FormCSubmit" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label for="supervisorName" class="form-label">Practicum Supervisor:</label>
-                                <input type="text" class="form-control" id="practicumSupervisor">
+                                <label asp-for="FormC.PracSV" class="form-label">Practicum Supervisor:</label>
+                                <input asp-for="FormC.PracSV" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label for="supervisorPosition" class="form-label">Organization:</label>
-                                <input type="text" class="form-control" id="organization">
+                                <label asp-for="FormC.Org" class="form-label">Organization:</label>
+                                <input asp-for="FormC.Org" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label for="supervisorEmail" class="form-label">Student Name:</label>
-                                <input type="email" class="form-control" id="studentName">
+                                <label asp-for="FormC.StuName" class="form-label">Student Name:</label>
+                                <input asp-for="FormC.StuName" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -411,12 +403,15 @@
                                     <td>1.</td>
                                     <td>The student is on time, organized and prepared to work.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="form-group">
+                                            <div>
+                                                <input type="radio" asp-for="FormC.A1" value="Excellent" />Excellent
+                                                <input type="radio" asp-for="FormC.A1" value="Good" />Good
+                                                <input type="radio" asp-for="FormC.A1" value="Fair" />Fair
+                                                <input type="radio" asp-for="FormC.A1" value="NA" />NA
+                                            </div>
+                                            <span asp-validation-for="FormC.A1" class="text-danger"></span>
+                                        </div>
                                     </td>
 
                                 </tr>
@@ -1310,25 +1305,25 @@
                             </p>
                         </div>
                     </div>
-                    <form>
+                    <form method="post" asp-action="FormFOIPSubmit" enctype="multipart/form-data">
                         <div class="row mb-1">
                             <div class="col-md-6">
-                                <label for="supervisorName" class="form-label">First name:</label>
-                                <input type="text" class="form-control" id="firstName">
+                                <label asp-for="FormFOIP.StuFirstName" class="form-label">First name:</label>
+                                <input asp-for="FormFOIP.StuFirstName" type="text" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label for="supervisorPosition" class="form-label">Last name:</label>
-                                <input type="text" class="form-control" id="lastName">
+                                <label asp-for="FormFOIP.StuLastName" class="form-label">Last name:</label>
+                                <input asp-for="FormFOIP.StuLastName" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="supervisorName" class="form-label">Student ID Number:</label>
-                                <input type="text" class="form-control" id="studentIDNum">
+                                <label asp-for="FormFOIP.StuId" class="form-label">Student ID Number:</label>
+                                <input asp-for="FormFOIP.StuId" type="text" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label for="program" class="form-label">Program name:</label>
-                                <input type="text" class="form-control" id="programName" value="Computer Information Technology" readonly>
+                                <label asp-for="FormFOIP.Program" class="form-label">Program name:</label>
+                                <input asp-for="FormFOIP.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
                             </div>
                         </div>
                         <div class="row mb-1">
@@ -1367,8 +1362,8 @@
                                         Practicum site (hosting organization) supervisor, administration, and/or support staff
                                     </li>
                                     <li>
-                                        <label for="otherFOIP" class="form-label" style="font-weight: normal;">Other (Please specify):</label>
-                                        <input type="text" class="form-control" id="otherFOIP">
+                                        <label asp-for="FormFOIP.Other" class="form-label" style="font-weight: normal;">Other (Please specify):</label>
+                                        <input asp-for="FormFOIP.Other" type="text" class="form-control">
                                     </li>
                                 </ol>
                             </div>
@@ -1417,12 +1412,12 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-8">
-                                <label for="nameFOIP" class="form-label">Name:</label>
-                                <input type="text" class="form-control" id="nameFOIP">
+                                <label asp-for="FormFOIP.StuSign" class="form-label">Name:</label>
+                                <input asp-for="FormFOIP.StuSign" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label for="dateFOIP" class="form-label">Date:</label>
-                                <input type="date" class="form-control" id="dateFOIP">
+                                <label asp-for="FormFOIP.StuSignDate" class="form-label">Date:</label>
+                                <input asp-for="FormFOIP.StuSignDate" type="date" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -1440,7 +1435,7 @@
     </div>
 </div>
 
-<!-- Form ID Modal -->
+<!-- Form ID / Form StuInfo Modal -->
 <div class="modal fade" id="formIDModal" tabindex="-1" aria-labelledby="formIDModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
@@ -1451,63 +1446,79 @@
             </div>
             <div class="modal-body d-flex justify-content-center">
                 <div class="mx-auto" style="width: 50%;">
-                    <form>
+                    <form method="post" asp-action="FormStuInfoSubmit" enctype="multipart/form-data">
                         <div class="row mb-1">
                             <div class="col-md-6">
-                                <label for="lastNameID" class="form-label">Last name:</label>
-                                <input type="text" class="form-control" id="lastNameID">
+                                <label asp-for="FormStuInfo.StuLastName" class="form-label">Last name:</label>
+                                <input asp-for="FormStuInfo.StuLastName" type="text" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label for="firstNameID" class="form-label">First name:</label>
-                                <input type="text" class="form-control" id="firstNameID">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label for="studentID_ID" class="form-label">Student ID:</label>
-                                <input type="text" class="form-control" id="studentID_ID">
+                                <label asp-for="FormStuInfo.StuFirstName" class="form-label">First name:</label>
+                                <input asp-for="FormStuInfo.StuFirstName" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <label for="programID" class="form-label">Program:</label>
-                                <input type="text" class="form-control" id="programID" value="Computer Information Technology" readonly>
+                                <label asp-for="FormStuInfo.StuId" class="form-label">Student ID:</label>
+                                <input asp-for="FormStuInfo.StuId" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="FormStuInfo.Program" class="form-label">Program:</label>
+                                <input asp-for="FormStuInfo.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
-                                <label for="question1ID" class="form-label">In what year and semester did you start in the program? (Example, 18FL):</label>
-                                <input type="text" class="form-control" id="question1ID">
+                                <label asp-for="FormStuInfo.ProgStartDate" class="form-label">In what year and semester did you start in the program? (Example, 18FL):</label>
+                                <input asp-for="FormStuInfo.ProgStartDate" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
-                                <label for="question2ID" class="form-label">Year and term in which you are/will be registered for CIT 2271 Practicum (Example, 19WN):</label>
-                                <input type="text" class="form-control" id="question2ID">
+                                <label asp-for="FormStuInfo.PracStartDate" class="form-label">Year and term in which you are/will be registered for CIT 2271 Practicum (Example, 19WN):</label>
+                                <input asp-for="FormStuInfo.PracStartDate" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
-                                <label for="question3ID" class="form-label">College e-mail address (will be used to share info):</label>
-                                <input type="text" class="form-control" id="question3ID">
+                                <label asp-for="FormStuInfo.CollegeEmail" class="form-label">College e-mail address (will be used to share info):</label>
+                                <input asp-for="FormStuInfo.CollegeEmail" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
-                                <label for="question4ID" class="form-label">Phone number best able to reach you through:</label>
-                                <input type="text" class="form-control" id="question4ID">
+                                <label asp-for="FormStuInfo.PhoneNumber" class="form-label">Phone number best able to reach you through:</label>
+                                <input asp-for="FormStuInfo.PhoneNumber" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
-                                <label for="question5ID" class="form-label">Alternate phone number to reach you through:</label>
-                                <input type="text" class="form-control" id="question5ID">
+                                <label asp-for="FormStuInfo.AltPhoneNumber" class="form-label">Alternate phone number to reach you through:</label>
+                                <input asp-for="FormStuInfo.AltPhoneNumber" type="text" class="form-control">
                             </div>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <label for="question6ID" class="form-label">Mailing address:</label>
-                                <input type="text" class="form-control" id="question6ID">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label asp-for="FormStuInfo.Address.Street" class="form-label">Street:</label>
+                                <input asp-for="FormStuInfo.Address.Street" type="text" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="FormStuInfo.Address.City" class="form-label">City:</label>
+                                <input asp-for="FormStuInfo.Address.City" type="text" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="FormStuInfo.Address.Prov" class="form-label">Prov:</label>
+                                <input asp-for="FormStuInfo.Address.Prov" type="text" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="FormStuInfo.Address.Country" class="form-label">Country:</label>
+                                <input asp-for="FormStuInfo.Address.Country" type="text" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="FormStuInfo.Address.PostalCode" class="form-label">Postal Code:</label>
+                                <input asp-for="FormStuInfo.Address.PostalCode" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-2">
