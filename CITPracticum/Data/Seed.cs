@@ -39,6 +39,7 @@ namespace CIT_Practicum.Data
                     await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
                 }
 
+                /*
                 string studentUserEmail = "watnada@lethbridgecollege.ca";
 
                 var studentUser = await userManager.FindByEmailAsync(studentUserEmail);
@@ -68,6 +69,7 @@ namespace CIT_Practicum.Data
                     await userManager.CreateAsync(newAppUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.Employer);
                 }
+                */
             }
         }
     }

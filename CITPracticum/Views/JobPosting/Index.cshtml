@@ -46,7 +46,7 @@
                                 <p class="card-text">@item.JobDescription</p>
                                 <h6 class="card-subtitle mb-2 text-muted">@item.Company</h6>
                                 <h6 class="card-subtitle mb-2 text-muted">@item.Location</h6>
-                                <h6>Due Date: @item.DueDate</h6>
+                                <h6>Deadline: @item.Deadline</h6>
                                 <h6 class="card-subtitle mb-2 text-muted">@item.PaymentCategory</h6>
                                 <a href="@item.Link" target="_blank" class="card-link">More Info</a>
                             </div>
@@ -59,21 +59,6 @@
                         </div>
                     </div>
                 }
-            </div>
-
-            <div>
-                <h2>@item.JobTitle</h2>
-                <p>@item.JobDescription</p>
-                <h6>@item.Company</h6>
-                <h6>@item.Location</h6>
-                <h6>Application Deadline: @item.DueDate</h6>
-                <h6>@item.PaymentCategory</h6>
-                <a href="@item.Link" target="_blank">@item.Link</a>
-                <div>
-                        <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </div>
-
             </div>
             <!-- Pagination (update as necessary for your pagination logic) -->
             <nav aria-label="Page navigation example">

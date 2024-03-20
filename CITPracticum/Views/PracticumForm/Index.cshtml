@@ -191,43 +191,9 @@
                             </div>
                         </div>
                         <!-- ... other fields ... -->
-
- prac-forms-styling
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <div class="form-check form-check-inline px-0">
-                                    <label asp-for="FormA.SVCredentialsCategory" class="form-label">Supervisor Credential(s):</label>
-                                    <select asp-for="FormA.SVCredentialsCategory" asp-items="@Html.GetEnumSelectList<SVCredentialsCategory>()" class="form-control">
-                                        <option>--Select--</option>
-                                    </select>
-                                    <span asp-validation-for="FormA.SVCredentialsCategory" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        @* <div class="mb-3">
-                        <label for="credentials" class="form-label">Supervisor's credentials:</label>
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="diploma">
-                        <label class="form-check-label" for="diploma">CIT Diploma</label>
-                        </div>
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="degreeIS">
-                        <label class="form-check-label" for="degreeIS">IS Degree</label>
-                        </div>
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="degreeCS">
-                        <label class="form-check-label" for="degreeCS">CS Degree</label>
-                        </div>
-                        <div class="row mb-3">
-                        <div class="col-md-4">
-                        <input type="text" class="form-control mt-2" id="credentialsOther" placeholder="Other">
-                        </div>
-                        </div>
-                        </div> *@
-mid
-                        
+                                               
                         <div class="form-group mb-3">
-                            <label asp-for="FormA.SVCredentials" class="form-label">Supervisor's Credentials'</label>
+                            <label asp-for="FormA.SVCredentials" class="form-label">Supervisor's Credentials</label>
                             <div class="col-md-9">
                                 <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
                                 <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
@@ -243,7 +209,6 @@ mid
                             </div>
                         </div>
 
- master
                         <!-- ... other fields ... -->
                         <div class="row mb-3">
                             <div class="col-md-4">

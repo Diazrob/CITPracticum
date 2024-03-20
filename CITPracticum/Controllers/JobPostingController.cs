@@ -47,7 +47,7 @@ namespace CITPracticum.Controllers
                 {
                     JobTitle = jobPostingVM.JobTitle,
                     JobDescription = jobPostingVM.JobDescription,
-                    DueDate = jobPostingVM.DueDate,
+                    Deadline = jobPostingVM.Deadline,
                     Company = jobPostingVM.Company,
                     Location = jobPostingVM.Location,
                     Link = jobPostingVM.JobLink
@@ -68,7 +68,7 @@ namespace CITPracticum.Controllers
             {
                 JobTitle = jobPosting.JobTitle,
                 JobDescription = jobPosting.JobDescription,
-                DueDate = jobPosting.DueDate,
+                Deadline = jobPosting.Deadline,
                 Company = jobPosting.Company,
                 Location = jobPosting.Location,
                 PaymentCategory = jobPosting.PaymentCategory,
@@ -94,7 +94,7 @@ namespace CITPracticum.Controllers
                     Id = id,
                     JobTitle = jobPostingVM.JobTitle,
                     JobDescription = jobPostingVM.JobDescription,
-                    DueDate = jobPostingVM.DueDate,
+                    Deadline = jobPostingVM.Deadline,
                     Company = jobPostingVM.Company,
                     PaymentCategory = jobPostingVM.PaymentCategory,
                     Location = jobPostingVM.Location,

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CITPracticum.Data.Migrations
 {
-    public partial class FormsPart1 : Migration
+    public partial class UpdatedModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,15 +14,7 @@ namespace CITPracticum.Data.Migrations
                 table: "Employer");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Employer_Student_StudentId",
-                table: "Employer");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_Student_AspNetUsers_AppUserId",
-                table: "Student");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Student_Employer_EmployerId",
                 table: "Student");
 
             migrationBuilder.DropPrimaryKey(
@@ -33,6 +25,14 @@ namespace CITPracticum.Data.Migrations
                 name: "PK_Employer",
                 table: "Employer");
 
+            migrationBuilder.DropColumn(
+                name: "Hours",
+                table: "Student");
+
+            migrationBuilder.DropColumn(
+                name: "StudentId",
+                table: "Employer");
+
             migrationBuilder.RenameTable(
                 name: "Student",
                 newName: "Students");
@@ -41,10 +41,10 @@ namespace CITPracticum.Data.Migrations
                 name: "Employer",
                 newName: "Employers");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_Student_EmployerId",
-                table: "Students",
-                newName: "IX_Students_EmployerId");
+            migrationBuilder.RenameColumn(
+                name: "ProfileImageUrl",
+                table: "AspNetUsers",
+                newName: "ProfileImage");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Student_AppUserId",
@@ -52,14 +52,81 @@ namespace CITPracticum.Data.Migrations
                 newName: "IX_Students_AppUserId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Employer_StudentId",
-                table: "Employers",
-                newName: "IX_Employers_StudentId");
-
-            migrationBuilder.RenameIndex(
                 name: "IX_Employer_AppUserId",
                 table: "Employers",
                 newName: "IX_Employers_AppUserId");
+
+            migrationBuilder.AddColumn<int>(
+                name: "AdministratorId",
+                table: "AspNetUsers",
+                type: "int",
+                nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "EmployerId",
+                table: "AspNetUsers",
+                type: "int",
+                nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "StudentId",
+                table: "AspNetUsers",
+                type: "int",
+                nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "DocumentId",
+                table: "Students",
+                type: "int",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "FirstName",
+                table: "Students",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "LastName",
+                table: "Students",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "StuEmail",
+                table: "Students",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "StuId",
+                table: "Students",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "CompanyName",
+                table: "Employers",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "EmpEmail",
+                table: "Employers",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "FirstName",
+                table: "Employers",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "LastName",
+                table: "Employers",
+                type: "nvarchar(max)",
+                nullable: true);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Students",
@@ -89,6 +156,35 @@ namespace CITPracticum.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Administrator",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdminEmail = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Administrator", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Document",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Resume = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CoverLetter = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Document", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FormCs",
                 columns: table => new
                 {
@@ -102,6 +198,7 @@ namespace CITPracticum.Data.Migrations
                     A3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     A4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     A5 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     B1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     B2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     B3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -110,6 +207,7 @@ namespace CITPracticum.Data.Migrations
                     B6 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     B7 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     B8 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     C1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     C2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     C3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -122,13 +220,14 @@ namespace CITPracticum.Data.Migrations
                     C10 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     C11 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     C12 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PracSVComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PracSVComments = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SVSign = table.Column<bool>(type: "bit", nullable: false),
                     SVSubmitted = table.Column<bool>(type: "bit", nullable: false),
-                    StuComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StuComments = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StuSign = table.Column<bool>(type: "bit", nullable: false),
                     StuSubmitted = table.Column<bool>(type: "bit", nullable: false),
-                    InsComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InsComments = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     InsSign = table.Column<bool>(type: "bit", nullable: false),
                     InsSubmitted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -151,6 +250,7 @@ namespace CITPracticum.Data.Migrations
                     A3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     A4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     A5 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     B1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     B2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     B3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -159,6 +259,7 @@ namespace CITPracticum.Data.Migrations
                     B6 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     B7 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     B8 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     C1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     C2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     C3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -171,6 +272,7 @@ namespace CITPracticum.Data.Migrations
                     C10 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     C11 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     C12 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PracSVComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SVSign = table.Column<bool>(type: "bit", nullable: false),
                     SVSubmitted = table.Column<bool>(type: "bit", nullable: false),
@@ -197,13 +299,32 @@ namespace CITPracticum.Data.Migrations
                     StuId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Program = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Other = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StuSign = table.Column<bool>(type: "bit", nullable: false),
-                    StuSignDate = table.Column<DateTime>(type: "date", nullable: false),
+                    StuSign = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StuSignDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Submitted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FormFOIPs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "JobPostings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Deadline = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PaymentCategory = table.Column<int>(type: "int", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobPostings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,10 +343,10 @@ namespace CITPracticum.Data.Migrations
                     SVPosition = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SVEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SVPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SVCredentials = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SVCredentials = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SVCredOther = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "date", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentCategory = table.Column<int>(type: "int", nullable: false),
                     Submitted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -282,6 +403,7 @@ namespace CITPracticum.Data.Migrations
                     StuLastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StuFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StuId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Program = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProgStartDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PracStartDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CollegeEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -350,6 +472,26 @@ namespace CITPracticum.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_AdministratorId",
+                table: "AspNetUsers",
+                column: "AdministratorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_EmployerId",
+                table: "AspNetUsers",
+                column: "EmployerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_StudentId",
+                table: "AspNetUsers",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_DocumentId",
+                table: "Students",
+                column: "DocumentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FormAs_AddressId",
                 table: "FormAs",
                 column: "AddressId");
@@ -395,20 +537,34 @@ namespace CITPracticum.Data.Migrations
                 column: "FormStuInfoId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Employers_AspNetUsers_AppUserId",
-                table: "Employers",
-                column: "AppUserId",
-                principalTable: "AspNetUsers",
+                name: "FK_AspNetUsers_Administrator_AdministratorId",
+                table: "AspNetUsers",
+                column: "AdministratorId",
+                principalTable: "Administrator",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Employers_Students_StudentId",
-                table: "Employers",
+                name: "FK_AspNetUsers_Employers_EmployerId",
+                table: "AspNetUsers",
+                column: "EmployerId",
+                principalTable: "Employers",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUsers_Students_StudentId",
+                table: "AspNetUsers",
                 column: "StudentId",
                 principalTable: "Students",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Employers_AspNetUsers_AppUserId",
+                table: "Employers",
+                column: "AppUserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Students_AspNetUsers_AppUserId",
                 table: "Students",
                 column: "AppUserId",
@@ -416,22 +572,29 @@ namespace CITPracticum.Data.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Students_Employers_EmployerId",
+                name: "FK_Students_Document_DocumentId",
                 table: "Students",
-                column: "EmployerId",
-                principalTable: "Employers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                column: "DocumentId",
+                principalTable: "Document",
+                principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Employers_AspNetUsers_AppUserId",
-                table: "Employers");
+                name: "FK_AspNetUsers_Administrator_AdministratorId",
+                table: "AspNetUsers");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Employers_Students_StudentId",
+                name: "FK_AspNetUsers_Employers_EmployerId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUsers_Students_StudentId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Employers_AspNetUsers_AppUserId",
                 table: "Employers");
 
             migrationBuilder.DropForeignKey(
@@ -439,8 +602,17 @@ namespace CITPracticum.Data.Migrations
                 table: "Students");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Students_Employers_EmployerId",
+                name: "FK_Students_Document_DocumentId",
                 table: "Students");
+
+            migrationBuilder.DropTable(
+                name: "Administrator");
+
+            migrationBuilder.DropTable(
+                name: "Document");
+
+            migrationBuilder.DropTable(
+                name: "JobPostings");
 
             migrationBuilder.DropTable(
                 name: "PracticumForms");
@@ -466,12 +638,76 @@ namespace CITPracticum.Data.Migrations
             migrationBuilder.DropTable(
                 name: "Addresses");
 
+            migrationBuilder.DropIndex(
+                name: "IX_AspNetUsers_AdministratorId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropIndex(
+                name: "IX_AspNetUsers_EmployerId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropIndex(
+                name: "IX_AspNetUsers_StudentId",
+                table: "AspNetUsers");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Students",
                 table: "Students");
 
+            migrationBuilder.DropIndex(
+                name: "IX_Students_DocumentId",
+                table: "Students");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Employers",
+                table: "Employers");
+
+            migrationBuilder.DropColumn(
+                name: "AdministratorId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "EmployerId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "StudentId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "DocumentId",
+                table: "Students");
+
+            migrationBuilder.DropColumn(
+                name: "FirstName",
+                table: "Students");
+
+            migrationBuilder.DropColumn(
+                name: "LastName",
+                table: "Students");
+
+            migrationBuilder.DropColumn(
+                name: "StuEmail",
+                table: "Students");
+
+            migrationBuilder.DropColumn(
+                name: "StuId",
+                table: "Students");
+
+            migrationBuilder.DropColumn(
+                name: "CompanyName",
+                table: "Employers");
+
+            migrationBuilder.DropColumn(
+                name: "EmpEmail",
+                table: "Employers");
+
+            migrationBuilder.DropColumn(
+                name: "FirstName",
+                table: "Employers");
+
+            migrationBuilder.DropColumn(
+                name: "LastName",
                 table: "Employers");
 
             migrationBuilder.RenameTable(
@@ -482,10 +718,10 @@ namespace CITPracticum.Data.Migrations
                 name: "Employers",
                 newName: "Employer");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_Students_EmployerId",
-                table: "Student",
-                newName: "IX_Student_EmployerId");
+            migrationBuilder.RenameColumn(
+                name: "ProfileImage",
+                table: "AspNetUsers",
+                newName: "ProfileImageUrl");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Students_AppUserId",
@@ -493,14 +729,22 @@ namespace CITPracticum.Data.Migrations
                 newName: "IX_Student_AppUserId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Employers_StudentId",
-                table: "Employer",
-                newName: "IX_Employer_StudentId");
-
-            migrationBuilder.RenameIndex(
                 name: "IX_Employers_AppUserId",
                 table: "Employer",
                 newName: "IX_Employer_AppUserId");
+
+            migrationBuilder.AddColumn<int>(
+                name: "Hours",
+                table: "Student",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.AddColumn<int>(
+                name: "StudentId",
+                table: "Employer",
+                type: "int",
+                nullable: true);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Student",
@@ -520,26 +764,11 @@ namespace CITPracticum.Data.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Employer_Student_StudentId",
-                table: "Employer",
-                column: "StudentId",
-                principalTable: "Student",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_Student_AspNetUsers_AppUserId",
                 table: "Student",
                 column: "AppUserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Student_Employer_EmployerId",
-                table: "Student",
-                column: "EmployerId",
-                principalTable: "Employer",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
     }
 }

@@ -45,6 +45,7 @@ namespace CITPracticum.Data
         public DbSet<FormD> FormDs { get; set; }
         public DbSet<FormFOIP> FormFOIPs { get; set; }
         public DbSet<FormStuInfo> FormStuInfos { get; set; }
-
+        public DbSet<Placement> Placements { get; set; }
+        public DbSet<Timesheet> Timesheets { get; set; }
     }
 }
