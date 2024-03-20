@@ -1,14 +1,16 @@
-﻿@using CITPracticum.ViewModels
-@model RegisterEmployerViewModel
+﻿@using CITPracticum.Data.Enum;
+@using CITPracticum.ViewModels;
+
+@model EditEmployerViewModel
 
 @{
-    ViewData["Title"] = "Add an Employer";
+    ViewData["Title"] = "Edit an Employer";
 }
 
 <div class="row">
     <div class="col-md-6 offset-3">
         <p>
-            <h4>Add an Employer</h4>
+            <h4>Edit an Employer</h4>
         </p>
         @if (TempData["Error"] != null)
         {
@@ -18,13 +20,10 @@
         }
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form method="post" asp-action="Register" enctype="multipart/form-data">
+
+                <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                    <input type="hidden" value="Id" id="Id" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="EmailAddress" class="control-label"></label>
-                        <input asp-for="EmailAddress" class="form-control" />
-                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
-                    </div>
                     <div class="form-group">
                         <label asp-for="FirstName" class="control-label"></label>
                         <input asp-for="FirstName" class="form-control" />
@@ -41,17 +40,13 @@
                         <span asp-validation-for="CompanyName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <label asp-for="EmpEmail" class="control-label"></label>
+                        <input asp-for="EmpEmail" class="form-control" />
+                        <span asp-validation-for="EmpEmail" class="text-danger"></span>
                     </div>
+                   
                     <div class="form-group">
-                        <label asp-for="ConfirmPassword" class="control-label"></label>
-                        <input asp-for="ConfirmPassword" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input class="btn btn-outline-success float right" type="submit" value="Register Employer" />
+                        <input class="btn btn-outline-success float right" type="submit" value="Edit Employer" />
                         <a class="btn btn-outline-secondary" asp-controller="Employer" asp-action="Index">Cancel</a>
                     </div>
                 </form>
@@ -59,3 +54,6 @@
         </div>
     </div>
 </div>
+
+
+
