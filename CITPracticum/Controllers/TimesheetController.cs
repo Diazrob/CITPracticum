@@ -6,10 +6,12 @@ namespace CITPracticum.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["ActivePage"] = "Timesheet";
             return View();
         }
         public IActionResult ViewTimesheet()
         {
+            ViewData["ActivePage"] = "Timesheet";
             return View();
         }
         public IActionResult Timestamp()

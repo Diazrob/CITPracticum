@@ -27,6 +27,7 @@ namespace CITPracticum.Controllers
         // displays all the students on index page
         public async Task<IActionResult> Index()
         {
+            ViewData["ActivePage"] = "Student";
             string roleName = "student";
 
             var users = await _userManager.GetUsersInRoleAsync(roleName);
@@ -51,6 +52,7 @@ namespace CITPracticum.Controllers
         // add a new student user
         public IActionResult Register()
         {
+            ViewData["ActivePage"] = "Student";
             var response = new RegisterStudentViewModel();
             return View(response);
         }
@@ -94,6 +96,7 @@ namespace CITPracticum.Controllers
         // deletes a student user
         public async Task<IActionResult> Delete(string email, int id)
         {
+            ViewData["ActivePage"] = "Student";
             AppUser user = await _userManager.FindByEmailAsync(email);
             Student student = await _studentRepository.GetByIdAsync(id);
             user.Student.FirstName = student.FirstName;
@@ -105,6 +108,7 @@ namespace CITPracticum.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteStudent(string email, int id)
         {
+            ViewData["ActivePage"] = "Student";
             AppUser user = await _userManager.FindByEmailAsync(email);
             Student student = await _studentRepository.GetByIdAsync(id);
             if (user == null) return View("Error");

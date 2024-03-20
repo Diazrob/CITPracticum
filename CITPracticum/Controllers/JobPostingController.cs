@@ -17,6 +17,8 @@ namespace CITPracticum.Controllers
         // displays all job postings on index page
         public async Task<IActionResult> Index()
         {
+            ViewData["ActivePage"] = "Jobs";
+
             IEnumerable<JobPosting> jobPostings = await _jobPostingRepository.GetAll();
             return View(jobPostings);
         }
@@ -24,18 +26,21 @@ namespace CITPracticum.Controllers
         // goes to a specific job posting page
         public async Task<IActionResult> Detail(int id)
         {
+            ViewData["ActivePage"] = "Jobs";
             JobPosting jobPosting = await _jobPostingRepository.GetByIdAsync(id);
             return View(jobPosting);
         }
         // creates a new job post
         public IActionResult Create()
         {
+            ViewData["ActivePage"] = "Jobs";
             var createJobPostingViewModel = new CreateJobPostingViewModel();
             return View(createJobPostingViewModel);
         }
         [HttpPost]
         public async Task<IActionResult> Create (CreateJobPostingViewModel jobPostingVM)
         {
+            ViewData["ActivePage"] = "Jobs";
             if (ModelState.IsValid)
             {
                 var jobPosting = new JobPosting()
@@ -56,6 +61,7 @@ namespace CITPracticum.Controllers
         // edit a job post
         public async Task<IActionResult> Edit(int id)
         {
+            ViewData["ActivePage"] = "Jobs";
             var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
             if (jobPosting == null) return View("Error");
             var jobPostingVM = new EditJobPostingViewModel()
@@ -73,6 +79,7 @@ namespace CITPracticum.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EditJobPostingViewModel jobPostingVM)
         {
+            ViewData["ActivePage"] = "Jobs";
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Failed to edit JobPosting");
@@ -104,6 +111,7 @@ namespace CITPracticum.Controllers
         // deletes a job post
         public async Task<IActionResult> Delete(int id)
         {
+            ViewData["ActivePage"] = "Jobs";
             var jobPostingDetails = await _jobPostingRepository.GetByIdAsync(id);
             if (jobPostingDetails == null) return View("Error");
             return View(jobPostingDetails);
@@ -111,6 +119,7 @@ namespace CITPracticum.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteJobPosting(int id)
         {
+            ViewData["ActivePage"] = "Jobs";
             var jobPostingDetails = await _jobPostingRepository.GetByIdAsync(id);
 
             if(jobPostingDetails == null)

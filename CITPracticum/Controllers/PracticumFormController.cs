@@ -77,9 +77,11 @@ namespace CITPracticum.Controllers
         // Form C submission handler
         public IActionResult FormCSubmit()
         {
+
             var submitFormCVM = new PracticumForms();
 
             return View(submitFormCVM);
+
         }
         [HttpPost]
         public async Task<IActionResult> FormCSubmit(PracticumForms submitFormCVM)

@@ -8,69 +8,97 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CITPracticum.styles.css" asp-append-version="true" />
     <link href="~/fontawesome6/css/all.css" rel="stylesheet">
-    
+
+    <style>
+        .flex-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        /* Ensure the side navigation does not grow and push the content out of view */
+        .side-nav {
+            flex-shrink: 0;
+        }
+    </style>
 </head>
 <body>
-    <header>     
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 flex-column">
-            <div class="container-fluid">
-                    
-                    @if(User.Identity.IsAuthenticated)
-                    {
-                    <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Index">CITPracticum</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                            </li>
-                            @if (User.IsInRole("admin"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Index">Students</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Employer" asp-action="Index">Employers</a>
-                                </li>
-                            }
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="JobPosting" asp-action="Index">Job Postings</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="PracticumForm" asp-action="Index">Practicum Forms</a>
-                            </li>
-                            
-                            @if (User.IsInRole("student") || User.IsInRole("admin"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Timesheet" asp-action="Index">Time Sheets</a>
-                                </li>
-                            }
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Documents" asp-action="Index">Documents</a>
-                            </li>
-                        </ul>
-                        <form asp-area="" asp-controller="Account" asp-action="Logout">
-                            <button class="btn btn-outline-danger">Logout</button>
-                        </form>
-                    </div>
-                }
-                else
-                {
-                    Context.Response.Redirect("/");
-                }
-   
-            </div>         
+    <div class="flex-container">
+        <!-- NEW Side Navigation -->
+        <div class="d-flex align-items-center justify-content-center flex-column flex-shrink-0 p-3 bg-light" style="width: 225px; background: linear-gradient(10deg, #69a620, #FFFFFF, #FFFFFF);">
+            <a href="/Dashboard/Index" class=" mb-3 mb-md-0 link-dark text-decoration-none">
+                <img src="/images/lc.png" alt="CITPracticum Logo" style="width: 100%; height: 90px;">
+            </a>
+            <h4 class="mt-2">CIT Practicum</h4>
+            <hr style="width: 100%;">
+            <ul class="nav nav-pills flex-column mb-auto card mt-1">
+                <li class="nav-item">
+                    <a href="/Dashboard/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Dashboard" ? "active" : "") link-light" aria-current="page">
+                        <i class="fa-solid fa-gauge fa-lg" style="width: 1.5em;"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Student/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Student" ? "active" : "") link-dark">
+                        <i class="fa-solid fa-users fa-lg" style="width: 1.5em;"></i>
+                        <span>Students</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Employer/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Employer" ? "active" : "") link-dark">
+                        <i class="fa-solid fa-address-book fa-lg" style="width: 1.5em;"></i>
+                        <span>Employers</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/JobPosting/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Jobs" ? "active" : "") link-dark">
+                        <i class="fa-solid fa-clipboard fa-lg" style="width: 1.5em;"></i>
+                        <span>Job Postings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/PracticumForm/Index" class="nav-link @((ViewData["ActivePage"] as string) == "PracForms" ? "active" : "") link-dark">
+                        <i class="fa-solid fa-file-waveform fa-lg" style="width: 1.5em;"></i>
+                        <span>Practicum Forms</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Timesheet/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Timesheet" ? "active" : "") link-dark">
+                        <i class="fa-solid fa-clock fa-lg" style="width: 1.5em;"></i>
+                        <span>Time Sheets</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Documents/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Documents" ? "active" : "") link-dark">
+                        <i class="fa-solid fa-folder-open fa-lg" style="width: 1.5em;"></i>
+                        <span>Documents</span>
+                    </a>
+                </li>
+            </ul>
+            <hr style="width: 100%;">
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle text-white" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-gear fa-lg pe-1"></i><strong>Settings</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <form asp-area="" asp-controller="Account" asp-action="Logout">
+                    <li><input type="submit" class="dropdown-item">Sign out</input></li>
+                    </form>
+                </ul>
+            </div>
+        </div>
 
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <!-- Main content -->
+        <div class="main-content">
+            <main>
+                @RenderBody()
+            </main>
+        </div>
+
     </div>
 
     <footer class="border-top footer text-muted">

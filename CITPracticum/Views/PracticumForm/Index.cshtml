@@ -21,15 +21,6 @@
         border-bottom: 1px solid #dee2e6; /* Bottom border for the whole nav */
     }
 
-        /* Styles to align the button with the tab items */
-        .nav-tabs .nav-item:last-child {
-            margin-left: auto; /* Push the button to the right */
-        }
-
-    .btn-create-form {
-        margin-top: -8px; /* Adjust this value to align the button as desired */
-    }
-
     .modal-header, .modal-footer {
         border-bottom: 1px solid #dee2e6;
         border-top: 1px solid #dee2e6;
@@ -72,9 +63,7 @@
         <li class="nav-item">
             <a class="nav-link" href="/PracticumForm/EmployerSubmittedForms">Employer Submitted Forms</a>
         </li>
-        <!-- This is where the 'Create Form' button is placed -->
-        <li class="nav-item" role="presentation">
-            <button class="btn btn-primary btn-create-form" type="button" data-bs-toggle="modal" data-bs-target="#formCFModal">Create Form</button>
+        <li class="nav-item">
         </li>
     </ul>
 
@@ -116,21 +105,12 @@
         </div>
     </div>
 
-</div>
-
-<!-- Create Form Modal -->
-<div class="modal fade" id="formCFModal" tabindex="-1" aria-labelledby="formCFModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="formCFModalLabel">Create Form</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Content for Form CF -->
-            </div>
+    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formExitModal">
+        <div class="card-body">
+            Exit Interview
         </div>
     </div>
+
 </div>
 
 <!-- Form A Modal -->
@@ -212,6 +192,39 @@
                         </div>
                         <!-- ... other fields ... -->
 
+ prac-forms-styling
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-check form-check-inline px-0">
+                                    <label asp-for="FormA.SVCredentialsCategory" class="form-label">Supervisor Credential(s):</label>
+                                    <select asp-for="FormA.SVCredentialsCategory" asp-items="@Html.GetEnumSelectList<SVCredentialsCategory>()" class="form-control">
+                                        <option>--Select--</option>
+                                    </select>
+                                    <span asp-validation-for="FormA.SVCredentialsCategory" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @* <div class="mb-3">
+                        <label for="credentials" class="form-label">Supervisor's credentials:</label>
+                        <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="diploma">
+                        <label class="form-check-label" for="diploma">CIT Diploma</label>
+                        </div>
+                        <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="degreeIS">
+                        <label class="form-check-label" for="degreeIS">IS Degree</label>
+                        </div>
+                        <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="degreeCS">
+                        <label class="form-check-label" for="degreeCS">CS Degree</label>
+                        </div>
+                        <div class="row mb-3">
+                        <div class="col-md-4">
+                        <input type="text" class="form-control mt-2" id="credentialsOther" placeholder="Other">
+                        </div>
+                        </div>
+                        </div> *@
+mid
                         
                         <div class="form-group mb-3">
                             <label asp-for="FormA.SVCredentials" class="form-label">Supervisor's Credentials'</label>
@@ -230,6 +243,7 @@
                             </div>
                         </div>
 
+ master
                         <!-- ... other fields ... -->
                         <div class="row mb-3">
                             <div class="col-md-4">
@@ -241,7 +255,7 @@
                                 <input asp-for="FormA.Address.City" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.Address.Prov" class="form-label">Prov:</label>
+                                <label asp-for="FormA.Address.Prov" class="form-label">Province:</label>
                                 <input asp-for="FormA.Address.Prov" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
@@ -260,20 +274,24 @@
                                 <input asp-for="FormA.StartDate" type="date" class="form-control">
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <div class="form-check form-check-inline">
-                                    <label asp-for="FormA.PaymentCategory">Paid or Unpaid</label>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-check form-check-inline px-0">
+                                    <label asp-for="FormA.PaymentCategory" class="form-label">Paid or Unpaid:</label>
                                     <select asp-for="FormA.PaymentCategory" asp-items="@Html.GetEnumSelectList<PaymentCategory>()" class="form-control">
                                         <option>--Select--</option>
                                     </select>
                                     <span asp-validation-for="FormA.PaymentCategory" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="mb-3 text-center">
-                            <p>Aside from forms in available on this webpage, the Program Assistant will look after all documents required for your host. Formal practicum agreements and evaluation forms will be supplied to your host.</p>
+                            <p>Aside from the forms available on this webpage, the Program Assistant will look after all documents required for your host. Formal practicum agreements and evaluation forms will be supplied to your host.</p>
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <input type="submit" class="btn btn-primary" value="Submit"/>
+                            <input type="button" class="btn btn-danger" value="Cancel" />
+                            <input type="submit" class="btn btn-success" value="Submit" />
+                            <input type="button" id="openFormB" class="btn btn-primary" value="Next" />
                         </div>
                     </form>
                 </div>
@@ -291,8 +309,108 @@
                 <h5 class="modal-title text-center w-100" id="formFOIPModalLabel">Practicum Agreement between Host and Student (Form B)</h5>
                 <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <!-- Content for Form B -->
+            <div class="modal-body d-flex justify-content-center">
+                <div class="mx-auto" style="width: 50%;">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label for="pracHost" class="form-label">Practicum Host:</label>
+                                <input type="text" name="pracHost" class="form-control" />
+                            </div>
+                            <div class="col-md-9" style="margin-top: 2.5rem !important;">
+                                agrees to provide a meaningful work experience for
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label for="studName" class="form-label">Student's Name:</label>
+                                <input type="text" name="studName" class="form-control" />
+                            </div>
+                            <div class="col-md-1" style="margin-top: 2.5rem !important;">
+                                from
+                            </div>
+                            <div class="col-md-3">
+                                <label for="studName" class="form-label">Start Date:</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-md-1" style="margin-top: 2.5rem !important;">
+                                to
+                            </div>
+                            <div class="col-md-3">
+                                <label for="studName" class="form-label">End Date:</label>
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                based on the student’s skills gained in the Lethbridge College <b>Computer Information Technology</b>
+                                program. The Practicum Host is responsible for the student’s final evaluation, using the Student
+                                Evaluation form included in this package and in the host information package.
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                The student shall:
+                                <ul>
+                                    <li>
+                                        Maintain a professional attitude and a high level of participation.
+                                    </li>
+                                    <li>
+                                        Treat this practicum as a job and should adhere to all company employee policies.
+                                    </li>
+                                    <li>
+                                        Track hours worked and report them to the Program Assistant through <b>Form D</b>.
+                                    </li>
+                                    <li>
+                                        Maintain contact with the lead instructor during their practicum.
+                                    </li>
+                                    <li>
+                                        Respect schedules and meet deadlines.
+                                    </li>
+                                    <li>
+                                        Conduct themselves appropriately.
+                                    </li>
+                                    <li>
+                                        Acknowledges that the Host and/or College has the right to terminate an unsatisfactory placement.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="formBOrgName" class="form-label">Organization Name:</label>
+                                <input type="text" name="formBOrgName" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="formBPrac" class="form-label">Practicum Supervisor:</label>
+                                <input type="text" name="formBPrac" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="formBAddress" class="form-label">Address:</label>
+                                <input type="text" name="formBAddress" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="formBPosition" class="form-label">Position:</label>
+                                <input type="text" name="formBPosition" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="formBEmail" class="form-label">Email Address:</label>
+                                <input type="text" name="formBEmail" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="formBPhone" class="form-label">Phone Number:</label>
+                                <input type="text" name="formBPhone" class="form-control" />
+                            </div>
+                        </div>
+                        <!-- Content for Form B -->
+                        <div class="modal-footer sticky justify-content-center">
+                            <input type="button" class="btn btn-danger" value="Cancel" />
+                            <input type="submit" class="btn btn-success" value="Submit" />
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -364,7 +482,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-2">
-                                <p>E (Excellent):</p>
+                                <p>Excellent:</p>
                             </div>
                             <div class="col-md-10">
                                 <p>Meets professional level standards</p>
@@ -372,7 +490,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-2">
-                                <p>G (Good):</p>
+                                <p>Good:</p>
                             </div>
                             <div class="col-md-10">
                                 <p>Adequately fulfills expectations</p>
@@ -380,7 +498,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-2">
-                                <p>F (Fair):</p>
+                                <p>Fair:</p>
                             </div>
                             <div class="col-md-10">
                                 <p>
@@ -394,7 +512,7 @@
                                 <tr>
                                     <th scope="col">A.</th>
                                     <th scope="col">Professionalism</th>
-                                    <th scope="col">Rating</th>
+                                    <th scope="col"><center>Rating</center></th>
 
                                 </tr>
                             </thead>
@@ -403,6 +521,25 @@
                                     <td>1.</td>
                                     <td>The student is on time, organized and prepared to work.</td>
                                     <td>
+prac
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating12" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating12" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating12" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating12" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+middle
                                         <div class="form-group">
                                             <div>
                                                 <input type="radio" asp-for="FormC.A1" value="Excellent" />Excellent
@@ -411,60 +548,114 @@
                                                 <input type="radio" asp-for="FormC.A1" value="NA" />NA
                                             </div>
                                             <span asp-validation-for="FormC.A1" class="text-danger"></span>
+master
                                         </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>The student's attire and grooming is appropriate.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating13" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating13" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating13" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating13" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>3.</td>
                                     <td>The student is dependable.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating14" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating14" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating14" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating14" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>4.</td>
                                     <td>The student understands and follows company policies and procedures.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating15" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating15" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating15" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating15" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>5.</td>
                                     <td>The student presents a professional image when dealing with co-workers or clients of the company.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating16" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating16" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating16" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating16" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
@@ -479,7 +670,7 @@
                                 <tr>
                                     <th scope="col">B.</th>
                                     <th scope="col">Professionalism</th>
-                                    <th scope="col">Rating</th>
+                                    <th scope="col"><center>Rating</center></th>
 
                                 </tr>
                             </thead>
@@ -488,104 +679,208 @@
                                     <td>1.</td>
                                     <td>The student understands the company's chain of command and follows it.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating17" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating17" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating17" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating17" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>The student follows instructions and asks for clarification if needed.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating18" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating18" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating18" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating18" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>3.</td>
                                     <td>The student communicates effectively in both written and oral form.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating19" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating19" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating19" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating19" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>4.</td>
                                     <td>The student is able to contribute at meetings.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating20" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating20" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating20" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating20" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>5.</td>
                                     <td>The student exhibits tact and diplomacy prior to making comments.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating21" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating21" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating21" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating21" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>6.</td>
                                     <td>The student demonstrates effective learning skills at all levels of placement.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating22" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating22" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating22" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating22" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>7.</td>
                                     <td>The student facilitates appropriate conflict resolution strategies.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating23" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating23" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating23" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating23" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>8.</td>
                                     <td>The student is willing to accept constructive feedback.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating24" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating24" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating24" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating24" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
@@ -600,8 +895,7 @@
                                 <tr>
                                     <th scope="col">C.</th>
                                     <th scope="col">Professionalism</th>
-                                    <th scope="col">Rating</th>
-
+                                    <th scope="col"><center>Rating</center></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -609,151 +903,307 @@
                                     <td>1.</td>
                                     <td>The student has the ability to problem solve and make appropriate decisions.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating25" id="excellent3" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating25" id="good2" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating25" id="fair3" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating25" id="na4" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>The student is creative, innovative and flexible when completing assigned duties.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating26" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating26" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating26" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating26" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>3.</td>
                                     <td>The student takes responsibility and follows through with decisions once made.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating27" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating27" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating27" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating27" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>4.</td>
                                     <td>The student works independently or as a team member as required.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating28" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating28" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating28" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating28" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>5.</td>
                                     <td>The student has a high productivity level—is industrious, and completes quality work.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating29" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating29" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating29" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating29" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>6.</td>
                                     <td>The student is capable of managing pressure and stressful situations appropriately.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating30" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating30" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating30" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating30" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>7.</td>
                                     <td>The student respects schedules and meets deadlines.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating31" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating31" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating31" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating31" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>8.</td>
                                     <td>The student is able to change to meet the demands of a new environment or settings.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating32" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating32" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating32" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating33" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>9.</td>
                                     <td>The student has the ability to anticipate needs and to plan ahead; possesses good organizational skills.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating33" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating33" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating33" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating33" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>10.</td>
                                     <td>The student has a learning attitude.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating34" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating34" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating34" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating34" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>11.</td>
                                     <td>The student is prepared to work with commonly encountered business software/hardware.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating35" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating35" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating35" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating35" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>12.</td>
                                     <td>The student possesses a broad-based and comprehensive understanding of current information technologies.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating36" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating36" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating36" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating36" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
@@ -782,7 +1232,8 @@
                             </div>
                         </div>
                         <div class="modal-footer sticky justify-content-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <input type="button" class="btn btn-danger" value="Cancel" />
+                            <input type="submit" class="btn btn-success" value="Submit" />
                         </div>
                     </form>
                 </div>
@@ -856,7 +1307,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-2">
-                                <p>E (Excellent):</p>
+                                <p>Excellent:</p>
                             </div>
                             <div class="col-md-10">
                                 <p>Meets professional level standards</p>
@@ -864,7 +1315,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-2">
-                                <p>G (Good):</p>
+                                <p>Good:</p>
                             </div>
                             <div class="col-md-10">
                                 <p>Adequately fulfills expectations</p>
@@ -872,7 +1323,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-2">
-                                <p>F (Fair):</p>
+                                <p>Fair:</p>
                             </div>
                             <div class="col-md-10">
                                 <p>
@@ -895,65 +1346,128 @@
                                     <td>1.</td>
                                     <td>The student is on time, organized and prepared to work.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating38" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating38" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating38" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating38" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
-
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>The student's attire and grooming is appropriate.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating39" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating39" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating39" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating39" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>3.</td>
                                     <td>The student is dependable.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating40" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating40" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating40" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating40" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>4.</td>
                                     <td>The student understands and follows company policies and procedures.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating41" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating41" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating41" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating41" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>5.</td>
                                     <td>The student presents a professional image when dealing with co-workers or clients of the company.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating42" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating42" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating42" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating42" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
@@ -977,105 +1491,207 @@
                                     <td>1.</td>
                                     <td>The student understands the company's chain of command and follows it.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating43" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating43" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating43" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating43" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>The student follows instructions and asks for clarification if needed.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating44" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating44" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating44" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating44" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>3.</td>
                                     <td>The student communicates effectively in both written and oral form.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating45" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating45" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating45" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating45" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>4.</td>
                                     <td>The student is able to contribute at meetings.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating46" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating46" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating46" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating46" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>5.</td>
                                     <td>The student exhibits tact and diplomacy prior to making comments.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating47" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating47" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating47" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating47" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>6.</td>
                                     <td>The student demonstrates effective learning skills at all levels of placement.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating48" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating48" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating48" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating48" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>7.</td>
                                     <td>The student facilitates appropriate conflict resolution strategies.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating49" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating49" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating49" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating49" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>8.</td>
                                     <td>The student is willing to accept constructive feedback.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating50 id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating50" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating50" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating50" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
-
                                 </tr>
                                 <tr>
                                     <td colspan="4">
@@ -1090,7 +1706,6 @@
                                     <th scope="col">C.</th>
                                     <th scope="col">Professionalism</th>
                                     <th scope="col">Rating</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -1098,152 +1713,306 @@
                                     <td>1.</td>
                                     <td>The student has the ability to problem solve and make appropriate decisions.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating51" id="excellent3" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating51" id="good2" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating51" id="fair3" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating51" id="na4" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>The student is creative, innovative and flexible when completing assigned duties.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating52" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating52" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating52" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating52" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>3.</td>
                                     <td>The student takes responsibility and follows through with decisions once made.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating53" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating53" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating53" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating53" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>4.</td>
                                     <td>The student works independently or as a team member as required.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating54" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating54" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating54" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating54" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>5.</td>
                                     <td>The student has a high productivity level—is industrious, and completes quality work.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating55" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating55" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating55" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating55" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>6.</td>
                                     <td>The student is capable of managing pressure and stressful situations appropriately.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating56" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating56" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating56" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating56" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>7.</td>
                                     <td>The student respects schedules and meets deadlines.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating57" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating57" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating57" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating57" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>8.</td>
                                     <td>The student is able to change to meet the demands of a new environment or settings.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating58" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating58" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating58" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating58" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>9.</td>
                                     <td>The student has the ability to anticipate needs and to plan ahead; possesses good organizational skills.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating59" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating59" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating59" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating59" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>10.</td>
                                     <td>The student has a learning attitude.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating60" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating60" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating60" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating60" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>11.</td>
                                     <td>The student is prepared to work with commonly encountered business software/hardware.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating61" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating61" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating61" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating61" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                                 <tr>
                                     <td>12.</td>
                                     <td>The student possesses a broad-based and comprehensive understanding of current information technologies.</td>
                                     <td>
-                                        <select class="form-select" aria-label="Rating select">
-                                            <option selected>Excellent</option>
-                                            <option value="1">Good</option>
-                                            <option value="2">Fair</option>
-                                            <option value="3">N/A</option>
-                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating62" id="excellent1" value="Excellent" checked>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating62" id="good1" value="Good">
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating62" id="fair1" value="Fair">
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="rating62" id="na1" value="N/A">
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
                                     </td>
-
                                 </tr>
                                 <tr>
                                     <td colspan="4">
@@ -1271,7 +2040,8 @@
                             </div>
                         </div>
                         <div class="modal-footer sticky justify-content-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <input type="button" class="btn btn-danger" value="Cancel" />
+                            <input type="submit" class="btn btn-success" value="Submit" />
                         </div>
                     </form>
                 </div>
@@ -1426,7 +2196,8 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-danger">Cancel</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -1462,8 +2233,6 @@
                                 <label asp-for="FormStuInfo.StuId" class="form-label">Student ID:</label>
                                 <input asp-for="FormStuInfo.StuId" type="text" class="form-control">
                             </div>
-                        </div>
-                        <div class="row mb-4">
                             <div class="col-md-6">
                                 <label asp-for="FormStuInfo.Program" class="form-label">Program:</label>
                                 <input asp-for="FormStuInfo.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
@@ -1474,8 +2243,6 @@
                                 <label asp-for="FormStuInfo.ProgStartDate" class="form-label">In what year and semester did you start in the program? (Example, 18FL):</label>
                                 <input asp-for="FormStuInfo.ProgStartDate" type="text" class="form-control">
                             </div>
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <label asp-for="FormStuInfo.PracStartDate" class="form-label">Year and term in which you are/will be registered for CIT 2271 Practicum (Example, 19WN):</label>
                                 <input asp-for="FormStuInfo.PracStartDate" type="text" class="form-control">
@@ -1486,8 +2253,6 @@
                                 <label asp-for="FormStuInfo.CollegeEmail" class="form-label">College e-mail address (will be used to share info):</label>
                                 <input asp-for="FormStuInfo.CollegeEmail" type="text" class="form-control">
                             </div>
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <label asp-for="FormStuInfo.PhoneNumber" class="form-label">Phone number best able to reach you through:</label>
                                 <input asp-for="FormStuInfo.PhoneNumber" type="text" class="form-control">
@@ -1499,6 +2264,30 @@
                                 <input asp-for="FormStuInfo.AltPhoneNumber" type="text" class="form-control">
                             </div>
                         </div>
+ prac-forms-styling
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <label class="form-label">Street:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">City:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Province:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Country:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Postal Code:</label>
+                                <input type="text" class="form-control">
+mid
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <label asp-for="FormStuInfo.Address.Street" class="form-label">Street:</label>
@@ -1519,6 +2308,7 @@
                             <div class="col-md-4">
                                 <label asp-for="FormStuInfo.Address.PostalCode" class="form-label">Postal Code:</label>
                                 <input asp-for="FormStuInfo.Address.PostalCode" type="text" class="form-control">
+ master
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -1535,7 +2325,8 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <input type="button" class="btn btn-danger" value="Cancel" />
+                            <input type="submit" class="btn btn-success" value="Submit" />
                         </div>
                     </form>
                 </div>
@@ -1543,3 +2334,89 @@
         </div>
     </div>
 </div>
+
+<!-- Exit Interview Modal -->
+<div class="modal fade" id="formExitModal" tabindex="-1" aria-labelledby="formExitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center" style="background: linear-gradient(to right, #FFFFFF, #FFFFFF, #69a620);">
+                <img src="~/images/lc.png" alt="Logo" class="float-start" style="height: 50px;">
+                <h5 class="modal-title text-center w-100" id="formExitModalLabel">Exit Interview</h5>
+                <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <div class="mx-auto" style="width: 50%;">
+                    <form>
+                        <div class="row mb-1">
+                            <div class="col-md-6">
+                                <label for="studentNameID" class="form-label">Student name:</label>
+                                <input type="text" class="form-control" id="lastNameID">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="dateFOIP" class="form-label">Date:</label>
+                                <input type="date" class="form-control" id="dateFOIP">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="instructornameID" class="form-label">Instructor name:</label>
+                                <input type="text" class="form-control" id="instructornameID">
+                            </div>
+
+                            <div class="mb-3">
+                                <br /><br />
+                                <label for="importantLearning" class="form-label">What is the most important thing you learned during your field work?</label>
+                                <textarea class="form-control" id="importantLearning" name="importantLearning" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="valuableLearning" class="form-label">What was some of the most valuable learning you did in the program, which was used on your placement?</label>
+                                <textarea class="form-control" id="valuableLearning" name="valuableLearning" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="notCoveredInfo" class="form-label">What was some of the information that was not covered in the program, which would have made you more competent during your placement?</label>
+                                <textarea class="form-control" id="notCoveredInfo" name="notCoveredInfo" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="strength" class="form-label">What would your placement supervisor say was your strength?</label>
+                                <textarea class="form-control" id="strength" name="strength" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="weakness" class="form-label">What would your placement supervisor say was a weakness in the CIT program? (An area where you were not as competent as you could have been)</label>
+                                <textarea class="form-control" id="weakness" name="weakness" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3 form-check form-check-inline px-3">
+                                <label class="form-label">Would you recommend this employer for future field work placements?</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="recommendEmployer" id="recommendEmployerYes" value="yes">
+                                    <label class="form-check-label" for="recommendEmployerYes">YES</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="recommendEmployer" id="recommendEmployerNo" value="no">
+                                    <label class="form-check-label" for="recommendEmployerNo">NO</label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="studentSuccessType" class="form-label">If YES, what type of student would best succeed with this employer?</label>
+                                <textarea class="form-control" id="studentSuccessType" name="studentSuccessType" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <input type="button" class="btn btn-danger" value="Cancel" />
+                            <input type="submit" class="btn btn-success" value="Submit" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('openFormB').addEventListener('click', function () {
+        var firstModal = bootstrap.Modal.getInstance(document.getElementById('formAModal'));
+        var secondModal = new bootstrap.Modal(document.getElementById('formBModal'));
+
+        firstModal.hide(); // This will hide the first modal
+        secondModal.show(); // This will show the second modal
+    });
+</script>

@@ -1,55 +1,39 @@
 ﻿<style>
-    /* Additional styling to ensure the layout matches the screenshot provided */
     .table th, .table td {
         vertical-align: middle;
+        text-align: left; /* Center align table headers and cells */
     }
 
-    .view-btn {
-        padding: 0.375rem 0.75rem; /* Same padding as standard Bootstrap buttons */
+    .table .name-column {
+        text-align: left; /* Align the 'Name' column text to the left */
     }
 
-    /* Styles for the 'Delete' button and 'Select All' checkbox */
-    .delete-button-container {
-        text-align: right;
-        padding-bottom: 1rem; /* Adds space below the 'Delete' button */
+    .table .form-column {
+        width: 8%; /* Equal width for all form columns */
+    }
+
+    .table .select-all-column {
+        width: 10%; /* Adjust as needed for the Select All column */
+    }
+
+    .sort-icon {
+        cursor: pointer;
+        margin-left: 5px; /* Space between header title and sort icon */
     }
 
     .select-all-container {
-        display: flex;
-        justify-content: flex-end; /* Aligns content to the right side of the cell */
+        display: flex; /* Correct display property for flex container */
+        justify-content: flex-end; /* Aligns content to the right side */
         align-items: center; /* Centers items vertically */
     }
 
     .select-all-label {
-        margin-right: 0.5rem; /* Adds space between the label and the checkbox */
-        white-space: nowrap; /* Prevents wrapping to a new line */
+        margin-right: 0.5rem; /* Space between the label and checkbox */
     }
 
-    /* Styles to align the button with the tab items */
-    .nav-tabs .nav-item:last-child {
-        margin-left: auto; /* Push the button to the right */
-    }
-
-    .select-all {
-        text-align: right; /* Aligns the 'Select All' checkbox to the right */
-        padding-right: 1rem; /* Adds some padding on the right */
-    }
-    /* Ensures the first column uses most of the table's width */
-    .table .name-column {
-        width: 70%;
-    }
-    /* Ensures the form column does not take up much space */
-    .table .form-column {
-        width: 15%;
-    }
-    /* Adjust checkbox and view columns width */
-    .table .checkbox-column, .table .view-column {
-        width: 7.5%;
-    }
 </style>
-
 <div class="container mt-5">
-    <!-- Tab navigation with button -->
+    <!-- Tab navigation -->
     <ul class="nav nav-tabs mb-3" role="tablist">
         <li class="nav-item">
             <a class="nav-link" href="/PracticumForm/Index">Practicum Forms</a>
@@ -66,15 +50,31 @@
         </li>
     </ul>
 
+
+    <!-- Tab content -->
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="formA" role="tabpanel" aria-labelledby="form-a-tab">
+            <!-- Content for Form A -->
+        </div>
+        <div class="tab-pane fade" id="formB" role="tabpanel" aria-labelledby="form-b-tab">
+            <!-- Content for Form B -->
+        </div>
+        <!-- Add additional tab contents here -->
+    </div>
+
     <table class="table">
         <thead>
             <tr>
-                <th class="name-column">Name</th>
-                <th class="form-column">Form</th>
-                <th class="view-column">View</th>
-                <th class="checkbox-column">
-                    <div class="select-all-container">
-                        <label for="select-all" class="select-all-label">Select All</label>
+                <th style="width: 30%;">Name <i class="fas fa-sort" onclick="sortTable(0)"></i></th>
+                <th style="width: 10%;">Form A <i class="fas fa-sort" onclick="sortTable(1)"></i></th>
+                <th style="width: 10%;">Form B <i class="fas fa-sort" onclick="sortTable(2)"></i></th>
+                <th style="width: 10%;">Form C <i class="fas fa-sort" onclick="sortTable(3)"></i></th>
+                <th style="width: 10%;">Form D <i class="fas fa-sort" onclick="sortTable(4)"></i></th>
+                <th style="width: 10%;">Form FOIP <i class="fas fa-sort" onclick="sortTable(5)"></i></th>
+                <th style="width: 10%;">Form ID <i class="fas fa-sort" onclick="sortTable(6)"></i></th>
+                <th>
+                    <div class="select-all-container" style="justify-content: flex-end;">
+                        <label class="select-all-label" for="select-all">Select All</label>
                         <input type="checkbox" id="select-all" class="form-check-input">
                     </div>
                 </th>
@@ -83,95 +83,99 @@
         <tbody>
             <tr>
                 <td>William Garcia</td>
-                <td>Form C</td>
-                <td><button class="btn btn-link view-btn">View</button></td>
-                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-            </tr>
-            <tr>
-                <td>Sophia Martinez</td>
-                <td>Form A</td>
-                <td><button class="btn btn-link view-btn">View</button></td>
-                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-            </tr>
-            <tr>
-                <td>James Wilson</td>
-                <td>Form B</td>
-                <td><button class="btn btn-link view-btn">View</button></td>
-                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-            </tr>
-            <tr>
-                <td>Isabella Miller</td>
-                <td>FOIP</td>
-                <td><button class="btn btn-link view-btn">View</button></td>
-                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-            </tr>
-            <tr>
-                <td>Oliver Taylor</td>
-                <td>Form ID</td>
-                <td><button class="btn btn-link view-btn">View</button></td>
-                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <a href="link-to-form-a" class="form-link">Form A</a>
+                        <input type="checkbox" class="form-check-input">
+                    </div>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <a href="link-to-form-a" class="form-link">Form B</a>
+                        <input type="checkbox" class="form-check-input">
+                    </div>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <a href="link-to-form-a" class="form-link">Form C</a>
+                        <input type="checkbox" class="form-check-input">
+                    </div>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <a href="link-to-form-a" class="form-link">Form D</a>
+                        <input type="checkbox" class="form-check-input">
+                    </div>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <a href="link-to-form-a" class="form-link">FOIP</a>
+                        <input type="checkbox" class="form-check-input">
+                    </div>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <a href="link-to-form-a" class="form-link">ID</a>
+                        <input type="checkbox" class="form-check-input">
+                    </div>
+                <td>
+                    <div class="select-container" style="display: flex; justify-content: flex-end;">
+                        <input type="checkbox" class="form-check-input individual-select">
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
 
     <!-- Pagination -->
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
             <li class="page-item active"><a class="page-link" href="#">1</a></li>
             <li class="page-item"><a class="page-link" href="#">2</a></li>
             <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
     </nav>
+</div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete the selected items?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the selected items?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
             </div>
         </div>
     </div>
+</div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('select-all').addEventListener('change', function (event) {
+            const checkboxes = document.querySelectorAll('.table .form-check-input');
+            const isChecked = event.target.checked;
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('select-all').addEventListener('change', function (event) {
-                const checkboxes = document.querySelectorAll('.table .form-check-input');
-                const isChecked = event.target.checked;
-
-                checkboxes.forEach(function (checkbox) {
-                    // Skip the 'Select All' checkbox to avoid recursive checking
-                    if (checkbox !== event.target) {
-                        checkbox.checked = isChecked;
-                    }
-                });
-            });
-        });
-
-        // Function to delete selected rows
-        function deleteSelected() {
-            const checkboxes = document.querySelectorAll('.table tbody .form-check-input');
             checkboxes.forEach(function (checkbox) {
-                if (checkbox.checked) {
-                    // Assuming each checkbox is in a row that should be deleted
-                    checkbox.closest('tr').remove();
+                // Skip the 'Select All' checkbox to avoid recursive checking
+                if (checkbox !== event.target) {
+                    checkbox.checked = isChecked;
                 }
             });
-        }
-    </script>
+        });
+    });
+
+    // Function to delete selected rows
+    function deleteSelected() {
+        const checkboxes = document.querySelectorAll('.table tbody .form-check-input');
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                // Assuming each checkbox is in a row that should be deleted
+                checkbox.closest('tr').remove();
+            }
+        });
+    }
+</script>
