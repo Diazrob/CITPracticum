@@ -7,14 +7,13 @@ namespace CITPracticum.Models
     {
         [Key]
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int Hours { get; set; }
-        [ForeignKey("Employer")]
-        public int EmployerId { get; set; }
-        public Employer Employer { get; set; }
-        [ForeignKey("AppUser")]
-        public string? AppUserId { get; set; }
-        public AppUser? AppUser { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? StuId { get; set; }
+        public string? StuEmail { get; set; }
+        [ForeignKey("Document")]
+        public int? DocumentId { get; set; }
+        public Document? Document { get; set; }
+
     }
 }

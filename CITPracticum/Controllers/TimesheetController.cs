@@ -14,5 +14,9 @@ namespace CITPracticum.Controllers
             ViewData["ActivePage"] = "Timesheet";
             return View();
         }
+        public IActionResult Timestamp()
+        {
+            return View();
+        }
     }
 }

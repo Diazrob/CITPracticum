@@ -10,6 +10,7 @@ namespace CITPracticum.Models
         public string StuLastName { get; set; }
         public string StuFirstName { get; set; }
         public string StuId { get; set; }
+        public string Program { get; set; }
         public string ProgStartDate { get; set; }
         public string PracStartDate { get; set; }
         public string CollegeEmail { get; set; }

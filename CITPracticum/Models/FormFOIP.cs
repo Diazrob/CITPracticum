@@ -11,8 +11,8 @@ namespace CITPracticum.Models
         public string StuId { get; set; }
         public string Program { get; set; }
         public string? Other { get; set; }
-        public bool StuSign { get; set; }
-        public DateOnly StuSignDate { get; set; }
+        public string StuSign { get; set; }
+        public DateTime StuSignDate { get; set; }
         public bool Submitted { get; set; }
 
     }

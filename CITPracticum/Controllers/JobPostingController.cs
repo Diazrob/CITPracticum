@@ -2,6 +2,7 @@
 using CITPracticum.Models;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CITPracticum.Controllers
 {
@@ -129,5 +130,21 @@ namespace CITPracticum.Controllers
             _jobPostingRepository.Delete(jobPostingDetails);
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> Archive(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var jobPosting = await _jobPostingRepository.GetByIdAsync(id.Value);
+            if (jobPosting == null)
+            {
+                return NotFound();
+            }
+
+            return View(jobPosting); // Show the archive confirmation view
+        }
+
     }
 }

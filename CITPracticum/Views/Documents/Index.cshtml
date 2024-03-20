@@ -1,5 +1,92 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+<<<<<<< HEAD
+﻿@model IEnumerable<AppUser>
+=======
+
+@model IEnumerable<AppUser>
+>>>>>>> 2ac9934d8d4b6392e5160ea99514f0aa5631ccbd
+
+<!-- ... Your existing style definitions ... -->
+
+<div class="container mt-5">
+    <!-- ... Your existing navigation tabs ... -->
+<style>
+    .nav-tabs {
+        border-bottom: 1px solid #ddd;
+    }
+
+    h1 {
+        color: #005157; /* Ammolite */
+    }
+
+    .btn-primary {
+        background-color: #739600; /* Coulee Green */
+        border-color: #739600; /* Coulee Green */
+    }
+
+        .btn-primary:hover {
+            background-color: #567d00; /* A darker shade of Coulee Green */
+            border-color: #567d00; /* A darker shade of Coulee Green */
+        }
+    /* Add more custom styles as needed */
+</style>
+
+    
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="/AdminProfile/Resumes">Resume</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/AdminProfile/CoverLetters">Cover Letter</a>
+        </li>
+        <li></li>
+    </ul>
+
+    <!-- Content for the Resume page -->
+    <div class="container mt-4">
+        <h1 class="my-4">Students List</h1>
+
+        <!-- Batch upload button -->
+        <form asp-controller="Student" asp-action="BatchUploadPdf" method="post" enctype="multipart/form-data">
+            <input type="file" name="pdfFiles" multiple />
+            <button type="submit" class="btn btn-primary">Upload Files</button>
+        </form>
+
+        <!-- Download all button -->
+        <a class="btn btn-secondary" href="@Url.Action("DownloadAllPdfs")" role="button">Download All</a>
+
+        <!-- Students table with select all feature -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox" id="selectAll" /></th> <!-- Checkbox to select all -->
+                    <th scope="col">Student Name</th>
+                    <th scope="col">Individual Upload PDF</th>
+                    <th scope="col">Individual Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                @* @foreach (var item in Model)*@
+                {
+                    <tr>
+                        <td><input type="checkbox" name="selectedStudents" value="item ID" /></td> <!-- Checkbox for each student -->
+                        <td>First Name & LastName</td>
+                        <td>
+                            <form asp-controller="Student" asp-action="UploadPdf" method="post" enctype="multipart/form-data">
+                                <input type="file" name="pdfFile" />
+                                <input type="hidden" name="studentId" value="ITEM Id" />
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                            </form>
+                        </td>
+                        <td>
+                            <a class="btn btn-secondary" href="@Url.Action("DownloadPdf" )" role="button">Download</a>
+                        </td>
+                    </tr>
+                @*}*@
+            </tbody>
+        </table>
+    </div>
+</div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2ac9934d8d4b6392e5160ea99514f0aa5631ccbd

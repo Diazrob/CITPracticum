@@ -4,24 +4,26 @@
 
 <form method="post" asp-action="Delete" enctype="multipart/form-data">
     <div class="form-group">
-        <label asp-for="UserName">UserName</label>
-        <input asp-for="UserName" class="form-control" placeholder="UserName">
-        <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
         <label asp-for="Email">Description</label>
         <input asp-for="Email" class="form-control" placeholder="Email">
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="StudentId">State</label>
-        <input asp-for="StudentId" class="form-control" placeholder="StudentId">
-        <span asp-validation-for="StudentId" class="text-danger"></span>
+        <label asp-for="Student.FirstName">FirstName</label>
+        <input asp-for="Student.FirstName" class="form-control" placeholder="FirstName">
+        <span asp-validation-for="Student.FirstName" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="Student.LastName">LastName</label>
+        <input asp-for="Student.LastName" class="form-control" placeholder="Student.LastName">
+        <span asp-validation-for="Student.LastName" class="text-danger"></span>
+    </div>
+    
 </form>
 <div class="form-group">
     <form action="Delete" method="post">
         <input type="hidden" asp-for="Email" />
+        <input type="hidden" name="id" value="@Model.Student.Id" />
         <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
         <a class="btn btn-outline-secondary" asp-controller="Student" asp-action="Index">Cancel</a>
     </form>
