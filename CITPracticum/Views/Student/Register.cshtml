@@ -5,6 +5,79 @@
     ViewData["Title"] = "Add a Student";
 }
 
+<style>
+/* Base Styles */
+:root {
+ --kodiaks-blue: #6AADE4;
+--coulee-green: #739600;
+--coal-miner-black: #62646C;
+--stone-pipe-grey: #808080;
+--body-background: #F3F3F3;
+    }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--body-background);
+  color: var(--coal-miner-black);
+}
+
+/* Form Header */
+.form-header h4 {
+  color: var(--kodiaks-blue);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Form Field Styling */
+.form-control {
+  border: 1px solid var(--stone-pipe-grey);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--coal-miner-black);
+  background-color: white;
+}
+
+.form-control:focus {
+  border-color: var(--kodiaks-blue);
+  box-shadow: 0 0 0 0.2rem rgba(106, 173, 228, 0.25);
+}
+
+/* Validation Messages */
+.text-danger {
+  color: #d9534f; /* Bootstrap default danger color */
+}
+
+/* Button Styling */
+.btn-outline-success {
+  border-color: var(--coulee-green);
+  color: var(--coulee-green);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--coulee-green);
+  color: white;
+}
+
+.btn-outline-secondary {
+  border-color: var(--stone-pipe-grey);
+  color: var(--coal-miner-black);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--stone-pipe-grey);
+  color: white;
+}
+
+/* Utility Classes */
+.float-right {
+  float: right;
+}
+
+}
+
+</style>
+
 <div class="row">
     <div class="col-md-6 offset-3">
         <p>
