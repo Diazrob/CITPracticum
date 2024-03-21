@@ -36,7 +36,7 @@
             <hr style="width: 100%;">
             <ul class="nav nav-pills flex-column mb-auto card mt-1">
                 <li class="nav-item">
-                    <a href="/Dashboard/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Dashboard" ? "active" : "") link-light" aria-current="page">
+                    <a href="/Dashboard/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Dashboard" ? "active" : "") link-dark" aria-current="page">
                         <i class="fa-solid fa-gauge fa-lg" style="width: 1.5em;"></i>
                         <span>Dashboard</span>
                     </a>
@@ -86,7 +86,7 @@
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="#">Profile</a></li>
                     <form asp-area="" asp-controller="Account" asp-action="Logout">
-                    <li><input type="submit" class="dropdown-item">Sign out</input></li>
+                        <li><input type="submit" class="dropdown-item" value="Sign Out" /></li>
                     </form>
                 </ul>
             </div>

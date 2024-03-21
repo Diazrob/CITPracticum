@@ -3,59 +3,20 @@
 <div class="container">
 
     <!-- Portfolio Item Heading -->
-    <h1 class="=my-4">
-        Students Details Page
+    <h1 class="my-4">
+        Welcome, @Model.FirstName @Model.LastName!
     </h1>
 
     <!-- Porfolio Item Row -->
 
     <div class="row">
-        <div class="col-md-8">
-            <img class="img-fluid" src="https://via.placeholder.com/500x300e" alt="" />
-        </div>
-
         <div class="col-md-4">
-            <h3 class="my3">Hello @Model.FirstName</h3>
-            <p>@Model.StuEmail</p>
-            <h3 class="my-3">User info</h3>
-            <ul>
-                <li>@Model.StuId</li>
-                <li>@Model.FirstName</li>
-                <li>@Model.LastName</li>
-            </ul>
+            <label asp-for="@Model.StuEmail">Email Address:</label>
+            <input type="text" class="form-control mb-3" value="@Model.StuEmail" readonly />
+
+            <label asp-for="@Model.StuId">Student ID:</label>
+            <input type="text" class="form-control" value="@Model.StuId" readonly />
         </div>
-        <!-- /.row-->
-        <!-- Related Projects Row -->
-        <h3 class="my-4">Related Projects</h3>
-
-        <div class="row">
-
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="" />
-                </a>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="" />
-                </a>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="" />
-                </a>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="" />
-                </a>
-            </div>
-        </div>
-        <!-- /.row -->
-        <!-- /.container -->
     </div>
 
 </div>

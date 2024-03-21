@@ -9,8 +9,9 @@ namespace CITPracticum.Controllers
             ViewData["ActivePage"] = "Documents";
             return View();
         }
-
-       
-        
+        public IActionResult CoverLetter()
+        {
+            return View();
+        }
     }
 }

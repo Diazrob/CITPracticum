@@ -23,6 +23,13 @@ namespace CITPracticum.Controllers
             return View(jobPostings);
         }
 
+        public IActionResult Applicants()
+        {
+            ViewData["ActivePage"] = "Jobs";
+
+            return View();
+        }
+
         // goes to a specific job posting page
         public async Task<IActionResult> Detail(int id)
         {
@@ -138,6 +145,28 @@ namespace CITPracticum.Controllers
             }
 
             var jobPosting = await _jobPostingRepository.GetByIdAsync(id.Value);
+            jobPosting.Archived = true;
+            _jobPostingRepository.Update(jobPosting);
+
+            if (jobPosting == null)
+            {
+                return NotFound();
+            }
+
+            return View(jobPosting); // Show the archive confirmation view
+        }
+
+        public async Task<IActionResult> UnArchive(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var jobPosting = await _jobPostingRepository.GetByIdAsync(id.Value);
+            jobPosting.Archived = false;
+            _jobPostingRepository.Update(jobPosting);
+            
             if (jobPosting == null)
             {
                 return NotFound();

@@ -26,6 +26,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="job-posts-tab" data-toggle="tab" href="#job-posts" role="tab" aria-controls="job-posts" aria-selected="true">Job Posts</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="job-posts-tab" data-toggle="tab" href="#job-posts" role="tab" aria-controls="job-posts" aria-selected="true">Archived Posts</a>
+                </li>
                 <!-- Additional tabs can be added here if necessary -->
             </ul>
             <a class="btn btn-primary mt-3" asp-controller="JobPosting" asp-action="Create">Add a Job Posting</a>
@@ -42,19 +45,59 @@
                     <div class="col-md-6 col-lg-4 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h5 class="card-title">@item.JobTitle</h5>
-                                <p class="card-text">@item.JobDescription</p>
-                                <h6 class="card-subtitle mb-2 text-muted">@item.Company</h6>
-                                <h6 class="card-subtitle mb-2 text-muted">@item.Location</h6>
-                                <h6>Deadline: @item.Deadline</h6>
-                                <h6 class="card-subtitle mb-2 text-muted">@item.PaymentCategory</h6>
-                                <a href="@item.Link" target="_blank" class="card-link">More Info</a>
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Job Title:</h6>
+                                    <p class="card-text">@item.JobTitle</p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Job Description:</h6>
+                                    <p class="card-text">
+                                        @if (item.JobDescription.Length > 100)
+                                        {
+                                            @Html.Raw(item.JobDescription.Substring(0, 250) + "...")
+                                        }
+                                        else
+                                        {
+                                            @item.JobDescription
+                                        }
+                                    </p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Company:</h6>
+                                    <p class="card-text">@item.Company</p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Location:</h6>
+                                    <p class="card-text">@item.Location</p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Application Deadline:</h6>
+                                    <p class="card-text">@item.Deadline</p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Payment Category:</h6>
+                                    <p class="card-text">@item.PaymentCategory</p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">More Info:</h6>
+                                    <p class="card-text">
+                                        <a href="@item.Link" target="_blank" class="card-link">@item.Link</a>
+                                    </p>
+                                </div>
                             </div>
+
                             <div class="card-footer">
-                                <a class="btn btn-primary" asp-controller="JobPosting" asp-action="Details" asp-route-id="@item.Id">View</a>
+                                <a class="btn btn-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
                                 <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                 <a class="btn btn-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                 <a class="btn btn-warning" asp-controller="JobPosting" asp-action="Archive" asp-route-id="@item.Id">Archive</a>
+                                <a class="btn btn-link" asp-controller="JobPosting" asp-action="Applicants" asp-route-id="@item.Id">Applicants</a>
                             </div>
                         </div>
                     </div>

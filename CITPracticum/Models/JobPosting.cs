@@ -14,5 +14,7 @@ namespace CITPracticum.Models
         public PaymentCategory PaymentCategory { get; set; }
         public string Location { get; set; }
         public string Link { get; set; }
+        public List<Student> Applicants { get; set; }
+        public bool Archived { get; set; }
     }
 }
