@@ -1,4 +1,5 @@
-﻿using CITPracticum.Interfaces;
+﻿using CITPracticum.Data.Migrations;
+using CITPracticum.Interfaces;
 using CITPracticum.Models;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +24,22 @@ namespace CITPracticum.Controllers
             return View(jobPostings);
         }
 
-        public IActionResult Applicants()
+        public async Task<IActionResult> Applicants(int id)
         {
             ViewData["ActivePage"] = "Jobs";
 
-            return View();
+            JobPosting jobPosting = await _jobPostingRepository.GetByIdAsync(id);
+            return View(jobPosting);
+        }
+        public async Task<IActionResult> ArchivedPosts(int id)
+        {
+            ViewData["ActivePage"] = "Jobs";
+
+            IEnumerable<JobPosting> allJobPostings = await _jobPostingRepository.GetAll();
+            IEnumerable<JobPosting> archivedJobPostings = allJobPostings
+                .Where(jp => jp.Archived);
+
+            return View(archivedJobPostings);
         }
 
         // goes to a specific job posting page
@@ -172,7 +184,7 @@ namespace CITPracticum.Controllers
                 return NotFound();
             }
 
-            return View(jobPosting); // Show the archive confirmation view
+            return RedirectToAction("ArchivedPosts", "JobPosting");
         }
 
     }

@@ -20,18 +20,16 @@
 <section class="py-5 text-center container">
     <div class="row py-lg-2">
         <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Job Postings</h1>
-            <div class="title-underline"></div> <!-- Blue underline element -->
+            <h1 class="fw-light">Archived Job Postings</h1>
+            <div class="title-underline"></div>
             <ul class="nav nav-tabs justify-content-center mt-3" id="jobTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="job-posts-tab" data-toggle="tab" href="/JobPosting/Index" role="tab" aria-controls="job-posts" aria-selected="true">Job Posts</a>
+                    <a class="nav-link" id="job-posts-tab" data-toggle="tab" href="/JobPosting/Index" role="tab" aria-controls="job-posts" aria-selected="true">Job Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="job-posts-tab" data-toggle="tab" href="/JobPosting/ArchivedPosts" role="tab" aria-controls="job-posts" aria-selected="true">Archived Posts</a>
+                    <a class="nav-link active" id="job-posts-tab" data-toggle="tab" href="/JobPosting/ArchivedPosts" role="tab" aria-controls="job-posts" aria-selected="true">Archived Posts</a>
                 </li>
-                <!-- Additional tabs can be added here if necessary -->
             </ul>
-            <a class="btn btn-primary mt-3" asp-controller="JobPosting" asp-action="Create">Add a Job Posting</a>
         </div>
     </div>
 </section>
@@ -42,7 +40,7 @@
             <div class="row">
                 @foreach (var item in Model)
                 {
-                    @if (!item.Archived)
+                    if (item.Archived)
                     {
                         <div class="col-md-6 col-lg-4 mb-3">
                             <div class="card h-100">
@@ -98,8 +96,7 @@
                                     <a class="btn btn-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
                                     <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                     <a class="btn btn-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                    <a class="btn btn-warning" asp-controller="JobPosting" asp-action="Archive" asp-route-id="@item.Id">Archive</a>
-                                    <a class="btn btn-link" asp-controller="JobPosting" asp-action="Applicants" asp-route-id="@item.Id">Applicants</a>
+                                    <a class="btn btn-warning" asp-controller="JobPosting" asp-action="UnArchive" asp-route-id="@item.Id">Restore</a>
                                 </div>
                             </div>
                         </div>
