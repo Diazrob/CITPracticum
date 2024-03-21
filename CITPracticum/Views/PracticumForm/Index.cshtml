@@ -51,7 +51,6 @@
 
 </style>
 
-<div class="container mt-5">
     <!-- Tab navigation with button -->
     <ul class="nav nav-tabs mb-3" role="tablist">
         <li class="nav-item">
@@ -67,9 +66,23 @@
         </li>
     </ul>
 
+    @if (User.IsInRole("admin") || User.IsInRole("student"))
+    {
+        <div class="card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formFOIPModal">
+            <div class="card-body">
+                Form FOIP - Student Release
+            </div>
+        </div>
+
+        <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formIDModal">
+            <div class="card-body">
+                Form ID - Student Information
+            </div>
+        </div>
+    }
 
     <!-- List of Forms as Cards -->
-    <div class="card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formAModal">
+    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formAModal">
         <div class="card-body">
             Form A - Host Information
         </div>
@@ -77,41 +90,31 @@
 
     <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formBModal">
         <div class="card-body">
-            Form B - Practicum Agreement-24WN
+            Form B - Practicum Agreement
         </div>
     </div>
 
     <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formCModal">
         <div class="card-body">
-            Form C (100 hours) - Practicum Evaluation-24WN
+            Form C - Practicum Evaluation (100 hours)
         </div>
     </div>
 
     <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formDModal">
         <div class="card-body">
-            Form D (200 hours) - Practicum Evaluation-24WN
+            Form D - Practicum Evaluation (200 hours)
         </div>
     </div>
 
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formFOIPModal">
-        <div class="card-body">
-            Form FOIP - Student Release-24WN
+    @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.
+    {
+        <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formExitModal">
+            <div class="card-body">
+                Exit Interview
+            </div>
         </div>
-    </div>
+    }
 
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formIDModal">
-        <div class="card-body">
-            Form ID - Student Information-24WN
-        </div>
-    </div>
-
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formExitModal">
-        <div class="card-body">
-            Exit Interview
-        </div>
-    </div>
-
-</div>
 
 <!-- Form A Modal -->
 <div class="modal fade" id="formAModal" tabindex="-1" aria-labelledby="formAModalLabel" aria-hidden="true">
@@ -247,6 +250,19 @@
                                         <option>--Select--</option>
                                     </select>
                                     <span asp-validation-for="FormA.PaymentCategory" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-5">
+                                <div class="form-check form-check-inline px-0">
+                                    <label for="workOutsideCountry" class="form-label">Will you be working outside of the country?</label>
+                                    <select id="workOutsideCountry" name="workOutsideCountry" class="form-control">
+                                        <option value="">--Select--</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <span class="text-danger"></span>
                                 </div>
                             </div>
                         </div>

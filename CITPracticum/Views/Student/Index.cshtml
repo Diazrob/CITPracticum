@@ -1,64 +1,85 @@
 ﻿@model IEnumerable<AppUser>
 
-<section class="py-5 text-center container">
-    <div class="row py-lg-2">
-        <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Students List</h1>
+<style>
+    /* Custom styles for the navigation tabs */
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background-color: #ffffff; /* Active tab background color */
+        color: #3431f4; /* Active tab text color */
+        border-color: #dee2e6 #dee2e6 #fff; /* Borders around the active tab */
+        border-radius: 0.25rem; /* Rounded corners on the top */
+    }
 
-                <a class="btn btn-primary" asp-controller="Student" asp-action="Register">Add Student</a>
-            </p>
-        </div>
-    </div>
-</section>
+    .nav-link {
+        color: #007bff; /* Non-active tab text color */
+        margin-right: 2px; /* Spacing between tabs */
+        border: 1px solid transparent; /* Transparent border for non-active tabs */
+        border-radius: 0.25rem; /* Rounded corners on the top */
+    }
 
+    .nav-tabs {
+        border-bottom: 1px solid #dee2e6; /* Bottom border for the whole nav */
+    }
 
-<div class="album py-5 bg-body-tertiary">
-    <div class="container">
-      
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        /* Styles to align the button with the tab items */
+        .nav-tabs .nav-item:last-child {
+            margin-left: auto; /* Push the button to the right */
+        }
+</style>
 
-            <table class="table table-striped table-hover">
-                <thead>
+<!-- Tab navigation with button -->
+<ul class="nav nav-tabs mb-3" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" href="/Student/Index">Students</a>
+    </li>
+    <!-- This is where the 'Create Form' button is placed -->
+    <li class="nav-item" role="presentation">
+        <a class="btn btn-primary" asp-controller="Student" asp-action="Register"><i class="fa-solid fa-plus"></i> Add Student</a>
+    </li>
+</ul>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Student Id</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                @if (item.Student != null)
+                {
+
                     <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Student Id</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th scope="row"><img class="img-fluid" src="https://placehold.jp/30x30.png" alt="" /></th>
+                        <td>@item.Student.FirstName @item.Student.LastName</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                        <td>@item.Student.StuId</td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-primary" asp-controller="Student" asp-action="Detail" asp-route-id="@item.Student.Id">View</a>
+                            <a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Edit" asp-route-id="@item.Student.Id">Edit</a>
+                            <a class="btn btn-sm btn-outline-danger" asp-controller="Student" asp-action="Delete" asp-route-email="@item.Email" asp-route-id="@item.Student.Id">Delete</a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        @if(item.Student != null)
-                        {
 
-                            <tr>
-                                <th scope="row"><img class="img-fluid" src="https://placehold.jp/30x30.png" alt="" /></th>
-                                <td>@item.Student.FirstName @item.Student.LastName</td>
-                                <td>@item.UserName</td>
-                                <td>@item.Email</td>
-                                <td>@item.Student.StuId</td>
-                                <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Detail" asp-route-id="@item.Student.Id">View</a></td>
-                                <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Edit" asp-route-id="@item.Student.Id">Edit</a></td>
-                                <td><a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Delete" asp-route-email="@item.Email" asp-route-id="@item.Student.Id">Delete</a></td>
-                            </tr>
-                             
-                        } else
-                        {
-                            <div class="col-lg-6 col-md-8 mx-auto">
-                                <h1>There are no Students listed.</h1>
-                            </div>
-                            break;
-                       
-                         }
-                     }
+                }
+                else
+                {
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <h1>There are no Students listed.</h1>
+                    </div>
+                    break;
 
-                </tbody>
-            </table>
-        </div>
-    </div>
+                }
+            }
+
+        </tbody>
+    </table>
 </div>

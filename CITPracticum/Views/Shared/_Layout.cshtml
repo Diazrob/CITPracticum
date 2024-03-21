@@ -41,7 +41,7 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                @if(User.IsInRole("admin"))
+                @if (User.IsInRole("admin"))
                 {
                     <li>
                         <a href="/Student/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Student" ? "active" : "") link-dark">
@@ -57,7 +57,7 @@
                     </li>
                 }
 
-                
+
                 <li>
                     <a href="/JobPosting/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Jobs" ? "active" : "") link-dark">
                         <i class="fa-solid fa-clipboard fa-lg" style="width: 1.5em;"></i>
@@ -76,7 +76,7 @@
                         <span>Time Sheets</span>
                     </a>
                 </li>
-                @if(User.IsInRole("admin") || User.IsInRole("Student"))
+                @if (User.IsInRole("admin") || User.IsInRole("student"))
                 {
                     <li>
                         <a href="/Documents/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Documents" ? "active" : "") link-dark">
@@ -85,7 +85,7 @@
                         </a>
                     </li>
                 }
-                
+
             </ul>
             <hr style="width: 100%;">
             <div class="dropdown">
@@ -93,9 +93,9 @@
                     <i class="fa-solid fa-gear fa-lg pe-1"></i><strong>Settings</strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="/Student/Detail?email=@User.Identity.">Profile</a></li>
                     <form asp-area="" asp-controller="Account" asp-action="Logout">
-                        <li><input type="submit" class="dropdown-item" value="Sign Out" /></li>
+                    <li><input type="submit" class="dropdown-item" value="Sign Out" /></li>
                     </form>
                 </ul>
             </div>
@@ -103,9 +103,11 @@
 
         <!-- Main content -->
         <div class="main-content">
-            <main>
-                @RenderBody()
-            </main>
+            <div class="container mt-5">
+                <main>
+                    @RenderBody()
+                </main>
+            </div>
         </div>
 
     </div>

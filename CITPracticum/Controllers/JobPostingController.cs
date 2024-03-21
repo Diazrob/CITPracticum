@@ -77,6 +77,15 @@ namespace CITPracticum.Controllers
             return View(jobPostingVM);
         }
 
+        public async Task<IActionResult> ConfirmArchive(int id)
+        {
+            ViewData["ActivePage"] = "Jobs";
+
+            var post = await _jobPostingRepository.GetByIdAsync(id);
+
+            return View(post);
+        }
+
         // edit a job post
         public async Task<IActionResult> Edit(int id)
         {
@@ -165,7 +174,7 @@ namespace CITPracticum.Controllers
                 return NotFound();
             }
 
-            return View(jobPosting); // Show the archive confirmation view
+            return RedirectToAction("Index", "JobPosting"); // Show the archive confirmation view
         }
 
         public async Task<IActionResult> UnArchive(int? id)

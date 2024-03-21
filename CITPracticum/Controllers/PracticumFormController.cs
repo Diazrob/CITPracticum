@@ -15,16 +15,19 @@ namespace CITPracticum.Controllers
             _practicumFormsRepository = practicumFormsRepository;
         }
         public IActionResult Index()
-        {   
+        {
+            ViewData["ActivePage"] = "PracForms";
             return View();
         }
 
         public IActionResult EmployerSubmittedForms()
         {
+            ViewData["ActivePage"] = "PracForms";
             return View();
         }
         public IActionResult StudentSubmittedForms()
         {
+            ViewData["ActivePage"] = "PracForms";
             return View();
         }
 

@@ -98,174 +98,62 @@
 
 </style>
 
-<!-- Tab navigation with button -->
-<ul class="nav nav-tabs mb-3" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link" href="/Timesheet/Index">Timesheets</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active">Time Entry</a>
-    </li>
-    <!-- This is where the 'Create Form' button is placed -->
-    <li class="nav-item" role="presentation">
-        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
-    </li>
-</ul>
+    <!-- Tab navigation with button -->
+    <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" href="/Timesheet/Index">Timesheets</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active">Time Entries</a>
+        </li>
+        <!-- This is where the 'Create Form' button is placed -->
+        <li class="nav-item" role="presentation">
+            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
+        </li>
+    </ul>
 
 
-<!-- Select All Checkbox -->
-<div class="mb-2 d-flex justify-content-between align-items-center">
-    <h2>Name Placeholder</h2>
-    <div>
-        <input type="checkbox" id="select-all" class="form-check-input me-2">
-        <label for="select-all" class="form-check-label">Select All</label>
+    <!-- Select All Checkbox -->
+    <div class="mb-2 d-flex justify-content-between align-items-center">
+        <h2>Name Placeholder</h2>
+        <div>
+            <input type="checkbox" id="select-all" class="form-check-input me-2">
+            <label for="select-all" class="form-check-label">Select All</label>
+        </div>
     </div>
-</div>
 
-<!-- Accordion -->
-<div class="accordion" id="timesheetAccordion">
-    <!-- Accordion Item 1 -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                Date Range 1
-            </button>
-            <input type="checkbox" class="form-check-input me-2" />
-        </h2>
-        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#timesheetAccordion">
-            <div class="accordion-body">
-                <!-- Timesheet information table -->
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Hours</th>
-                            <th>Comments</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2024-02-26</td>
-                            <td>8:00am - 2:30pm</td>
-                            <td>Most of the day I was on the phone with customers troubleshooting</td>
-                            <td>
-                                <!-- Include an edit link if needed -->
-                                <a href="#" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#editTimesheetModal" data-entry-id="1">Edit</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2024-02-26</td>
-                            <td>8:00am - 2:30pm</td>
-                            <td>Most of the day I was on the phone with customers troubleshooting</td>
-                            <td>
-                                <!-- Include an edit link if needed -->
-                                <a href="#" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#editTimesheetModal" data-entry-id="1">Edit</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2024-02-26</td>
-                            <td>8:00am - 2:30pm</td>
-                            <td>Most of the day I was on the phone with customers troubleshooting</td>
-                            <td>
-                                <!-- Include an edit link if needed -->
-                                <a href="#" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#editTimesheetModal" data-entry-id="1">Edit</a>
-                            </td>
-                        </tr>
-                        <!-- Add more rows as needed for each timesheet entry -->
-                    </tbody>
-                </table>
+    <!-- Modal -->
+    <div class="modal fade" id="editTimesheetModal" tabindex="-1" aria-labelledby="editTimesheetModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTimesheetModalLabel">Edit Timesheet Entry</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form to edit timesheet entry -->
+                    <form id="editTimesheetForm">
+                        <div class="mb-3">
+                            <label for="editDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="editDate">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editHours" class="form-label">Hours</label>
+                            <input type="text" class="form-control" id="editHours">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editComments" class="form-label">Work Description</label>
+                            <textarea class="form-control" id="editComments"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveEdit">Save changes</button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingTwo">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Date Range 2
-            </button>
-            <input type="checkbox" class="form-check-input me-2" onclick="event.stopPropagation();">
-        </h2>
-        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#timesheetAccordion">
-            <div class="accordion-body">
-                <!-- Timesheet information table -->
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Hours</th>
-                            <th>Comments</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2024-02-26</td>
-                            <td>8:00am - 2:30pm</td>
-                            <td>Most of the day I was on the phTwo with customers troubleshooting</td>
-                            <td>
-                                <!-- Include an edit link if needed -->
-                                <a href="#" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#editTimesheetModal" data-entry-id="1">Edit</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2024-02-26</td>
-                            <td>8:00am - 2:30pm</td>
-                            <td>Most of the day I was on the phTwo with customers troubleshooting</td>
-                            <td>
-                                <!-- Include an edit link if needed -->
-                                <a href="#" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#editTimesheetModal" data-entry-id="1">Edit</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2024-02-26</td>
-                            <td>8:00am - 2:30pm</td>
-                            <td>Most of the day I was on the phTwo with customers troubleshooting</td>
-                            <td>
-                                <!-- Include an edit link if needed -->
-                                <a href="#" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#editTimesheetModal" data-entry-id="1">Edit</a>
-                            </td>
-                        </tr>
-                        <!-- Add more rows as needed for each timesheet entry -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <!-- Add more accordion items as needed -->
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="editTimesheetModal" tabindex="-1" aria-labelledby="editTimesheetModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editTimesheetModalLabel">Edit Timesheet Entry</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Form to edit timesheet entry -->
-                <form id="editTimesheetForm">
-                    <div class="mb-3">
-                        <label for="editDate" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="editDate">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editHours" class="form-label">Hours</label>
-                        <input type="text" class="form-control" id="editHours">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editComments" class="form-label">Comments</label>
-                        <textarea class="form-control" id="editComments"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveEdit">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <!-- Modal -->
@@ -288,16 +176,16 @@
 </div>
 
 <script>
-        // JavaScript for 'Select All' functionality
-        document.addEventListener('DOMContentLoaded', function () {
-            const selectAllCheckbox = document.getElementById('select-all');
-            selectAllCheckbox.addEventListener('change', function () {
-                // Use the .accordion-item class to target all checkboxes within each accordion item
-                const checkboxes = document.querySelectorAll('#timesheetAccordion .accordion-item .form-check-input');
-                checkboxes.forEach(function (checkbox) {
-                    // The .stopPropagation() method should be called on the click event, not here
-                    checkbox.checked = selectAllCheckbox.checked;
-                });
+    // JavaScript for 'Select All' functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectAllCheckbox = document.getElementById('select-all');
+        selectAllCheckbox.addEventListener('change', function () {
+            // Use the .accordion-item class to target all checkboxes within each accordion item
+            const checkboxes = document.querySelectorAll('#timesheetAccordion .accordion-item .form-check-input');
+            checkboxes.forEach(function (checkbox) {
+                // The .stopPropagation() method should be called on the click event, not here
+                checkbox.checked = selectAllCheckbox.checked;
             });
         });
+    });
 </script>

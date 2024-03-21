@@ -1,83 +1,258 @@
 ﻿@model IEnumerable<AppUser>
 
-<!-- ... Your existing style definitions ... -->
+<style>
+    .nav-tabs {
+        border-bottom: 1px solid #ddd;
+    }
 
-<div class="container mt-5">
-    <!-- ... Your existing navigation tabs ... -->
-    <style>
-        .nav-tabs {
-            border-bottom: 1px solid #ddd;
+    h1 {
+        color: #005157; /* Ammolite */
+    }
+
+    .btn-primary {
+        background-color: #739600; /* Coulee Green */
+        border-color: #739600; /* Coulee Green */
+    }
+
+        .btn-primary:hover {
+            background-color: #567d00; /* A darker shade of Coulee Green */
+            border-color: #567d00; /* A darker shade of Coulee Green */
         }
 
-        h1 {
-            color: #005157; /* Ammolite */
-        }
+    /* Styles to align the button with the tab items */
+    .nav-tabs .nav-item:last-child {
+        margin-left: auto; /* Push the button to the right */
+    }
 
-        .btn-primary {
-            background-color: #739600; /* Coulee Green */
-            border-color: #739600; /* Coulee Green */
-        }
+    .select-all {
+        text-align: right; /* Aligns the 'Select All' checkbox to the right */
+        padding-right: 1rem; /* Adds some padding on the right */
+    }
+    /* Ensures the first column uses most of the table's width */
+    .table .name-column {
+        width: 40%;
+    }
+    /* Ensures the form column does not take up much space */
+    .table .form-column {
+        width: 15%;
+    }
+</style>
 
-            .btn-primary:hover {
-                background-color: #567d00; /* A darker shade of Coulee Green */
-                border-color: #567d00; /* A darker shade of Coulee Green */
-            }
-        /* Add more custom styles as needed */
-    </style>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="/Documents/Index">Resume</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/Documents/CoverLetter">Cover Letter</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
+    </li>
+</ul>
 
+<!-- Content for the Resume page -->
+<div class="container mt-4">
+    @if (User.IsInRole("student"))
+    {
+        <h3 class="my-1">Cover Letter</h3>
+        <form>
+            <!-- Question 1: Most Preferred Job Preference -->
+            <fieldset class="mb-3">
+                <legend>1. What is your most preferred Job preference?</legend>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="mostPreferred[]" id="networking1" value="Networking">
+                    <label class="form-check-label" for="networking1">Networking</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="mostPreferred[]" id="coding1" value="Coding">
+                    <label class="form-check-label" for="coding1">Coding</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="mostPreferred[]" id="hardware1" value="Hardware">
+                    <label class="form-check-label" for="hardware1">Hardware</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="mostPreferred[]" id="others1" value="Others">
+                    <label class="form-check-label" for="others1">Others</label>
+                </div>
+            </fieldset>
 
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="/Documents/Index">Resume</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="/Documents/CoverLetter">Cover Letter</a>
-        </li>
-        <li></li>
-    </ul>
+            <!-- Question 2: Second Most Preferred Job Preference -->
+            <fieldset class="mb-3">
+                <legend>2. What is your second most preferred Job preference?</legend>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="secondPreferred[]" id="networking2" value="Networking">
+                    <label class="form-check-label" for="networking2">Networking</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="secondPreferred[]" id="coding2" value="Coding">
+                    <label class="form-check-label" for="coding2">Coding</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="secondPreferred[]" id="hardware2" value="Hardware">
+                    <label class="form-check-label" for="hardware2">Hardware</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="secondPreferred[]" id="others2" value="Others">
+                    <label class="form-check-label" for="others2">Others</label>
+                </div>
+            </fieldset>
 
-    <!-- Content for the Resume page -->
-    <div class="container mt-4">
-        <h1 class="my-4">Students List</h1>
+            <!-- Question 3: Least Desired Job Preference -->
+            <fieldset class="mb-3">
+                <legend>3. What is your least desired Job preference?</legend>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="leastPreferred[]" id="networking3" value="Networking">
+                    <label class="form-check-label" for="networking3">Networking</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="leastPreferred[]" id="coding3" value="Coding">
+                    <label class="form-check-label" for="coding3">Coding</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="leastPreferred[]" id="hardware3" value="Hardware">
+                    <label class="form-check-label" for="hardware3">Hardware</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="leastPreferred[]" id="others3" value="Others">
+                    <label class="form-check-label" for="others3">Others</label>
+                </div>
+            </fieldset>
 
-        <!-- Batch upload button -->
-        <form asp-controller="Student" asp-action="BatchUploadPdf" method="post" enctype="multipart/form-data">
-            <input type="file" name="pdfFiles" multiple />
-            <button type="submit" class="btn btn-primary">Upload Files</button>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-
-        <!-- Download all button -->
-        <a class="btn btn-secondary" href="@Url.Action("DownloadAllPdfs")" role="button">Download All</a>
-
-        <!-- Students table with select all feature -->
+    }
+    else if (User.IsInRole("admin"))
+    {
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col"><input type="checkbox" id="selectAll" /></th> <!-- Checkbox to select all -->
-                    <th scope="col">Student Name</th>
-                    <th scope="col">Individual Upload PDF</th>
-                    <th scope="col">Individual Download</th>
+                    <th class="name-column">Name</th>
+                    <th class="view-column">Preferred</th>
+                    <th class="view-column">Neutral</th>
+                    <th class="view-column">Avoid</th>
+                    <th class="checkbox-column">
+                        <div class="select-all-container" style="width: 100%;">
+                            <label for="select-all" class="select-all-label">Select All</label>
+                            <input type="checkbox" id="select-all" class="form-check-input">
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                @* @foreach (var item in Model)*@
-                {
                 <tr>
-                    <td><input type="checkbox" name="selectedStudents" value="item ID" /></td> <!-- Checkbox for each student -->
-                    <td>First Name & LastName</td>
+                    <td>William Garcia</td>
                     <td>
-                        <form asp-controller="Student" asp-action="UploadPdf" method="post" enctype="multipart/form-data">
-                            <input type="file" name="pdfFile" />
-                            <input type="hidden" name="studentId" value="ITEM Id" />
-                            <button type="submit" class="btn btn-primary">Upload</button>
-                        </form>
+                        Networking, Coding
                     </td>
                     <td>
-                        <a class="btn btn-secondary" href="@Url.Action("DownloadPdf" )" role="button">Download</a>
+                        N/A
                     </td>
+                    <td>
+                        Hardware
+                    </td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input"></td>
                 </tr>
-                @*}*@
+                <tr>
+                    <td>Sophia Martinez</td>
+                    <td>
+                        Networking, Coding
+                    </td>
+                    <td>
+                        N/A
+                    </td>
+                    <td>
+                        Hardware
+                    </td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                </tr>
+                <tr>
+                    <td>James Wilson</td>
+                    <td>
+                        Networking, Coding
+                    </td>
+                    <td>
+                        N/A
+                    </td>
+                    <td>
+                        Hardware
+                    </td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                </tr>
+                <tr>
+                    <td>Isabella Miller</td>
+                    <td>
+                        Networking, Coding
+                    </td>
+                    <td>
+                        N/A
+                    </td>
+                    <td>
+                        Hardware
+                    </td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                </tr>
+                <tr>
+                    <td>Oliver Taylor</td>
+                    <td>
+                        Networking, Coding
+                    </td>
+                    <td>
+                        N/A
+                    </td>
+                    <td>
+                        Hardware
+                    </td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                </tr>
             </tbody>
         </table>
+    }
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the selected items?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('select-all').addEventListener('change', function (event) {
+            const checkboxes = document.querySelectorAll('.table .form-check-input');
+            const isChecked = event.target.checked;
+
+            checkboxes.forEach(function (checkbox) {
+                // Skip the 'Select All' checkbox to avoid recursive checking
+                if (checkbox !== event.target) {
+                    checkbox.checked = isChecked;
+                }
+            });
+        });
+    });
+
+    // Function to delete selected rows
+    function deleteSelected() {
+        const checkboxes = document.querySelectorAll('.table tbody .form-check-input');
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                // Assuming each checkbox is in a row that should be deleted
+                checkbox.closest('tr').remove();
+            }
+        });
+    }
+</script>
