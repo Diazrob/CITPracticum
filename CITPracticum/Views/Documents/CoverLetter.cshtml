@@ -1,176 +1,83 @@
-﻿<style>
-    /* Additional styling to ensure the layout matches the screenshot provided */
-    .table th, .table td {
-        vertical-align: middle;
-    }
+﻿@model IEnumerable<AppUser>
 
-    .view-btn {
-        padding: 0.375rem 0.75rem; /* Same padding as standard Bootstrap buttons */
-    }
+<!-- ... Your existing style definitions ... -->
 
-    /* Styles for the 'Delete' button and 'Select All' checkbox */
-    .delete-button-container {
-        text-align: right;
-        padding-bottom: 1rem; /* Adds space below the 'Delete' button */
-    }
+<div class="container mt-5">
+    <!-- ... Your existing navigation tabs ... -->
+    <style>
+        .nav-tabs {
+            border-bottom: 1px solid #ddd;
+        }
 
-    .select-all-container {
-        display: flex;
-        justify-content: flex-end; /* Aligns content to the right side of the cell */
-        align-items: center; /* Centers items vertically */
-    }
+        h1 {
+            color: #005157; /* Ammolite */
+        }
 
-    .select-all-label {
-        margin-right: 0.5rem; /* Adds space between the label and the checkbox */
-        white-space: nowrap; /* Prevents wrapping to a new line */
-    }
+        .btn-primary {
+            background-color: #739600; /* Coulee Green */
+            border-color: #739600; /* Coulee Green */
+        }
 
-    /* Styles to align the button with the tab items */
-    .nav-tabs .nav-item:last-child {
-        margin-left: auto; /* Push the button to the right */
-    }
+            .btn-primary:hover {
+                background-color: #567d00; /* A darker shade of Coulee Green */
+                border-color: #567d00; /* A darker shade of Coulee Green */
+            }
+        /* Add more custom styles as needed */
+    </style>
 
-    .select-all {
-        text-align: right; /* Aligns the 'Select All' checkbox to the right */
-        padding-right: 1rem; /* Adds some padding on the right */
-    }
-    /* Ensures the first column uses most of the table's width */
-    .table .name-column {
-        width: 70%;
-    }
-    /* Ensures the form column does not take up much space */
-    .table .form-column {
-        width: 15%;
-    }
-    /* Adjust checkbox and view columns width */
-    .table .checkbox-column, .table .view-column {
-        width: 7.5%;
-    }
-</style>
 
-<!-- Tab navigation with button -->
-<ul class="nav nav-tabs mb-3" role="tablist">
-    <li class="nav-item">
-        <a href="/Documents/Index" class="nav-link">Resume</a>
-    </li>
-    <li class="nav-item">
-        <a href="/Documents/CoverLetter" class="nav-link active">Cover Letter</a>
-    </li>
-    <!-- This is where the 'Create Form' button is placed -->
-    <li class="nav-item" role="presentation">
-        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
-    </li>
-</ul>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th class="name-column">Name</th>
-            <th class="view-column">View</th>
-            <th class="checkbox-column">
-                <div class="select-all-container">
-                    <label for="select-all" class="select-all-label">Select All</label>
-                    <input type="checkbox" id="select-all" class="form-check-input">
-                </div>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>William Garcia</td>
-            <td>
-                <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-            </td>
-            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-        </tr>
-        <tr>
-            <td>Sophia Martinez</td>
-            <td>
-                <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-            </td>
-            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-        </tr>
-        <tr>
-            <td>James Wilson</td>
-            <td>
-                <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-            </td>
-            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-        </tr>
-        <tr>
-            <td>Isabella Miller</td>
-            <td>
-                <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-            </td>
-            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-        </tr>
-        <tr>
-            <td>Oliver Taylor</td>
-            <td>
-                <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-            </td>
-            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-        </tr>
-    </tbody>
-</table>
-
-<!-- Pagination -->
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="/Documents/Index">Resume</a>
         </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">Next</a>
+        <li class="nav-item">
+            <a class="nav-link active" href="/Documents/CoverLetter">Cover Letter</a>
         </li>
+        <li></li>
     </ul>
-</nav>
 
-<!-- Modal -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete the selected items?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
-            </div>
-        </div>
+    <!-- Content for the Resume page -->
+    <div class="container mt-4">
+        <h1 class="my-4">Students List</h1>
+
+        <!-- Batch upload button -->
+        <form asp-controller="Student" asp-action="BatchUploadPdf" method="post" enctype="multipart/form-data">
+            <input type="file" name="pdfFiles" multiple />
+            <button type="submit" class="btn btn-primary">Upload Files</button>
+        </form>
+
+        <!-- Download all button -->
+        <a class="btn btn-secondary" href="@Url.Action("DownloadAllPdfs")" role="button">Download All</a>
+
+        <!-- Students table with select all feature -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox" id="selectAll" /></th> <!-- Checkbox to select all -->
+                    <th scope="col">Student Name</th>
+                    <th scope="col">Individual Upload PDF</th>
+                    <th scope="col">Individual Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                @* @foreach (var item in Model)*@
+                {
+                <tr>
+                    <td><input type="checkbox" name="selectedStudents" value="item ID" /></td> <!-- Checkbox for each student -->
+                    <td>First Name & LastName</td>
+                    <td>
+                        <form asp-controller="Student" asp-action="UploadPdf" method="post" enctype="multipart/form-data">
+                            <input type="file" name="pdfFile" />
+                            <input type="hidden" name="studentId" value="ITEM Id" />
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary" href="@Url.Action("DownloadPdf" )" role="button">Download</a>
+                    </td>
+                </tr>
+                @*}*@
+            </tbody>
+        </table>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('select-all').addEventListener('change', function (event) {
-            const checkboxes = document.querySelectorAll('.table .form-check-input');
-            const isChecked = event.target.checked;
-
-            checkboxes.forEach(function (checkbox) {
-                // Skip the 'Select All' checkbox to avoid recursive checking
-                if (checkbox !== event.target) {
-                    checkbox.checked = isChecked;
-                }
-            });
-        });
-    });
-
-    // Function to delete selected rows
-    function deleteSelected() {
-        const checkboxes = document.querySelectorAll('.table tbody .form-check-input');
-        checkboxes.forEach(function (checkbox) {
-            if (checkbox.checked) {
-                // Assuming each checkbox is in a row that should be deleted
-                checkbox.closest('tr').remove();
-            }
-        });
-    }
-</script>
