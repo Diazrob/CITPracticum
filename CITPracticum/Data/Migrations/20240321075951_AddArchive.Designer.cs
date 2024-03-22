@@ -4,6 +4,7 @@ using CITPracticum.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CITPracticum.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240321075951_AddArchive")]
+    partial class AddArchive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -831,21 +833,27 @@ namespace CITPracticum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("DocumentId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("EmployerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("JobPostingId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("PracticumFormsId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("StudentId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("TimesheetId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1171,27 +1179,39 @@ namespace CITPracticum.Data.Migrations
                 {
                     b.HasOne("CITPracticum.Models.Document", "Document")
                         .WithMany()
-                        .HasForeignKey("DocumentId");
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CITPracticum.Models.Employer", "Employer")
                         .WithMany()
-                        .HasForeignKey("EmployerId");
+                        .HasForeignKey("EmployerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CITPracticum.Models.JobPosting", "JobPosting")
                         .WithMany()
-                        .HasForeignKey("JobPostingId");
+                        .HasForeignKey("JobPostingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CITPracticum.Models.PracticumForms", "PracticumForms")
                         .WithMany()
-                        .HasForeignKey("PracticumFormsId");
+                        .HasForeignKey("PracticumFormsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CITPracticum.Models.Student", "Student")
                         .WithMany()
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CITPracticum.Models.Timesheet", "Timesheet")
                         .WithMany()
-                        .HasForeignKey("TimesheetId");
+                        .HasForeignKey("TimesheetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Document");
 

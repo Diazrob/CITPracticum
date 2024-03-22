@@ -53,10 +53,12 @@ namespace CITPracticum.Controllers
 
         public IActionResult EmployerSubmittedForms()
         {
+            ViewData["ActivePage"] = "PracForms";
             return View();
         }
         public IActionResult StudentSubmittedForms()
         {
+            ViewData["ActivePage"] = "PracForms";
             return View();
         }
 

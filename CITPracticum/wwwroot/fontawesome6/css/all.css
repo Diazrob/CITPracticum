@@ -1514,7 +1514,7 @@ readers do not read off random characters that represent icons */
 .fa-staff-aesculapius::before {
   content: "\e579"; }
 
-.fa-head-side-cough-slash::before {
+.fa--side-cough-slash::before {
   content: "\e062"; }
 
 .fa-truck-medical::before {

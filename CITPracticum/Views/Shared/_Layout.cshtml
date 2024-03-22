@@ -36,7 +36,7 @@
             <hr style="width: 100%;">
             <ul class="nav nav-pills flex-column mb-auto card mt-1">
                 <li class="nav-item">
-                    <a href="/Dashboard/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Dashboard" ? "active" : "") link-light" aria-current="page">
+                    <a href="/Dashboard/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Dashboard" ? "active" : "") link-dark" aria-current="page">
                         <i class="fa-solid fa-gauge fa-lg" style="width: 1.5em;"></i>
                         <span>Dashboard</span>
                     </a>
@@ -56,6 +56,7 @@
                         </a>
                     </li>
                 }
+
                 <li>
                     <a href="/JobPosting/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Jobs" ? "active" : "") link-dark">
                         <i class="fa-solid fa-clipboard fa-lg" style="width: 1.5em;"></i>
@@ -74,12 +75,16 @@
                         <span>Time Sheets</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/Documents/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Documents" ? "active" : "") link-dark">
-                        <i class="fa-solid fa-folder-open fa-lg" style="width: 1.5em;"></i>
-                        <span>Documents</span>
-                    </a>
-                </li>
+                @if (User.IsInRole("admin") || User.IsInRole("student"))
+                {
+                    <li>
+                        <a href="/Documents/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Documents" ? "active" : "") link-dark">
+                            <i class="fa-solid fa-folder-open fa-lg" style="width: 1.5em;"></i>
+                            <span>Documents</span>
+                        </a>
+                    </li>
+                }
+
             </ul>
             <hr style="width: 100%;">
             <div class="dropdown">
@@ -87,9 +92,9 @@
                     <i class="fa-solid fa-gear fa-lg pe-1"></i><strong>Settings</strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="/Student/Detail?email=@User.Identity.">Profile</a></li>
                     <form asp-area="" asp-controller="Account" asp-action="Logout">
-                    <li><input type="submit" class="dropdown-item">Sign out</input></li>
+                    <li><input type="submit" class="dropdown-item" value="Sign Out" /></li>
                     </form>
                 </ul>
             </div>
@@ -97,9 +102,11 @@
 
         <!-- Main content -->
         <div class="main-content">
-            <main>
-                @RenderBody()
-            </main>
+            <div class="container mt-5">
+                <main>
+                    @RenderBody()
+                </main>
+            </div>
         </div>
 
     </div>

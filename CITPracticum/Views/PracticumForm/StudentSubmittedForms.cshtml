@@ -16,6 +16,10 @@
         width: 10%; /* Adjust as needed for the Select All column */
     }
 
+    .nav-tabs .nav-item:last-child {
+        margin-left: auto; /* Push the button to the right */
+    }
+
     .sort-icon {
         cursor: pointer;
         margin-left: 5px; /* Space between header title and sort icon */
@@ -32,107 +36,105 @@
     }
 
 </style>
-<div class="container mt-5">
-    <!-- Tab navigation -->
-    <ul class="nav nav-tabs mb-3" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link" href="/PracticumForm/Index">Practicum Forms</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="/PracticumForm/StudentSubmittedForms">Student Submitted Forms</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/PracticumForm/EmployerSubmittedForms">Employer Submitted Forms</a>
-        </li>
-        <!-- This is where the 'Create Form' button is placed -->
-        <li class="nav-item" role="presentation">
-            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
-        </li>
-    </ul>
+<!-- Tab navigation -->
+<ul class="nav nav-tabs mb-3" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link" href="/PracticumForm/Index">Practicum Forms</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/PracticumForm/StudentSubmittedForms">Student Submitted Forms</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/PracticumForm/EmployerSubmittedForms">Employer Submitted Forms</a>
+    </li>
+    <!-- This is where the 'Create Form' button is placed -->
+    <li class="nav-item" role="presentation">
+        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
+    </li>
+</ul>
 
 
-    <!-- Tab content -->
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="formA" role="tabpanel" aria-labelledby="form-a-tab">
-            <!-- Content for Form A -->
-        </div>
-        <div class="tab-pane fade" id="formB" role="tabpanel" aria-labelledby="form-b-tab">
-            <!-- Content for Form B -->
-        </div>
-        <!-- Add additional tab contents here -->
+<!-- Tab content -->
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="formA" role="tabpanel" aria-labelledby="form-a-tab">
+        <!-- Content for Form A -->
     </div>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th style="width: 30%;">Name <i class="fas fa-sort" onclick="sortTable(0)"></i></th>
-                <th style="width: 10%;">Form A <i class="fas fa-sort" onclick="sortTable(1)"></i></th>
-                <th style="width: 10%;">Form B <i class="fas fa-sort" onclick="sortTable(2)"></i></th>
-                <th style="width: 10%;">Form C <i class="fas fa-sort" onclick="sortTable(3)"></i></th>
-                <th style="width: 10%;">Form D <i class="fas fa-sort" onclick="sortTable(4)"></i></th>
-                <th style="width: 10%;">Form FOIP <i class="fas fa-sort" onclick="sortTable(5)"></i></th>
-                <th style="width: 10%;">Form ID <i class="fas fa-sort" onclick="sortTable(6)"></i></th>
-                <th>
-                    <div class="select-all-container" style="justify-content: flex-end;">
-                        <label class="select-all-label" for="select-all">Select All</label>
-                        <input type="checkbox" id="select-all" class="form-check-input">
-                    </div>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>William Garcia</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <a href="link-to-form-a" class="form-link">Form A</a>
-                        <input type="checkbox" class="form-check-input">
-                    </div>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <a href="link-to-form-a" class="form-link">Form B</a>
-                        <input type="checkbox" class="form-check-input">
-                    </div>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <a href="link-to-form-a" class="form-link">Form C</a>
-                        <input type="checkbox" class="form-check-input">
-                    </div>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <a href="link-to-form-a" class="form-link">Form D</a>
-                        <input type="checkbox" class="form-check-input">
-                    </div>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <a href="link-to-form-a" class="form-link">FOIP</a>
-                        <input type="checkbox" class="form-check-input">
-                    </div>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <a href="link-to-form-a" class="form-link">ID</a>
-                        <input type="checkbox" class="form-check-input">
-                    </div>
-                <td>
-                    <div class="select-container" style="display: flex; justify-content: flex-end;">
-                        <input type="checkbox" class="form-check-input individual-select">
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- Pagination -->
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-    </nav>
+    <div class="tab-pane fade" id="formB" role="tabpanel" aria-labelledby="form-b-tab">
+        <!-- Content for Form B -->
+    </div>
+    <!-- Add additional tab contents here -->
 </div>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th style="width: 30%;">Name <i class="fas fa-sort" onclick="sortTable(0)"></i></th>
+            <th style="width: 10%;">Form A <i class="fas fa-sort" onclick="sortTable(1)"></i></th>
+            <th style="width: 10%;">Form B <i class="fas fa-sort" onclick="sortTable(2)"></i></th>
+            <th style="width: 10%;">Form C <i class="fas fa-sort" onclick="sortTable(3)"></i></th>
+            <th style="width: 10%;">Form D <i class="fas fa-sort" onclick="sortTable(4)"></i></th>
+            <th style="width: 10%;">Form FOIP <i class="fas fa-sort" onclick="sortTable(5)"></i></th>
+            <th style="width: 10%;">Form ID <i class="fas fa-sort" onclick="sortTable(6)"></i></th>
+            <th>
+                <div class="select-all-container" style="justify-content: flex-end;">
+                    <label class="select-all-label" for="select-all">Select All</label>
+                    <input type="checkbox" id="select-all" class="form-check-input">
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>William Garcia</td>
+            <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a href="link-to-form-a" class="form-link">Form A</a>
+                    <input type="checkbox" class="form-check-input">
+                </div>
+            <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a href="link-to-form-a" class="form-link">Form B</a>
+                    <input type="checkbox" class="form-check-input">
+                </div>
+            <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a href="link-to-form-a" class="form-link">Form C</a>
+                    <input type="checkbox" class="form-check-input">
+                </div>
+            <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a href="link-to-form-a" class="form-link">Form D</a>
+                    <input type="checkbox" class="form-check-input">
+                </div>
+            <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a href="link-to-form-a" class="form-link">FOIP</a>
+                    <input type="checkbox" class="form-check-input">
+                </div>
+            <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a href="link-to-form-a" class="form-link">ID</a>
+                    <input type="checkbox" class="form-check-input">
+                </div>
+            <td>
+                <div class="select-container" style="display: flex; justify-content: flex-end;">
+                    <input type="checkbox" class="form-check-input individual-select">
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
 
 <!-- Modal -->
 <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">

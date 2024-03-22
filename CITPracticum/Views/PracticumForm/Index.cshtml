@@ -51,7 +51,6 @@
 
 </style>
 
-<div class="container mt-5">
     <!-- Tab navigation with button -->
     <ul class="nav nav-tabs mb-3" role="tablist">
         <li class="nav-item">
@@ -67,9 +66,23 @@
         </li>
     </ul>
 
+    @if (User.IsInRole("admin") || User.IsInRole("student"))
+    {
+        <div class="card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formFOIPModal">
+            <div class="card-body">
+                Form FOIP - Student Release
+            </div>
+        </div>
+
+        <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formIDModal">
+            <div class="card-body">
+                Form ID - Student Information
+            </div>
+        </div>
+    }
 
     <!-- List of Forms as Cards -->
-    <div class="card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formAModal">
+    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formAModal">
         <div class="card-body">
             Form A - Host Information
         </div>
@@ -77,41 +90,31 @@
 
     <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formBModal">
         <div class="card-body">
-            Form B - Practicum Agreement-24WN
+            Form B - Practicum Agreement
         </div>
     </div>
 
     <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formCModal">
         <div class="card-body">
-            Form C (100 hours) - Practicum Evaluation-24WN
+            Form C - Practicum Evaluation (100 hours)
         </div>
     </div>
 
     <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formDModal">
         <div class="card-body">
-            Form D (200 hours) - Practicum Evaluation-24WN
+            Form D - Practicum Evaluation (200 hours)
         </div>
     </div>
 
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formFOIPModal">
-        <div class="card-body">
-            Form FOIP - Student Release-24WN
+    @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.
+    {
+        <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formExitModal">
+            <div class="card-body">
+                Exit Interview
+            </div>
         </div>
-    </div>
+    }
 
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formIDModal">
-        <div class="card-body">
-            Form ID - Student Information-24WN
-        </div>
-    </div>
-
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formExitModal">
-        <div class="card-body">
-            Exit Interview
-        </div>
-    </div>
-
-</div>
 
 <!-- Form A Modal -->
 <div class="modal fade" id="formAModal" tabindex="-1" aria-labelledby="formAModalLabel" aria-hidden="true">
@@ -129,10 +132,12 @@
                         <!-- Student Last Name, First Name, and Student ID -->
                         @if(User.IsInRole("student")) {
                         <div class="row mb-3">
+
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuLastName" class="form-label">Student Last Name:</label>
                                 <input asp-for="PracticumForms.FormA.StuLastName" type="text" class="form-control" value="@Model.Student.LastName">
                                 <span asp-validation-for="PracticumForms.FormA.StuLastName" class="text-danger"></span>
+
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuFirstName" class="form-label">Student First Name:</label>
@@ -144,7 +149,9 @@
                                 <input asp-for="PracticumForms.FormA.StuId" type="text" class="form-control" value="@Model.Student.StuId">
                                 <span asp-validation-for="PracticumForms.FormA.StuId" class="text-danger"></span>
                             </div>
+                       
                         </div>
+
                         } else {
                             <div class="row mb-3">
                             <div class="col-md-4">
@@ -164,6 +171,7 @@
                             </div>
                         </div>
                         }
+
                         <!-- Program, Host Company, Type of Organization -->
                         <div class="row mb-3">
                             <div class="col-md-4">
@@ -266,6 +274,19 @@
                                         <option>--Select--</option>
                                     </select>
                                     <span asp-validation-for="PracticumForms.FormA.PaymentCategory" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-5">
+                                <div class="form-check form-check-inline px-0">
+                                    <label for="workOutsideCountry" class="form-label">Will you be working outside of the country?</label>
+                                    <select id="workOutsideCountry" name="workOutsideCountry" class="form-control">
+                                        <option value="">--Select--</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <span class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -505,6 +526,7 @@
                                     <td>1.</td>
                                     <td>The student is on time, organized and prepared to work.</td>
                                     <td>
+
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Excellent" checked>
@@ -522,8 +544,10 @@
                                                 <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
+
                                         </div>
                                          <span asp-validation-for="PracticumForms.FormC.A1" class="text-danger"></span>
+
                                     </td>
 
 
@@ -2265,30 +2289,7 @@
                                 <input asp-for="PracticumForms.FormStuInfo.AltPhoneNumber" type="text" class="form-control">
                             </div>
                         </div>
- prac-forms-styling
-                        <div class="row mb-2">
-                            <div class="col-md-4">
-                                <label class="form-label">Street:</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">City:</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Province:</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label class="form-label">Country:</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Postal Code:</label>
-                                <input type="text" class="form-control">
-mid
+
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormStuInfo.Address.Street" class="form-label">Street:</label>
@@ -2299,17 +2300,20 @@ mid
                                 <input asp-for="PracticumForms.FormStuInfo.Address.City" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
+
                                 <label asp-for="PracticumForms.FormStuInfo.Address.Prov" class="form-label">Prov:</label>
                                 <input asp-for="PracticumForms.FormStuInfo.Address.Prov" type="text" class="form-control">
+
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormStuInfo.Address.Country" class="form-label">Country:</label>
                                 <input asp-for="PracticumForms.FormStuInfo.Address.Country" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
+
                                 <label asp-for="PracticumForms.FormStuInfo.Address.PostalCode" class="form-label">Postal Code:</label>
                                 <input asp-for="PracticumForms.FormStuInfo.Address.PostalCode" type="text" class="form-control">
- master
+ 
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -2335,6 +2339,8 @@ mid
         </div>
     </div>
 </div>
+
+
 
 <!-- Exit Interview Modal -->
 <div class="modal fade" id="formExitModal" tabindex="-1" aria-labelledby="formExitModalLabel" aria-hidden="true">

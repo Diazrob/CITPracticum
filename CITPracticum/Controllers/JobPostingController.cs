@@ -1,4 +1,5 @@
-﻿using CITPracticum.Interfaces;
+﻿using CITPracticum.Data.Migrations;
+using CITPracticum.Interfaces;
 using CITPracticum.Models;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,24 @@ namespace CITPracticum.Controllers
 
             IEnumerable<JobPosting> jobPostings = await _jobPostingRepository.GetAll();
             return View(jobPostings);
+        }
+
+        public async Task<IActionResult> Applicants(int id)
+        {
+            ViewData["ActivePage"] = "Jobs";
+
+            JobPosting jobPosting = await _jobPostingRepository.GetByIdAsync(id);
+            return View(jobPosting);
+        }
+        public async Task<IActionResult> ArchivedPosts(int id)
+        {
+            ViewData["ActivePage"] = "Jobs";
+
+            IEnumerable<JobPosting> allJobPostings = await _jobPostingRepository.GetAll();
+            IEnumerable<JobPosting> archivedJobPostings = allJobPostings
+                .Where(jp => jp.Archived);
+
+            return View(archivedJobPostings);
         }
 
         // goes to a specific job posting page
@@ -56,6 +75,15 @@ namespace CITPracticum.Controllers
                 return RedirectToAction("Index");
             }
             return View(jobPostingVM);
+        }
+
+        public async Task<IActionResult> ConfirmArchive(int id)
+        {
+            ViewData["ActivePage"] = "Jobs";
+
+            var post = await _jobPostingRepository.GetByIdAsync(id);
+
+            return View(post);
         }
 
         // edit a job post
@@ -138,12 +166,34 @@ namespace CITPracticum.Controllers
             }
 
             var jobPosting = await _jobPostingRepository.GetByIdAsync(id.Value);
+            jobPosting.Archived = true;
+            _jobPostingRepository.Update(jobPosting);
+
             if (jobPosting == null)
             {
                 return NotFound();
             }
 
-            return View(jobPosting); // Show the archive confirmation view
+            return RedirectToAction("Index", "JobPosting"); // Show the archive confirmation view
+        }
+
+        public async Task<IActionResult> UnArchive(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var jobPosting = await _jobPostingRepository.GetByIdAsync(id.Value);
+            jobPosting.Archived = false;
+            _jobPostingRepository.Update(jobPosting);
+            
+            if (jobPosting == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("ArchivedPosts", "JobPosting");
         }
 
     }

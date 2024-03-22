@@ -1,34 +1,131 @@
 ﻿@model AppUser
 
-<h1>Are you sure you want to delete this employer?</h1>
+<style>
+/* Base Styles */
+    :root {
+        --kodiaks-blue: #6AADE4;
+        --coulee-green: #739600;
+        --coal-miner-black: #62646C;
+        --stone-pipe-grey: #808080;
+        --body-background: #F3F3F3;
+    }
 
-<form method="post" asp-action="Delete" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Email">Description</label>
-        <input asp-for="Email" class="form-control" placeholder="Email">
-        <span asp-validation-for="Email" class="text-danger"></span>
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background-color: var(--body-background);
+        color: var(--coal-miner-black);
+        line-height: 1.6; /* Increased line-height for better readability */
+        margin: 0;
+        padding: 20px;
+    }
+
+    /* Confirmation Title */
+    .confirmation-title {
+        color: var(--coal-miner-black);
+        font-weight: 700;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    /* Form Field Styling */
+    .form-control {
+        border: 1px solid var(--stone-pipe-grey);
+        border-radius: 0.25rem;
+        padding: 10px 15px; /* Consistent padding */
+        font-size: 1rem;
+        color: var(--coal-miner-black);
+        background-color: white;
+        width: 300px; /* Adjust width to fit content */
+        margin-bottom: 1rem; /* Space between form fields */
+    }
+
+        .form-control[readonly] {
+            background-color: #f7f7f7; /* Light grey background for readonly fields */
+            color: var(--coal-miner-black);
+            cursor: not-allowed;
+        }
+
+    /* Buttons */
+    .button-group {
+        text-align: center;
+        margin-top: 2rem; /* Space above the buttons */
+    }
+
+    .btn {
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 0.25rem;
+        margin: 0 5px; /* Spacing between buttons */
+        line-height: 1.5;
+        display: inline-block;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    .btn-outline-secondary {
+        background-color: transparent;
+        border-color: var(--stone-pipe-grey);
+        color: var(--coal-miner-black);
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--stone-pipe-grey);
+            color: white;
+        }
+
+    /* Vertical Centering */
+    .vertical-center {
+        min-height: 10vh;
+        height: 50vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<div class="container vertical-center">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="confirmation-title">Are you sure you want to delete this employer?</h1>
+            <form method="post" asp-action="Delete" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Email">Description</label>
+                    <input asp-for="Email" class="form-control" placeholder="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Employer.FirstName">First Name</label>
+                    <input asp-for="Employer.FirstName" class="form-control" placeholder="FirstName">
+                    <span asp-validation-for="Employer.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Employer.LastName">Last Name</label>
+                    <input asp-for="Employer.LastName" class="form-control" placeholder="LastName">
+                    <span asp-validation-for="Employer.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Employer.CompanyName">Company</label>
+                    <input asp-for="Employer.CompanyName" class="form-control" placeholder="CompanyName">
+                    <span asp-validation-for="Employer.CompanyName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <form action="Delete" method="post">
+                        <input type="hidden" asp-for="Email" />
+                        <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
+                        <a class="btn btn-outline-secondary mt-3" asp-controller="Employer" asp-action="Index">Cancel</a>
+                    </form>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Employer.FirstName">First Name</label>
-        <input asp-for="Employer.FirstName" class="form-control" placeholder="FirstName">
-        <span asp-validation-for="Employer.FirstName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Employer.LastName">Last Name</label>
-        <input asp-for="Employer.LastName" class="form-control" placeholder="LastName">
-        <span asp-validation-for="Employer.LastName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Employer.CompanyName">Company</label>
-        <input asp-for="Employer.CompanyName" class="form-control" placeholder="CompanyName">
-        <span asp-validation-for="Employer.CompanyName" class="text-danger"></span>
-    </div>
-</form>
-<div class="form-group">
-    <form action="Delete" method="post">
-        <input type="hidden" asp-for="Email" />
-        <input type="hidden" name="id" value="@Model.Employer.Id" />
-        <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
-        <a class="btn btn-outline-secondary" asp-controller="Employer" asp-action="Index">Cancel</a>
-    </form>
 </div>
+

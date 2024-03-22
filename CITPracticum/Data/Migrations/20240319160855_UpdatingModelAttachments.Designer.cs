@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CITPracticum.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240320212250_TimesheetAndPlacements")]
-    partial class TimesheetAndPlacements
+    [Migration("20240319160855_UpdatingModelAttachments")]
+    partial class UpdatingModelAttachments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -793,7 +793,7 @@ namespace CITPracticum.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Deadline")
+                    b.Property<string>("DueDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -819,55 +819,6 @@ namespace CITPracticum.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("JobPostings");
-                });
-
-            modelBuilder.Entity("CITPracticum.Models.Placement", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("DocumentId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EmployerId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("JobPostingId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PracticumFormsId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StudentId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TimesheetId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DocumentId");
-
-                    b.HasIndex("EmployerId");
-
-                    b.HasIndex("JobPostingId");
-
-                    b.HasIndex("PracticumFormsId");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("TimesheetId");
-
-                    b.ToTable("Placements");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.PracticumForms", b =>
@@ -925,6 +876,7 @@ namespace CITPracticum.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("DocumentId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -946,31 +898,6 @@ namespace CITPracticum.Data.Migrations
                     b.HasIndex("DocumentId");
 
                     b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("CITPracticum.Models.Timesheet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Hours")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ShiftDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Timesheets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1167,57 +1094,6 @@ namespace CITPracticum.Data.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("CITPracticum.Models.Placement", b =>
-                {
-                    b.HasOne("CITPracticum.Models.Document", "Document")
-                        .WithMany()
-                        .HasForeignKey("DocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CITPracticum.Models.Employer", "Employer")
-                        .WithMany()
-                        .HasForeignKey("EmployerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CITPracticum.Models.JobPosting", "JobPosting")
-                        .WithMany()
-                        .HasForeignKey("JobPostingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CITPracticum.Models.PracticumForms", "PracticumForms")
-                        .WithMany()
-                        .HasForeignKey("PracticumFormsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CITPracticum.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CITPracticum.Models.Timesheet", "Timesheet")
-                        .WithMany()
-                        .HasForeignKey("TimesheetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Document");
-
-                    b.Navigation("Employer");
-
-                    b.Navigation("JobPosting");
-
-                    b.Navigation("PracticumForms");
-
-                    b.Navigation("Student");
-
-                    b.Navigation("Timesheet");
-                });
-
             modelBuilder.Entity("CITPracticum.Models.PracticumForms", b =>
                 {
                     b.HasOne("CITPracticum.Models.FormA", "FormA")
@@ -1265,7 +1141,9 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasOne("CITPracticum.Models.Document", "Document")
                         .WithMany()
-                        .HasForeignKey("DocumentId");
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Document");
                 });
