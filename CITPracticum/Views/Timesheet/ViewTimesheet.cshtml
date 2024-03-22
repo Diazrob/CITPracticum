@@ -1,4 +1,8 @@
-﻿<style>
+﻿@{
+    DateTime now = DateTime.Now;
+}
+
+<style>
     /* Additional styling to ensure the layout matches the screenshot provided */
     .table th, .table td {
         vertical-align: middle;
@@ -36,51 +40,9 @@
     }
     /* Ensures the first column uses most of the table's width */
     .table .name-column {
-        width: 70%;
-    }
-    /* Ensures the form column does not take up much space */
-    .table .form-column {
-        width: 15%;
-    }
-    /* Adjust checkbox and view columns width */
-    .table .checkbox-column, .table .view-column {
-        width: 7.5%;
+        width: 10%;
     }
 
-    /* Scale down the checkbox */
-    .form-check-input {
-        transform: scale(0.8); /* Adjust the scaling factor as needed */
-        margin-right: 0.3rem; /* Adjust the margin to align it properly if needed */
-    }
-
-    /* Ensure the accordion-header is a flex container */
-    .accordion-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    /* Styling for the accordion-button to match the alignment */
-    .accordion-button {
-        flex-grow: 1; /* Allows the button to grow and fill the space */
-        /* Reset padding and other styles if needed */
-    }
-
-    /* Adjust the margin of the checkbox for finer control over its positioning */
-    .form-check-input {
-        margin-top: 0;
-        margin-bottom: 0;
-        /* Adjust the following as needed to align the checkbox with the arrow */
-        margin-left: 0.5rem; /* Control space between the text and the checkbox */
-        transform: translateY(-2px); /* Adjusts vertical position relative to the line */
-    }
-
-    /* Adjust the checkbox size and alignment */
-    .accordion-header .form-check-input {
-        transform: scale(0.75); /* Decrease the scale value */
-        margin-top: -0.2rem; /* Adjust margin to align vertically */
-        margin-bottom: -0.2rem; /* Adjust margin to align vertically */
-    }
 
     /* Align the checkbox with the 'Select All' text */
     .select-all-label {
@@ -97,7 +59,7 @@
     }
 
 </style>
-
+<button onclick="window.history.back();" class="btn btn-secondary mb-2">Back</button>
     <!-- Tab navigation with button -->
     <ul class="nav nav-tabs mb-3" role="tablist">
         <li class="nav-item">
@@ -108,26 +70,117 @@
         </li>
         <!-- This is where the 'Create Form' button is placed -->
         <li class="nav-item" role="presentation">
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addTimesheetModal"><i class="fa-solid fa-plus"></i> Add Time Entry</button>
             <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
         </li>
     </ul>
 
-
-    <!-- Select All Checkbox -->
-    <div class="mb-2 d-flex justify-content-between align-items-center">
-        <h2>Name Placeholder</h2>
-        <div>
-            <input type="checkbox" id="select-all" class="form-check-input me-2">
-            <label for="select-all" class="form-check-label">Select All</label>
-        </div>
-    </div>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th class="name-column">Date Worked</th>
+            <th class="view-column"># of Hours</th>
+            <th class="view-column">Description</th>
+            <th class="view-column">Total Hours to Date</th>
+            <th>Action</th>
+            <th class="checkbox-column">
+                <div class="select-all-container">
+                    <label for="select-all" class="select-all-label">Select All</label>
+                    <input type="checkbox" id="select-all" class="form-check-input">
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2024-03-21</td>
+            <td>
+                10
+            </td>
+            <td>
+                As a Software Engineer, you will be responsible for developing software solutions by studying information needs, conferring with users, studying systems flow, data usage, and work processes. You will follow the software development lifecycle to plan, design, implement, test, and depl
+            </td>
+            <td>
+                75
+            </td>
+            <td>
+                <button class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#editTimesheetModal">Edit</button>
+            </td>
+            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+        </tr>
+        <tr>
+            <td>2024-03-22</td>
+            <td>
+                6
+            </td>
+            <td>
+                As a Software Engineer, you will be responsible for developing software solutions by studying information needs, conferring with users, studying systems flow, data usage, and work processes. You will follow the software development lifecycle to plan, design, implement, test, and depl
+            </td>
+            <td>
+                81
+            </td>
+            <td>
+                <button class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#editTimesheetModal">Edit</button>
+            </td>
+            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+        </tr>
+        <tr>
+            <td>2024-03-23</td>
+            <td>
+                4
+            </td>
+            <td>
+                As a Software Engineer, you will be responsible for developing software solutions by studying information needs, conferring with users, studying systems flow, data usage, and work processes. You will follow the software development lifecycle to plan, design, implement, test, and depl
+            </td>
+            <td>
+                85
+            </td>
+            <td>
+                <button class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#editTimesheetModal">Edit</button>
+            </td>
+            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+        </tr>
+        <tr>
+            <td>2024-03-24</td>
+            <td>
+                2
+            </td>
+            <td>
+                As a Software Engineer, you will be responsible for developing software solutions by studying information needs, conferring with users, studying systems flow, data usage, and work processes. You will follow the software development lifecycle to plan, design, implement, test, and depl
+            </td>
+            <td>
+                87
+            </td>
+            <td>
+                <button class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#editTimesheetModal">Edit</button>
+            </td>
+            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+        </tr>
+        <tr>
+            <td>2024-03-25</td>
+            <td>
+                8
+            </td>
+            <td>
+                As a Software Engineer, you will be responsible for developing software solutions by studying information needs, conferring with users, studying systems flow, data usage, and work processes. You will follow the software development lifecycle to plan, design, implement, test, and depl
+            </td>
+            <td>
+                95
+            </td>
+            <td>
+                <button class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#editTimesheetModal">Edit</button>
+            </td>
+            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+        </tr>
+    </tbody>
+</table>
 
     <!-- Modal -->
-    <div class="modal fade" id="editTimesheetModal" tabindex="-1" aria-labelledby="editTimesheetModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addTimesheetModal" tabindex="-1" aria-labelledby="addTimesheetModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editTimesheetModalLabel">Edit Timesheet Entry</h5>
+                    <h5 class="modal-title" id="editTimesheetModalLabel">Add Timesheet Entry</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -135,7 +188,7 @@
                     <form id="editTimesheetForm">
                         <div class="mb-3">
                             <label for="editDate" class="form-label">Date</label>
-                            <input type="date" class="form-control" id="editDate">
+                        <input type="date" class="form-control" id="editDate" value="@now.ToString("yyyy-MM-dd")">
                         </div>
                         <div class="mb-3">
                             <label for="editHours" class="form-label">Hours</label>
@@ -149,11 +202,44 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveEdit">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="saveEdit">Add</button>
                 </div>
             </div>
         </div>
     </div>
+
+<!-- Modal -->
+<div class="modal fade" id="editTimesheetModal" tabindex="-1" aria-labelledby="editTimesheetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTimesheetModalLabel">Edit Timesheet Entry</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form to edit timesheet entry -->
+                <form id="editTimesheetForm">
+                    <div class="mb-3">
+                        <label for="editDate" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="editDate">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editHours" class="form-label">Hours</label>
+                        <input type="text" class="form-control" id="editHours">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editComments" class="form-label">Work Description</label>
+                        <textarea class="form-control" id="editComments"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveEdit">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Modal -->
@@ -176,15 +262,16 @@
 </div>
 
 <script>
-    // JavaScript for 'Select All' functionality
     document.addEventListener('DOMContentLoaded', function () {
-        const selectAllCheckbox = document.getElementById('select-all');
-        selectAllCheckbox.addEventListener('change', function () {
-            // Use the .accordion-item class to target all checkboxes within each accordion item
-            const checkboxes = document.querySelectorAll('#timesheetAccordion .accordion-item .form-check-input');
+        document.getElementById('select-all').addEventListener('change', function (event) {
+            const checkboxes = document.querySelectorAll('.table .form-check-input');
+            const isChecked = event.target.checked;
+
             checkboxes.forEach(function (checkbox) {
-                // The .stopPropagation() method should be called on the click event, not here
-                checkbox.checked = selectAllCheckbox.checked;
+                // Skip the 'Select All' checkbox to avoid recursive checking
+                if (checkbox !== event.target) {
+                    checkbox.checked = isChecked;
+                }
             });
         });
     });
