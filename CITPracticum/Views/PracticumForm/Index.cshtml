@@ -1,6 +1,6 @@
 ﻿@using CITPracticum.Data.Enum;
 @using CITPracticum.ViewModels;
-@model PracticumForms
+@model Placement
 <style>
     /* Custom styles for the navigation tabs */
     .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
@@ -127,126 +127,145 @@
                     <form method="post" asp-action="FormASubmit" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <!-- Student Last Name, First Name, and Student ID -->
+                        @if(User.IsInRole("student")) {
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label asp-for="FormA.StuLastName" class="form-label">Student Last Name:</label>
-                                <input asp-for="FormA.StuLastName" type="text" class="form-control">
-                                <span asp-validation-for="FormA.StuLastName" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.StuLastName" class="form-label">Student Last Name:</label>
+                                <input asp-for="PracticumForms.FormA.StuLastName" type="text" class="form-control" value="@Model.Student.LastName">
+                                <span asp-validation-for="PracticumForms.FormA.StuLastName" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.StuFirstName" class="form-label">Student First Name:</label>
-                                <input asp-for="FormA.StuFirstName" type="text" class="form-control">
-                                <span asp-validation-for="FormA.StuFirstName" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.StuFirstName" class="form-label">Student First Name:</label>
+                                <input asp-for="PracticumForms.FormA.StuFirstName" type="text" class="form-control" value="@Model.Student.FirstName">
+                                <span asp-validation-for="PracticumForms.FormA.StuFirstName" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.StuId" class="form-label">Student ID:</label>
-                                <input asp-for="FormA.StuId" type="text" class="form-control">
-                                <span asp-validation-for="FormA.StuId" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.StuId" class="form-label">Student ID:</label>
+                                <input asp-for="PracticumForms.FormA.StuId" type="text" class="form-control" value="@Model.Student.StuId">
+                                <span asp-validation-for="PracticumForms.FormA.StuId" class="text-danger"></span>
                             </div>
                         </div>
-
+                        } else {
+                            <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label asp-for="PracticumForms.FormA.StuLastName" class="form-label">Student Last Name:</label>
+                                <input asp-for="PracticumForms.FormA.StuLastName" type="text" class="form-control">
+                                <span asp-validation-for="PracticumForms.FormA.StuLastName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="PracticumForms.FormA.StuFirstName" class="form-label">Student First Name:</label>
+                                <input asp-for="PracticumForms.FormA.StuFirstName" type="text" class="form-control">
+                                <span asp-validation-for="PracticumForms.FormA.StuFirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="PracticumForms.FormA.StuId" class="form-label">Student ID:</label>
+                                <input asp-for="PracticumForms.FormA.StuId" type="text" class="form-control">
+                                <span asp-validation-for="PracticumForms.FormA.StuId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        }
                         <!-- Program, Host Company, Type of Organization -->
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label asp-for="FormA.Program" class="form-label">Program: </label>
-                                <input asp-for="FormA.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
-                                <span asp-validation-for="FormA.Program" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.Program" class="form-label">Program: </label>
+                                <input asp-for="PracticumForms.FormA.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
+                                <span asp-validation-for="PracticumForms.FormA.Program" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.HostCompany" class="form-label">Host Company:</label>
-                                <input asp-for="FormA.HostCompany" type="text" class="form-control">
-                                <span asp-validation-for="FormA.HostCompany" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.HostCompany" class="form-label">Host Company:</label>
+                                <input asp-for="PracticumForms.FormA.HostCompany" type="text" class="form-control">
+                                <span asp-validation-for="PracticumForms.FormA.HostCompany" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.OrgType" class="form-label">Type of organization:</label>
-                                <input asp-for="FormA.OrgType" type="text" class="form-control">
-                                <span asp-validation-for="FormA.OrgType" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.OrgType" class="form-label">Type of organization:</label>
+                                <input asp-for="PracticumForms.FormA.OrgType" type="text" class="form-control">
+                                <span asp-validation-for="PracticumForms.FormA.OrgType" class="text-danger"></span>
                             </div>
                         </div>
 
                         <!-- Supervisor's Name, Position, and Email -->
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label asp-for="FormA.SVName" class="form-label">Supervisor's name:</label>
-                                <input asp-for="FormA.SVName" type="text" class="form-control">
-                                <span asp-validation-for="FormA.SVName" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.SVName" class="form-label">Supervisor's name:</label>
+                                <input asp-for="PracticumForms.FormA.SVName" type="text" class="form-control">
+                                <span asp-validation-for="PracticumForms.FormA.SVName" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.SVPosition" class="form-label">Supervisor's position:</label>
-                                <input asp-for="FormA.SVPosition" type="text" class="form-control">
-                                <span asp-validation-for="FormA.SVPosition" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.SVPosition" class="form-label">Supervisor's position:</label>
+                                <input asp-for="PracticumForms.FormA.SVPosition" type="text" class="form-control">
+                                <span asp-validation-for="PracticumForms.FormA.SVPosition" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.SVEmail" class="form-label">Supervisor's e-mail:</label>
-                                <input asp-for="FormA.SVEmail" type="text" class="form-control">
-                                <span asp-validation-for="FormA.SVEmail" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.SVEmail" class="form-label">Supervisor's e-mail:</label>
+                                <input asp-for="PracticumForms.FormA.SVEmail" type="text" class="form-control">
+                                <span asp-validation-for="PracticumForms.FormA.SVEmail" class="text-danger"></span>
                             </div>
                         </div>
                         <!-- ... other fields ... -->
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label asp-for="FormA.SVPhoneNumber" class="form-label">Phone number:</label>
-                                <input asp-for="FormA.SVPhoneNumber" type="text" class="form-control">
-                                <span asp-validation-for="FormA.SVPhoneNumber" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.SVPhoneNumber" class="form-label">Phone number:</label>
+                                <input asp-for="PracticumForms.FormA.SVPhoneNumber" type="text" class="form-control">
+                                <span asp-validation-for="PracticumForms.FormA.SVPhoneNumber" class="text-danger"></span>
                             </div>
                         </div>
                         <!-- ... other fields ... -->
                                                
                         <div class="form-group mb-3">
-                            <label asp-for="FormA.SVCredentials" class="form-label">Supervisor's Credentials</label>
+                            <label asp-for="PracticumForms.FormA.SVCredentials" class="form-label">Supervisor's Credentials</label>
                             <div class="col-md-9">
                                 <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
                                 <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
                                 <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
                             </div>
-                            <span asp-validation-for="FormA.SVCredentials" class="text-danger"></span>
+                            <span asp-validation-for="PracticumForms.FormA.SVCredentials" class="text-danger"></span>
                         </div>
                         <div class="row mb-3">
                             <div>
-                                <label asp-for="FormA.SVCredOther" class="form-label">Other Credentials:</label>
-                                <input asp-for="FormA.SVCredOther" type="text" class="form-control">
-                                <span asp-validation-for="FormA.SVCredOther" class="text-danger"></span>
+                                <label asp-for="PracticumForms.FormA.SVCredOther" class="form-label">Other Credentials:</label>
+                                <input asp-for="PracticumForms.FormA.SVCredOther" type="text" class="form-control">
+                                <span asp-validation-for="PracticumForms.FormA.SVCredOther" class="text-danger"></span>
                             </div>
                         </div>
 
                         <!-- ... other fields ... -->
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label asp-for="FormA.Address.Street" class="form-label">Street:</label>
-                                <input asp-for="FormA.Address.Street" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormA.Address.Street" class="form-label">Street:</label>
+                                <input asp-for="PracticumForms.FormA.Address.Street" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.Address.City" class="form-label">City:</label>
-                                <input asp-for="FormA.Address.City" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormA.Address.City" class="form-label">City:</label>
+                                <input asp-for="PracticumForms.FormA.Address.City" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.Address.Prov" class="form-label">Province:</label>
-                                <input asp-for="FormA.Address.Prov" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormA.Address.Prov" class="form-label">Province:</label>
+                                <input asp-for="PracticumForms.FormA.Address.Prov" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.Address.Country" class="form-label">Country:</label>
-                                <input asp-for="FormA.Address.Country" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormA.Address.Country" class="form-label">Country:</label>
+                                <input asp-for="PracticumForms.FormA.Address.Country" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormA.Address.PostalCode" class="form-label">Postal Code:</label>
-                                <input asp-for="FormA.Address.PostalCode" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormA.Address.PostalCode" class="form-label">Postal Code:</label>
+                                <input asp-for="PracticumForms.FormA.Address.PostalCode" type="text" class="form-control">
                             </div>
                         </div>
                         <!-- ... other fields ... -->
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label asp-for="FormA.StartDate" class="form-label">Date you expect to begin:</label>
-                                <input asp-for="FormA.StartDate" type="date" class="form-control">
+                                <label asp-for="PracticumForms.FormA.StartDate" class="form-label">Date you expect to begin:</label>
+                                <input asp-for="PracticumForms.FormA.StartDate" type="date" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <div class="form-check form-check-inline px-0">
-                                    <label asp-for="FormA.PaymentCategory" class="form-label">Paid or Unpaid:</label>
-                                    <select asp-for="FormA.PaymentCategory" asp-items="@Html.GetEnumSelectList<PaymentCategory>()" class="form-control">
+                                    <label asp-for="PracticumForms.FormA.PaymentCategory" class="form-label">Paid or Unpaid:</label>
+                                    <select asp-for="PracticumForms.FormA.PaymentCategory" asp-items="@Html.GetEnumSelectList<PaymentCategory>()" class="form-control">
                                         <option>--Select--</option>
                                     </select>
-                                    <span asp-validation-for="FormA.PaymentCategory" class="text-danger"></span>
+                                    <span asp-validation-for="PracticumForms.FormA.PaymentCategory" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -396,16 +415,16 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label asp-for="FormC.PracSV" class="form-label">Practicum Supervisor:</label>
-                                <input asp-for="FormC.PracSV" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormC.PracSV" class="form-label">Practicum Supervisor:</label>
+                                <input asp-for="PracticumForms.FormC.PracSV" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormC.Org" class="form-label">Organization:</label>
-                                <input asp-for="FormC.Org" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormC.Org" class="form-label">Organization:</label>
+                                <input asp-for="PracticumForms.FormC.Org" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormC.StuName" class="form-label">Student Name:</label>
-                                <input asp-for="FormC.StuName" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormC.StuName" class="form-label">Student Name:</label>
+                                <input asp-for="PracticumForms.FormC.StuName" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -488,23 +507,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A1" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A1" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A1" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A1" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                         <span asp-validation-for="FormC.A1" class="text-danger"></span>
+                                         <span asp-validation-for="PracticumForms.FormC.A1" class="text-danger"></span>
                                     </td>
 
 
@@ -515,23 +534,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A2" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A2" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A2" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A2" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A2" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A2" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A2" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A2" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.A2" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.A2" class="text-danger"></span>
                                     </td>
 
 
@@ -542,23 +561,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A3" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A3" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A3" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A3" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A3" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A3" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A3" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A3" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.A3" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.A3" class="text-danger"></span>
                                     </td>
 
 
@@ -569,23 +588,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A4" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A4" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A4" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A4" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A4" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A4" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A4" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A4" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.A4" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.A4" class="text-danger"></span>
                                     </td>
 
 
@@ -596,31 +615,31 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A5" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A5" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A5" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A5" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A5" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A5" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.A5" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A5" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.A5" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.A5" class="text-danger"></span>
                                     </td>
 
 
                                 </tr>
                                 <tr>
                                     <td colspan="4">
-                                        <textarea class="form-control" rows="3" asp-for="FormC.AComments" placeholder="Enter comments for Section A"></textarea>
-                                        <span asp-validation-for="FormC.AComments" class="text-danger"></span>
+                                        <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.AComments" placeholder="Enter comments for Section A"></textarea>
+                                        <span asp-validation-for="PracticumForms.FormC.AComments" class="text-danger"></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -641,23 +660,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B1" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B1" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B1" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B1" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B1" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B1" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B1" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B1" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.B1" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.B1" class="text-danger"></span>
                                     </td>
 
 
@@ -668,23 +687,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B2" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B2" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B2" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B2" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B2" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B2" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B2" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B2" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.B2" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.B2" class="text-danger"></span>
                                     </td>
 
 
@@ -695,23 +714,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B3" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B3" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B3" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B3" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B3" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B3" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B3" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B3" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.B3" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.B3" class="text-danger"></span>
                                     </td>
 
 
@@ -722,23 +741,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B4" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B4" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B4" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B4" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B4" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B4" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B4" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B4" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.B4" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.B4" class="text-danger"></span>
                                     </td>
 
 
@@ -749,23 +768,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B5" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B5" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B5" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B5" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B5" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B5" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B5" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B5" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div
-                                        <span asp-validation-for="FormC.B5" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.B5" class="text-danger"></span>
                                     </td>
 
 
@@ -776,23 +795,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B6" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B6" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B6" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B6" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B6" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B6" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B6" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B6" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.B6" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.B6" class="text-danger"></span>
                                     </td>
 
 
@@ -803,23 +822,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B7" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B7" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B7" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B7" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B7" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B7" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B7" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B7" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.B7" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.B7" class="text-danger"></span>
                                     </td>
 
 
@@ -830,31 +849,31 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B8" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B8" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B8" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B8" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B8" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B8" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.B8" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B8" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.B8" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.B8" class="text-danger"></span>
                                     </td>
 
 
                                 </tr>
                                 <tr>
                                     <td colspan="4">
-                                        <textarea class="form-control" rows="3" asp-for="FormC.BComments" placeholder="Enter comments for Section B"></textarea>
-                                        <span asp-validation-for="FormC.BComments" class="text-danger"></span>
+                                        <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.BComments" placeholder="Enter comments for Section B"></textarea>
+                                        <span asp-validation-for="PracticumForms.FormC.BComments" class="text-danger"></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -874,23 +893,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C1" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C1" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C1" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C1" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C1" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C1" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C1" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C1" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C1" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C1" class="text-danger"></span>
                                     </td>
 
 
@@ -901,23 +920,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C2" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C2" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C2" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C2" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C2" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C2" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C2" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C2" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C2" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C2" class="text-danger"></span>
                                     </td>
 
 
@@ -928,23 +947,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C3" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C3" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C3" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C3" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C3" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C3" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C3" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C3" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C3" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C3" class="text-danger"></span>
                                     </td>
 
 
@@ -955,23 +974,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C4" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C4" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C4" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C4" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C4" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C4" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C4" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C4" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C4" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C4" class="text-danger"></span>
                                     </td>
 
                                 </tr>
@@ -981,23 +1000,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C5" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C5" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C5" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C5" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C5" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C5" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C5" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C5" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C5" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C5" class="text-danger"></span>
                                     </td>
 
                                 </tr>
@@ -1007,23 +1026,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C6" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C6" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C6" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C6" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C6" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C6" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C6" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C6" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C6" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C6" class="text-danger"></span>
                                     </td>
 
                                 </tr>
@@ -1033,23 +1052,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C7" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C7" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C7" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C7" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C7" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C7" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C7" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C7" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C7" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C7" class="text-danger"></span>
                                     </td>
 
                                 </tr>
@@ -1059,23 +1078,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C8" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C8" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C8" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C8" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C8" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C8" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C8" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C8" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C8" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C8" class="text-danger"></span>
                                     </td>
 
                                 </tr>
@@ -1085,23 +1104,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C9" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C9" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C9" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C9" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C9" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C9" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C9" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C9" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C9" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C9" class="text-danger"></span>
                                     </td>
 
 
@@ -1112,23 +1131,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C10" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C10" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C10" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C10" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C10" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C10" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C10" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C10" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                         <span asp-validation-for="FormC.C10" class="text-danger"></span>
+                                         <span asp-validation-for="PracticumForms.FormC.C10" class="text-danger"></span>
                                     </td>
 
 
@@ -1139,23 +1158,23 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C11" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C11" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C11" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C11" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C11" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C11" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C11" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C11" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C11" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C11" class="text-danger"></span>
                                     </td>
 
 
@@ -1166,51 +1185,51 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C12" value="Excellent" checked>
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C12" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C12" value="Good">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C12" value="Good">
                                                 <label class="form-check-label" for="good1">Good</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C12" value="Fair">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C12" value="Fair">
                                                 <label class="form-check-label" for="fair1">Fair</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" asp-for="FormC.C12" value="N/A">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C12" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
                                         </div>
-                                        <span asp-validation-for="FormC.C12" class="text-danger"></span>
+                                        <span asp-validation-for="PracticumForms.FormC.C12" class="text-danger"></span>
                                     </td>
 
 
                                 </tr>
                                 <tr>
                                     <td colspan="4">
-                                        <textarea class="form-control" rows="3" asp-for="FormC.CComments" placeholder="Enter comments for Section C"></textarea>
-                                        <span asp-validation-for="FormC.CComments" class="text-danger"></span>
+                                        <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.CComments" placeholder="Enter comments for Section C"></textarea>
+                                        <span asp-validation-for="PracticumForms.FormC.CComments" class="text-danger"></span>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <label class="form-label" asp-for="FormC.PracSVComments">Practicum supervisor's comments:</label>
-                                <textarea class="form-control" rows="3" asp-for="FormC.PracSVComments" placeholder="Comments"></textarea>
+                                <label class="form-label" asp-for="PracticumForms.FormC.PracSVComments">Practicum supervisor's comments:</label>
+                                <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.PracSVComments" placeholder="Comments"></textarea>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <label class="form-label" asp-for="FormC.StuComments">Student's comments:</label>
-                                <textarea class="form-control" rows="3" asp-for="FormC.StuComments" placeholder="Comments"></textarea>
+                                <label class="form-label" asp-for="PracticumForms.FormC.StuComments">Student's comments:</label>
+                                <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.StuComments" placeholder="Comments"></textarea>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <label class="form-label" asp-for="FormC.InsComments">Instructor's comments:</label>
-                                <textarea class="form-control" rows="3" asp-for="FormC.InsComments" placeholder="Comments"></textarea>
+                                <label class="form-label" asp-for="PracticumForms.FormC.InsComments">Instructor's comments:</label>
+                                <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.InsComments" placeholder="Comments"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer sticky justify-content-center">
@@ -2060,22 +2079,22 @@
                     <form method="post" asp-action="FormFOIPSubmit" enctype="multipart/form-data">
                         <div class="row mb-1">
                             <div class="col-md-6">
-                                <label asp-for="FormFOIP.StuFirstName" class="form-label">First name:</label>
-                                <input asp-for="FormFOIP.StuFirstName" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormFOIP.StuFirstName" class="form-label">First name:</label>
+                                <input asp-for="PracticumForms.FormFOIP.StuFirstName" type="text" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="FormFOIP.StuLastName" class="form-label">Last name:</label>
-                                <input asp-for="FormFOIP.StuLastName" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormFOIP.StuLastName" class="form-label">Last name:</label>
+                                <input asp-for="PracticumForms.FormFOIP.StuLastName" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label asp-for="FormFOIP.StuId" class="form-label">Student ID Number:</label>
-                                <input asp-for="FormFOIP.StuId" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormFOIP.StuId" class="form-label">Student ID Number:</label>
+                                <input asp-for="PracticumForms.FormFOIP.StuId" type="text" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="FormFOIP.Program" class="form-label">Program name:</label>
-                                <input asp-for="FormFOIP.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
+                                <label asp-for="PracticumForms.FormFOIP.Program" class="form-label">Program name:</label>
+                                <input asp-for="PracticumForms.FormFOIP.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
                             </div>
                         </div>
                         <div class="row mb-1">
@@ -2114,8 +2133,8 @@
                                         Practicum site (hosting organization) supervisor, administration, and/or support staff
                                     </li>
                                     <li>
-                                        <label asp-for="FormFOIP.Other" class="form-label" style="font-weight: normal;">Other (Please specify):</label>
-                                        <input asp-for="FormFOIP.Other" type="text" class="form-control">
+                                        <label asp-for="PracticumForms.FormFOIP.Other" class="form-label" style="font-weight: normal;">Other (Please specify):</label>
+                                        <input asp-for="PracticumForms.FormFOIP.Other" type="text" class="form-control">
                                     </li>
                                 </ol>
                             </div>
@@ -2164,12 +2183,12 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-8">
-                                <label asp-for="FormFOIP.StuSign" class="form-label">Name:</label>
-                                <input asp-for="FormFOIP.StuSign" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormFOIP.StuSign" class="form-label">Name:</label>
+                                <input asp-for="PracticumForms.FormFOIP.StuSign" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormFOIP.StuSignDate" class="form-label">Date:</label>
-                                <input asp-for="FormFOIP.StuSignDate" type="date" class="form-control">
+                                <label asp-for="PracticumForms.FormFOIP.StuSignDate" class="form-label">Date:</label>
+                                <input asp-for="PracticumForms.FormFOIP.StuSignDate" type="date" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -2202,48 +2221,48 @@
                     <form method="post" asp-action="FormStuInfoSubmit" enctype="multipart/form-data">
                         <div class="row mb-1">
                             <div class="col-md-6">
-                                <label asp-for="FormStuInfo.StuLastName" class="form-label">Last name:</label>
-                                <input asp-for="FormStuInfo.StuLastName" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.StuLastName" class="form-label">Last name:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.StuLastName" type="text" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="FormStuInfo.StuFirstName" class="form-label">First name:</label>
-                                <input asp-for="FormStuInfo.StuFirstName" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.StuFirstName" class="form-label">First name:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.StuFirstName" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <label asp-for="FormStuInfo.StuId" class="form-label">Student ID:</label>
-                                <input asp-for="FormStuInfo.StuId" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.StuId" class="form-label">Student ID:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.StuId" type="text" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="FormStuInfo.Program" class="form-label">Program:</label>
-                                <input asp-for="FormStuInfo.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <label asp-for="FormStuInfo.ProgStartDate" class="form-label">In what year and semester did you start in the program? (Example, 18FL):</label>
-                                <input asp-for="FormStuInfo.ProgStartDate" type="text" class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                                <label asp-for="FormStuInfo.PracStartDate" class="form-label">Year and term in which you are/will be registered for CIT 2271 Practicum (Example, 19WN):</label>
-                                <input asp-for="FormStuInfo.PracStartDate" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.Program" class="form-label">Program:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
-                                <label asp-for="FormStuInfo.CollegeEmail" class="form-label">College e-mail address (will be used to share info):</label>
-                                <input asp-for="FormStuInfo.CollegeEmail" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.ProgStartDate" class="form-label">In what year and semester did you start in the program? (Example, 18FL):</label>
+                                <input asp-for="PracticumForms.FormStuInfo.ProgStartDate" type="text" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="FormStuInfo.PhoneNumber" class="form-label">Phone number best able to reach you through:</label>
-                                <input asp-for="FormStuInfo.PhoneNumber" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.PracStartDate" class="form-label">Year and term in which you are/will be registered for CIT 2271 Practicum (Example, 19WN):</label>
+                                <input asp-for="PracticumForms.FormStuInfo.PracStartDate" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
-                                <label asp-for="FormStuInfo.AltPhoneNumber" class="form-label">Alternate phone number to reach you through:</label>
-                                <input asp-for="FormStuInfo.AltPhoneNumber" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.CollegeEmail" class="form-label">College e-mail address (will be used to share info):</label>
+                                <input asp-for="PracticumForms.FormStuInfo.CollegeEmail" type="text" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PracticumForms.FormStuInfo.PhoneNumber" class="form-label">Phone number best able to reach you through:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.PhoneNumber" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label asp-for="PracticumForms.FormStuInfo.AltPhoneNumber" class="form-label">Alternate phone number to reach you through:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.AltPhoneNumber" type="text" class="form-control">
                             </div>
                         </div>
  prac-forms-styling
@@ -2272,24 +2291,24 @@
 mid
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label asp-for="FormStuInfo.Address.Street" class="form-label">Street:</label>
-                                <input asp-for="FormStuInfo.Address.Street" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.Address.Street" class="form-label">Street:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.Address.Street" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormStuInfo.Address.City" class="form-label">City:</label>
-                                <input asp-for="FormStuInfo.Address.City" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.Address.City" class="form-label">City:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.Address.City" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormStuInfo.Address.Prov" class="form-label">Prov:</label>
-                                <input asp-for="FormStuInfo.Address.Prov" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.Address.Prov" class="form-label">Prov:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.Address.Prov" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormStuInfo.Address.Country" class="form-label">Country:</label>
-                                <input asp-for="FormStuInfo.Address.Country" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.Address.Country" class="form-label">Country:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.Address.Country" type="text" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="FormStuInfo.Address.PostalCode" class="form-label">Postal Code:</label>
-                                <input asp-for="FormStuInfo.Address.PostalCode" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormStuInfo.Address.PostalCode" class="form-label">Postal Code:</label>
+                                <input asp-for="PracticumForms.FormStuInfo.Address.PostalCode" type="text" class="form-control">
  master
                             </div>
                         </div>

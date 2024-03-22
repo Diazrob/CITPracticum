@@ -19,6 +19,38 @@ namespace CITPracticum.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+        // Practicum Forms Functions
+        public bool Add(PracticumForms practicumForms)
+        {
+            _context.Add(practicumForms);
+            return Save();
+        }
+        public bool Delete(PracticumForms practicumForms)
+        {
+            _context.Remove(practicumForms);
+            return Save();
+        }
+
+        public async Task<PracticumForms> FormsGetByIdAsync(int id)
+        {
+            return await _context.PracticumForms.FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<PracticumForms> FormsGetIdAsyncNoTracking(int id)
+        {
+            return await _context.PracticumForms.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<PracticumForms>> GetAllForms()
+        {
+            return await _context.PracticumForms.ToListAsync();
+        }
+
+        public bool Update(PracticumForms practicumForms)
+        {
+            _context.Update(practicumForms);
+            return Save();
+        }
         // Form A Functions
         public bool Add(FormA formA)
         {

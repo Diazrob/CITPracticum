@@ -41,18 +41,21 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/Student/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Student" ? "active" : "") link-dark">
-                        <i class="fa-solid fa-users fa-lg" style="width: 1.5em;"></i>
-                        <span>Students</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/Employer/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Employer" ? "active" : "") link-dark">
-                        <i class="fa-solid fa-address-book fa-lg" style="width: 1.5em;"></i>
-                        <span>Employers</span>
-                    </a>
-                </li>
+                @if (User.IsInRole("admin"))
+                {
+                    <li>
+                        <a href="/Student/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Student" ? "active" : "") link-dark">
+                            <i class="fa-solid fa-users fa-lg" style="width: 1.5em;"></i>
+                            <span>Students</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Employer/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Employer" ? "active" : "") link-dark">
+                            <i class="fa-solid fa-address-book fa-lg" style="width: 1.5em;"></i>
+                            <span>Employers</span>
+                        </a>
+                    </li>
+                }
                 <li>
                     <a href="/JobPosting/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Jobs" ? "active" : "") link-dark">
                         <i class="fa-solid fa-clipboard fa-lg" style="width: 1.5em;"></i>
