@@ -2,6 +2,7 @@
 using CITPracticum.Interfaces;
 using CITPracticum.Models;
 using CITPracticum.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CITPracticum.Controllers
@@ -9,15 +10,45 @@ namespace CITPracticum.Controllers
     public class PracticumFormController : Controller
     {
         private readonly IPracticumFormsRepository _practicumFormsRepository;
+        private readonly IPlacementRepository _placementRepository;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IStudentRepository _studentRepository;
 
-        public PracticumFormController(IPracticumFormsRepository practicumFormsRepository)
+        public PracticumFormController(IPracticumFormsRepository practicumFormsRepository, IPlacementRepository placementRepository, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IStudentRepository studentRepository)
         {
             _practicumFormsRepository = practicumFormsRepository;
+            _placementRepository = placementRepository;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _studentRepository = studentRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ViewData["ActivePage"] = "PracForms";
-            return View();
+            if (User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                int stuId = Convert.ToInt32(usr.StudentId);
+                var student = await _studentRepository.GetByIdAsync(stuId);
+                var usrLastName = student.LastName;
+                var usrFirstName = student.FirstName;
+                var usrStuId = student.StuId;
+
+                var submitFormAVM = new Placement()
+                {
+                    Student = new Student()
+                    {
+                        LastName = usrLastName,
+                        FirstName = usrFirstName,
+                        StuId = usrStuId
+                    }
+                };
+                return View(submitFormAVM);
+            } else
+            {
+                var submitFormAVM = new Placement();
+                return View(submitFormAVM);
+            } 
         }
 
         public IActionResult EmployerSubmittedForms()
@@ -32,46 +63,66 @@ namespace CITPracticum.Controllers
         }
 
         // Form A submission handler
-        public IActionResult FormASubmit()
+        public async Task<IActionResult> FormASubmit()
         {
-            var submitFormAVM = new PracticumForms();
+            var submitFormAVM = new Placement();
+
+            if(User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                var usrLastName = usr.Student.LastName;
+                var usrFirstName = usr.Student.FirstName;
+                var usrStuId = usr.Student.StuId;
+
+                submitFormAVM.Student.LastName = usrLastName;
+                submitFormAVM.Student.FirstName = usrFirstName;
+                submitFormAVM.Student.StuId = usrStuId;
+            }
             
             return View(submitFormAVM);
         }
         [HttpPost]
-        public async Task<IActionResult> FormASubmit(PracticumForms submitFormAVM, List<string> credentialsList)
+        public async Task<IActionResult> FormASubmit(Placement submitFormAVM, List<string> credentialsList)
         {
             if (ModelState.IsValid)
             {
                 string credentials = string.Join(", ", credentialsList);
 
-                var formA = new FormA()
+                var placement = new Placement() {
+
+                PracticumForms = new PracticumForms()
                 {
-                    StuLastName = submitFormAVM.FormA.StuLastName,
-                    StuFirstName = submitFormAVM.FormA.StuFirstName,
-                    StuId = submitFormAVM.FormA.StuId,
-                    Program = "Computer Information Technology",
-                    HostCompany = submitFormAVM.FormA.HostCompany,
-                    OrgType = submitFormAVM.FormA.OrgType,
-                    SVName = submitFormAVM.FormA.SVName,
-                    SVPosition = submitFormAVM.FormA.SVPosition,
-                    SVEmail = submitFormAVM.FormA.SVEmail,
-                    SVPhoneNumber = submitFormAVM.FormA.SVPhoneNumber,
-                    SVCredentials = credentials,
-                    SVCredOther = submitFormAVM.FormA.SVCredOther,
-                    Address = new Address()
+                    FormA = new FormA()
                     {
-                        Street = submitFormAVM.FormA.Address.Street,
-                        City = submitFormAVM.FormA.Address.City,
-                        Prov = submitFormAVM.FormA.Address.Prov,
-                        Country = submitFormAVM.FormA.Address.Country,
-                        PostalCode = submitFormAVM.FormA.Address.PostalCode
-                    },
-                    StartDate = submitFormAVM.FormA.StartDate,
-                    PaymentCategory = submitFormAVM.FormA.PaymentCategory,
-                    Submitted = true
-                };
-                _practicumFormsRepository.Add(formA);
+                        StuLastName = submitFormAVM.PracticumForms.FormA.StuLastName,
+                        StuFirstName = submitFormAVM.PracticumForms.FormA.StuFirstName,
+                        StuId = submitFormAVM.PracticumForms.FormA.StuId,
+                        Program = "Computer Information Technology",
+                        HostCompany = submitFormAVM.PracticumForms.FormA.HostCompany,
+                        OrgType = submitFormAVM.PracticumForms.FormA.OrgType,
+                        SVName = submitFormAVM.PracticumForms.FormA.SVName,
+                        SVPosition = submitFormAVM.PracticumForms.FormA.SVPosition,
+                        SVEmail = submitFormAVM.PracticumForms.FormA.SVEmail,
+                        SVPhoneNumber = submitFormAVM.PracticumForms.FormA.SVPhoneNumber,
+                        SVCredentials = credentials,
+                        SVCredOther = submitFormAVM.PracticumForms.FormA.SVCredOther,
+                        Address = new Address()
+                        {
+                            Street = submitFormAVM.PracticumForms.FormA.Address.Street,
+                            City = submitFormAVM.PracticumForms.FormA.Address.City,
+                            Prov = submitFormAVM.PracticumForms.FormA.Address.Prov,
+                            Country = submitFormAVM.PracticumForms.FormA.Address.Country,
+                            PostalCode = submitFormAVM.PracticumForms.FormA.Address.PostalCode
+                        },
+                        StartDate = submitFormAVM.PracticumForms.FormA.StartDate,
+                        PaymentCategory = submitFormAVM.PracticumForms.FormA.PaymentCategory,
+                        Submitted = true
+                    }
+                }
+            };
+                _practicumFormsRepository.Add(placement.PracticumForms.FormA);
+                _practicumFormsRepository.Add(placement.PracticumForms);
+                _placementRepository.Add(placement);
                 return RedirectToAction("Index");
             }
             return View(submitFormAVM);

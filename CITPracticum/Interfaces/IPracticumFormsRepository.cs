@@ -5,6 +5,13 @@ namespace CITPracticum.Interfaces
     public interface IPracticumFormsRepository
     {
         bool Save();
+        // PracticumForms Interfaces
+        Task<IEnumerable<PracticumForms>> GetAllForms();
+        Task<PracticumForms> FormsGetByIdAsync(int id);
+        Task<PracticumForms> FormsGetIdAsyncNoTracking(int id);
+        bool Add(PracticumForms practicumForms);
+        bool Update(PracticumForms practicumForms);
+        bool Delete(PracticumForms practicumForms);
         // Form A Interfaces
         Task<IEnumerable<FormA>> GetAllFormA();
         Task<FormA> FormAGetByIdAsync(int id);
