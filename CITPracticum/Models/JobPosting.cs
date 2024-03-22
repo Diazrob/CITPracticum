@@ -9,10 +9,12 @@ namespace CITPracticum.Models
         public int Id { get; set; }
         public string JobTitle { get; set; }
         public string JobDescription { get; set; }
-        public string DueDate { get; set; }
+        public string Deadline { get; set; }
         public string Company { get; set; }
         public PaymentCategory PaymentCategory { get; set; }
         public string Location { get; set; }
         public string Link { get; set; }
+        public List<Student> Applicants { get; set; }
+        public bool Archived { get; set; }
     }
 }

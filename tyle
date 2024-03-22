@@ -1,0 +1,83 @@
+* [33mcommit 809e00a222aef990bc5ec2205d1e3599471c4460[m[33m ([m[1;31morigin/Practicum-Forms-functions[m[33m)[m
+[31m|[m Author: diazrob <diazrobee@gmail.com>
+[31m|[m Date:   Mon Mar 11 13:38:56 2024 -0600
+[31m|[m 
+[31m|[m     Test branching PracticumForms
+[31m|[m 
+* [33mcommit b788b5ffe0dac12c129b31db8f4df96fe7b1edda[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mirahBranch[m[33m)[m
+[31m|[m Author: unknown <wanatdaphengp@gmail.com>
+[31m|[m Date:   Sun Mar 10 23:08:48 2024 -0600
+[31m|[m 
+[31m|[m     Created resume and cover letter pages, and added in new nav links
+[31m|[m 
+* [33mcommit 14a57324089373da3e304035a4c43544af9964a5[m
+[31m|[m Author: unknown <wanatdaphengp@gmail.com>
+[31m|[m Date:   Sun Mar 10 04:41:50 2024 -0600
+[31m|[m 
+[31m|[m     Added styling for practicum forms, timesheets, and login background
+[31m|[m 
+* [33mcommit e5978e20f27ed403c36aa3cc3c43c2eec807812b[m
+[31m|[m Author: unknown <wanatdaphengp@gmail.com>
+[31m|[m Date:   Sat Mar 9 21:04:21 2024 -0700
+[31m|[m 
+[31m|[m     Finalized login page styling
+[31m|[m 
+* [33mcommit c09496fad3563ce9995c0db8fe9cd908dd358f49[m
+[31m|[m Author: unknown <wanatdaphengp@gmail.com>
+[31m|[m Date:   Sat Mar 9 18:56:00 2024 -0700
+[31m|[m 
+[31m|[m     Fixed login issues with new styling
+[31m|[m 
+* [33mcommit 389b71ee46a4086a2945bd928f5b573c3e3a1421[m
+[31m|[m Author: unknown <wanatdaphengp@gmail.com>
+[31m|[m Date:   Sat Mar 9 18:47:39 2024 -0700
+[31m|[m 
+[31m|[m     Added in font awesome 6, styled login page, styled practicum forms page
+[31m|[m 
+* [33mcommit 7455f6010c6301924082f7eb9d6a75dac204ae5c[m
+[31m|[m Author: diazrob <diazrobee@gmail.com>
+[31m|[m Date:   Thu Mar 7 22:23:44 2024 -0700
+[31m|[m 
+[31m|[m     connected to VM database
+[31m|[m 
+* [33mcommit 8cdc9596fbc784a84758b84e7fff27eb21d85863[m
+[31m|[m Author: diazrob <diazrobee@gmail.com>
+[31m|[m Date:   Wed Mar 6 20:59:28 2024 -0700
+[31m|[m 
+[31m|[m     JobPosting completed
+[31m|[m 
+* [33mcommit dd17e666d29fae5e11489f518376235b991a38da[m
+[31m|[m Author: diazrob <diazrobee@gmail.com>
+[31m|[m Date:   Mon Mar 4 22:28:00 2024 -0700
+[31m|[m 
+[31m|[m     Delete function for student/employer added
+[31m|[m 
+* [33mcommit 41274f268d1b9b08bb54ad4673f01bddd6bd892a[m
+[31m|[m Author: diazrob <diazrobee@gmail.com>
+[31m|[m Date:   Mon Mar 4 21:12:10 2024 -0700
+[31m|[m 
+[31m|[m     Working View Student/Employer
+[31m|[m 
+* [33mcommit 331c9818154564c9b0ef230bac40dfaf85813ec5[m
+[31m|[m Author: diazrob <diazrobee@gmail.com>
+[31m|[m Date:   Sun Mar 3 12:54:28 2024 -0700
+[31m|[m 
+[31m|[m     Employer/Student Index returns complete list of users for specific roles
+[31m|[m 
+* [33mcommit 49c5aeab6fd12759c7f34640462724f6747db361[m
+[31m|[m Author: diazrob <diazrobee@gmail.com>
+[31m|[m Date:   Wed Feb 28 20:18:56 2024 -0700
+[31m|[m 
+[31m|[m     Dashboards for different roles completed.
+[31m|[m 
+* [33mcommit ee7a838b4b0ea6f3c5a8b59c5ed985307486b7dd[m
+[31m|[m Author: diazrob <diazrobee@gmail.com>
+[31m|[m Date:   Tue Feb 27 23:33:38 2024 -0700
+[31m|[m 
+[31m|[m     Add project files.
+[31m|[m 
+* [33mcommit a1275b5bc111fb5acfa1eb9797fcedc15a53c44a[m
+  Author: diazrob <diazrobee@gmail.com>
+  Date:   Tue Feb 27 23:33:33 2024 -0700
+  
+      Add .gitattributes and .gitignore.

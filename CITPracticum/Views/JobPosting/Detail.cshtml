@@ -1,1 +1,61 @@
-﻿
+﻿@model JobPosting
+
+<div class="container d-flex justify-content-center align-items-center mt-4">
+    <div class="mx-auto" style="width: 100%;">
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <button onclick="window.history.back();" class="btn btn-secondary mb-3">Back</button>
+                <h2 class="mb-3">@Model.JobTitle</h2>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <h5 class="mb-2 text-secondary">Job Description</h5>
+                <p>@Model.JobDescription</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <h5 class="mb-2 text-secondary">Due Date</h5>
+                <p>@Model.Deadline</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <h5 class="mb-2 text-secondary">Company</h5>
+                <p>@Model.Company</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <h5 class="mb-2 text-secondary">Location</h5>
+                <p>@Model.Location</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <h5 class="text-secondary">Link</h5>
+                <p>
+                    <a href="@Model.Link" target="_blank">@Model.Link</a>
+                </p>
+            </div>
+        </div>
+        <form class="row" asp-action="Apply" method="post">
+            <div class="col-md-10">
+                <input type="hidden" name="Id" value="@Model.Id" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success">Apply</button>
+                <button type="submit" class="btn btn-primary">Print</button>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- Example placeholder for the PaymentCategory. Uncomment and modify as needed.
+    <div class="mb-3">
+        <h5 class="mb-2 text-secondary">Payment Category</h5>
+        <p class="border p-3">@Model.PaymentCategory.ToString()</p>
+    </div>
+    -->
+</div>

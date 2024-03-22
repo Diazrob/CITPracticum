@@ -21,7 +21,12 @@ builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+// Repositories
 builder.Services.AddScoped<IJobPostingRepository, JobPostingRepository>();
+builder.Services.AddScoped<IPracticumFormsRepository, PracticumFormsRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IEmployerRepository, EmployerRepository>();
 
 var app = builder.Build();
 //TODO: check if users are added in database, try changing default password to this Coding@1234?

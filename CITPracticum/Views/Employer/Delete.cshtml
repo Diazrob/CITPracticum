@@ -98,19 +98,24 @@
             <h1 class="confirmation-title">Are you sure you want to delete this employer?</h1>
             <form method="post" asp-action="Delete" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label asp-for="UserName">UserName</label>
-                    <input asp-for="UserName" class="form-control" placeholder="UserName">
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email">Email</label>
+                    <label asp-for="Email">Description</label>
                     <input asp-for="Email" class="form-control" placeholder="Email">
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CompanyName">Company Name</label>
-                    <input asp-for="CompanyName" class="form-control" placeholder="Company Name">
-                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                    <label asp-for="Employer.FirstName">First Name</label>
+                    <input asp-for="Employer.FirstName" class="form-control" placeholder="FirstName">
+                    <span asp-validation-for="Employer.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Employer.LastName">Last Name</label>
+                    <input asp-for="Employer.LastName" class="form-control" placeholder="LastName">
+                    <span asp-validation-for="Employer.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Employer.CompanyName">Company</label>
+                    <input asp-for="Employer.CompanyName" class="form-control" placeholder="CompanyName">
+                    <span asp-validation-for="Employer.CompanyName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <form action="Delete" method="post">
@@ -123,5 +128,4 @@
         </div>
     </div>
 </div>
-
 

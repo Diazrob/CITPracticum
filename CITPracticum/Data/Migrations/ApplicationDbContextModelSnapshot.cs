@@ -22,6 +22,61 @@ namespace CITPracticum.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CITPracticum.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Prov")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.Administrator", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AdminEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Administrator");
+                });
+
             modelBuilder.Entity("CITPracticum.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -30,8 +85,8 @@ namespace CITPracticum.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("AdministratorId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -44,11 +99,8 @@ namespace CITPracticum.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("EmployerId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -79,8 +131,8 @@ namespace CITPracticum.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -91,6 +143,10 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AdministratorId");
+
+                    b.HasIndex("EmployerId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -99,7 +155,28 @@ namespace CITPracticum.Data.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("StudentId");
+
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.Document", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CoverLetter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Resume")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Document");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.Employer", b =>
@@ -113,16 +190,593 @@ namespace CITPracticum.Data.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmpEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
 
-                    b.HasIndex("StudentId");
+                    b.ToTable("Employers");
+                });
 
-                    b.ToTable("Employer");
+            modelBuilder.Entity("CITPracticum.Models.FormA", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HostCompany")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrgType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentCategory")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Program")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SVCredOther")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SVCredentials")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SVEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SVName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SVPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SVPosition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StuFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Submitted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.ToTable("FormAs");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.FormB", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmpSign")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("EmpSignDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("OrgName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PracHost")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PracSV")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("StuName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("StuSign")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("StuSignDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("Submitted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.ToTable("FormBs");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.FormC", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("A1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A5")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AComments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B5")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B6")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B7")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B8")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BComments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C10")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C11")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C12")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C5")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C6")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C7")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C8")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C9")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CComments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InsComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("InsSign")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("InsSubmitted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Org")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PracSV")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PracSVComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SVSign")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SVSubmitted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("StuComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("StuSign")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("StuSubmitted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FormCs");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.FormD", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("A1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A5")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AComments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B5")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B6")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B7")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B8")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BComments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C10")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C11")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C12")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C5")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C6")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C7")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C8")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C9")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CComments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InsComments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("InsSign")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("InsSubmitted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Org")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PracSV")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PracSVComments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SVSign")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SVSubmitted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("StuComments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("StuSign")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("StuSubmitted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FormDs");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.FormFOIP", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Other")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Program")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuSign")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StuSignDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Submitted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FormFOIPs");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.FormStuInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AltPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CollegeEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PracStartDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProgStartDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Program")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Submitted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.ToTable("FormStuInfos");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.JobPosting", b =>
@@ -133,11 +787,14 @@ namespace CITPracticum.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("Archived")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Company")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DueDate")
+                    b.Property<string>("Deadline")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -165,6 +822,98 @@ namespace CITPracticum.Data.Migrations
                     b.ToTable("JobPostings");
                 });
 
+            modelBuilder.Entity("CITPracticum.Models.Placement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("DocumentId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EmployerId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("JobPostingId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PracticumFormsId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TimesheetId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.HasIndex("EmployerId");
+
+                    b.HasIndex("JobPostingId");
+
+                    b.HasIndex("PracticumFormsId");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TimesheetId");
+
+                    b.ToTable("Placements");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.PracticumForms", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("FormAId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FormBId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FormCId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FormDId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FormFOIPId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FormStuInfoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FormAId");
+
+                    b.HasIndex("FormBId");
+
+                    b.HasIndex("FormCId");
+
+                    b.HasIndex("FormDId");
+
+                    b.HasIndex("FormFOIPId");
+
+                    b.HasIndex("FormStuInfoId");
+
+                    b.ToTable("PracticumForms");
+                });
+
             modelBuilder.Entity("CITPracticum.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -176,27 +925,58 @@ namespace CITPracticum.Data.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("EmployerId")
+                    b.Property<int?>("DocumentId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Hours")
+                    b.Property<int?>("JobPostingId")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
 
-                    b.HasIndex("EmployerId");
+                    b.HasIndex("DocumentId");
 
-                    b.ToTable("Student");
+                    b.HasIndex("JobPostingId");
+
+                    b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.Timesheet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Hours")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ShiftDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Timesheets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -332,26 +1112,74 @@ namespace CITPracticum.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CITPracticum.Models.Employer", b =>
+            modelBuilder.Entity("CITPracticum.Models.AppUser", b =>
                 {
-                    b.HasOne("CITPracticum.Models.AppUser", "AppUser")
-                        .WithMany("Employers")
-                        .HasForeignKey("AppUserId");
+                    b.HasOne("CITPracticum.Models.Administrator", "Administrator")
+                        .WithMany()
+                        .HasForeignKey("AdministratorId");
+
+                    b.HasOne("CITPracticum.Models.Employer", "Employer")
+                        .WithMany()
+                        .HasForeignKey("EmployerId");
 
                     b.HasOne("CITPracticum.Models.Student", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId");
 
-                    b.Navigation("AppUser");
+                    b.Navigation("Administrator");
+
+                    b.Navigation("Employer");
 
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("CITPracticum.Models.Student", b =>
+            modelBuilder.Entity("CITPracticum.Models.Employer", b =>
                 {
-                    b.HasOne("CITPracticum.Models.AppUser", "AppUser")
-                        .WithMany("Students")
+                    b.HasOne("CITPracticum.Models.AppUser", null)
+                        .WithMany("Employers")
                         .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.FormA", b =>
+                {
+                    b.HasOne("CITPracticum.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.FormB", b =>
+                {
+                    b.HasOne("CITPracticum.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.FormStuInfo", b =>
+                {
+                    b.HasOne("CITPracticum.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.Placement", b =>
+                {
+                    b.HasOne("CITPracticum.Models.Document", "Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CITPracticum.Models.Employer", "Employer")
                         .WithMany()
@@ -359,9 +1187,97 @@ namespace CITPracticum.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.HasOne("CITPracticum.Models.JobPosting", "JobPosting")
+                        .WithMany()
+                        .HasForeignKey("JobPostingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CITPracticum.Models.PracticumForms", "PracticumForms")
+                        .WithMany()
+                        .HasForeignKey("PracticumFormsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CITPracticum.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CITPracticum.Models.Timesheet", "Timesheet")
+                        .WithMany()
+                        .HasForeignKey("TimesheetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
 
                     b.Navigation("Employer");
+
+                    b.Navigation("JobPosting");
+
+                    b.Navigation("PracticumForms");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Timesheet");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.PracticumForms", b =>
+                {
+                    b.HasOne("CITPracticum.Models.FormA", "FormA")
+                        .WithMany()
+                        .HasForeignKey("FormAId");
+
+                    b.HasOne("CITPracticum.Models.FormB", "FormB")
+                        .WithMany()
+                        .HasForeignKey("FormBId");
+
+                    b.HasOne("CITPracticum.Models.FormC", "FormC")
+                        .WithMany()
+                        .HasForeignKey("FormCId");
+
+                    b.HasOne("CITPracticum.Models.FormD", "FormD")
+                        .WithMany()
+                        .HasForeignKey("FormDId");
+
+                    b.HasOne("CITPracticum.Models.FormFOIP", "FormFOIP")
+                        .WithMany()
+                        .HasForeignKey("FormFOIPId");
+
+                    b.HasOne("CITPracticum.Models.FormStuInfo", "FormStuInfo")
+                        .WithMany()
+                        .HasForeignKey("FormStuInfoId");
+
+                    b.Navigation("FormA");
+
+                    b.Navigation("FormB");
+
+                    b.Navigation("FormC");
+
+                    b.Navigation("FormD");
+
+                    b.Navigation("FormFOIP");
+
+                    b.Navigation("FormStuInfo");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.Student", b =>
+                {
+                    b.HasOne("CITPracticum.Models.AppUser", null)
+                        .WithMany("Students")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("CITPracticum.Models.Document", "Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId");
+
+                    b.HasOne("CITPracticum.Models.JobPosting", null)
+                        .WithMany("Applicants")
+                        .HasForeignKey("JobPostingId");
+
+                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -420,6 +1336,11 @@ namespace CITPracticum.Data.Migrations
                     b.Navigation("Employers");
 
                     b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.JobPosting", b =>
+                {
+                    b.Navigation("Applicants");
                 });
 #pragma warning restore 612, 618
         }

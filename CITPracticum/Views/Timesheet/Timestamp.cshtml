@@ -1,0 +1,161 @@
+﻿@{
+    DateTime now = DateTime.Now;
+}
+<style>
+    .datetime {
+        color: #fff;
+        background: #69a620;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        width: 340px;
+        padding: 15px 10px;
+        border: 3px solid #6cb0e4;
+        border-radius: 5px;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        transition: 0.5s;
+        transition-property: background, box-shadow;
+    }
+
+        .datetime:hover {
+            background: #6cb0e4;
+            box-shadow: 0 0 30px #6cb0e4;
+        }
+
+    .date {
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 3px;
+    }
+
+    .time {
+        font-size: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .time span:not(:last-child) {
+            position: relative;
+            margin: 0 6px;
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: 3px;
+        }
+
+        .time span:last-child {
+            background: #6cb0e4;
+            font-size: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 10px;
+            padding: 0 5px;
+            border-radius: 3px;
+        }
+</style>
+
+<ul class="nav nav-tabs mb-3" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link" href="/Timesheet/Index">Timesheets</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/Timesheet/Timestamp">Enter Time Entry</a>
+    </li>
+</ul>
+
+<!-- Digital clock -->
+<div class="container text-center">
+    <h3 class="fw-bold text-body-emphasis">Enter Time Entry</h3>
+    <div class="mt-4 text-center">
+
+        <div class="col-lg-6 mx-auto">
+            <div class="datetime">
+                <div class="date">
+                    <span id="dayname">Day</span>
+                    <span> | </span>
+                    <span id="month">Month</span>
+                    <span id="daynum">00</span>
+                    <span id="year">Year</span>
+                </div>
+                <div class="time">
+                    <span id="hour">00</span>:
+                    <span id="minutes">00</span>
+                    <span id="period">AM</span>
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <div>
+                    <button type="button" class="btn btn-success btn-lg px-4 gap-3 w-100" data-bs-toggle="modal" data-bs-target="#logTimeModal">Log time</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="logTimeModal" tabindex="-1" aria-labelledby="logTimeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Time Sheet Entry</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label">Date worked:</label>
+                <input type="date" class="form-control mb-2" value="@now.ToString("yyyy-MM-dd")">
+
+                <label class="form-label">Hours worked:</label>
+                <input type="text" class="form-control mb-2" />
+
+                <label class="form-label">Work Description:</label>
+                <textarea class="form-control mb-2" rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="add">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateTime() {
+        const now = new Date();
+
+        // Get elements
+        const daynameElement = document.getElementById('dayname');
+        const monthElement = document.getElementById('month');
+        const daynumElement = document.getElementById('daynum');
+        const yearElement = document.getElementById('year');
+        const hourElement = document.getElementById('hour');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        const periodElement = document.getElementById('period');
+
+        // Update date
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const monthsOfYear = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        daynameElement.textContent = daysOfWeek[now.getDay()];
+        monthElement.textContent = monthsOfYear[now.getMonth()];
+        daynumElement.textContent = now.getDate();
+        yearElement.textContent = now.getFullYear();
+
+        // Update time
+        let hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+        const period = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12; // Convert to 12-hour format
+        hourElement.textContent = hours < 10 ? '0' + hours : hours;
+        minutesElement.textContent = minutes < 10 ? '0' + minutes : minutes;
+        secondsElement.textContent = seconds < 10 ? '0' + seconds : seconds;
+        periodElement.textContent = period;
+    }
+
+    // Update time every second
+    setInterval(updateTime, 1000);
+
+    // Call updateTime initially to avoid delay
+    updateTime();
+</script>

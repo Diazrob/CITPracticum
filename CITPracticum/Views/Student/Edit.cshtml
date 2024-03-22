@@ -1,0 +1,59 @@
+﻿@using CITPracticum.Data.Enum;
+@using CITPracticum.ViewModels;
+
+@model EditStudentViewModel
+
+@{
+    ViewData["Title"] = "Edit a Student";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <p>
+            <h4>Edit a Student</h4>
+        </p>
+        @if (TempData["Error"] != null)
+        {
+            <div class="col-md-12 alert alert-danger">
+                <span><b>Sorry! </b>@TempData["Error"]</span>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-8 offset-2">
+
+                <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                    <input type="hidden" value="Id" id="Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StuId" class="control-label"></label>
+                        <input asp-for="StuId" class="form-control" />
+                        <span asp-validation-for="StuId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StuEmail" class="control-label"></label>
+                        <input asp-for="StuEmail" class="form-control" />
+                        <span asp-validation-for="StuEmail" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="btn btn-outline-success float right" type="submit" value="Edit Student" />
+                        <a class="btn btn-outline-secondary" asp-controller="Student" asp-action="Index">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
