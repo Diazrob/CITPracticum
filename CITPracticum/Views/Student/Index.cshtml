@@ -134,10 +134,9 @@
         }
 </style>
 
-<section class="py-5 text-center container">
+@* <section class="py-5 text-center container">
     <div class="row py-lg-2">
-        <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Students List</h1>
+        <div class="col-lg-6 col-md-8 mx-auto"> *@
 
               <!-- Tab navigation with button -->
               <ul class="nav nav-tabs mb-3" role="tablist">
@@ -177,7 +176,7 @@
                                   <td>@item.Student.StuId</td>
                                   <td>
                                       <a class="btn btn-sm btn-outline-primary" asp-controller="Student" asp-action="Detail" asp-route-id="@item.Student.Id">View</a>
-                                      <a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Edit" asp-route-id="@item.Student.Id">Edit</a>
+                                      <a class="btn btn-sm btn-outline-primary" asp-controller="Student" asp-action="Edit" asp-route-id="@item.Student.Id">Edit</a>
                                       <a class="btn btn-sm btn-outline-danger" asp-controller="Student" asp-action="Delete" asp-route-email="@item.Email" asp-route-id="@item.Student.Id">Delete</a>
                                   </td>
                               </tr>
@@ -196,6 +195,6 @@
                   </tbody>
               </table>
           </div>
-      </div>
+      @* </div>
   </div>
-   </section>
+</section> *@

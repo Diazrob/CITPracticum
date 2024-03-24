@@ -33,17 +33,19 @@ namespace CITPracticum.Controllers
                 var usrLastName = student.LastName;
                 var usrFirstName = student.FirstName;
                 var usrStuId = student.StuId;
+                var usrEmail = student.StuEmail;
 
-                var submitFormAVM = new Placement()
+                var placementVM = new Placement()
                 {
                     Student = new Student()
                     {
                         LastName = usrLastName,
                         FirstName = usrFirstName,
-                        StuId = usrStuId
+                        StuId = usrStuId,
+                        StuEmail = usrEmail
                     }
                 };
-                return View(submitFormAVM);
+                return View(placementVM);
             } else
             {
                 var submitFormAVM = new Placement();
@@ -63,21 +65,11 @@ namespace CITPracticum.Controllers
         }
 
         // Form A submission handler
-        public async Task<IActionResult> FormASubmit()
+        public IActionResult FormASubmit()
         {
-            var submitFormAVM = new Placement();
-
-            if(User.IsInRole("student"))
+            var submitFormAVM = new Placement()
             {
-                var usr = await _userManager.GetUserAsync(User);
-                var usrLastName = usr.Student.LastName;
-                var usrFirstName = usr.Student.FirstName;
-                var usrStuId = usr.Student.StuId;
-
-                submitFormAVM.Student.LastName = usrLastName;
-                submitFormAVM.Student.FirstName = usrFirstName;
-                submitFormAVM.Student.StuId = usrStuId;
-            }
+            };
             
             return View(submitFormAVM);
         }
@@ -97,7 +89,7 @@ namespace CITPracticum.Controllers
                         StuLastName = submitFormAVM.PracticumForms.FormA.StuLastName,
                         StuFirstName = submitFormAVM.PracticumForms.FormA.StuFirstName,
                         StuId = submitFormAVM.PracticumForms.FormA.StuId,
-                        Program = "Computer Information Technology",
+                        Program = submitFormAVM.PracticumForms.FormA.Program,
                         HostCompany = submitFormAVM.PracticumForms.FormA.HostCompany,
                         OrgType = submitFormAVM.PracticumForms.FormA.OrgType,
                         SVName = submitFormAVM.PracticumForms.FormA.SVName,
@@ -116,6 +108,7 @@ namespace CITPracticum.Controllers
                         },
                         StartDate = submitFormAVM.PracticumForms.FormA.StartDate,
                         PaymentCategory = submitFormAVM.PracticumForms.FormA.PaymentCategory,
+                        OutOfCountry = submitFormAVM.PracticumForms.FormA.OutOfCountry,
                         Submitted = true
                     }
                 }
