@@ -65,19 +65,13 @@ namespace CITPracticum.Controllers
         // Form A submission handler
         public async Task<IActionResult> FormASubmit()
         {
-            var submitFormAVM = new Placement();
-
-            if(User.IsInRole("student"))
+            var submitFormAVM = new Placement()
             {
-                var usr = await _userManager.GetUserAsync(User);
-                var usrLastName = usr.Student.LastName;
-                var usrFirstName = usr.Student.FirstName;
-                var usrStuId = usr.Student.StuId;
-
-                submitFormAVM.Student.LastName = usrLastName;
-                submitFormAVM.Student.FirstName = usrFirstName;
-                submitFormAVM.Student.StuId = usrStuId;
-            }
+                PracticumForms = new PracticumForms()
+                {
+                    CreateFormAViewModel = new CreateFormAViewModel()
+                }
+            };
             
             return View(submitFormAVM);
         }
@@ -97,7 +91,7 @@ namespace CITPracticum.Controllers
                         StuLastName = submitFormAVM.PracticumForms.FormA.StuLastName,
                         StuFirstName = submitFormAVM.PracticumForms.FormA.StuFirstName,
                         StuId = submitFormAVM.PracticumForms.FormA.StuId,
-                        Program = "Computer Information Technology",
+                        Program = submitFormAVM.PracticumForms.FormA.Program,
                         HostCompany = submitFormAVM.PracticumForms.FormA.HostCompany,
                         OrgType = submitFormAVM.PracticumForms.FormA.OrgType,
                         SVName = submitFormAVM.PracticumForms.FormA.SVName,
