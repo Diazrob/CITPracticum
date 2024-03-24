@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CITPracticum.ViewModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CITPracticum.Models
@@ -31,6 +32,8 @@ namespace CITPracticum.Models
         public int? FormStuInfoId { get; set; }
         public FormStuInfo? FormStuInfo { get; set; }
 
+        // View Models
 
+        public CreateFormAViewModel CreateFormAViewModel { get; set; }
     }
 }

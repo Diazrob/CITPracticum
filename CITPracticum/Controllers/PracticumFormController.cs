@@ -69,8 +69,11 @@ namespace CITPracticum.Controllers
         {
             var submitFormAVM = new Placement()
             {
+                PracticumForms = new PracticumForms() {
+
+                    CreateFormAViewModel = new CreateFormAViewModel()
+                }
             };
-            
             return View(submitFormAVM);
         }
         [HttpPost]
