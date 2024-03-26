@@ -84,7 +84,7 @@
     <!-- List of Forms as Cards -->
     <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formAModal">
         <div class="card-body">
-            Form A - Host Information
+            <a asp-controller="PracticumForm" asp-action="CreateFormA"> Form A - Host Information </a>
         </div>
     </div>
 
@@ -135,18 +135,18 @@
 
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuLastName" class="form-label">Student Last Name:</label>
-                                <input asp-for="PracticumForms.FormA.StuLastName" type="text" class="form-control" value="@Model.Student.LastName">
+                                <input asp-for="PracticumForms.FormA.StuLastName" type="text" class="form-control" value="@Model.Student.LastName" readonly>
                                 <span asp-validation-for="PracticumForms.FormA.StuLastName" class="text-danger"></span>
 
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuFirstName" class="form-label">Student First Name:</label>
-                                <input asp-for="PracticumForms.FormA.StuFirstName" type="text" class="form-control" value="@Model.Student.FirstName">
+                                <input asp-for="PracticumForms.FormA.StuFirstName" type="text" class="form-control" value="@Model.Student.FirstName" readonly>
                                 <span asp-validation-for="PracticumForms.FormA.StuFirstName" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuId" class="form-label">Student ID:</label>
-                                <input asp-for="PracticumForms.FormA.StuId" type="text" class="form-control" value="@Model.Student.StuId">
+                                <input asp-for="PracticumForms.FormA.StuId" type="text" class="form-control" value="@Model.Student.StuId" readonly>
                                 <span asp-validation-for="PracticumForms.FormA.StuId" class="text-danger"></span>
                             </div>
                        
@@ -156,17 +156,17 @@
                             <div class="row mb-3">
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuLastName" class="form-label">Student Last Name:</label>
-                                <input asp-for="PracticumForms.FormA.StuLastName" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.StuLastName" type="text" class="form-control" required>
                                 <span asp-validation-for="PracticumForms.FormA.StuLastName" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuFirstName" class="form-label">Student First Name:</label>
-                                <input asp-for="PracticumForms.FormA.StuFirstName" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.StuFirstName" type="text" class="form-control required">
                                 <span asp-validation-for="PracticumForms.FormA.StuFirstName" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuId" class="form-label">Student ID:</label>
-                                <input asp-for="PracticumForms.FormA.StuId" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.StuId" type="text" class="form-control required">
                                 <span asp-validation-for="PracticumForms.FormA.StuId" class="text-danger"></span>
                             </div>
                         </div>
@@ -181,12 +181,12 @@
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.HostCompany" class="form-label">Host Company:</label>
-                                <input asp-for="PracticumForms.FormA.HostCompany" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.HostCompany" type="text" class="form-control" required>
                                 <span asp-validation-for="PracticumForms.FormA.HostCompany" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.OrgType" class="form-label">Type of organization:</label>
-                                <input asp-for="PracticumForms.FormA.OrgType" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.OrgType" type="text" class="form-control" required>
                                 <span asp-validation-for="PracticumForms.FormA.OrgType" class="text-danger"></span>
                             </div>
                         </div>
@@ -195,17 +195,17 @@
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.SVName" class="form-label">Supervisor's name:</label>
-                                <input asp-for="PracticumForms.FormA.SVName" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.SVName" type="text" class="form-control" required>
                                 <span asp-validation-for="PracticumForms.FormA.SVName" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.SVPosition" class="form-label">Supervisor's position:</label>
-                                <input asp-for="PracticumForms.FormA.SVPosition" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.SVPosition" type="text" class="form-control" required>
                                 <span asp-validation-for="PracticumForms.FormA.SVPosition" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.SVEmail" class="form-label">Supervisor's e-mail:</label>
-                                <input asp-for="PracticumForms.FormA.SVEmail" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.SVEmail" type="text" class="form-control" required>
                                 <span asp-validation-for="PracticumForms.FormA.SVEmail" class="text-danger"></span>
                             </div>
                         </div>
@@ -213,7 +213,7 @@
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.SVPhoneNumber" class="form-label">Phone number:</label>
-                                <input asp-for="PracticumForms.FormA.SVPhoneNumber" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.SVPhoneNumber" type="text" class="form-control" required>
                                 <span asp-validation-for="PracticumForms.FormA.SVPhoneNumber" class="text-danger"></span>
                             </div>
                         </div>
@@ -222,7 +222,7 @@
                         <div class="form-group mb-3">
                             <label asp-for="PracticumForms.FormA.SVCredentials" class="form-label">Supervisor's Credentials</label>
                             <div class="col-md-9">
-                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
+                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" checked/><span class="mx-2">CIT Diploma</span>
                                 <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
                                 <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
                             </div>
@@ -240,23 +240,23 @@
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.Address.Street" class="form-label">Street:</label>
-                                <input asp-for="PracticumForms.FormA.Address.Street" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.Address.Street" type="text" class="form-control" required>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.Address.City" class="form-label">City:</label>
-                                <input asp-for="PracticumForms.FormA.Address.City" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.Address.City" type="text" class="form-control" required>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.Address.Prov" class="form-label">Province:</label>
-                                <input asp-for="PracticumForms.FormA.Address.Prov" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.Address.Prov" type="text" class="form-control" required>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.Address.Country" class="form-label">Country:</label>
-                                <input asp-for="PracticumForms.FormA.Address.Country" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.Address.Country" type="text" class="form-control" required>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.Address.PostalCode" class="form-label">Postal Code:</label>
-                                <input asp-for="PracticumForms.FormA.Address.PostalCode" type="text" class="form-control">
+                                <input asp-for="PracticumForms.FormA.Address.PostalCode" type="text" class="form-control" required>
                             </div>
                         </div>
                         <!-- ... other fields ... -->

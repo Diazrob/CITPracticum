@@ -44,11 +44,14 @@ namespace CITPracticum.Controllers
                     }
                 };
                 return View(submitFormAVM);
-            } else
+            }
+            else
             {
                 var submitFormAVM = new Placement();
                 return View(submitFormAVM);
-            } 
+            }
+
+            return View();
         }
 
         public IActionResult EmployerSubmittedForms()
@@ -63,63 +66,70 @@ namespace CITPracticum.Controllers
         }
 
         // Form A submission handler
-        public async Task<IActionResult> FormASubmit()
+        public async Task<IActionResult> CreateFormA()
         {
-            var submitFormAVM = new Placement()
+            if (User.IsInRole("student"))
             {
-                PracticumForms = new PracticumForms()
+                var usr = await _userManager.GetUserAsync(User);
+                int stuId = Convert.ToInt32(usr.StudentId);
+                var student = await _studentRepository.GetByIdAsync(stuId);
+                var usrLastName = student.LastName;
+                var usrFirstName = student.FirstName;
+                var usrStuId = student.StuId;
+
+                var createFormAViewModel = new CreateFormAViewModel()
                 {
-                    CreateFormAViewModel = new CreateFormAViewModel()
-                }
-            };
-            
-            return View(submitFormAVM);
+                    StuLastName = usrLastName,
+                    StuFirstName = usrFirstName,
+                    StuId = usrStuId,
+                    StartDate = DateTime.Now
+                };
+                return View(createFormAViewModel);
+            }
+            else
+            {
+                var createFormAViewModel = new CreateFormAViewModel();
+                return View(createFormAViewModel);
+            }
         }
         [HttpPost]
-        public async Task<IActionResult> FormASubmit(Placement submitFormAVM, List<string> credentialsList)
+        public async Task<IActionResult> CreateFormA(CreateFormAViewModel formAViewModel, List<string> credentialsList)
         {
+            string credentials = string.Join(", ", credentialsList);
+            formAViewModel.SVCredentials = credentials;
+
             if (ModelState.IsValid)
             {
-                string credentials = string.Join(", ", credentialsList);
-
-                var placement = new Placement() {
-
-                PracticumForms = new PracticumForms()
+                var formA = new FormA()
                 {
-                    FormA = new FormA()
+                    StuLastName = formAViewModel.StuLastName,
+                    StuFirstName = formAViewModel.StuFirstName,
+                    StuId = formAViewModel.StuId,
+                    Program = formAViewModel.Program,
+                    HostCompany = formAViewModel.StuLastName,
+                    OrgType = formAViewModel.OrgType,
+                    SVName = formAViewModel.SVName,
+                    SVPosition = formAViewModel.SVPosition,
+                    SVEmail = formAViewModel.SVEmail,
+                    SVPhoneNumber = formAViewModel.SVPhoneNumber,
+                    SVCredentials = formAViewModel.SVCredentials,
+                    SVCredOther = formAViewModel.SVCredOther,
+                    Address = new Address()
                     {
-                        StuLastName = submitFormAVM.PracticumForms.FormA.StuLastName,
-                        StuFirstName = submitFormAVM.PracticumForms.FormA.StuFirstName,
-                        StuId = submitFormAVM.PracticumForms.FormA.StuId,
-                        Program = submitFormAVM.PracticumForms.FormA.Program,
-                        HostCompany = submitFormAVM.PracticumForms.FormA.HostCompany,
-                        OrgType = submitFormAVM.PracticumForms.FormA.OrgType,
-                        SVName = submitFormAVM.PracticumForms.FormA.SVName,
-                        SVPosition = submitFormAVM.PracticumForms.FormA.SVPosition,
-                        SVEmail = submitFormAVM.PracticumForms.FormA.SVEmail,
-                        SVPhoneNumber = submitFormAVM.PracticumForms.FormA.SVPhoneNumber,
-                        SVCredentials = credentials,
-                        SVCredOther = submitFormAVM.PracticumForms.FormA.SVCredOther,
-                        Address = new Address()
-                        {
-                            Street = submitFormAVM.PracticumForms.FormA.Address.Street,
-                            City = submitFormAVM.PracticumForms.FormA.Address.City,
-                            Prov = submitFormAVM.PracticumForms.FormA.Address.Prov,
-                            Country = submitFormAVM.PracticumForms.FormA.Address.Country,
-                            PostalCode = submitFormAVM.PracticumForms.FormA.Address.PostalCode
-                        },
-                        StartDate = submitFormAVM.PracticumForms.FormA.StartDate,
-                        PaymentCategory = submitFormAVM.PracticumForms.FormA.PaymentCategory,
-                        Submitted = true
-                    }
-                }
-            };
-                _practicumFormsRepository.Add(placement.PracticumForms.FormA);
-                _practicumFormsRepository.Add(placement.PracticumForms);
-                _placementRepository.Add(placement);
+                        Street = formAViewModel.Address.Street,
+                        City = formAViewModel.Address.City,
+                        Prov = formAViewModel.Address.Prov,
+                        Country = formAViewModel.Address.Country,
+                        PostalCode = formAViewModel.Address.PostalCode,
+                    },
+                    StartDate = formAViewModel.StartDate,
+                    PaymentCategory = formAViewModel.PaymentCategory,
+                    Submitted = true
+                };
+
                 return RedirectToAction("Index");
             }
-            return View(submitFormAVM);
+            return View(formAViewModel);
         }
 
         // Form C submission handler

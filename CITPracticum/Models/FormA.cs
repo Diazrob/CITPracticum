@@ -18,7 +18,9 @@ namespace CITPracticum.Models
         public string OrgType { get; set; }
         public string SVName { get; set; }
         public string SVPosition { get; set; }
+        [DataType(DataType.EmailAddress)]
         public string SVEmail { get; set; }
+        [DataType(DataType.PhoneNumber)]
         public string SVPhoneNumber { get; set; }
         public string? SVCredentials { get; set; }
         public string? SVCredOther { get; set; }
@@ -27,6 +29,7 @@ namespace CITPracticum.Models
         public Address Address { get; set; }
         public DateTime StartDate { get; set; }
         public PaymentCategory PaymentCategory { get; set; }
+        public string OutOfCountry { get; set; }
         public bool Submitted { get; set; }
 
     }
