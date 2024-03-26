@@ -96,22 +96,22 @@ body {
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="EmailAddress" class="control-label"></label>
-                        <input asp-for="EmailAddress" class="form-control" />
+                        <input asp-for="EmailAddress" class="form-control" max-length="50" />
                         <span asp-validation-for="EmailAddress" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="FirstName" class="control-label"></label>
-                        <input asp-for="FirstName" class="form-control" />
+                        <input asp-for="FirstName" class="form-control" max-length="50" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="LastName" class="control-label"></label>
-                        <input asp-for="LastName" class="form-control" />
+                        <input asp-for="LastName" class="form-control" max-length="50" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CompanyName" class="control-label"></label>
-                        <input asp-for="CompanyName" class="form-control" />
+                        <input asp-for="CompanyName" class="form-control" max-length="50" />
                         <span asp-validation-for="CompanyName" class="text-danger"></span>
                     </div>
                     <div class="form-group">

@@ -1,8 +1,7 @@
 ﻿@model Student
 
-
-
 <!-- Portfolio Item Heading -->
+<button onclick="window.history.back();" class="btn btn-secondary mb-3">Back</button>
 @if (User.IsInRole("admin"))
 {
     <h1>@Model.FirstName @Model.LastName's Profile</h1>
