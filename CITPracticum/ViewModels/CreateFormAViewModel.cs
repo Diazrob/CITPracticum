@@ -6,6 +6,8 @@ namespace CITPracticum.ViewModels
 {
     public class CreateFormAViewModel
     {
+        [Key]
+        public int Id { get; set; }
         [Required]
         public string StuLastName { get; set; }
         [Required]

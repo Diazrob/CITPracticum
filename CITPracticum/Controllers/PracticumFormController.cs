@@ -67,13 +67,8 @@ namespace CITPracticum.Controllers
         // Form A submission handler
         public IActionResult FormASubmit()
         {
-            var submitFormAVM = new Placement()
-            {
-                PracticumForms = new PracticumForms() {
-
-                    CreateFormAViewModel = new CreateFormAViewModel()
-                }
-            };
+            var submitFormAVM = new Placement();
+           
             return View(submitFormAVM);
         }
         [HttpPost]
