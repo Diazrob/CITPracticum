@@ -145,6 +145,31 @@ namespace CITPracticum.Controllers
             }
             return View(formAViewModel);
         }
+        // Form B submission handler
+        public async Task<IActionResult> CreateFormB()
+        {
+            if (User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                int stuId = Convert.ToInt32(usr.StudentId);
+                var student = await _studentRepository.GetByIdAsync(stuId);
+                var usrLastName = student.LastName;
+                var usrFirstName = student.FirstName;
+                var usrStuId = student.StuId;
+
+                var createFormBViewModel = new CreateFormBViewModel()
+                {
+                    StuName = usrFirstName + " " + usrLastName,
+                };
+                return View(createFormBViewModel);
+            }
+            else
+            {
+                var createFormBViewModel = new CreateFormBViewModel();
+                return View(createFormBViewModel);
+            }
+        }
+
 
         // Form C submission handler
         public IActionResult FormCSubmit()
@@ -320,42 +345,64 @@ namespace CITPracticum.Controllers
         }
 
         // Form StuInfo submission handler
-        public IActionResult FormStuInfoSubmit()
+        public async Task<IActionResult> CreateFormStuInfo()
         {
-            var submitFormStuInfoVM = new PracticumForms();
+            if (User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                int stuId = Convert.ToInt32(usr.StudentId);
+                var student = await _studentRepository.GetByIdAsync(stuId);
+                var usrLastName = student.LastName;
+                var usrFirstName = student.FirstName;
+                var usrStuId = student.StuId;
+                var usrEmail = student.StuEmail;
 
-            return View(submitFormStuInfoVM);
+                var createFormStuInfoViewModel = new CreateFormStuInfoViewModel()
+                {
+                    StuLastName = usrLastName,
+                    StuFirstName = usrFirstName,
+                    StuId = usrStuId,
+                    CollegeEmail = usrEmail
+                   
+                };
+                return View(createFormStuInfoViewModel);
+            }
+            else
+            {
+                var createFormStuInfoViewModel = new CreateFormStuInfoViewModel();
+                return View(createFormStuInfoViewModel);
+            }
         }
         [HttpPost]
-        public async Task<IActionResult> FormStuInfoSubmit(PracticumForms submitFormStuInfoVM)
+        public async Task<IActionResult> CreateFormStuInfo(CreateFormStuInfoViewModel formStuInfoViewModel)
         {
             if (ModelState.IsValid)
             {
                 var formStuInfo = new FormStuInfo()
                 {
-                    StuLastName = submitFormStuInfoVM.FormStuInfo.StuLastName,
-                    StuFirstName = submitFormStuInfoVM.FormStuInfo.StuFirstName,
-                    StuId = submitFormStuInfoVM.FormStuInfo.StuId,
-                    Program = submitFormStuInfoVM.FormStuInfo.Program,
-                    ProgStartDate = submitFormStuInfoVM.FormStuInfo.ProgStartDate,
-                    PracStartDate = submitFormStuInfoVM.FormStuInfo.PracStartDate,
-                    CollegeEmail = submitFormStuInfoVM.FormStuInfo.CollegeEmail,
-                    PhoneNumber = submitFormStuInfoVM.FormStuInfo.PhoneNumber,
-                    AltPhoneNumber = submitFormStuInfoVM.FormStuInfo.AltPhoneNumber,
+                    StuLastName = formStuInfoViewModel.StuLastName,
+                    StuFirstName = formStuInfoViewModel.StuFirstName,
+                    StuId = formStuInfoViewModel.StuId,
+                    Program = formStuInfoViewModel.Program,
+                    ProgStartDate = formStuInfoViewModel.ProgStartDate,
+                    PracStartDate = formStuInfoViewModel.PracStartDate,
+                    CollegeEmail = formStuInfoViewModel.CollegeEmail,
+                    PhoneNumber = formStuInfoViewModel.PhoneNumber,
+                    AltPhoneNumber = formStuInfoViewModel.AltPhoneNumber,
                     Address = new Address ()
                     {
-                        Street = submitFormStuInfoVM.FormStuInfo.Address.Street,
-                        City = submitFormStuInfoVM.FormStuInfo.Address.City,
-                        Prov = submitFormStuInfoVM.FormStuInfo.Address.Prov,
-                        Country = submitFormStuInfoVM.FormStuInfo.Address.Country,
-                        PostalCode = submitFormStuInfoVM.FormStuInfo.Address.PostalCode
+                        Street = formStuInfoViewModel.CreateAddressViewModel.Street,
+                        City = formStuInfoViewModel.CreateAddressViewModel.City,
+                        Prov = formStuInfoViewModel.CreateAddressViewModel.Prov,
+                        Country = formStuInfoViewModel.CreateAddressViewModel.Country,
+                        PostalCode = formStuInfoViewModel.CreateAddressViewModel.PostalCode
                     },
                     Submitted = true
                 };
                 _practicumFormsRepository.Add(formStuInfo);
                 return RedirectToAction("Index");
             }
-            return View(submitFormStuInfoVM);
+            return View(formStuInfoViewModel);
         }
     }
 }

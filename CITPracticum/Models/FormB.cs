@@ -9,8 +9,8 @@ namespace CITPracticum.Models
         public int Id { get; set; }
         public string PracHost { get; set; }
         public string StuName { get; set; }
-        public DateOnly StartDate { get; set; }
-        public DateOnly EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string OrgName { get; set; }
         public string PracSV{ get; set; }
         [ForeignKey("Address")]
@@ -20,9 +20,9 @@ namespace CITPracticum.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public bool StuSign { get; set; }
-        public DateOnly StuSignDate { get; set; }
+        public DateTime StuSignDate { get; set; }
         public bool EmpSign { get; set; }
-        public DateOnly EmpSignDate { get; set; }
+        public DateTime EmpSignDate { get; set; }
         public bool Submitted { get; set; }
 
     }
