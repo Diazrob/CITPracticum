@@ -2,7 +2,7 @@
 {
     public enum PaymentCategory
     {
+        Unpaid,
         Paid,
-        Unpaid
     }
 }

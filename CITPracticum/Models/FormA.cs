@@ -29,8 +29,9 @@ namespace CITPracticum.Models
         public Address Address { get; set; }
         public DateTime StartDate { get; set; }
         public PaymentCategory PaymentCategory { get; set; }
-        public string OutOfCountry { get; set; }
+        public YesNoCategory OutOfCountry { get; set; }
         public bool Submitted { get; set; }
+        public bool Approved { get; set; }
 
     }
 }

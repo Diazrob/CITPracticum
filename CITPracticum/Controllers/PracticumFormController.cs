@@ -4,6 +4,8 @@ using CITPracticum.Models;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Globalization;
 
 namespace CITPracticum.Controllers
 {
@@ -25,33 +27,33 @@ namespace CITPracticum.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            if (User.IsInRole("student"))
-            {
-                var usr = await _userManager.GetUserAsync(User);
-                int stuId = Convert.ToInt32(usr.StudentId);
-                var student = await _studentRepository.GetByIdAsync(stuId);
-                var usrLastName = student.LastName;
-                var usrFirstName = student.FirstName;
-                var usrStuId = student.StuId;
+            //if (User.IsInRole("student"))
+            //{
+            //    var usr = await _userManager.GetUserAsync(User);
+            //    int stuId = Convert.ToInt32(usr.StudentId);
+            //    var student = await _studentRepository.GetByIdAsync(stuId);
+            //    var usrLastName = student.LastName;
+            //    var usrFirstName = student.FirstName;
+            //    var usrStuId = student.StuId;
 
-                var submitFormAVM = new Placement()
-                {
-                    Student = new Student()
-                    {
-                        LastName = usrLastName,
-                        FirstName = usrFirstName,
-                        StuId = usrStuId
-                    }
-                };
-                return View(submitFormAVM);
-            }
-            else
-            {
+            //    var submitFormAVM = new Placement()
+            //    {
+            //        Student = new Student()
+            //        {
+            //            LastName = usrLastName,
+            //            FirstName = usrFirstName,
+            //            StuId = usrStuId
+            //        }
+            //    };
+            //    return View(submitFormAVM);
+            //}
+            //else
+            //{
                 var submitFormAVM = new Placement();
                 return View(submitFormAVM);
-            }
+            //}
 
-            return View();
+            //return View();
         }
 
         public IActionResult EmployerSubmittedForms()
@@ -96,36 +98,48 @@ namespace CITPracticum.Controllers
         public async Task<IActionResult> CreateFormA(CreateFormAViewModel formAViewModel, List<string> credentialsList)
         {
             string credentials = string.Join(", ", credentialsList);
-            formAViewModel.SVCredentials = credentials;
+
+            if (credentials != "")
+            {
+                ModelState.SetModelValue("SVCredentials", new ValueProviderResult(credentials, CultureInfo.InvariantCulture));
+                formAViewModel.SVCredentials = credentials;
+                ModelState.Remove("SVCredentials");
+            }
 
             if (ModelState.IsValid)
             {
-                var formA = new FormA()
-                {
-                    StuLastName = formAViewModel.StuLastName,
-                    StuFirstName = formAViewModel.StuFirstName,
-                    StuId = formAViewModel.StuId,
-                    Program = formAViewModel.Program,
-                    HostCompany = formAViewModel.StuLastName,
-                    OrgType = formAViewModel.OrgType,
-                    SVName = formAViewModel.SVName,
-                    SVPosition = formAViewModel.SVPosition,
-                    SVEmail = formAViewModel.SVEmail,
-                    SVPhoneNumber = formAViewModel.SVPhoneNumber,
-                    SVCredentials = formAViewModel.SVCredentials,
-                    SVCredOther = formAViewModel.SVCredOther,
-                    Address = new Address()
+                var practicumForms = new PracticumForms() { 
+                    FormA = new FormA()
                     {
-                        Street = formAViewModel.Address.Street,
-                        City = formAViewModel.Address.City,
-                        Prov = formAViewModel.Address.Prov,
-                        Country = formAViewModel.Address.Country,
-                        PostalCode = formAViewModel.Address.PostalCode,
-                    },
-                    StartDate = formAViewModel.StartDate,
-                    PaymentCategory = formAViewModel.PaymentCategory,
-                    Submitted = true
+                        StuLastName = formAViewModel.StuLastName,
+                        StuFirstName = formAViewModel.StuFirstName,
+                        StuId = formAViewModel.StuId,
+                        Program = formAViewModel.Program,
+                        HostCompany = formAViewModel.StuLastName,
+                        OrgType = formAViewModel.OrgType,
+                        SVName = formAViewModel.SVName,
+                        SVPosition = formAViewModel.SVPosition,
+                        SVEmail = formAViewModel.SVEmail,
+                        SVPhoneNumber = formAViewModel.SVPhoneNumber,
+                        SVCredentials = formAViewModel.SVCredentials,
+                        SVCredOther = formAViewModel.SVCredOther,
+                        Address = new Address()
+                        {
+                            Street = formAViewModel.CreateAddressViewModel.Street,
+                            City = formAViewModel.CreateAddressViewModel.City,
+                            Prov = formAViewModel.CreateAddressViewModel.Prov,
+                            Country = formAViewModel.CreateAddressViewModel.Country,
+                            PostalCode = formAViewModel.CreateAddressViewModel.PostalCode,
+                        },
+                        StartDate = formAViewModel.StartDate,
+                        PaymentCategory = formAViewModel.PaymentCategory,
+                        OutOfCountry = formAViewModel.OutOfCountry,
+                        Submitted = true
+                    }
                 };
+
+                _practicumFormsRepository.Add(practicumForms.FormA);
+                _practicumFormsRepository.Add(practicumForms);
 
                 return RedirectToAction("Index");
             }
@@ -256,32 +270,53 @@ namespace CITPracticum.Controllers
         }
 
         // Form FOIP submission handler
-        public IActionResult FormFOIPSubmit()
+        public async Task<IActionResult> CreateFormFOIP()
         {
-            var submitFormFOIPVM = new PracticumForms();
+            if (User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                int stuId = Convert.ToInt32(usr.StudentId);
+                var student = await _studentRepository.GetByIdAsync(stuId);
+                var usrLastName = student.LastName;
+                var usrFirstName = student.FirstName;
+                var usrStuId = student.StuId;
 
-            return View(submitFormFOIPVM);
+                var createFormFOIPViewModel = new CreateFormFOIPViewModel()
+                {
+                    StuLastName = usrLastName,
+                    StuFirstName = usrFirstName,
+                    StuId = usrStuId,
+                    StuSignDate = DateTime.Now
+                };
+                return View(createFormFOIPViewModel);
+            }
+            else
+            {
+                var createFormFOIPViewModel = new CreateFormFOIPViewModel();
+                return View(createFormFOIPViewModel);
+            }
         }
         [HttpPost]
-        public async Task<IActionResult> FormFOIPSubmit(PracticumForms submitFormFOIPVM)
+        public async Task<IActionResult> CreateFormFOIP(CreateFormFOIPViewModel formFOIPViewModel)
         {
             if (ModelState.IsValid)
             {
                 var formFOIP = new FormFOIP()
                 {
-                    StuFirstName = submitFormFOIPVM.FormFOIP.StuFirstName,
-                    StuLastName = submitFormFOIPVM.FormFOIP.StuLastName,
-                    StuId = submitFormFOIPVM.FormFOIP.StuId,
-                    Program = submitFormFOIPVM.FormFOIP.Program,
-                    Other = submitFormFOIPVM.FormFOIP.Other,
-                    StuSign = submitFormFOIPVM.FormFOIP.StuSign,
-                    StuSignDate = submitFormFOIPVM.FormFOIP.StuSignDate,
+                    StuFirstName = formFOIPViewModel.StuFirstName,
+                    StuLastName = formFOIPViewModel.StuLastName,
+                    StuId = formFOIPViewModel.StuId,
+                    Program = formFOIPViewModel.Program,
+                    Other = formFOIPViewModel.Other,
+                    StuSign = formFOIPViewModel.StuSign,
+                    StuSignDate = formFOIPViewModel.StuSignDate,
+                    Acknowledged = formFOIPViewModel.Acknowledged,
                     Submitted = true,
                 };
                 _practicumFormsRepository.Add(formFOIP);
                 return RedirectToAction("Index");
             }
-            return View(submitFormFOIPVM);
+            return View(formFOIPViewModel);
         }
 
         // Form StuInfo submission handler

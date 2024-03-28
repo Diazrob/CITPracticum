@@ -13,6 +13,7 @@ namespace CITPracticum.Models
         public string? Other { get; set; }
         public string StuSign { get; set; }
         public DateTime StuSignDate { get; set; }
+        public bool Acknowledged { get; set; }
         public bool Submitted { get; set; }
 
     }

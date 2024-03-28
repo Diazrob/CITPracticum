@@ -11,6 +11,7 @@ namespace CITPracticum.Models
         public string? LastName { get; set; }
         public string? CompanyName { get; set; }
         public string? EmpEmail { get; set; }
+        public bool Affiliation { get; set; }
 
     }
 }

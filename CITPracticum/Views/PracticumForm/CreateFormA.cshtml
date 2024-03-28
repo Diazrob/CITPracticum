@@ -56,7 +56,6 @@
     <div class="modal-header justify-content-center" style="background: linear-gradient(to right, #FFFFFF, #FFFFFF, #69a620);">
         <img src="~/images/lc.png" alt="Logo" class="float-start" style="height: 50px;"> <!-- Adjust the height as needed -->
         <h5 class="modal-title text-center w-100" id="formAModalLabel">Host information (Form A)</h5>
-        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body d-flex justify-content-center">
         <div class="mx-auto" style="width: 50%;">
@@ -141,7 +140,7 @@
                     </div>
                     <div class="col-md-4">
                         <label asp-for="SVEmail" class="form-label">Supervisor's e-mail:</label>
-                        <input asp-for="SVEmail" type="text" class="form-control">
+                        <input asp-for="SVEmail" class="form-control">
                         <span asp-validation-for="SVEmail" class="text-danger"></span>
                     </div>
                 </div>
@@ -149,7 +148,7 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label asp-for="SVPhoneNumber" class="form-label">Phone number:</label>
-                        <input asp-for="SVPhoneNumber" type="text" class="form-control">
+                        <input asp-for="SVPhoneNumber" class="form-control">
                         <span asp-validation-for="SVPhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
@@ -175,31 +174,37 @@
                 <!-- ... other fields ... -->
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label asp-for="Address.Street" class="form-label">Street:</label>
-                        <input asp-for="Address.Street" type="text" class="form-control">
+                        <label asp-for="CreateAddressViewModel.Street" class="form-label">Street:</label>
+                        <input asp-for="CreateAddressViewModel.Street" type="text" class="form-control">
+                        <span asp-validation-for="CreateAddressViewModel.Street" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="Address.City" class="form-label">City:</label>
-                        <input asp-for="Address.City" type="text" class="form-control">
+                        <label asp-for="CreateAddressViewModel.City" class="form-label">City:</label>
+                        <input asp-for="CreateAddressViewModel.City" type="text" class="form-control">
+                        <span asp-validation-for="CreateAddressViewModel.City" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="Address.Prov" class="form-label">Province:</label>
-                        <input asp-for="Address.Prov" type="text" class="form-control">
+                        <label asp-for="CreateAddressViewModel.Prov" class="form-label">Province:</label>
+                        <input asp-for="CreateAddressViewModel.Prov" type="text" class="form-control">
+                        <span asp-validation-for="CreateAddressViewModel.Prov" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="Address.Country" class="form-label">Country:</label>
-                        <input asp-for="Address.Country" type="text" class="form-control">
+                        <label asp-for="CreateAddressViewModel.Country" class="form-label">Country:</label>
+                        <input asp-for="CreateAddressViewModel.Country" type="text" class="form-control">
+                        <span asp-validation-for="CreateAddressViewModel.Country" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="Address.PostalCode" class="form-label">Postal Code:</label>
-                        <input asp-for="Address.PostalCode" type="text" class="form-control">
+                        <label asp-for="CreateAddressViewModel.PostalCode" class="form-label">Postal Code:</label>
+                        <input asp-for="CreateAddressViewModel.PostalCode" type="text" class="form-control">
+                        <span asp-validation-for="CreateAddressViewModel.PostalCode" class="text-danger"></span>
                     </div>
                 </div>
                 <!-- ... other fields ... -->
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label asp-for="StartDate" class="form-label">Date you expect to begin:</label>
-                        <input asp-for="StartDate" type="date" class="form-control">
+                        <input asp-for="StartDate" type="date" id="startDateInput" class="form-control">
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -216,13 +221,11 @@
                 <div class="row mb-3">
                     <div class="col-md-5">
                         <div class="form-check form-check-inline px-0">
-                            <label asp-validation-for="PaymentCategory" class="form-label">Will you be working outside of the country?</label>
-                            <select asp-validation-for="PaymentCategory" class="form-control">
-                                <option value="">--Select--</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
+                            <label asp-for="OutOfCountry" class="form-label">Will you be working outside of the country?</label>
+                            <select asp-for="OutOfCountry" asp-items="@Html.GetEnumSelectList<YesNoCategory>()" class="form-control">
+                                <option>--Select--</option>                             
                             </select>
-                            <span class="text-danger"></span>
+                            <span asp-validation-for="OutOfCountry" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -238,4 +241,14 @@
         </div>
     </div>
 </div>
-    </div>
+</div>
+
+@section scripts {
+    <script>
+        // Get today's date in the client's local time
+        var today = new Date().toLocaleDateString('en-CA');
+
+        // Set the min attribute of the input field to today's date
+        document.getElementById('startDateInput').min = today;
+    </script>
+}

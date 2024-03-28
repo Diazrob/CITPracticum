@@ -31,13 +31,13 @@ namespace CITPracticum.ViewModels
         [Required(ErrorMessage = "Supervisor credential is required")]
         public string? SVCredentials { get; set; }
         public string? SVCredOther { get; set; }
-        [Required(ErrorMessage = "Address is required")]
-        public Address Address { get; set; }
+        public CreateAddressViewModel CreateAddressViewModel { get; set; }
         [Required(ErrorMessage = "Start Date is required")]
         public DateTime StartDate { get; set; }
         [Required(ErrorMessage = "Payment Type is required")]
         public PaymentCategory PaymentCategory { get; set; }
         [Required(ErrorMessage = "This is a required field")]
-        public string OutOfCountry { get; set; }
+        public YesNoCategory OutOfCountry { get; set; }
     }
 }
+

@@ -70,13 +70,13 @@
     {
         <div class="card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formFOIPModal">
             <div class="card-body">
-                Form FOIP - Student Release
+                <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormFOIP">Form FOIP - Student Release</a>
             </div>
         </div>
 
         <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formIDModal">
             <div class="card-body">
-                Form ID - Student Information
+                <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormStuInfo">Form ID - Student Information</a>
             </div>
         </div>
     }
@@ -84,7 +84,7 @@
     <!-- List of Forms as Cards -->
     <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formAModal">
         <div class="card-body">
-            <a asp-controller="PracticumForm" asp-action="CreateFormA"> Form A - Host Information </a>
+            <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormA">Form A - Host Information</a>
         </div>
     </div>
 
@@ -117,7 +117,7 @@
 
 
 <!-- Form A Modal -->
-<div class="modal fade" id="formAModal" tabindex="-1" aria-labelledby="formAModalLabel" aria-hidden="true">
+@* <div class="modal fade" id="formAModal" tabindex="-1" aria-labelledby="formAModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header justify-content-center" style="background: linear-gradient(to right, #FFFFFF, #FFFFFF, #69a620);">
@@ -263,7 +263,7 @@
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StartDate" class="form-label">Date you expect to begin:</label>
-                                <input asp-for="PracticumForms.FormA.StartDate" type="date" class="form-control">
+                                <input asp-for="PracticumForms.FormA.StartDate" type="date"  class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -303,7 +303,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@
 
 <!-- Form B Modal -->
 <div class="modal fade" id="formBModal" tabindex="-1" aria-labelledby="formBModalLabel" aria-hidden="true">
@@ -445,7 +445,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormC.StuName" class="form-label">Student Name:</label>
-                                <input asp-for="PracticumForms.FormC.StuName" type="text" class="form-control" value="@Model.Student.FirstName">
+                                <input asp-for="PracticumForms.FormC.StuName" type="text" class="form-control" >
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -2076,7 +2076,7 @@
 </div>
 
 <!-- Form FOIP Modal -->
-<div class="modal fade" id="formFOIPModal" tabindex="-1" aria-labelledby="formFOIPModalLabel" aria-hidden="true">
+@* <div class="modal fade" id="formFOIPModal" tabindex="-1" aria-labelledby="formFOIPModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header justify-content-center" style="background: linear-gradient(to right, #FFFFFF, #FFFFFF, #69a620);">
@@ -2229,7 +2229,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@
 
 <!-- Form ID / Form StuInfo Modal -->
 <div class="modal fade" id="formIDModal" tabindex="-1" aria-labelledby="formIDModalLabel" aria-hidden="true">
