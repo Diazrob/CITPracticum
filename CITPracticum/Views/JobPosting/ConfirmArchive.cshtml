@@ -27,12 +27,12 @@
 
         <h5>Link:</h5>
         <p><a href="@Model.Link" target="_blank">@Model.Link</a></p>
-
+        <hr />
         <div class="form-group mb-5">
             <form asp-controller="JobPosting" asp-action="Archive">
                 <input type="hidden" asp-for="Id" />
-                <button type="submit" class="btn btn-warning float-right mt-3">Confirm Archive</button>
-                <a asp-action="Index" class="btn btn-outline-secondary float-right mt-3 mr-2">Cancel</a>
+                <button type="submit" class="btn btn-warning float-right">Archive Post</button>
+                <a asp-action="Index" class="btn btn-outline-secondary float-right mr-2">Cancel</a>
             </form>
         </div>
     </div>

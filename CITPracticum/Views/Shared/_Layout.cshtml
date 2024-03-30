@@ -96,12 +96,23 @@
                         <span>Practicum Forms</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/Timesheet/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Timesheet" ? "active" : "") link-dark">
-                        <i class="fa-solid fa-clock fa-lg" style="width: 1.5em;"></i>
-                        <span>Time Sheets</span>
-                    </a>
-                </li>
+                @if(User.IsInRole("admin"))
+                {
+                    <li>
+                        <a href="/Timesheet/ViewTimesheet" class="nav-link @((ViewData["ActivePage"] as string) == "Timesheet" ? "active" : "") link-dark">
+                            <i class="fa-solid fa-clock fa-lg" style="width: 1.5em;"></i>
+                            <span>Time Sheets</span>
+                        </a>
+                    </li>
+                } else
+                {
+                    <li>
+                        <a href="/Timesheet/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Timesheet" ? "active" : "") link-dark">
+                            <i class="fa-solid fa-clock fa-lg" style="width: 1.5em;"></i>
+                            <span>Time Sheets</span>
+                        </a>
+                    </li>
+                }
                 @if (User.IsInRole("admin") || User.IsInRole("student"))
                 {
                     <li>
