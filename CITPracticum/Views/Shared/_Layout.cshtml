@@ -96,7 +96,7 @@
                         <span>Practicum Forms</span>
                     </a>
                 </li>
-                @if(User.IsInRole("admin"))
+                @if(User.IsInRole("student"))
                 {
                     <li>
                         <a href="/Timesheet/ViewTimesheet" class="nav-link @((ViewData["ActivePage"] as string) == "Timesheet" ? "active" : "") link-dark">

@@ -1,0 +1,45 @@
+﻿@model TimeEntry
+
+@{
+    ViewData["Title"] = "Create Time Entry";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <p>
+            <h4 class="offset-2">Create Time Entry</h4>
+        </p>
+        @if (TempData["Error"] != null)
+        {
+            <div class="col-md-12 alert alert-danger">
+                <span><b>Sorry! </b>@TempData["Error"]</span>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form method="post" asp-action="Register" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="ShiftDate" class="control-label">Shift Date:</label>
+                        <input type="date" asp-for="ShiftDate" class="form-control" />
+                        <span asp-validation-for="ShiftDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label mt-2">Description:</label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Hours" class="control-label mt-2">Hours (Enter hours in decimal. Ex: 8.5):</label>
+                        <input asp-for="Hours" class="form-control" />
+                        <span asp-validation-for="Hours" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="btn btn-outline-success float right" type="submit" value="Create Entry" />
+                        <a class="btn btn-outline-secondary" asp-controller="Timesheet" asp-action="ViewTimesheet">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
