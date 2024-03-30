@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-md-6 offset-3">
         <p>
-            <h4>Create a Job Posting</h4>
+            <h4 class="offset-2">Create a Job Posting</h4>
         </p>
         @if (TempData["Error"] != null)
         {
@@ -23,44 +23,44 @@
                 <form method="post" asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="JobTitle" class="control-label"></label>
+                        <label asp-for="JobTitle" class="control-label">Job Title:</label>
                         <input asp-for="JobTitle" class="form-control" />
                         <span asp-validation-for="JobTitle" class="text-danger"></span>
                     </div>
                     <div class="form-group" >
-                        <label asp-for="JobDescription" class="control-label"></label>
+                        <label asp-for="JobDescription" class="control-label mt-2">Job Description:</label>
                         <textarea asp-for="JobDescription" class="form-control"></textarea>
                         <span asp-validation-for="JobDescription" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Deadline" class="control-label"></label>
+                        <label asp-for="Deadline" class="control-label mt-2">Application Deadline:</label>
                         <input type="date" asp-for="Deadline" class="form-control" />
                         <span asp-validation-for="Deadline" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Company" class="control-label"></label>
+                        <label asp-for="Company" class="control-label mt-2">Company Name:</label>
                         <input asp-for="Company" class="form-control" />
                         <span asp-validation-for="Company" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Location" class="control-label"></label>
+                        <label asp-for="Location" class="control-label mt-2">Location:</label>
                         <input asp-for="Location" class="form-control" />
                         <span asp-validation-for="Location" class="text-danger"></span>
                     </div>
                      <div class="mb-3">
-                        <label asp-for="PaymentCategory">Paid or Unpaid</label>
+                        <label asp-for="PaymentCategory" class="mt-2">Paid or Unpaid:</label>
                         <select asp-for="PaymentCategory" asp-items="@Html.GetEnumSelectList<PaymentCategory>()" class="form-control">
                             <option>--Select--</option>
                         </select>
                         <span asp-validation-for="PaymentCategory" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="JobLink" class="control-label"></label>
+                        <label asp-for="JobLink" class="control-label">Job Link:</label>
                         <input type="url" asp-for="JobLink" class="form-control" />
                         <span asp-validation-for="JobLink" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <input class="btn btn-outline-success float right" type="submit" value="Create JobPosting" />
                         <a class="btn btn-outline-secondary" asp-controller="JobPosting" asp-action="Index">Cancel</a>
                     </div>

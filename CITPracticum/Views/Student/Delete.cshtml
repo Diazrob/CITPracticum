@@ -1,125 +1,35 @@
 ﻿@model AppUser
 
-<style>
-/* Base Styles */
-:root {
-    --kodiaks-blue: #6AADE4;
-    --coulee-green: #739600;
-    --coal-miner-black: #62646C;
-    --stone-pipe-grey: #808080;
-    --body-background: #F3F3F3;
-}
-
-body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: var(--body-background);
-    color: var(--coal-miner-black);
-    line-height: 1.6; /* Increased line-height for better readability */
-    margin: 0;
-    padding: 20px;
-}
-
-/* Confirmation Title */
-.confirmation-title {
-        color: var(--coal-miner-black);
-        font-weight: 700;
-        margin-bottom: 2rem;
-        text-align: center;
-}
-
-/* Form Field Styling */
-.form-control {
-    border: 1px solid var(--stone-pipe-grey);
-    border-radius: 0.25rem;
-    padding: 10px 15px; /* Consistent padding */
-    font-size: 1rem;
-    color: var(--coal-miner-black);
-    background-color: white;
-    width: 300px; /* Adjust width to fit content */
-    margin-bottom: 1rem; /* Space between form fields */
-}
-
-.form-control[readonly] {
-    background-color: #f7f7f7; /* Light grey background for readonly fields */
-    color: var(--coal-miner-black);
-    cursor: not-allowed;
-}
-
-/* Buttons */
-.button-group {
-    text-align: center;
-    margin-top: 2rem; /* Space above the buttons */
-}
-
-.btn {
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 0.25rem;
-    margin: 0 5px; /* Spacing between buttons */
-    line-height: 1.5;
-    display: inline-block;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    color: white;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-    border-color: #bd2130;
-}
-
-.btn-outline-secondary {
-    background-color: transparent;
-    border-color: var(--stone-pipe-grey);
-    color: var(--coal-miner-black);
-}
-
-.btn-outline-secondary:hover {
-    background-color: var(--stone-pipe-grey);
-    color: white;
-}
-
-/* Vertical Centering */
-.vertical-center {
-        min-height: 10vh;
-        height: 50vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-}
-</style>
-
 <div class="container vertical-center">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h1 class="confirmation-title">Are you sure you want to delete this student?</h1>
+            <h1 class="confirmation-title text-center">Are you sure you want to delete this student?</h1>
+            <hr />
             <form method="post" asp-action="Delete" enctype="multipart/form-data">
             <div class="form-group">
-                <label asp-for="Email">Description</label>
-                <input asp-for="Email" class="form-control" placeholder="Email">
+                <label><h5>Email Address:</h5></label>
+                <p>@Model.Email</p>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.FirstName">FirstName</label>
-                <input asp-for="Student.FirstName" class="form-control" placeholder="FirstName">
+                <label><h5>First Name:</h5></label>
+                <p>@Model.Student.FirstName</p>
                 <span asp-validation-for="Student.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.LastName">LastName</label>
-                <input asp-for="Student.LastName" class="form-control" placeholder="Student.LastName">
+                <label><h5>Last Name:</h5></label>
+                <p>@Model.Student.LastName</p>
                 <span asp-validation-for="Student.LastName" class="text-danger"></span>
             </div>
 
             </form>
+            <hr />
            <div class="form-group">
             <form action="Delete" method="post">
                 <input type="hidden" asp-for="Email" />
                 <input type="hidden" name="id" value="@Model.Student.Id" />
-                <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
-                <a class="btn btn-outline-secondary mt-3" asp-controller="Student" asp-action="Index">Cancel</a>
+                <input type="submit" value="Confirm" class="btn btn-danger float-right" />
+                <a class="btn btn-secondary" asp-controller="Student" asp-action="Index">Cancel</a>
             </form>
            </div>
         </div>

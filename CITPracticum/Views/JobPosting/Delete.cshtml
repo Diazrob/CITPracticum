@@ -1,48 +1,53 @@
 ﻿@model JobPosting
 
-<h1>Are you sure you want to delete this Job Posting?</h1>
-
-<form method="post" asp-action="Delete" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="JobTitle">Job Title</label>
-        <input asp-for="JobTitle" class="form-control" placeholder="JobTitle">
-        <span asp-validation-for="JobTitle" class="text-danger"></span>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1 class="text-center">Are you sure you want to delete this job posting?</h1>
+        <hr />
+        <form method="post" asp-action="Delete" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="JobTitle">Job Title</label>
+                <input asp-for="JobTitle" class="form-control" placeholder="JobTitle">
+                <span asp-validation-for="JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobDescription">Job Description</label>
+                <input asp-for="JobDescription" class="form-control" placeholder="JobDescription">
+                <span asp-validation-for="JobDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Deadline">Deadline</label>
+                <input asp-for="Deadline" class="form-control" placeholder="Deadline">
+                <span asp-validation-for="Deadline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company">State</label>
+                <input asp-for="Company" class="form-control" placeholder="Company">
+                <span asp-validation-for="Company" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentCategory">Payment Type</label>
+                <input asp-for="PaymentCategory" class="form-control" placeholder="PaymentCategory">
+                <span asp-validation-for="PaymentCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location">Location</label>
+                <input asp-for="Location" class="form-control" placeholder="Location">
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Link">Link</label>
+                <input asp-for="Link" class="form-control" placeholder="Link">
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+        </form>
+        <hr />
+        <div class="form-group">
+            <form action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Confirm" class="btn btn-danger float-right" />
+                <a class="btn btn-outline-secondary float-right" asp-controller="JobPosting" asp-action="Index">Cancel</a>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="JobDescription">Job Description</label>
-        <input asp-for="JobDescription" class="form-control" placeholder="JobDescription">
-        <span asp-validation-for="JobDescription" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Deadline">Deadline</label>
-        <input asp-for="Deadline" class="form-control" placeholder="Deadline">
-        <span asp-validation-for="Deadline" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Company">State</label>
-        <input asp-for="Company" class="form-control" placeholder="Company">
-        <span asp-validation-for="Company" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PaymentCategory">Payment Type</label>
-        <input asp-for="PaymentCategory" class="form-control" placeholder="PaymentCategory">
-        <span asp-validation-for="PaymentCategory" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Location">Location</label>
-        <input asp-for="Location" class="form-control" placeholder="Location">
-        <span asp-validation-for="Location" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Link">Link</label>
-        <input asp-for="Link" class="form-control" placeholder="Link">
-        <span asp-validation-for="Link" class="text-danger"></span>
-    </div>
-</form>
-<div class="form-group">
-    <form action="Delete" method="post">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
-        <a class="btn btn-outline-secondary float-right mt-3" asp-controller="JobPosting" asp-action="Index">Cancel</a>
-    </form>
 </div>

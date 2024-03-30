@@ -89,6 +89,7 @@ namespace CITPracticum.Controllers
         // shows the page of specific user
         public async Task<IActionResult> Detail(int id)
         {
+            ViewData["ActivePage"] = "Employer";
             Employer employer= await _employerRepository.GetByIdAsync(id);
             return View(employer);
         }
@@ -122,6 +123,7 @@ namespace CITPracticum.Controllers
         // edit an employer
         public async Task<IActionResult> Edit(int id)
         {
+            ViewData["ActivePage"] = "Employer";
             var employer = await _employerRepository.GetByIdAsync(id);
             if (employer == null) return View("Error");
             var employerVM = new EditEmployerViewModel()
@@ -137,6 +139,7 @@ namespace CITPracticum.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EditEmployerViewModel employerVM)
         {
+            ViewData["ActivePage"] = "Employer";
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Failed to edit Employer");

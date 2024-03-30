@@ -4,7 +4,6 @@
     /* Custom styles for the navigation tabs */
     .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
         background-color: #ffffff; /* Active tab background color */
-        color: #3431f4; /* Active tab text color */
         border-color: #dee2e6 #dee2e6 #fff; /* Borders around the active tab */
         border-radius: 0.25rem; /* Rounded corners on the top */
     }
@@ -20,10 +19,10 @@
         border-bottom: 1px solid #dee2e6; /* Bottom border for the whole nav */
     }
 
-        /* Styles to align the button with the tab items */
-        .nav-tabs .nav-item:last-child {
-            margin-left: auto; /* Push the button to the right */
-        }
+    /* Styles to align the button with the tab items */
+    .nav-tabs .nav-item:last-child {
+        margin-left: auto; /* Push the button to the right */
+    }
 </style>
 
 <ul class="nav nav-tabs mb-3" role="tablist">
@@ -45,7 +44,6 @@
 
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="job-posts" role="tabpanel" aria-labelledby="job-posts-tab">
-        <div class="container mt-4">
             <div class="row">
                 @foreach (var item in Model)
                 {
@@ -121,6 +119,5 @@
                     <li class="page-item"><a class="page-link" href="#">Next</a></li>
                 </ul>
             </nav>
-        </div>
     </div>
 </div>

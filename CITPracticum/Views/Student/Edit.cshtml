@@ -7,7 +7,6 @@
     ViewData["Title"] = "Edit a Student";
 }
 
-<button onclick="window.history.back();" class="btn btn-secondary mb-3">Back</button>
 <div class="row">
     <div class="col-md-6 offset-3">
         <p>
@@ -20,29 +19,29 @@
             </div>
         }
         <div class="row">
-            <div class="col-md-8 offset-2">
+            <div class="col-md-8">
 
                 <form method="post" asp-action="Edit" enctype="multipart/form-data">
                     <input type="hidden" value="Id" id="Id" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="FirstName" class="control-label"></label>
+                        <label asp-for="FirstName" class="control-label">First Name:</label>
                         <input asp-for="FirstName" class="form-control" maxlength="50" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="LastName" class="control-label"></label>
+                        <label asp-for="LastName" class="control-label mt-2">Last Name:</label>
                         <input asp-for="LastName" class="form-control" maxlength="50" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="StuId" class="control-label"></label>
+                        <label asp-for="StuId" class="control-label mt-2">Student ID:</label>
                         <input asp-for="StuId" class="form-control" maxlength="8" />
                         <span asp-validation-for="StuId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="StuEmail" class="control-label"></label>
-                        <input asp-for="StuEmail" class="form-control" maxlength="50" />
+                        <label asp-for="StuEmail" class="control-label mt-2">Student Email Address:</label>
+                        <input asp-for="StuEmail" class="form-control mb-2" maxlength="50" />
                         <span asp-validation-for="StuEmail" class="text-danger"></span>
                     </div>
 

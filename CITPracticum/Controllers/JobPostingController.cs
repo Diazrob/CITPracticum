@@ -86,6 +86,15 @@ namespace CITPracticum.Controllers
             return View(post);
         }
 
+        public async Task<IActionResult> ConfirmUnarchive(int id)
+        {
+            ViewData["ActivePage"] = "Jobs";
+
+            var post = await _jobPostingRepository.GetByIdAsync(id);
+
+            return View(post);
+        }
+
         // edit a job post
         public async Task<IActionResult> Edit(int id)
         {

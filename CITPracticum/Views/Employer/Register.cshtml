@@ -82,7 +82,7 @@ body {
 <div class="row">
     <div class="col-md-6 offset-3">
         <p>
-            <h4>Add an Employer</h4>
+            <h4 class="offset-2">Add an Employer</h4>
         </p>
         @if (TempData["Error"] != null)
         {
@@ -95,36 +95,36 @@ body {
                 <form method="post" asp-action="Register" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="EmailAddress" class="control-label"></label>
+                        <label asp-for="EmailAddress" class="control-label">Email Address:</label>
                         <input asp-for="EmailAddress" class="form-control" max-length="50" />
                         <span asp-validation-for="EmailAddress" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="FirstName" class="control-label"></label>
+                        <label asp-for="FirstName" class="control-label mt-2">First Name:</label>
                         <input asp-for="FirstName" class="form-control" max-length="50" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="LastName" class="control-label"></label>
+                        <label asp-for="LastName" class="control-label mt-2">Last Name:</label>
                         <input asp-for="LastName" class="form-control" max-length="50" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="CompanyName" class="control-label"></label>
+                        <label asp-for="CompanyName" class="control-label mt-2">Company Name:</label>
                         <input asp-for="CompanyName" class="form-control" max-length="50" />
                         <span asp-validation-for="CompanyName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
+                        <label asp-for="Password" class="control-label mt-2">Password:</label>
                         <input asp-for="Password" class="form-control" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ConfirmPassword" class="control-label"></label>
+                        <label asp-for="ConfirmPassword" class="control-label mt-2">Confirm Password:</label>
                         <input asp-for="ConfirmPassword" class="form-control" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <input class="btn btn-outline-success float right" type="submit" value="Register Employer" />
                         <a class="btn btn-outline-secondary" asp-controller="Employer" asp-action="Index">Cancel</a>
                     </div>

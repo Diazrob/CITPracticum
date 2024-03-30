@@ -4,7 +4,6 @@
     /* Custom styles for the navigation tabs */
     .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
         background-color: #ffffff; /* Active tab background color */
-        color: #3431f4; /* Active tab text color */
         border-color: #dee2e6 #dee2e6 #fff; /* Borders around the active tab */
         border-radius: 0.25rem; /* Rounded corners on the top */
     }
@@ -26,99 +25,97 @@
         }
 </style>
 
-    <ul class="nav nav-tabs mb-3" role="tablist">
+<ul class="nav nav-tabs mb-3" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link" id="job-posts-tab" data-toggle="tab" href="/JobPosting/Index" role="tab" aria-controls="job-posts" aria-selected="true">Job Posts</a>
+    </li>
+    <li class="nav-item">
+        @if (User.IsInRole("admin"))
+        {
         <li class="nav-item">
-            <a class="nav-link" id="job-posts-tab" data-toggle="tab" href="/JobPosting/Index" role="tab" aria-controls="job-posts" aria-selected="true">Job Posts</a>
+            <a class="nav-link active" id="job-posts-tab" data-toggle="tab" href="/JobPosting/ArchivedPosts" role="tab" aria-controls="job-posts" aria-selected="true">Archived Posts</a>
         </li>
-        <li class="nav-item">
-            @if (User.IsInRole("admin"))
+        }
+    </li>
+    <li class="nav-item">
+    </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="job-posts" role="tabpanel" aria-labelledby="job-posts-tab">
+        <div class="row">
+            @foreach (var item in Model)
             {
-            <li class="nav-item">
-                <a class="nav-link active" id="job-posts-tab" data-toggle="tab" href="/JobPosting/ArchivedPosts" role="tab" aria-controls="job-posts" aria-selected="true">Archived Posts</a>
-            </li>
-            }
-        </li>
-        <li class="nav-item">
-        </li>
-    </ul>
+                if (item.Archived)
+                {
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Job Title:</h6>
+                                    <p class="card-text">@item.JobTitle</p>
+                                </div>
 
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="job-posts" role="tabpanel" aria-labelledby="job-posts-tab">
-            <div class="container mt-4">
-                <div class="row">
-                    @foreach (var item in Model)
-                    {
-                        if (item.Archived)
-                        {
-                            <div class="col-md-6 col-lg-4 mb-3">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <div class="mb-2">
-                                            <h6 class="card-subtitle mb-1">Job Title:</h6>
-                                            <p class="card-text">@item.JobTitle</p>
-                                        </div>
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Job Description:</h6>
+                                    <p class="card-text">
+                                        @if (item.JobDescription.Length > 100)
+                                        {
+                                            @Html.Raw(item.JobDescription.Substring(0, 250) + "...")
+                                        }
+                                        else
+                                        {
+                                            @item.JobDescription
+                                        }
+                                    </p>
+                                </div>
 
-                                        <div class="mb-2">
-                                            <h6 class="card-subtitle mb-1">Job Description:</h6>
-                                            <p class="card-text">
-                                                @if (item.JobDescription.Length > 100)
-                                                {
-                                                    @Html.Raw(item.JobDescription.Substring(0, 250) + "...")
-                                                }
-                                                else
-                                                {
-                                                    @item.JobDescription
-                                                }
-                                            </p>
-                                        </div>
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Company:</h6>
+                                    <p class="card-text">@item.Company</p>
+                                </div>
 
-                                        <div class="mb-2">
-                                            <h6 class="card-subtitle mb-1">Company:</h6>
-                                            <p class="card-text">@item.Company</p>
-                                        </div>
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Location:</h6>
+                                    <p class="card-text">@item.Location</p>
+                                </div>
 
-                                        <div class="mb-2">
-                                            <h6 class="card-subtitle mb-1">Location:</h6>
-                                            <p class="card-text">@item.Location</p>
-                                        </div>
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Application Deadline:</h6>
+                                    <p class="card-text">@item.Deadline</p>
+                                </div>
 
-                                        <div class="mb-2">
-                                            <h6 class="card-subtitle mb-1">Application Deadline:</h6>
-                                            <p class="card-text">@item.Deadline</p>
-                                        </div>
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">Payment Category:</h6>
+                                    <p class="card-text">@item.PaymentCategory</p>
+                                </div>
 
-                                        <div class="mb-2">
-                                            <h6 class="card-subtitle mb-1">Payment Category:</h6>
-                                            <p class="card-text">@item.PaymentCategory</p>
-                                        </div>
-
-                                        <div class="mb-2">
-                                            <h6 class="card-subtitle mb-1">More Info:</h6>
-                                            <p class="card-text">
-                                                <a href="@item.Link" target="_blank" class="card-link">@item.Link</a>
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-footer">
-                                        <a class="btn btn-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
-                                        <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                        <a class="btn btn-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                        <a class="btn btn-warning" asp-controller="JobPosting" asp-action="UnArchive" asp-route-id="@item.Id">Restore</a>
-                                    </div>
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1">More Info:</h6>
+                                    <p class="card-text">
+                                        <a href="@item.Link" target="_blank" class="card-link">@item.Link</a>
+                                    </p>
                                 </div>
                             </div>
-                        }
-                    }
-                </div>
-                <!-- Pagination (update as necessary for your pagination logic) -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <!-- Generate page numbers dynamically based on the model data -->
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
-            </div>
+
+                            <div class="card-footer">
+                                <a class="btn btn-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
+                                <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                <a class="btn btn-warning" asp-controller="JobPosting" asp-action="UnArchive" asp-route-id="@item.Id">Restore</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
         </div>
+        <!-- Pagination (update as necessary for your pagination logic) -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <!-- Generate page numbers dynamically based on the model data -->
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
     </div>
+</div>

@@ -25,6 +25,7 @@ namespace CITPracticum.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            ViewData["ActivePage"] = "PracForms";
             if (User.IsInRole("student"))
             {
                 var usr = await _userManager.GetUserAsync(User);
