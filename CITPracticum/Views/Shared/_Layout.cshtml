@@ -50,6 +50,11 @@
             overflow-y: auto; /* Enable scroll if content is taller than the screen */
         }
 
+        textarea {
+            resize: vertical; /* Allow vertical resizing only */
+            max-height: 300px; /* Maximum height allowed */
+        }
+
     </style>
 </head>
 <body>
@@ -145,7 +150,7 @@
     <!-- Page Content with container set to take remaining space -->
     <div class="container-fluid mt-5" style="margin-left: 375px; margin-right: 150px;">
         <div class="row">
-            <main class="col" style="padding-top: 1rem;">
+            <main class="col">
                 @RenderBody()
             </main>
         </div>

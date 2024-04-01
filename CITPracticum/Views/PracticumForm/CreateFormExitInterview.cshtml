@@ -1,0 +1,103 @@
+﻿@using CITPracticum.Data.Enum;
+@using CITPracticum.ViewModels;
+@model Placement
+
+<a href="/PracticumForm/Index"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
+<div class="mx-auto" style="width: 65%;">
+    <form>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">Exit Interview</h3>
+                <hr />
+            </div>
+        </div>
+        <ul class="nav nav-tabs mb-4" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormFOIP">Form FOIP</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormID">Form ID</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormA">Form A</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormB">Form B</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormC">Form C</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormD">Form D</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/PracticumForm/CreateFormExitInterview">Exit Interview</a>
+            </li>
+        </ul>
+        <div class="row mb-1">
+            <div class="col-md-6">
+                <label for="studentNameID" class="form-label">Student name:</label>
+                <input type="text" class="form-control" id="lastNameID">
+            </div>
+            <div class="col-md-6">
+                <label for="dateFOIP" class="form-label">Date:</label>
+                <input type="date" class="form-control" id="dateFOIP">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="instructornameID" class="form-label">Instructor name:</label>
+                <input type="text" class="form-control" id="instructornameID">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="importantLearning" class="form-label">What is the most important thing you learned during your field work?</label>
+                <textarea class="form-control" id="importantLearning" name="importantLearning" rows="5" placeholder="Comments"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="valuableLearning" class="form-label">What was some of the most valuable learning you did in the program, which was used on your placement?</label>
+                <textarea class="form-control" id="valuableLearning" name="valuableLearning" rows="5" placeholder="Comments"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="strength" class="form-label">What would your placement supervisor say was your strength?</label>
+                <textarea class="form-control" id="strength" name="strength" rows="5" placeholder="Comments"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="weakness" class="form-label">What would your placement supervisor say was a weakness in the CIT program? (An area where you were not as competent as you could have been)</label>
+                <textarea class="form-control" id="weakness" name="weakness" rows="5" placeholder="Comments"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12 form-check form-check-inline px-3">
+                <label class="form-label">Would you recommend this employer for future field work placements?</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="recommendEmployer" id="recommendEmployerYes" value="yes">
+                    <label class="form-check-label" for="recommendEmployerYes">YES</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="recommendEmployer" id="recommendEmployerNo" value="no">
+                    <label class="form-check-label" for="recommendEmployerNo">NO</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="studentSuccessType" class="form-label">If YES, what type of student would best succeed with this employer?</label>
+                <textarea class="form-control" id="studentSuccessType" name="studentSuccessType" rows="5" placeholder="Comments"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+            <div>
+                <a href="/PracticumForm/Index" class="btn btn-danger">Cancel</a>
+            </div>
+            <input type="submit" class="btn btn-success" value="Submit" />
+        </div>
+    </form>
+</div>

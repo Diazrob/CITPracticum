@@ -1,0 +1,158 @@
+﻿@using CITPracticum.Data.Enum;
+@using CITPracticum.ViewModels;
+@model Placement
+
+<a href="/PracticumForm/Index"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
+<div class="mx-auto" style="width: 65%;">
+    <form method="post" asp-action="FormStuInfoSubmit" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">Student Information (Form ID)</h3>
+                <hr />
+            </div>
+        </div>
+        <ul class="nav nav-tabs mb-4" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormFOIP">Form FOIP</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/PracticumForm/CreateFormID">Form ID</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormA">Form A</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormB">Form B</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormC">Form C</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormD">Form D</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/PracticumForm/CreateFormExitInterview">Exit Interview</a>
+            </li>
+        </ul>
+        <div class="row mb-1">
+            <div class="col-md-6">
+                <label asp-for="PracticumForms.FormStuInfo.StuLastName" class="form-label">Last name:</label>
+                @if (User.IsInRole("student"))
+                {
+                    <input asp-for="PracticumForms.FormStuInfo.StuLastName" type="text" class="form-control" value="@Model.Student.LastName" readonly>
+                }
+                else
+                {
+                    <input asp-for="PracticumForms.FormStuInfo.StuLastName" type="text" class="form-control">
+                }
+            </div>
+            <div class="col-md-6">
+                <label asp-for="PracticumForms.FormStuInfo.StuFirstName" class="form-label">First name:</label>
+                @if (User.IsInRole("student"))
+                {
+                    <input asp-for="PracticumForms.FormStuInfo.StuFirstName" type="text" class="form-control" value="@Model.Student.FirstName" readonly>
+                }
+                else
+                {
+                    <input asp-for="PracticumForms.FormStuInfo.StuFirstName" type="text" class="form-control">
+                }
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label asp-for="PracticumForms.FormStuInfo.StuId" class="form-label">Student ID:</label>
+                @if (User.IsInRole("student"))
+                {
+                    <input asp-for="PracticumForms.FormStuInfo.StuId" type="text" class="form-control" value="@Model.Student.StuId" readonly>
+                }
+                else
+                {
+                    <input asp-for="PracticumForms.FormStuInfo.StuId" type="text" class="form-control">
+                }
+            </div>
+            <div class="col-md-6">
+                <label asp-for="PracticumForms.FormStuInfo.Program" class="form-label">Program:</label>
+                <input asp-for="PracticumForms.FormStuInfo.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label asp-for="PracticumForms.FormStuInfo.ProgStartDate" class="form-label">In what year and semester did you start in the program? (Example, 18FL):</label>
+                <input asp-for="PracticumForms.FormStuInfo.ProgStartDate" type="text" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label asp-for="PracticumForms.FormStuInfo.PracStartDate" class="form-label">Year and term in which you are/will be registered for CIT 2271 Practicum (Example, 19WN):</label>
+                <input asp-for="PracticumForms.FormStuInfo.PracStartDate" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label asp-for="PracticumForms.FormStuInfo.CollegeEmail" class="form-label">College e-mail address (will be used to share info):</label>
+                @if (User.IsInRole("student"))
+                {
+                    <input asp-for="PracticumForms.FormStuInfo.CollegeEmail" type="text" class="form-control" value="@Model.Student.StuEmail">
+                }
+                else
+                {
+                    <input asp-for="PracticumForms.FormStuInfo.CollegeEmail" type="text" class="form-control">
+                }
+            </div>
+            <div class="col-md-6">
+                <label asp-for="PracticumForms.FormStuInfo.PhoneNumber" class="form-label">Phone number best able to reach you through:</label>
+                <input asp-for="PracticumForms.FormStuInfo.PhoneNumber" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label asp-for="PracticumForms.FormStuInfo.AltPhoneNumber" class="form-label">Alternate phone number to reach you through:</label>
+                <input asp-for="PracticumForms.FormStuInfo.AltPhoneNumber" type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label asp-for="PracticumForms.FormStuInfo.Address.Street" class="form-label">Street:</label>
+                <input asp-for="PracticumForms.FormStuInfo.Address.Street" type="text" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label asp-for="PracticumForms.FormStuInfo.Address.City" class="form-label">City:</label>
+                <input asp-for="PracticumForms.FormStuInfo.Address.City" type="text" class="form-control">
+            </div>
+            <div class="col-md-4">
+
+                <label asp-for="PracticumForms.FormStuInfo.Address.Prov" class="form-label">Prov:</label>
+                <input asp-for="PracticumForms.FormStuInfo.Address.Prov" type="text" class="form-control">
+
+            </div>
+            <div class="col-md-4">
+                <label asp-for="PracticumForms.FormStuInfo.Address.Country" class="form-label">Country:</label>
+                <input asp-for="PracticumForms.FormStuInfo.Address.Country" type="text" class="form-control">
+            </div>
+            <div class="col-md-4">
+
+                <label asp-for="PracticumForms.FormStuInfo.Address.PostalCode" class="form-label">Postal Code:</label>
+                <input asp-for="PracticumForms.FormStuInfo.Address.PostalCode" type="text" class="form-control">
+
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-2">
+                <p><b>Please note:</b></p>
+            </div>
+            <div class="col-md-10">
+                <p>
+                    You need to be registered in CIT 2271 for your practicum experience to be recognized by
+                    the college. This course is offered beginning in January during the second year of your
+                    program – your last semester. You can begin your practicum in January and work parttime
+                    around your other classes with the goal of completing it by mid-June.
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+            <div>
+                <a href="/PracticumForm/Index" class="btn btn-danger">Cancel</a>
+            </div>
+            <input type="submit" class="btn btn-success" value="Submit" />
+        </div>
+    </form>
+</div>

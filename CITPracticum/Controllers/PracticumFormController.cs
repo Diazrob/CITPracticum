@@ -54,6 +54,48 @@ namespace CITPracticum.Controllers
             } 
         }
 
+        public IActionResult CreateFormA()
+        {
+            ViewData["ActivePage"] = "PracForms";
+            return View();
+        }
+
+        public IActionResult CreateFormB()
+        {
+            ViewData["ActivePage"] = "PracForms";
+            return View();
+        }
+
+        public IActionResult CreateFormC()
+        {
+            ViewData["ActivePage"] = "PracForms";
+            return View();
+        }
+
+        public IActionResult CreateFormD()
+        {
+            ViewData["ActivePage"] = "PracForms";
+            return View();
+        }
+
+        public IActionResult CreateFormFOIP()
+        {
+            ViewData["ActivePage"] = "PracForms";
+            return View();
+        }
+
+        public IActionResult CreateFormID()
+        {
+            ViewData["ActivePage"] = "PracForms";
+            return View();
+        }
+
+        public IActionResult CreateFormExitInterview()
+        {
+            ViewData["ActivePage"] = "PracForms";
+            return View();
+        }
+
         public IActionResult EmployerSubmittedForms()
         {
             ViewData["ActivePage"] = "PracForms";

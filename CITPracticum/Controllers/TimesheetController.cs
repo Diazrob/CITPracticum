@@ -25,7 +25,7 @@ namespace CITPracticum.Controllers
 
             if (placement?.Timesheet != null)
             {
-                placement.Timesheet.TotalHours = placement.Timesheet.TimeEntries?.Sum(entry => entry.Hours) ?? 0;
+                //placement.Timesheet.TotalHours = placement.Timesheet.TimeEntries?.Sum(entry => entry.Hours) ?? 0;
             }
 
             return View(placement);

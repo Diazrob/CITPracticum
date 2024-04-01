@@ -44,6 +44,14 @@
                         <input asp-for="EmpEmail" class="form-control" />
                         <span asp-validation-for="EmpEmail" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <label for="affiliationAgreement" class="control-label mt-2">Does the employer currently have an affiliation agreement?</label>
+                        <select id="affiliationAgreement" name="affiliationAgreement" class="form-control">
+                            <option value="">Select...</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
                    
                     <div class="form-group mt-2">
                         <input class="btn btn-outline-success" type="submit" value="Edit Employer" />

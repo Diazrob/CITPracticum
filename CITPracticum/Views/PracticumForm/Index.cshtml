@@ -75,51 +75,63 @@
 
     @if (User.IsInRole("admin") || User.IsInRole("student"))
     {
-        <div class="card zoom" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formFOIPModal">
-            <div class="card-body">
-                Form FOIP - Student Release
+        <a asp-controller="PracticumForm" asp-action="CreateFormFOIP" style="text-decoration: none;">
+            <div class="card zoom" style="cursor: pointer;">
+                <div class="card-body">
+                    Form FOIP - Student Release
+                </div>
             </div>
-        </div>
+        </a>
 
-        <div class="card mt-3 zoom" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formIDModal">
-            <div class="card-body">
-                Form ID - Student Information
+        <a asp-controller="PracticumForm" asp-action="CreateFormID" style="text-decoration: none;">
+            <div class="card mt-3 zoom" style="cursor: pointer;">
+                <div class="card-body">
+                    Form ID - Student Information
+                </div>
             </div>
-        </div>
-    
+        </a>
 
-    <!-- List of Forms as Cards -->
-    <div class="card mt-3 zoom" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formAModal">
-        <div class="card-body">
-            Form A - Host Information
-        </div>
-    </div>
+        <a asp-controller="PracticumForm" asp-action="CreateFormA" style="text-decoration: none;">
+            <div class="card mt-3 zoom" style="cursor: pointer;">
+                <div class="card-body">
+                    Form A - Host Information
+                </div>
+            </div>
+        </a>
 
-    <div class="card mt-3 zoom" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formBModal">
-        <div class="card-body">
-            Form B - Practicum Agreement
-        </div>
-    </div>
+        <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+            <div class="card mt-3 zoom" style="cursor: pointer;">
+                <div class="card-body">
+                    Form B - Practicum Agreement
+                </div>
+            </div>
+        </a>
     }
-    <div class="card mt-3 zoom" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formCModal">
-        <div class="card-body">
-            Form C - Practicum Evaluation (100 hours)
-        </div>
-    </div>
+        <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+            <div class="card mt-3 zoom" style="cursor: pointer;">
+                <div class="card-body">
+                    Form C - Practicum Evaluation (100 hours)
+                </div>
+            </div>
+        </a>
 
-    <div class="card zoom mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formDModal">
-        <div class="card-body">
-            Form D - Practicum Evaluation (200 hours)
-        </div>
-    </div>
+        <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
+            <div class="card zoom mt-3" style="cursor: pointer;">
+                <div class="card-body">
+                    Form D - Practicum Evaluation (200 hours)
+                </div>
+            </div>
+        </a>
 
     @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.
     {
-        <div class="card mt-3 zoom" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formExitModal">
-            <div class="card-body">
-                Exit Interview
+        <a asp-controller="PracticumForm" asp-action="CreateFormExitInterview" style="text-decoration: none;">
+            <div class="card mt-3 zoom">
+                <div class="card-body">
+                    Exit Interview
+                </div>
             </div>
-        </div>
+        </a>
     }
 
 
@@ -2430,8 +2442,6 @@
     </div>
 </div>
 
-
-
 <!-- Exit Interview Modal -->
 <div class="modal fade" id="formExitModal" tabindex="-1" aria-labelledby="formExitModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
@@ -2507,13 +2517,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.getElementById('openFormB').addEventListener('click', function () {
-        var firstModal = bootstrap.Modal.getInstance(document.getElementById('formAModal'));
-        var secondModal = new bootstrap.Modal(document.getElementById('formBModal'));
-
-        firstModal.hide(); // This will hide the first modal
-        secondModal.show(); // This will show the second modal
-    });
-</script>
