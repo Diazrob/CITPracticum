@@ -65,19 +65,19 @@
                         <div class="row mb-1">
                             <div class="col-md-6">
                                 <label asp-for="StuLastName" class="form-label">Last name:</label>
-                                <input asp-for="StuLastName" type="text" class="form-control">
+                                <input asp-for="StuLastName" type="text" class="form-control" readonly>
                                 <span asp-validation-for="StuLastName" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
                                 <label asp-for="StuFirstName" class="form-label">First name:</label>
-                                <input asp-for="StuFirstName" type="text" class="form-control">
+                        <input asp-for="StuFirstName" type="text" class="form-control" readonly>
                                 <span asp-validation-for="StuFirstName" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <label asp-for="StuId" class="form-label">Student ID:</label>
-                                <input asp-for="StuId" type="text" class="form-control">
+                        <input asp-for="StuId" type="text" class="form-control" readonly>
                                 <span asp-validation-for="StuId" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
@@ -101,7 +101,7 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <label asp-for="CollegeEmail" class="form-label">College e-mail address (will be used to share info):</label>
-                                <input asp-for="CollegeEmail" class="form-control">
+                        <input asp-for="CollegeEmail" class="form-control" readonly>
                                 <span asp-validation-for="CollegeEmail" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">

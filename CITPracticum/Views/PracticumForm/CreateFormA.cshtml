@@ -52,6 +52,7 @@
 
 </style>
 
+
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <div class="modal-header justify-content-center" style="background: linear-gradient(to right, #FFFFFF, #FFFFFF, #69a620);">
         <img src="~/images/lc.png" alt="Logo" class="float-start" style="height: 50px;"> <!-- Adjust the height as needed -->
@@ -129,9 +130,15 @@
                 <!-- Supervisor's Name, Position, and Email -->
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label asp-for="SVName" class="form-label">Supervisor's name:</label>
-                        <input asp-for="SVName" type="text" class="form-control">
-                        <span asp-validation-for="SVName" class="text-danger"></span>
+                        <label asp-for="SVFirstName" class="form-label">Supervisor's Firstname:</label>
+                        <input asp-for="SVFirstName" id="supervisor" type="text" class="form-control">
+                        <span asp-validation-for="SVFirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="SVLastName" class="form-label">Supervisor's Lastname:</label>
+                        <input asp-for="SVLastName" id="supervisor" type="text" class="form-control">
+                        <span asp-validation-for="SVLastName" class="text-danger"></span>
+                        <a class="btn btn-outline-secondary" asp-controller="PracticumForm" asp-action="SearchEmployer">Search Employer</a>
                     </div>
                     <div class="col-md-4">
                         <label asp-for="SVPosition" class="form-label">Supervisor's position:</label>
@@ -157,9 +164,38 @@
                 <div class="form-group mb-3">
                     <label asp-for="SVCredentials" class="form-label">Supervisor's Credentials</label>
                     <div class="col-md-9">
-                        <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
-                        <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
-                        <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
+                        @if (Model.SVCredentials == null)
+                        {
+                            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma"/> <span class="mx-2">CIT Diploma</span>
+                        }
+                        else if (Model.SVCredentials.Contains("CIT Diploma") || Model.SVCredentials == "CIT Diploma")
+                        {
+                            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" checked/> <span class="mx-2">CIT Diploma</span>
+                        }
+                        @if (Model.SVCredentials == null)
+                        {
+                            <input class="form-check-input" type="checkbox" name="SVCredentialsList" value="IS Degree" />
+
+                            <span class="mx-2">IS Degree</span>
+                        }
+                        else if (Model.SVCredentials.Contains("IS Degree") || Model.SVCredentials == "IS Degree")
+                        {
+                            <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" checked/>
+
+                            <span class="mx-2">IS Degree</span>
+                        }
+                        @if (Model.SVCredentials == null)
+                        {
+                            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree"/>
+
+                            <span class="mx-2">CS Degree</span>
+                        }
+                        else if (Model.SVCredentials.Contains("CS Degree") || Model.SVCredentials == "CS Degree")
+                        {
+                            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" checked/>
+
+                            <span class="mx-2">CS Degree</span>
+                        }
                     </div>
                     <span asp-validation-for="SVCredentials" class="text-danger"></span>
                 </div>

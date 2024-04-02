@@ -27,7 +27,6 @@ namespace CITPracticum.ViewModels
         [Required(ErrorMessage = "Alternate phone number is required")]
         [DataType(DataType.PhoneNumber)]
         public string AltPhoneNumber { get; set; }
-        [Required(ErrorMessage = "Address is required")]
         public CreateAddressViewModel CreateAddressViewModel { get; set; }
         public bool Submitted { get; set; }
     }

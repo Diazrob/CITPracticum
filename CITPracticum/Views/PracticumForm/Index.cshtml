@@ -56,12 +56,15 @@
         <li class="nav-item">
             <a class="nav-link active" href="/PracticumForm/Index">Practicum Forms</a>
         </li>
+    @if (User.IsInRole("admin"))
+    {
         <li class="nav-item">
             <a class="nav-link" href="/PracticumForm/StudentSubmittedForms">Student Submitted Forms</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/PracticumForm/EmployerSubmittedForms">Employer Submitted Forms</a>
         </li>
+        }
         <li class="nav-item">
         </li>
     </ul>

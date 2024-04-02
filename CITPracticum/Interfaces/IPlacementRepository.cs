@@ -11,5 +11,7 @@ namespace CITPracticum.Interfaces
         bool Update(Placement placement);
         bool Delete(Placement placement);
         bool Save();
+
+        bool Add(Employer employer);
     }
 }

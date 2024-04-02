@@ -1,4 +1,6 @@
-﻿namespace CITPracticum.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CITPracticum.ViewModels
 {
     public class EditEmployerViewModel
     {

@@ -1,29 +1,47 @@
 ﻿
+using CITPracticum.Data;
 using CITPracticum.Interfaces;
 using CITPracticum.Models;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Globalization;
+
 
 namespace CITPracticum.Controllers
 {
     public class PracticumFormController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly IPracticumFormsRepository _practicumFormsRepository;
         private readonly IPlacementRepository _placementRepository;
+        private readonly IEmployerRepository _employerRepository;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IStudentRepository _studentRepository;
+        private readonly IAddressRepository _addressRepository;
 
-        public PracticumFormController(IPracticumFormsRepository practicumFormsRepository, IPlacementRepository placementRepository, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IStudentRepository studentRepository)
+        public PracticumFormController(
+            ApplicationDbContext context, 
+            IPracticumFormsRepository practicumFormsRepository, 
+            IPlacementRepository placementRepository, 
+            IEmployerRepository employerRepository, 
+            UserManager<AppUser> userManager, 
+            SignInManager<AppUser> signInManager, 
+            IStudentRepository studentRepository,
+            IAddressRepository addressRepository
+            )     
         {
+            _context = context;
             _practicumFormsRepository = practicumFormsRepository;
             _placementRepository = placementRepository;
+            _employerRepository = employerRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _studentRepository = studentRepository;
+            _addressRepository = addressRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -67,8 +85,8 @@ namespace CITPracticum.Controllers
             return View();
         }
 
-        // Form A submission handler
-        public async Task<IActionResult> CreateFormA()
+        // Form FOIP submission handler
+        public async Task<IActionResult> CreateFormFOIP()
         {
             if (User.IsInRole("student"))
             {
@@ -79,14 +97,223 @@ namespace CITPracticum.Controllers
                 var usrFirstName = student.FirstName;
                 var usrStuId = student.StuId;
 
-                var createFormAViewModel = new CreateFormAViewModel()
+                var createFormFOIPViewModel = new CreateFormFOIPViewModel()
                 {
                     StuLastName = usrLastName,
                     StuFirstName = usrFirstName,
                     StuId = usrStuId,
-                    StartDate = DateTime.Now
+                    StuSignDate = DateTime.Now
                 };
-                return View(createFormAViewModel);
+                return View(createFormFOIPViewModel);
+            }
+            else
+            {
+                var createFormFOIPViewModel = new CreateFormFOIPViewModel();
+                return View(createFormFOIPViewModel);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateFormFOIP(CreateFormFOIPViewModel formFOIPViewModel)
+        {
+
+            var usr = await _userManager.GetUserAsync(User);
+            int stuId = Convert.ToInt32(usr.StudentId);
+
+            if (ModelState.IsValid)
+            {
+
+                var placement = new Placement()
+                {
+                    PracticumForms = new PracticumForms()
+                    {
+                        FormFOIP = new FormFOIP()
+                        {
+                            StuFirstName = formFOIPViewModel.StuFirstName,
+                            StuLastName = formFOIPViewModel.StuLastName,
+                            StuId = formFOIPViewModel.StuId,
+                            Program = formFOIPViewModel.Program,
+                            Other = formFOIPViewModel.Other,
+                            StuSign = formFOIPViewModel.StuSign,
+                            StuSignDate = formFOIPViewModel.StuSignDate,
+                            Acknowledged = formFOIPViewModel.Acknowledged,
+                            Submitted = true,
+                        }
+                    },
+                    StudentId = stuId
+                };
+                _practicumFormsRepository.Add(placement.PracticumForms.FormFOIP);
+                _practicumFormsRepository.Add(placement.PracticumForms);
+                _placementRepository.Add(placement);
+                return RedirectToAction("Index");
+            }
+            return View(formFOIPViewModel);
+        }
+
+        // Form StuInfo submission handler
+        public async Task<IActionResult> CreateFormStuInfo()
+        {
+            if (User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                int stuId = Convert.ToInt32(usr.StudentId);
+                var student = await _studentRepository.GetByIdAsync(stuId);
+                var usrLastName = student.LastName;
+                var usrFirstName = student.FirstName;
+                var usrStuId = student.StuId;
+                var usrEmail = student.StuEmail;
+
+                var createFormStuInfoViewModel = new CreateFormStuInfoViewModel()
+                {
+                    StuLastName = usrLastName,
+                    StuFirstName = usrFirstName,
+                    StuId = usrStuId,
+                    CollegeEmail = usrEmail
+
+                };
+                return View(createFormStuInfoViewModel);
+            }
+            else
+            {
+                var createFormStuInfoViewModel = new CreateFormStuInfoViewModel();
+                return View(createFormStuInfoViewModel);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateFormStuInfo(CreateFormStuInfoViewModel formStuInfoViewModel)
+        {
+            var usr = await _userManager.GetUserAsync(User);
+            var placements = await _placementRepository.GetAll();
+            var practicumForms = await _practicumFormsRepository.GetAllForms();
+
+            if (User.IsInRole("student"))
+            {
+                int stuId = Convert.ToInt32(usr.StudentId);
+
+                foreach(var placement in placements )
+                {
+                    if (placement.StudentId ==  stuId)
+                    {
+                        foreach(var practicumForm in practicumForms)
+                        {
+                            if (placement.PracticumFormsId == practicumForm.Id)
+                            {
+                                 if (ModelState.IsValid)
+                                    {
+                                practicumForm.FormStuInfo = new FormStuInfo()
+                                {
+                                    StuLastName = formStuInfoViewModel.StuLastName,
+                                    StuFirstName = formStuInfoViewModel.StuFirstName,
+                                    StuId = formStuInfoViewModel.StuId,
+                                    Program = formStuInfoViewModel.Program,
+                                    ProgStartDate = formStuInfoViewModel.ProgStartDate,
+                                    PracStartDate = formStuInfoViewModel.PracStartDate,
+                                    CollegeEmail = formStuInfoViewModel.CollegeEmail,
+                                    PhoneNumber = formStuInfoViewModel.PhoneNumber,
+                                    AltPhoneNumber = formStuInfoViewModel.AltPhoneNumber,
+                                    Address = new Address()
+                                    {
+                                        Street = formStuInfoViewModel.CreateAddressViewModel.Street,
+                                        City = formStuInfoViewModel.CreateAddressViewModel.City,
+                                        Prov = formStuInfoViewModel.CreateAddressViewModel.Prov,
+                                        Country = formStuInfoViewModel.CreateAddressViewModel.Country,
+                                        PostalCode = formStuInfoViewModel.CreateAddressViewModel.PostalCode
+                                    },
+                                    Submitted = true
+                                    };
+                                _practicumFormsRepository.Add(practicumForm.FormStuInfo);
+                                return RedirectToAction("Index");
+                                }
+                            }
+                                  
+                        }
+                        
+                    }
+                }
+            }
+            return View(formStuInfoViewModel);
+        }
+
+        public async Task<IActionResult> SearchEmployer()
+        {
+            ViewData["ActivePage"] = "Employer";
+            string roleName = "employer";
+
+            var users = await _userManager.GetUsersInRoleAsync(roleName);
+            IEnumerable<Employer> employers = await _employerRepository.GetAll();
+
+            foreach (var employer in employers)
+            {
+
+                foreach (var user in users)
+                {
+                    if (user.EmployerId == employer.Id)
+                    {
+                        user.Employer.FirstName = employer.FirstName;
+                        user.Employer.LastName = employer.LastName;
+                        user.Employer.CompanyName = employer.CompanyName;
+                    }
+                }
+            }
+            return View(users);
+        }
+       
+        // Form A submission handler
+        public async Task<IActionResult> CreateFormA(int id)
+        {
+            Employer employer = await _employerRepository.GetByIdAsync(id);
+
+            if (User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                int stuId = Convert.ToInt32(usr.StudentId);
+                var student = await _studentRepository.GetByIdAsync(stuId);
+                var usrLastName = student.LastName;
+                var usrFirstName = student.FirstName;
+                var usrStuId = student.StuId;
+
+                if (employer != null)
+                {
+                    int empAddressId = Convert.ToInt32(employer.AddressId);
+                    var empAddress = await _addressRepository.GetByIdAsync(empAddressId);
+                    var createFormAViewModel = new CreateFormAViewModel()
+                    {
+                        StuLastName = usrLastName,
+                        StuFirstName = usrFirstName,
+                        StuId = usrStuId,
+                        StartDate = DateTime.Now,
+                        HostCompany = employer.CompanyName,
+                        OrgType = employer.OrgType,
+                        SVFirstName = employer.FirstName,
+                        SVLastName = employer.LastName,
+                        SVPosition = employer.SVPosition,
+                        SVEmail = employer.EmpEmail,
+                        SVPhoneNumber = employer.PhoneNumber,
+                        SVCredentials = employer.Credentials,
+                        SVCredOther = employer.CredOther,
+                        CreateAddressViewModel = new CreateAddressViewModel()
+                        {
+                            Street = empAddress.Street,
+                            City = empAddress.City,
+                            Prov = empAddress.Prov,
+                            Country = empAddress.Country,
+                            PostalCode = empAddress.PostalCode
+                        }
+                    // database created. create a new employer
+                    };
+                    return View(createFormAViewModel);
+                }
+                else
+                {
+                    var createFormAViewModel = new CreateFormAViewModel()
+                    {
+                        StuLastName = usrLastName,
+                        StuFirstName = usrFirstName,
+                        StuId = usrStuId,
+                        StartDate = DateTime.Now,
+                    };
+                    return View(createFormAViewModel);
+                }
+                
             }
             else
             {
@@ -106,42 +333,67 @@ namespace CITPracticum.Controllers
                 ModelState.Remove("SVCredentials");
             }
 
-            if (ModelState.IsValid)
+            var usr = await _userManager.GetUserAsync(User);
+            var placements = await _placementRepository.GetAll();
+            var practicumForms = await _practicumFormsRepository.GetAllForms();
+
+            if (User.IsInRole("student"))
             {
-                var practicumForms = new PracticumForms() { 
-                    FormA = new FormA()
+                int stuId = Convert.ToInt32(usr.StudentId);
+
+                foreach (var placement in placements)
+                {
+                    
+                    if (placement.StudentId == stuId)
                     {
-                        StuLastName = formAViewModel.StuLastName,
-                        StuFirstName = formAViewModel.StuFirstName,
-                        StuId = formAViewModel.StuId,
-                        Program = formAViewModel.Program,
-                        HostCompany = formAViewModel.StuLastName,
-                        OrgType = formAViewModel.OrgType,
-                        SVName = formAViewModel.SVName,
-                        SVPosition = formAViewModel.SVPosition,
-                        SVEmail = formAViewModel.SVEmail,
-                        SVPhoneNumber = formAViewModel.SVPhoneNumber,
-                        SVCredentials = formAViewModel.SVCredentials,
-                        SVCredOther = formAViewModel.SVCredOther,
-                        Address = new Address()
+                        var curEmployer = await _employerRepository.GetByEmailAsync(formAViewModel.SVEmail);
+                        placement.Employer = curEmployer;
+                        foreach (var practicumForm in practicumForms)
                         {
-                            Street = formAViewModel.CreateAddressViewModel.Street,
-                            City = formAViewModel.CreateAddressViewModel.City,
-                            Prov = formAViewModel.CreateAddressViewModel.Prov,
-                            Country = formAViewModel.CreateAddressViewModel.Country,
-                            PostalCode = formAViewModel.CreateAddressViewModel.PostalCode,
-                        },
-                        StartDate = formAViewModel.StartDate,
-                        PaymentCategory = formAViewModel.PaymentCategory,
-                        OutOfCountry = formAViewModel.OutOfCountry,
-                        Submitted = true
+                            if (placement.PracticumFormsId == practicumForm.Id)
+                            {
+
+                                if (ModelState.IsValid)
+                                {
+                                    practicumForm.FormA = new FormA()
+                                    {
+                                        StuLastName = formAViewModel.StuLastName,
+                                        StuFirstName = formAViewModel.StuFirstName,
+                                        StuId = formAViewModel.StuId,
+                                        Program = formAViewModel.Program,
+                                        HostCompany = formAViewModel.StuLastName,
+                                        OrgType = formAViewModel.OrgType,
+                                        SVFirstName = formAViewModel.SVFirstName,
+                                        SVLastName = formAViewModel.SVLastName,
+                                        SVPosition = formAViewModel.SVPosition,
+                                        SVEmail = formAViewModel.SVEmail,
+                                        SVPhoneNumber = formAViewModel.SVPhoneNumber,
+                                        SVCredentials = formAViewModel.SVCredentials,
+                                        SVCredOther = formAViewModel.SVCredOther,
+                                        Address = new Address()
+                                        {
+                                            Street = formAViewModel.CreateAddressViewModel.Street,
+                                            City = formAViewModel.CreateAddressViewModel.City,
+                                            Prov = formAViewModel.CreateAddressViewModel.Prov,
+                                            Country = formAViewModel.CreateAddressViewModel.Country,
+                                            PostalCode = formAViewModel.CreateAddressViewModel.PostalCode,
+                                        },
+                                        StartDate = formAViewModel.StartDate,
+                                        PaymentCategory = formAViewModel.PaymentCategory,
+                                        OutOfCountry = formAViewModel.OutOfCountry,
+                                        Submitted = true
+                                    };
+                                    var employer = _employerRepository.GetByEmailAsync(formAViewModel.SVEmail);
+
+                                    _placementRepository.Update(placement);
+                                    _practicumFormsRepository.Add(practicumForm.FormA);
+                                    
+                                    return RedirectToAction("Index");
+                                }
+                            }
+                        }
                     }
-                };
-
-                _practicumFormsRepository.Add(practicumForms.FormA);
-                _practicumFormsRepository.Add(practicumForms);
-
-                return RedirectToAction("Index");
+                }
             }
             return View(formAViewModel);
         }
@@ -294,115 +546,6 @@ namespace CITPracticum.Controllers
             return View(submitFormDVM);
         }
 
-        // Form FOIP submission handler
-        public async Task<IActionResult> CreateFormFOIP()
-        {
-            if (User.IsInRole("student"))
-            {
-                var usr = await _userManager.GetUserAsync(User);
-                int stuId = Convert.ToInt32(usr.StudentId);
-                var student = await _studentRepository.GetByIdAsync(stuId);
-                var usrLastName = student.LastName;
-                var usrFirstName = student.FirstName;
-                var usrStuId = student.StuId;
-
-                var createFormFOIPViewModel = new CreateFormFOIPViewModel()
-                {
-                    StuLastName = usrLastName,
-                    StuFirstName = usrFirstName,
-                    StuId = usrStuId,
-                    StuSignDate = DateTime.Now
-                };
-                return View(createFormFOIPViewModel);
-            }
-            else
-            {
-                var createFormFOIPViewModel = new CreateFormFOIPViewModel();
-                return View(createFormFOIPViewModel);
-            }
-        }
-        [HttpPost]
-        public async Task<IActionResult> CreateFormFOIP(CreateFormFOIPViewModel formFOIPViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var formFOIP = new FormFOIP()
-                {
-                    StuFirstName = formFOIPViewModel.StuFirstName,
-                    StuLastName = formFOIPViewModel.StuLastName,
-                    StuId = formFOIPViewModel.StuId,
-                    Program = formFOIPViewModel.Program,
-                    Other = formFOIPViewModel.Other,
-                    StuSign = formFOIPViewModel.StuSign,
-                    StuSignDate = formFOIPViewModel.StuSignDate,
-                    Acknowledged = formFOIPViewModel.Acknowledged,
-                    Submitted = true,
-                };
-                _practicumFormsRepository.Add(formFOIP);
-                return RedirectToAction("Index");
-            }
-            return View(formFOIPViewModel);
-        }
-
-        // Form StuInfo submission handler
-        public async Task<IActionResult> CreateFormStuInfo()
-        {
-            if (User.IsInRole("student"))
-            {
-                var usr = await _userManager.GetUserAsync(User);
-                int stuId = Convert.ToInt32(usr.StudentId);
-                var student = await _studentRepository.GetByIdAsync(stuId);
-                var usrLastName = student.LastName;
-                var usrFirstName = student.FirstName;
-                var usrStuId = student.StuId;
-                var usrEmail = student.StuEmail;
-
-                var createFormStuInfoViewModel = new CreateFormStuInfoViewModel()
-                {
-                    StuLastName = usrLastName,
-                    StuFirstName = usrFirstName,
-                    StuId = usrStuId,
-                    CollegeEmail = usrEmail
-                   
-                };
-                return View(createFormStuInfoViewModel);
-            }
-            else
-            {
-                var createFormStuInfoViewModel = new CreateFormStuInfoViewModel();
-                return View(createFormStuInfoViewModel);
-            }
-        }
-        [HttpPost]
-        public async Task<IActionResult> CreateFormStuInfo(CreateFormStuInfoViewModel formStuInfoViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var formStuInfo = new FormStuInfo()
-                {
-                    StuLastName = formStuInfoViewModel.StuLastName,
-                    StuFirstName = formStuInfoViewModel.StuFirstName,
-                    StuId = formStuInfoViewModel.StuId,
-                    Program = formStuInfoViewModel.Program,
-                    ProgStartDate = formStuInfoViewModel.ProgStartDate,
-                    PracStartDate = formStuInfoViewModel.PracStartDate,
-                    CollegeEmail = formStuInfoViewModel.CollegeEmail,
-                    PhoneNumber = formStuInfoViewModel.PhoneNumber,
-                    AltPhoneNumber = formStuInfoViewModel.AltPhoneNumber,
-                    Address = new Address ()
-                    {
-                        Street = formStuInfoViewModel.CreateAddressViewModel.Street,
-                        City = formStuInfoViewModel.CreateAddressViewModel.City,
-                        Prov = formStuInfoViewModel.CreateAddressViewModel.Prov,
-                        Country = formStuInfoViewModel.CreateAddressViewModel.Country,
-                        PostalCode = formStuInfoViewModel.CreateAddressViewModel.PostalCode
-                    },
-                    Submitted = true
-                };
-                _practicumFormsRepository.Add(formStuInfo);
-                return RedirectToAction("Index");
-            }
-            return View(formStuInfoViewModel);
-        }
+       
     }
 }

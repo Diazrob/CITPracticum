@@ -16,7 +16,8 @@ namespace CITPracticum.Models
         public string Program { get; set; }
         public string HostCompany { get; set; }
         public string OrgType { get; set; }
-        public string SVName { get; set; }
+        public string SVFirstName { get; set; }
+        public string SVLastName { get; set; }
         public string SVPosition { get; set; }
         [DataType(DataType.EmailAddress)]
         public string SVEmail { get; set; }

@@ -18,8 +18,10 @@ namespace CITPracticum.ViewModels
         public string HostCompany { get; set; }
         [Required(ErrorMessage = "Organization Type is required")]
         public string OrgType { get; set; }
-        [Required(ErrorMessage = "Surpervisor name is required is required")]
-        public string SVName { get; set; }
+        [Required(ErrorMessage = "Surpervisor firstname is required is required")]
+        public string SVFirstName { get; set; }
+        [Required(ErrorMessage = "Surpervisor lastname is required is required")]
+        public string SVLastName { get; set; }
         [Required(ErrorMessage = "Supervisor position is required")]
         public string SVPosition { get; set; }
         [Required(ErrorMessage = "Supervisor email address is required")]

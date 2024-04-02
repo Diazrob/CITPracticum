@@ -5,7 +5,9 @@ using CITPracticum.Repository;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace CITPracticum.Controllers
 {
@@ -55,9 +57,19 @@ namespace CITPracticum.Controllers
             return View(response);
         }
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterEmployerViewModel registerVM)
+        public async Task<IActionResult> Register(RegisterEmployerViewModel registerVM, List<string> credentialsList)
         {
             ViewData["ActivePage"] = "Employer";
+
+            string credentials = string.Join(", ", credentialsList);
+
+            if (credentials != "")
+            {
+                ModelState.SetModelValue("Credentials", new ValueProviderResult(credentials, CultureInfo.InvariantCulture));
+                registerVM.Credentials = credentials;
+                ModelState.Remove("Credentials");
+            }
+
             if (!ModelState.IsValid) return View(registerVM);
 
             var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
@@ -76,7 +88,21 @@ namespace CITPracticum.Controllers
                     FirstName = registerVM.FirstName,
                     LastName = registerVM.LastName,
                     EmpEmail = registerVM.EmailAddress,
-                    CompanyName = registerVM.CompanyName
+                    CompanyName = registerVM.CompanyName,
+                    SVPosition = registerVM.SVPosition,
+                    OrgType = registerVM.OrgType,
+                    PhoneNumber = registerVM.PhoneNumber,
+                    Credentials = registerVM.Credentials,
+                    CredOther = registerVM.CredOther,
+                    Affiliation = registerVM.Affiliation,
+                    Address = new Address()
+                    {
+                        Street = registerVM.CreateAddressViewModel.Street,
+                        City = registerVM.CreateAddressViewModel.City,
+                        Prov = registerVM.CreateAddressViewModel.Prov,
+                        Country = registerVM.CreateAddressViewModel.Country,
+                        PostalCode = registerVM.CreateAddressViewModel.PostalCode,
+                    },
                 }
             };
             var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
@@ -84,8 +110,16 @@ namespace CITPracticum.Controllers
             if (newUserResponse.Succeeded)
                 await _userManager.AddToRoleAsync(newUser, UserRoles.Employer);
 
-            return RedirectToAction("Index", "Employer");
+            if (User.IsInRole("student"))
+            {
+                return RedirectToAction("SearchEmployer", "PracticumForm");
+            } else
+            {
+                return RedirectToAction("Index", "Employer");
+            }
+            
         }
+
         // shows the page of specific user
         public async Task<IActionResult> Detail(int id)
         {

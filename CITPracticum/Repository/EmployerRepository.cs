@@ -29,7 +29,10 @@ namespace CITPracticum.Repository
         {
             return await _context.Employers.ToListAsync();
         }
-
+        public async Task<Employer> GetByEmailAsync(string email)
+        {
+            return await _context.Employers.FirstOrDefaultAsync(i => i.EmpEmail == email);
+        }
         public async Task<Employer> GetByIdAsync(int id)
         {
             return await _context.Employers.FirstOrDefaultAsync(i => i.Id == id);

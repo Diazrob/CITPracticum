@@ -51,5 +51,13 @@ namespace CITPracticum.Repository
             _context.Update(placement);
             return Save();
         }
+
+        // add employer ID
+
+        public bool Add(Employer employer)
+        {
+            _context.Add(employer);
+            return Save();
+        }
     }
 }
