@@ -4,6 +4,7 @@ using CITPracticum.Models;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 
 namespace CITPracticum.Controllers
 {
@@ -86,6 +87,15 @@ namespace CITPracticum.Controllers
             return View(post);
         }
 
+        public async Task<IActionResult> ConfirmUnarchive(int id)
+        {
+            ViewData["ActivePage"] = "Jobs";
+
+            var post = await _jobPostingRepository.GetByIdAsync(id);
+
+            return View(post);
+        }
+
         // edit a job post
         public async Task<IActionResult> Edit(int id)
         {
@@ -158,6 +168,28 @@ namespace CITPracticum.Controllers
             _jobPostingRepository.Delete(jobPostingDetails);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Apply(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+
+
+            var jobPosting = await _jobPostingRepository.GetByIdAsync(id.Value);
+            //jobPosting.Applicants.Add();
+            _jobPostingRepository.Update(jobPosting);
+
+            if (jobPosting == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("Index", "JobPosting");
+        }
+
         public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)

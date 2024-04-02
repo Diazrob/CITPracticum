@@ -33,9 +33,9 @@ namespace CITPracticum.Controllers
             var users = await _userManager.GetUsersInRoleAsync(roleName);
             IEnumerable<Student> students = await _studentRepository.GetAll();
 
-            foreach(var student in students)
+            foreach (var student in students)
             {
-                foreach(var user in users)
+                foreach (var user in users)
                 {
                     if (user.StudentId == student.Id)
                     {
@@ -72,7 +72,7 @@ namespace CITPracticum.Controllers
             {
                 Email = registerVM.EmailAddress,
                 UserName = registerVM.FirstName,
-                Student = new Student ()
+                Student = new Student()
                 {
                     FirstName = registerVM.FirstName,
                     LastName = registerVM.LastName,
@@ -90,6 +90,7 @@ namespace CITPracticum.Controllers
         // displays page of a student
         public async Task<IActionResult> Detail(int id)
         {
+            ViewData["ActivePage"] = "Student";
             Student student = await _studentRepository.GetByIdAsync(id);
             return View(student);
         }
@@ -114,7 +115,7 @@ namespace CITPracticum.Controllers
             if (user == null) return View("Error");
 
             await _userManager.DeleteAsync(user);
-             _studentRepository.Delete(student);
+            _studentRepository.Delete(student);
 
             return RedirectToAction("index");
         }
@@ -122,6 +123,7 @@ namespace CITPracticum.Controllers
         // edit a student
         public async Task<IActionResult> Edit(int id)
         {
+            ViewData["ActivePage"] = "Student";
             var student = await _studentRepository.GetByIdAsync(id);
             if (student == null) return View("Error");
             var studentVM = new EditStudentViewModel()
@@ -137,6 +139,7 @@ namespace CITPracticum.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EditStudentViewModel studentVM)
         {
+            ViewData["ActivePage"] = "Student";
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Failed to edit Employer");

@@ -1,17 +1,20 @@
 ﻿@using CITPracticum.Data.Enum;
 @using CITPracticum.ViewModels;
 @model Placement
+
+@{
+    ViewData["CurrentPage"] = "Practicum Forms";
+}
+
 <style>
     /* Custom styles for the navigation tabs */
     .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
         background-color: #ffffff; /* Active tab background color */
-        color: #3431f4; /* Active tab text color */
         border-color: #dee2e6 #dee2e6 #fff; /* Borders around the active tab */
         border-radius: 0.25rem; /* Rounded corners on the top */
     }
 
     .nav-link {
-        color: #007bff; /* Non-active tab text color */
         margin-right: 2px; /* Spacing between tabs */
         border: 1px solid transparent; /* Transparent border for non-active tabs */
         border-radius: 0.25rem; /* Rounded corners on the top */
@@ -49,6 +52,15 @@
         border-color: #3431f4;
     }
 
+    .zoom {
+        transition: transform .4s, box-shadow .4s;
+    }
+
+    .zoom:hover {
+        transform: scale(1.05);
+        box-shadow: 10px 5px 5px gray;
+    }
+
 </style>
 
     <!-- Tab navigation with button -->
@@ -71,18 +83,20 @@
 
     @if (User.IsInRole("admin") || User.IsInRole("student"))
     {
+
         <div class="card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formFOIPModal">
             <div class="card-body">
                 <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormFOIP">Form FOIP - Student Release</a>
             </div>
-        </div>
+        </a>
+
 
         <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formIDModal">
             <div class="card-body">
                 <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormStuInfo">Form ID - Student Information</a>
             </div>
-        </div>
-    }
+        </a>
+
 
     <!-- List of Forms as Cards -->
     <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formAModal">
@@ -97,25 +111,40 @@
         </div>
     </div>
 
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formCModal">
-        <div class="card-body">
-            Form C - Practicum Evaluation (100 hours)
-        </div>
-    </div>
 
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formDModal">
-        <div class="card-body">
-            Form D - Practicum Evaluation (200 hours)
-        </div>
-    </div>
+        <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+            <div class="card mt-3 zoom" style="cursor: pointer;">
+                <div class="card-body">
+                    Form B - Practicum Agreement
+                </div>
+            </div>
+        </a>
+    }
+        <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+            <div class="card mt-3 zoom" style="cursor: pointer;">
+                <div class="card-body">
+                    Form C - Practicum Evaluation (100 hours)
+                </div>
+            </div>
+        </a>
+
+        <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
+            <div class="card zoom mt-3" style="cursor: pointer;">
+                <div class="card-body">
+                    Form D - Practicum Evaluation (200 hours)
+                </div>
+            </div>
+        </a>
 
     @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.
     {
-        <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formExitModal">
-            <div class="card-body">
-                Exit Interview
+        <a asp-controller="PracticumForm" asp-action="CreateFormExitInterview" style="text-decoration: none;">
+            <div class="card mt-3 zoom">
+                <div class="card-body">
+                    Exit Interview
+                </div>
             </div>
-        </div>
+        </a>
     }
 
 
@@ -133,12 +162,14 @@
                     <form method="post" asp-action="FormASubmit" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <!-- Student Last Name, First Name, and Student ID -->
-                        @if(User.IsInRole("student")) {
+                        
                         <div class="row mb-3">
 
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuLastName" class="form-label">Student Last Name:</label>
+
                                 <input asp-for="PracticumForms.FormA.StuLastName" type="text" class="form-control" value="@Model.Student.LastName" readonly>
+
                                 <span asp-validation-for="PracticumForms.FormA.StuLastName" class="text-danger"></span>
 
                             </div>
@@ -165,16 +196,19 @@
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuFirstName" class="form-label">Student First Name:</label>
                                 <input asp-for="PracticumForms.FormA.StuFirstName" type="text" class="form-control required">
+
                                 <span asp-validation-for="PracticumForms.FormA.StuFirstName" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormA.StuId" class="form-label">Student ID:</label>
                                 <input asp-for="PracticumForms.FormA.StuId" type="text" class="form-control required">
+
                                 <span asp-validation-for="PracticumForms.FormA.StuId" class="text-danger"></span>
                             </div>
+                       
                         </div>
-                        }
 
+                       
                         <!-- Program, Host Company, Type of Organization -->
                         <div class="row mb-3">
                             <div class="col-md-4">
@@ -283,8 +317,8 @@
                         <div class="row mb-3">
                             <div class="col-md-5">
                                 <div class="form-check form-check-inline px-0">
-                                    <label for="workOutsideCountry" class="form-label">Will you be working outside of the country?</label>
-                                    <select id="workOutsideCountry" name="workOutsideCountry" class="form-control">
+                                    <label asp-for="PracticumForms.FormA.OutOfCountry" class="form-label">Will you be working outside of the country?</label>
+                                    <select asp-for="PracticumForms.FormA.OutOfCountry" name="workOutsideCountry" class="form-control">
                                         <option value="">--Select--</option>
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
@@ -332,7 +366,12 @@
                         <div class="row mb-3">
                             <div class="col-md-3">
                                 <label for="studName" class="form-label">Student's Name:</label>
-                                <input type="text" name="studName" class="form-control" />
+                                @if(User.IsInRole("student")) {
+                                    <input type="text" name="studName" class="form-control" value="@Model.Student.FirstName @Model.Student.LastName" readonly/>
+                                } else
+                                {
+                                    <input type="text" name="studName" class="form-control" />
+                                }
                             </div>
                             <div class="col-md-1" style="margin-top: 2.5rem !important;">
                                 from
@@ -412,6 +451,27 @@
                                 <input type="text" name="formBPhone" class="form-control" />
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                Please enter your first and last name below:
+                            </div>
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <div class="col-md-6">
+                                <label for="formBStudentName" class="form-label">Student Name:</label>
+                                <input type="text" name="formBStudentName" class="form-control" />
+                            </div>
+                            @if (User.IsInRole("employer") || User.IsInRole("admin"))
+                            {
+                                <div class="col-md-6">
+                                    <label for="formBEmployerName" class="form-label">Employer Name:</label>
+                                    <input type="text" name="formBEmployerName" class="form-control" />
+                                </div>
+                            } else
+                            {
+                                @* Currently displays nothing, but can display readonly of the input as well *@
+                            }
+                        </div>
                         <!-- Content for Form B -->
                         <div class="modal-footer sticky justify-content-center">
                             <input type="button" class="btn btn-danger" value="Cancel" />
@@ -449,6 +509,7 @@
                             <div class="col-md-4">
                                 <label asp-for="PracticumForms.FormC.StuName" class="form-label">Student Name:</label>
                                 <input asp-for="PracticumForms.FormC.StuName" type="text" class="form-control" >
+
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -530,7 +591,28 @@
                                     <td>The student is on time, organized and prepared to work.</td>
                                     <td>
 
-                                        <div class="d-flex align-items-center">
+                                        @if(User.IsInRole("student")) {
+                                            <div class="d-flex align-items-center">                                           
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Excellent" checked readonly>
+                                                <label class="form-check-label" for="excellent1">Excellent</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Good" readonly>
+                                                <label class="form-check-label" for="good1">Good</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Fair" readonly>
+                                                <label class="form-check-label" for="fair1">Fair</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="N/A" readonly>
+                                                <label class="form-check-label" for="na1">N/A</label>
+                                            </div>
+                                        </div>
+                                        } else {
+
+                                        <div class="d-flex align-items-center">                                           
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Excellent" checked>
                                                 <label class="form-check-label" for="excellent1">Excellent</label>
@@ -547,8 +629,8 @@
                                                 <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="N/A">
                                                 <label class="form-check-label" for="na1">N/A</label>
                                             </div>
-
                                         </div>
+                                        }
                                          <span asp-validation-for="PracticumForms.FormC.A1" class="text-danger"></span>
 
                                     </td>
@@ -1293,7 +1375,11 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="supervisorEmail" class="form-label">Student Name:</label>
-                                <input type="email" class="form-control" id="studentName">
+                                @if(User.IsInRole("student")) {
+                                     <input asp-for="PracticumForms.FormD.StuName" type="text" class="form-control" value="@Model.Student.FirstName @Model.Student.LastName" readonly>
+                                 } else {
+                                     <input asp-for="PracticumForms.FormD.StuName" type="text" class="form-control">
+                                 }            
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -2106,18 +2192,32 @@
                     <form method="post" asp-action="FormFOIPSubmit" enctype="multipart/form-data">
                         <div class="row mb-1">
                             <div class="col-md-6">
-                                <label asp-for="PracticumForms.FormFOIP.StuFirstName" class="form-label">First name:</label>
-                                <input asp-for="PracticumForms.FormFOIP.StuFirstName" type="text" class="form-control">
+                                <label asp-for="PracticumForms.FormFOIP.StuFirstName" class="form-label">First name:</label>  
+                                @if(User.IsInRole("student")) {
+                                    <input asp-for="PracticumForms.FormFOIP.StuFirstName" type="text" class="form-control" value="@Model.Student.FirstName" readonly>   
+                                } else {
+                                <input asp-for="PracticumForms.FormFOIP.StuFirstName" type="text" class="form-control">     
+                                }
                             </div>
                             <div class="col-md-6">
                                 <label asp-for="PracticumForms.FormFOIP.StuLastName" class="form-label">Last name:</label>
-                                <input asp-for="PracticumForms.FormFOIP.StuLastName" type="text" class="form-control">
+                                 @if(User.IsInRole("student")) {
+                                <input asp-for="PracticumForms.FormFOIP.StuLastName" type="text" class="form-control" value="@Model.Student.LastName" readonly>
+                                 } else {
+                                     <input asp-for="PracticumForms.FormFOIP.StuLastName" type="text" class="form-control">
+                                 }
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label asp-for="PracticumForms.FormFOIP.StuId" class="form-label">Student ID Number:</label>
-                                <input asp-for="PracticumForms.FormFOIP.StuId" type="text" class="form-control">
+                                 @if(User.IsInRole("student")) { 
+                                    <input asp-for="PracticumForms.FormFOIP.StuId" type="text" class="form-control" value="@Model.Student.StuId" readonly>
+                                } else
+                                {
+                                    <input asp-for="PracticumForms.FormFOIP.StuId" type="text" class="form-control">
+                                }
+                                            
                             </div>
                             <div class="col-md-6">
                                 <label asp-for="PracticumForms.FormFOIP.Program" class="form-label">Program name:</label>
@@ -2248,18 +2348,33 @@
                     <form method="post" asp-action="FormStuInfoSubmit" enctype="multipart/form-data">
                         <div class="row mb-1">
                             <div class="col-md-6">
+
                                 <label asp-for="PracticumForms.FormStuInfo.StuLastName" class="form-label">Last name:</label>
-                                <input asp-for="PracticumForms.FormStuInfo.StuLastName" type="text" class="form-control">
+                                @if(User.IsInRole("student")) {
+                                      <input asp-for="PracticumForms.FormStuInfo.StuLastName" type="text" class="form-control" value="@Model.Student.LastName" readonly>
+                                } else {
+                                     <input asp-for="PracticumForms.FormStuInfo.StuLastName" type="text" class="form-control">
+                                }
                             </div>
                             <div class="col-md-6">
                                 <label asp-for="PracticumForms.FormStuInfo.StuFirstName" class="form-label">First name:</label>
-                                <input asp-for="PracticumForms.FormStuInfo.StuFirstName" type="text" class="form-control">
+                                @if(User.IsInRole("student")) {
+                                    <input asp-for="PracticumForms.FormStuInfo.StuFirstName" type="text" class="form-control" value="@Model.Student.FirstName" readonly>
+                                } else
+                                {
+                                    <input asp-for="PracticumForms.FormStuInfo.StuFirstName" type="text" class="form-control">
+                                }
                             </div>
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <label asp-for="PracticumForms.FormStuInfo.StuId" class="form-label">Student ID:</label>
-                                <input asp-for="PracticumForms.FormStuInfo.StuId" type="text" class="form-control">
+                                @if (User.IsInRole("student"))
+                                {
+                                    <input asp-for="PracticumForms.FormStuInfo.StuId" type="text" class="form-control" value="@Model.Student.StuId" readonly>
+                                } else {
+                                    <input asp-for="PracticumForms.FormStuInfo.StuId" type="text" class="form-control">
+                                }
                             </div>
                             <div class="col-md-6">
                                 <label asp-for="PracticumForms.FormStuInfo.Program" class="form-label">Program:</label>
@@ -2279,7 +2394,12 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <label asp-for="PracticumForms.FormStuInfo.CollegeEmail" class="form-label">College e-mail address (will be used to share info):</label>
-                                <input asp-for="PracticumForms.FormStuInfo.CollegeEmail" type="text" class="form-control">
+                                @if (User.IsInRole("student"))
+                                {
+                                 <input asp-for="PracticumForms.FormStuInfo.CollegeEmail" type="text" class="form-control" value="@Model.Student.StuEmail">
+                                } else {
+                                    <input asp-for="PracticumForms.FormStuInfo.CollegeEmail" type="text" class="form-control">
+                                }
                             </div>
                             <div class="col-md-6">
                                 <label asp-for="PracticumForms.FormStuInfo.PhoneNumber" class="form-label">Phone number best able to reach you through:</label>
@@ -2342,8 +2462,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!-- Exit Interview Modal -->
 <div class="modal fade" id="formExitModal" tabindex="-1" aria-labelledby="formExitModalLabel" aria-hidden="true">
@@ -2420,13 +2538,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.getElementById('openFormB').addEventListener('click', function () {
-        var firstModal = bootstrap.Modal.getInstance(document.getElementById('formAModal'));
-        var secondModal = new bootstrap.Modal(document.getElementById('formBModal'));
-
-        firstModal.hide(); // This will hide the first modal
-        secondModal.show(); // This will show the second modal
-    });
-</script>

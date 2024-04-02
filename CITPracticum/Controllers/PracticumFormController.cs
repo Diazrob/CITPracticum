@@ -45,33 +45,9 @@ namespace CITPracticum.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //if (User.IsInRole("student"))
-            //{
-            //    var usr = await _userManager.GetUserAsync(User);
-            //    int stuId = Convert.ToInt32(usr.StudentId);
-            //    var student = await _studentRepository.GetByIdAsync(stuId);
-            //    var usrLastName = student.LastName;
-            //    var usrFirstName = student.FirstName;
-            //    var usrStuId = student.StuId;
-
-            //    var submitFormAVM = new Placement()
-            //    {
-            //        Student = new Student()
-            //        {
-            //            LastName = usrLastName,
-            //            FirstName = usrFirstName,
-            //            StuId = usrStuId
-            //        }
-            //    };
-            //    return View(submitFormAVM);
-            //}
-            //else
-            //{
                 var submitFormAVM = new Placement();
                 return View(submitFormAVM);
-            //}
-
-            //return View();
+         
         }
 
         public IActionResult EmployerSubmittedForms()
@@ -96,6 +72,8 @@ namespace CITPracticum.Controllers
                 var usrLastName = student.LastName;
                 var usrFirstName = student.FirstName;
                 var usrStuId = student.StuId;
+                var usrEmail = student.StuEmail;
+
 
                 var createFormFOIPViewModel = new CreateFormFOIPViewModel()
                 {
@@ -177,10 +155,12 @@ namespace CITPracticum.Controllers
                 var createFormStuInfoViewModel = new CreateFormStuInfoViewModel();
                 return View(createFormStuInfoViewModel);
             }
+
         }
         [HttpPost]
         public async Task<IActionResult> CreateFormStuInfo(CreateFormStuInfoViewModel formStuInfoViewModel)
         {
+
             var usr = await _userManager.GetUserAsync(User);
             var placements = await _placementRepository.GetAll();
             var practicumForms = await _practicumFormsRepository.GetAllForms();
@@ -231,6 +211,7 @@ namespace CITPracticum.Controllers
                 }
             }
             return View(formStuInfoViewModel);
+
         }
 
         public async Task<IActionResult> SearchEmployer()
@@ -258,6 +239,7 @@ namespace CITPracticum.Controllers
         }
        
         // Form A submission handler
+
         public async Task<IActionResult> CreateFormA(int id)
         {
             Employer employer = await _employerRepository.GetByIdAsync(id);
@@ -320,6 +302,7 @@ namespace CITPracticum.Controllers
                 var createFormAViewModel = new CreateFormAViewModel();
                 return View(createFormAViewModel);
             }
+
         }
         [HttpPost]
         public async Task<IActionResult> CreateFormA(CreateFormAViewModel formAViewModel, List<string> credentialsList)
@@ -346,6 +329,7 @@ namespace CITPracticum.Controllers
                     
                     if (placement.StudentId == stuId)
                     {
+
                         var curEmployer = await _employerRepository.GetByEmailAsync(formAViewModel.SVEmail);
                         placement.Employer = curEmployer;
                         foreach (var practicumForm in practicumForms)
@@ -392,6 +376,7 @@ namespace CITPracticum.Controllers
                                 }
                             }
                         }
+
                     }
                 }
             }

@@ -2,86 +2,84 @@
 @model RegisterStudentViewModel
 
 @{
-    ViewData["Title"] = "Add a Student";
+    ViewData["Title"] = "Students";
+    ViewData["CurrentPage"] = "Students > Create";
 }
 
 <style>
-/* Base Styles */
-:root {
- --kodiaks-blue: #6AADE4;
---coulee-green: #739600;
---coal-miner-black: #62646C;
---stone-pipe-grey: #808080;
---body-background: #F3F3F3;
+    /* Base Styles */
+    :root {
+        --kodiaks-blue: #6AADE4;
+        --coulee-green: #739600;
+        --coal-miner-black: #62646C;
+        --stone-pipe-grey: #808080;
+        --body-background: #F3F3F3;
     }
 
-body {
-  font-family: 'Open Sans', sans-serif;
-  background-color: var(--body-background);
-  color: var(--coal-miner-black);
-}
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background-color: var(--body-background);
+        color: var(--coal-miner-black);
+    }
 
-/* Form Header */
-.form-header h4 {
-  color: var(--kodiaks-blue);
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
+    /* Form Header */
+    .form-header h4 {
+        color: var(--kodiaks-blue);
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
 
-/* Form Field Styling */
-.form-control {
-  border: 1px solid var(--stone-pipe-grey);
-  border-radius: 0.25rem;
-  padding: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--coal-miner-black);
-  background-color: white;
-}
+    /* Form Field Styling */
+    .form-control {
+        border: 1px solid var(--stone-pipe-grey);
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--coal-miner-black);
+        background-color: white;
+    }
 
-.form-control:focus {
-  border-color: var(--kodiaks-blue);
-  box-shadow: 0 0 0 0.2rem rgba(106, 173, 228, 0.25);
-}
+        .form-control:focus {
+            border-color: var(--kodiaks-blue);
+            box-shadow: 0 0 0 0.2rem rgba(106, 173, 228, 0.25);
+        }
 
-/* Validation Messages */
-.text-danger {
-  color: #d9534f; /* Bootstrap default danger color */
-}
+    /* Validation Messages */
+    .text-danger {
+        color: #d9534f; /* Bootstrap default danger color */
+    }
 
-/* Button Styling */
-.btn-outline-success {
-  border-color: var(--coulee-green);
-  color: var(--coulee-green);
-}
+    /* Button Styling */
+    .btn-outline-success {
+        border-color: var(--coulee-green);
+        color: var(--coulee-green);
+    }
 
-.btn-outline-success:hover {
-  background-color: var(--coulee-green);
-  color: white;
-}
+        .btn-outline-success:hover {
+            background-color: var(--coulee-green);
+            color: white;
+        }
 
-.btn-outline-secondary {
-  border-color: var(--stone-pipe-grey);
-  color: var(--coal-miner-black);
-}
+    .btn-outline-secondary {
+        border-color: var(--stone-pipe-grey);
+        color: var(--coal-miner-black);
+    }
 
-.btn-outline-secondary:hover {
-  background-color: var(--stone-pipe-grey);
-  color: white;
-}
+        .btn-outline-secondary:hover {
+            background-color: var(--stone-pipe-grey);
+            color: white;
+        }
 
-/* Utility Classes */
-.float-right {
-  float: right;
-}
-
-}
-
+    /* Utility Classes */
+    .float-right {
+        float: right;
+    }
 </style>
 
 <div class="row">
     <div class="col-md-6 offset-3">
         <p>
-            <h4>Add a Student</h4>
+            <h4 class="offset-2">Add a Student</h4>
         </p>
         @if (TempData["Error"] != null)
         {
@@ -94,36 +92,36 @@ body {
                 <form method="post" asp-action="Register" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="EmailAddress" class="control-label"></label>
-                        <input asp-for="EmailAddress" class="form-control" />
+                        <label asp-for="EmailAddress" class="control-label">Email Address:</label>
+                        <input asp-for="EmailAddress" class="form-control" maxlength="50" />
                         <span asp-validation-for="EmailAddress" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="FirstName" class="control-label"></label>
-                        <input asp-for="FirstName" class="form-control" />
+                        <label asp-for="FirstName" class="control-label mt-2">First Name:</label>
+                        <input asp-for="FirstName" class="form-control" maxlength="50" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="LastName" class="control-label"></label>
-                        <input asp-for="LastName" class="form-control" />
+                        <label asp-for="LastName" class="control-label mt-2">Last Name:</label>
+                        <input asp-for="LastName" class="form-control" maxlength="50" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="StuId" class="control-label"></label>
-                        <input asp-for="StuId" class="form-control" />
+                        <label asp-for="StuId" class="control-label mt-2">Student ID:</label>
+                        <input asp-for="StuId" class="form-control" maxlength="8" />
                         <span asp-validation-for="StuId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
+                        <label asp-for="Password" class="control-label mt-2">Password:</label>
                         <input asp-for="Password" class="form-control" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ConfirmPassword" class="control-label"></label>
+                        <label asp-for="ConfirmPassword" class="control-label mt-2">Confirm Password:</label>
                         <input asp-for="ConfirmPassword" class="form-control" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <input class="btn btn-outline-success float right" type="submit" value="Register Student" />
                         <a class="btn btn-outline-secondary" asp-controller="Student" asp-action="Index">Cancel</a>
                     </div>

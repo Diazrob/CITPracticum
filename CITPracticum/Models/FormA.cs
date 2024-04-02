@@ -1,5 +1,4 @@
-﻿
-using CITPracticum.Data.Enum;
+﻿using CITPracticum.Data.Enum;
 using CITPracticum.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

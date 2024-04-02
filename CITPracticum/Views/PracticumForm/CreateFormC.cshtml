@@ -1,0 +1,892 @@
+﻿@using CITPracticum.Data.Enum;
+@using CITPracticum.ViewModels;
+@model Placement
+
+<a href="/PracticumForm/Index"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
+<div class="mx-auto" style="width: 65%;">
+    <form method="post" asp-action="FormCSubmit" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">CIT 2271 - IT Practicum Evaluation (Form C)</h3>
+                <hr />
+            </div>
+        </div>
+                <ul class="nav nav-tabs mb-4" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" href="/PracticumForm/CreateFormFOIP">Form FOIP</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/PracticumForm/CreateFormID">Form ID</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/PracticumForm/CreateFormA">Form A</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/PracticumForm/CreateFormB">Form B</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/PracticumForm/CreateFormC">Form C</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/PracticumForm/CreateFormD">Form D</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/PracticumForm/CreateFormExitInterview">Exit Interview</a>
+        </li>
+    </ul>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label asp-for="PracticumForms.FormC.PracSV" class="form-label">Practicum Supervisor:</label>
+                <input asp-for="PracticumForms.FormC.PracSV" type="text" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label asp-for="PracticumForms.FormC.Org" class="form-label">Organization:</label>
+                <input asp-for="PracticumForms.FormC.Org" type="text" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label asp-for="PracticumForms.FormC.StuName" class="form-label">Student Name:</label>
+                    @if(User.IsInRole("student")) {
+                        <input asp-for="PracticumForms.FormC.StuName" type="text" class="form-control" value="@Model.Student.FirstName @Model.Student.LastName" readonly>
+                    } else {
+                        <input asp-for="PracticumForms.FormC.StuName" type="text" class="form-control">
+                    }
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <p>Faculty Advisor:</p>
+            </div>
+            <div class="col-md-8">
+                <ul style="list-style-type: none; margin-left: 0; padding-left: 0;">
+                    <li><h6 class="mb-2">Stephen Graham</h6></li>
+                    <li><p class="mb-2"><a href="mailto:stephen.graham@lethbridgecollege.ca">stephen.graham@lethbridgecollege.ca</a></p></li>
+                    <li><p><a href="tel:4033203202">(403) 320-3202 ext 5794</a></p></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <p>Program Assistant:</p>
+            </div>
+            <div class="col-md-8">
+                <ul style="list-style-type: none; margin-left: 0; padding-left: 0;">
+                    <li><h6 class="mb-2">Toni Gfrerer</h6></li>
+                    <li><p><a href="mailto:toni.gfrerer@lethbridgecollege.ca">toni.gfrerer@lethbridgecollege.ca</a></p></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <ol>
+                    <li>Please complete this form after the student has finished 100 hours of work</li>
+                    <li>Discuss the evaluation with the student and provide them a copy.</li>
+                    <li>Return the completed copy to the Faculty Advisor or Program Assistant.</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <p><b>Please use the following ratings in evaluating the practicum students.</b></p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <p>Excellent:</p>
+            </div>
+            <div class="col-md-10">
+                <p>Meets professional level standards</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <p>Good:</p>
+            </div>
+            <div class="col-md-10">
+                <p>Adequately fulfills expectations</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <p>Fair:</p>
+            </div>
+            <div class="col-md-10">
+                <p>
+                    Inconsistent, needs work to achieve acceptable standards.
+                    Please explain “fair” ratings in “comments” section.
+                </p>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">A.</th>
+                    <th scope="col">Professionalism</th>
+                    <th scope="col"><center>Rating</center></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td>The student is on time, organized and prepared to work.</td>
+                    <td>
+
+                        @if(User.IsInRole("student")) {
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Excellent" checked readonly>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Good" readonly>
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Fair" readonly>
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="N/A" readonly>
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        } else {
+
+                        <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A1" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        }
+                            <span asp-validation-for="PracticumForms.FormC.A1" class="text-danger"></span>
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>The student's attire and grooming is appropriate.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A2" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A2" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A2" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A2" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.A2" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>The student is dependable.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A3" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A3" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A3" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A3" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.A3" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>The student understands and follows company policies and procedures.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A4" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A4" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A4" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A4" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.A4" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>The student presents a professional image when dealing with co-workers or clients of the company.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A5" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A5" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A5" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.A5" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.A5" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.AComments" placeholder="Enter comments for Section A"></textarea>
+                        <span asp-validation-for="PracticumForms.FormC.AComments" class="text-danger"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">B.</th>
+                    <th scope="col">Professionalism</th>
+                    <th scope="col"><center>Rating</center></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td>The student understands the company's chain of command and follows it.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B1" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B1" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B1" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B1" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.B1" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>The student follows instructions and asks for clarification if needed.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B2" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B2" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B2" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B2" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.B2" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>The student communicates effectively in both written and oral form.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B3" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B3" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B3" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B3" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.B3" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>The student is able to contribute at meetings.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B4" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B4" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B4" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B4" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.B4" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>The student exhibits tact and diplomacy prior to making comments.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B5" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B5" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B5" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B5" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div
+                        <span asp-validation-for="PracticumForms.FormC.B5" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>6.</td>
+                    <td>The student demonstrates effective learning skills at all levels of placement.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B6" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B6" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B6" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B6" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.B6" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>7.</td>
+                    <td>The student facilitates appropriate conflict resolution strategies.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B7" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B7" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B7" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B7" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.B7" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>8.</td>
+                    <td>The student is willing to accept constructive feedback.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B8" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B8" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B8" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.B8" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.B8" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.BComments" placeholder="Enter comments for Section B"></textarea>
+                        <span asp-validation-for="PracticumForms.FormC.BComments" class="text-danger"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">C.</th>
+                    <th scope="col">Professionalism</th>
+                    <th scope="col"><center>Rating</center></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td>The student has the ability to problem solve and make appropriate decisions.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C1" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C1" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C1" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C1" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C1" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>The student is creative, innovative and flexible when completing assigned duties.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C2" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C2" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C2" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C2" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C2" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>The student takes responsibility and follows through with decisions once made.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C3" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C3" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C3" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C3" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C3" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>The student works independently or as a team member as required.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C4" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C4" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C4" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C4" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C4" class="text-danger"></span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>The student has a high productivity level—is industrious, and completes quality work.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C5" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C5" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C5" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C5" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C5" class="text-danger"></span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>6.</td>
+                    <td>The student is capable of managing pressure and stressful situations appropriately.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C6" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C6" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C6" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C6" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C6" class="text-danger"></span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>7.</td>
+                    <td>The student respects schedules and meets deadlines.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C7" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C7" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C7" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C7" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C7" class="text-danger"></span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>8.</td>
+                    <td>The student is able to change to meet the demands of a new environment or settings.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C8" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C8" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C8" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C8" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C8" class="text-danger"></span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>9.</td>
+                    <td>The student has the ability to anticipate needs and to plan ahead; possesses good organizational skills.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C9" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C9" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C9" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C9" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C9" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>10.</td>
+                    <td>The student has a learning attitude.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C10" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C10" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C10" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C10" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                            <span asp-validation-for="PracticumForms.FormC.C10" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>11.</td>
+                    <td>The student is prepared to work with commonly encountered business software/hardware.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C11" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C11" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C11" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C11" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C11" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>12.</td>
+                    <td>The student possesses a broad-based and comprehensive understanding of current information technologies.</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C12" value="Excellent" checked>
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C12" value="Good">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C12" value="Fair">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="PracticumForms.FormC.C12" value="N/A">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="PracticumForms.FormC.C12" class="text-danger"></span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.CComments" placeholder="Enter comments for Section C"></textarea>
+                        <span asp-validation-for="PracticumForms.FormC.CComments" class="text-danger"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label" asp-for="PracticumForms.FormC.PracSVComments">Practicum supervisor's comments:</label>
+                <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.PracSVComments" placeholder="Comments"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label" asp-for="PracticumForms.FormC.StuComments">Student's comments:</label>
+                <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.StuComments" placeholder="Comments"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label" asp-for="PracticumForms.FormC.InsComments">Instructor's comments:</label>
+                <textarea class="form-control" rows="3" asp-for="PracticumForms.FormC.InsComments" placeholder="Comments"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer sticky justify-content-center">
+            <div>
+                <a href="/PracticumForm/Index" class="btn btn-danger">Cancel</a>
+            </div>
+            <input type="submit" class="btn btn-success" value="Submit" />
+        </div>
+    </form>
+</div>
