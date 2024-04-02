@@ -84,57 +84,47 @@
     @if (User.IsInRole("admin") || User.IsInRole("student"))
     {
 
-        <div class="card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formFOIPModal">
+        <div class="card mt=3 zoom" style="cursor: pointer;">
             <div class="card-body">
                 <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormFOIP">Form FOIP - Student Release</a>
             </div>
-        </a>
+        </div>
 
-
-        <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formIDModal">
+        <div class="card mt-3 zoom" style="cursor: pointer;">
             <div class="card-body">
                 <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormStuInfo">Form ID - Student Information</a>
             </div>
-        </a>
-
+        </div>
 
     <!-- List of Forms as Cards -->
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formAModal">
+    <div class="card mt-3 zoom" style="cursor: pointer;">
         <div class="card-body">
             <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormA">Form A - Host Information</a>
         </div>
     </div>
-
-    <div class="card mt-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#formBModal">
-        <div class="card-body">
-            Form B - Practicum Agreement
-        </div>
-    </div>
-
-
-        <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+       
             <div class="card mt-3 zoom" style="cursor: pointer;">
                 <div class="card-body">
-                    Form B - Practicum Agreement
+                     <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">Form B - Practicum Agreement</a>
                 </div>
             </div>
-        </a>
+        
     }
-        <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+        
             <div class="card mt-3 zoom" style="cursor: pointer;">
                 <div class="card-body">
-                    Form C - Practicum Evaluation (100 hours)
+                    <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">Form C - Practicum Evaluation (100 hours)</a>
                 </div>
             </div>
-        </a>
+        
 
-        <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
+        
             <div class="card zoom mt-3" style="cursor: pointer;">
                 <div class="card-body">
-                    Form D - Practicum Evaluation (200 hours)
+                    <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">Form D - Practicum Evaluation (200 hours)</a>
                 </div>
             </div>
-        </a>
+        
 
     @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.
     {
@@ -367,7 +357,7 @@
                             <div class="col-md-3">
                                 <label for="studName" class="form-label">Student's Name:</label>
                                 @if(User.IsInRole("student")) {
-                                    <input type="text" name="studName" class="form-control" value="@Model.Student.FirstName @Model.Student.LastName" readonly/>
+                                    <input type="text" name="studName" class="form-control"  readonly/>
                                 } else
                                 {
                                     <input type="text" name="studName" class="form-control" />
@@ -1376,7 +1366,7 @@
                             <div class="col-md-4">
                                 <label for="supervisorEmail" class="form-label">Student Name:</label>
                                 @if(User.IsInRole("student")) {
-                                     <input asp-for="PracticumForms.FormD.StuName" type="text" class="form-control" value="@Model.Student.FirstName @Model.Student.LastName" readonly>
+                                     <input asp-for="PracticumForms.FormD.StuName" type="text" class="form-control" readonly>
                                  } else {
                                      <input asp-for="PracticumForms.FormD.StuName" type="text" class="form-control">
                                  }            
@@ -2335,7 +2325,7 @@
 </div> *@
 
 <!-- Form ID / Form StuInfo Modal -->
-<div class="modal fade" id="formIDModal" tabindex="-1" aria-labelledby="formIDModalLabel" aria-hidden="true">
+@* <div class="modal fade" id="formIDModal" tabindex="-1" aria-labelledby="formIDModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header justify-content-center" style="background: linear-gradient(to right, #FFFFFF, #FFFFFF, #69a620);">
@@ -2462,7 +2452,7 @@
         </div>
     </div>
 </div>
-
+ *@
 <!-- Exit Interview Modal -->
 <div class="modal fade" id="formExitModal" tabindex="-1" aria-labelledby="formExitModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
