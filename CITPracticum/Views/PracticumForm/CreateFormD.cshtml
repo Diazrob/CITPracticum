@@ -1,6 +1,6 @@
 ﻿@using CITPracticum.Data.Enum;
 @using CITPracticum.ViewModels;
-@model Placement
+@model CreateFormDViewModel
 
 <a href="/PracticumForm/Index"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
 <div class="mx-auto" style="width: 65%;">
@@ -47,11 +47,11 @@
                 <label for="supervisorEmail" class="form-label">Student Name:</label>
                 @if (User.IsInRole("student"))
                 {
-                    <input asp-for="PracticumForms.FormD.StuName" type="text" class="form-control" value="@Model.Student.FirstName @Model.Student.LastName" readonly>
+                    <input asp-for="StuName" type="text" class="form-control" readonly>
                 }
                 else
                 {
-                    <input asp-for="PracticumForms.FormD.StuName" type="text" class="form-control">
+                    <input asp-for="StuName" type="text" class="form-control">
                 }
             </div>
         </div>

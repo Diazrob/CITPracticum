@@ -406,129 +406,133 @@ namespace CITPracticum.Controllers
                 return View(createFormBViewModel);
             }
         }
-
+        [HttpPost]
+        public async Task<IActionResult> CreateFormB(CreateFormBViewModel formBViewModel)
+        { 
+                return View(formBViewModel);
+        }
 
         // Form C submission handler
-        public IActionResult FormCSubmit()
+        public IActionResult CreateFormC()
         {
 
-            var submitFormCVM = new PracticumForms();
+            var createFormCViewModel = new CreateFormCViewModel();
 
-            return View(submitFormCVM);
+            return View(createFormCViewModel);
 
         }
         [HttpPost]
-        public async Task<IActionResult> FormCSubmit(PracticumForms submitFormCVM)
+        public async Task<IActionResult> CreateFormC(CreateFormCViewModel formCViewModel)
         {
             if (ModelState.IsValid)
             {
                 var formC = new FormC()
                 {
-                    PracSV = submitFormCVM.FormC.PracSV,
-                    Org = submitFormCVM.FormC.Org,
-                    StuName = submitFormCVM.FormC.StuName,
-                    A1 = submitFormCVM.FormC.A1,
-                    A2 = submitFormCVM.FormC.A2,
-                    A3 = submitFormCVM.FormC.A3,
-                    A4 = submitFormCVM.FormC.A4,
-                    A5 = submitFormCVM.FormC.A5,
-                    AComments = submitFormCVM.FormC.AComments,
-                    B1 = submitFormCVM.FormC.B1,
-                    B2 = submitFormCVM.FormC.B2,
-                    B3 = submitFormCVM.FormC.B3,
-                    B4 = submitFormCVM.FormC.B4,
-                    B5 = submitFormCVM.FormC.B5,
-                    B6 = submitFormCVM.FormC.B6,
-                    B7 = submitFormCVM.FormC.B7,
-                    B8 = submitFormCVM.FormC.B8,
-                    BComments = submitFormCVM.FormC.BComments,
-                    C1 = submitFormCVM.FormC.C1,
-                    C2 = submitFormCVM.FormC.C2,
-                    C3 = submitFormCVM.FormC.C3,
-                    C4 = submitFormCVM.FormC.C4,
-                    C5 = submitFormCVM.FormC.C5,
-                    C6 = submitFormCVM.FormC.C6,
-                    C7 = submitFormCVM.FormC.C7,
-                    C8 = submitFormCVM.FormC.C8,
-                    C9 = submitFormCVM.FormC.C9,
-                    C10 = submitFormCVM.FormC.C10,
-                    C11 = submitFormCVM.FormC.C11,
-                    C12 = submitFormCVM.FormC.C12,
-                    CComments = submitFormCVM.FormC.CComments,
-                    PracSVComments = submitFormCVM.FormC.PracSVComments,
-                    SVSign = submitFormCVM.FormC.SVSign,
-                    SVSubmitted = submitFormCVM.FormC.SVSubmitted,
-                    StuComments = submitFormCVM.FormC.StuComments,
-                    StuSign = submitFormCVM.FormC.StuSign,
-                    StuSubmitted = submitFormCVM.FormC.StuSubmitted,
-                    InsComments = submitFormCVM.FormC.InsComments,
-                    InsSign = submitFormCVM.FormC.InsSign,
-                    InsSubmitted = submitFormCVM.FormC.InsSubmitted
+                    PracSV = formCViewModel.PracSV,
+                    Org = formCViewModel.Org,
+                    StuName = formCViewModel.StuName,
+                    A1 = formCViewModel.A1,
+                    A2 = formCViewModel.A2,
+                    A3 = formCViewModel.A3,
+                    A4 = formCViewModel.A4,
+                    A5 = formCViewModel.A5,
+                    AComments = formCViewModel.AComments,
+                    B1 = formCViewModel.B1,
+                    B2 = formCViewModel.B2,
+                    B3 = formCViewModel.B3,
+                    B4 = formCViewModel.B4,
+                    B5 = formCViewModel.B5,
+                    B6 = formCViewModel.B6,
+                    B7 = formCViewModel.B7,
+                    B8 = formCViewModel.B8,
+                    BComments = formCViewModel.BComments,
+                    C1 = formCViewModel.C1,
+                    C2 = formCViewModel.C2,
+                    C3 = formCViewModel.C3,
+                    C4 = formCViewModel.C4,
+                    C5 = formCViewModel.C5,
+                    C6 = formCViewModel.C6,
+                    C7 = formCViewModel.C7,
+                    C8 = formCViewModel.C8,
+                    C9 = formCViewModel.C9,
+                    C10 = formCViewModel.C10,
+                    C11 = formCViewModel.C11,
+                    C12 = formCViewModel.C12,
+                    CComments = formCViewModel.CComments,
+                    PracSVComments = formCViewModel.PracSVComments,
+                    SVSign = formCViewModel.SVSign,
+                    SVSubmitted = formCViewModel.SVSubmitted,
+                    StuComments = formCViewModel.StuComments,
+                    StuSign = formCViewModel.StuSign,
+                    StuSubmitted = formCViewModel.StuSubmitted,
+                    InsComments = formCViewModel.InsComments,
+                    InsSign = formCViewModel.InsSign,
+                    InsSubmitted = formCViewModel.InsSubmitted
                 };
                 _practicumFormsRepository.Add(formC);
                 return RedirectToAction("Index");
             }
-            return View(submitFormCVM);
+            return View(formCViewModel);
         }
         // Form D submission handler
-        public IActionResult FormDSubmit()
+        public IActionResult CreateFormD()
         {
-            var submitFormDVM = new PracticumForms();
+            var createFormDViewModel = new CreateFormDViewModel();
 
-            return View(submitFormDVM);
+            return View(createFormDViewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> FormDSubmit(PracticumForms submitFormDVM)
+        public async Task<IActionResult> CreateFormD(CreateFormDViewModel formDViewModel)
         {
             if (ModelState.IsValid)
             {
                 var formD = new FormD()
                 {
-                    PracSV = submitFormDVM.FormD.PracSV,
-                    Org = submitFormDVM.FormD.Org,
-                    StuName = submitFormDVM.FormD.StuName,
-                    A1 = submitFormDVM.FormD.A1,
-                    A2 = submitFormDVM.FormD.A2,
-                    A3 = submitFormDVM.FormD.A3,
-                    A4 = submitFormDVM.FormD.A4,
-                    A5 = submitFormDVM.FormD.A5,
-                    AComments = submitFormDVM.FormD.AComments,
-                    B1 = submitFormDVM.FormD.B1,
-                    B2 = submitFormDVM.FormD.B2,
-                    B3 = submitFormDVM.FormD.B3,
-                    B4 = submitFormDVM.FormD.B4,
-                    B5 = submitFormDVM.FormD.B5,
-                    B6 = submitFormDVM.FormD.B6,
-                    B7 = submitFormDVM.FormD.B7,
-                    B8 = submitFormDVM.FormD.B8,
-                    BComments = submitFormDVM.FormD.BComments,
-                    C1 = submitFormDVM.FormD.C1,
-                    C2 = submitFormDVM.FormD.C2,
-                    C3 = submitFormDVM.FormD.C3,
-                    C4 = submitFormDVM.FormD.C4,
-                    C5 = submitFormDVM.FormD.C5,
-                    C6 = submitFormDVM.FormD.C6,
-                    C7 = submitFormDVM.FormD.C7,
-                    C8 = submitFormDVM.FormD.C8,
-                    C9 = submitFormDVM.FormD.C9,
-                    C10 = submitFormDVM.FormD.C10,
-                    C11 = submitFormDVM.FormD.C11,
-                    C12 = submitFormDVM.FormD.C12,
-                    CComments = submitFormDVM.FormD.CComments,
-                    PracSVComments = submitFormDVM.FormD.PracSVComments,
-                    SVSign = submitFormDVM.FormD.SVSign,
-                    SVSubmitted = submitFormDVM.FormD.SVSubmitted,
-                    StuComments = submitFormDVM.FormD.StuComments,
-                    StuSign = submitFormDVM.FormD.StuSign,
-                    StuSubmitted = submitFormDVM.FormD.StuSubmitted,
-                    InsComments = submitFormDVM.FormD.InsComments,
-                    InsSign = submitFormDVM.FormD.InsSign,
-                    InsSubmitted = submitFormDVM.FormD.InsSubmitted
+                    PracSV = formDViewModel.PracSV,
+                    Org = formDViewModel.Org,
+                    StuName = formDViewModel.StuName,
+                    A1 = formDViewModel.A1,
+                    A2 = formDViewModel.A2,
+                    A3 = formDViewModel.A3,
+                    A4 = formDViewModel.A4,
+                    A5 = formDViewModel.A5,
+                    AComments = formDViewModel.AComments,
+                    B1 = formDViewModel.B1,
+                    B2 = formDViewModel.B2,
+                    B3 = formDViewModel.B3,
+                    B4 = formDViewModel.B4,
+                    B5 = formDViewModel.B5,
+                    B6 = formDViewModel.B6,
+                    B7 = formDViewModel.B7,
+                    B8 = formDViewModel.B8,
+                    BComments = formDViewModel.BComments,
+                    C1 = formDViewModel.C1,
+                    C2 = formDViewModel.C2,
+                    C3 = formDViewModel.C3,
+                    C4 = formDViewModel.C4,
+                    C5 = formDViewModel.C5,
+                    C6 = formDViewModel.C6,
+                    C7 = formDViewModel.C7,
+                    C8 = formDViewModel.C8,
+                    C9 = formDViewModel.C9,
+                    C10 = formDViewModel.C10,
+                    C11 = formDViewModel.C11,
+                    C12 = formDViewModel.C12,
+                    CComments = formDViewModel.CComments,
+                    PracSVComments = formDViewModel.PracSVComments,
+                    SVSign = formDViewModel.SVSign,
+                    SVSubmitted = formDViewModel.SVSubmitted,
+                    StuComments = formDViewModel.StuComments,
+                    StuSign = formDViewModel.StuSign,
+                    StuSubmitted = formDViewModel.StuSubmitted,
+                    InsComments = formDViewModel.InsComments,
+                    InsSign = formDViewModel.InsSign,
+                    InsSubmitted = formDViewModel.InsSubmitted
                 };
                 _practicumFormsRepository.Add(formD);
                 return RedirectToAction("Index");
             }
-            return View(submitFormDVM);
+            return View(formDViewModel);
         }
 
        
