@@ -1,212 +1,291 @@
 ﻿@using CITPracticum.Data.Enum;
 @using CITPracticum.ViewModels;
-@model Placement
+@model CreateFormAViewModel
 
-<a href="/PracticumForm/Index"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
-<div class="mx-auto" style="width: 65%;">
-    <form method="post" asp-action="FormASubmit" enctype="multipart/form-data">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row">
-            <div class="col-md-12">
-                <h3 class="text-center">Host Information (Form A)</h3>
-                <hr />
-            </div>
-        </div>
-        <ul class="nav nav-tabs mb-4" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link" href="/PracticumForm/CreateFormFOIP">Form FOIP</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/PracticumForm/CreateFormID">Form ID</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="/PracticumForm/CreateFormA">Form A</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/PracticumForm/CreateFormB">Form B</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/PracticumForm/CreateFormC">Form C</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/PracticumForm/CreateFormD">Form D</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/PracticumForm/CreateFormExitInterview">Exit Interview</a>
-            </li>
-        </ul>
-        <div class="row mb-3">
+<style>
+    /* Custom styles for the navigation tabs */
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background-color: #ffffff; /* Active tab background color */
+        color: #3431f4; /* Active tab text color */
+        border-color: #dee2e6 #dee2e6 #fff; /* Borders around the active tab */
+        border-radius: 0.25rem; /* Rounded corners on the top */
+    }
 
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.StuLastName" class="form-label">Student Last Name:</label>
+    .nav-link {
+        color: #007bff; /* Non-active tab text color */
+        margin-right: 2px; /* Spacing between tabs */
+        border: 1px solid transparent; /* Transparent border for non-active tabs */
+        border-radius: 0.25rem; /* Rounded corners on the top */
+    }
+
+    .nav-tabs {
+        border-bottom: 1px solid #dee2e6; /* Bottom border for the whole nav */
+    }
+
+    .modal-header, .modal-footer {
+        border-bottom: 1px solid #dee2e6;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .modal-logo {
+        height: 50px; /* You can adjust the size as needed */
+    }
+
+    .modal-body {
+        background-color: #f7f7f7;
+        padding: 2rem;
+    }
+
+    .modal-footer {
+        padding: 1rem 2rem;
+        background-color: #f7f7f7;
+    }
+
+    .submit-btn {
+        background-color: #3431f4;
+        border-color: #3431f4;
+    }
+
+</style>
+
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="modal-header justify-content-center" style="background: linear-gradient(to right, #FFFFFF, #FFFFFF, #69a620);">
+        <img src="~/images/lc.png" alt="Logo" class="float-start" style="height: 50px;"> <!-- Adjust the height as needed -->
+        <h5 class="modal-title text-center w-100" id="formAModalLabel">Host information (Form A)</h5>
+    </div>
+    <div class="modal-body d-flex justify-content-center">
+        <div class="mx-auto" style="width: 50%;">
+            <form method="post" asp-action="CreateFormA" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!-- Student Last Name, First Name, and Student ID -->
                 @if (User.IsInRole("student"))
                 {
-                    <input asp-for="PracticumForms.FormA.StuLastName" type="text" class="form-control" value="@Model.Student.LastName" readonly />
+                    <div class="row mb-3">
+
+                        <div class="col-md-4">
+                            <label asp-for="StuLastName" class="form-label">Student Last Name:</label>
+                            <input asp-for="StuLastName" type="text" class="form-control" value="@Model.StuLastName" readonly>
+                            <span asp-validation-for="StuLastName" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="StuFirstName" class="form-label">Student First Name:</label>
+                            <input asp-for="StuFirstName" type="text" class="form-control" value="@Model.StuFirstName" readonly>
+                            <span asp-validation-for="StuFirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="StuId" class="form-label">Student ID:</label>
+                            <input asp-for="StuId" type="text" class="form-control" value="@Model.StuId" readonly>
+                            <span asp-validation-for="StuId" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
                 }
                 else
                 {
-                    <input asp-for="PracticumForms.FormA.StuLastName" type="text" class="form-control" />
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label asp-for="StuLastName" class="form-label">Student Last Name:</label>
+                            <input asp-for="StuLastName" type="text" class="form-control">
+                            <span asp-validation-for="StuLastName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="StuFirstName" class="form-label">Student First Name:</label>
+                            <input asp-for="StuFirstName" type="text" class="form-control">
+                            <span asp-validation-for="StuFirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="StuId" class="form-label">Student ID:</label>
+                            <input asp-for="StuId" type="text" class="form-control required">
+                            <span asp-validation-for="StuId" class="text-danger"></span>
+                        </div>
+                    </div>
                 }
-                <span asp-validation-for="PracticumForms.FormA.StuLastName" class="text-danger"></span>
 
-            </div>
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.StuFirstName" class="form-label">Student First Name:</label>
-                @if (User.IsInRole("student"))
-                {
-                    <input asp-for="PracticumForms.FormA.StuFirstName" type="text" class="form-control" value="@Model.Student.FirstName" readonly />
-                }
-                else
-                {
-                    <input asp-for="PracticumForms.FormA.StuFirstName" type="text" class="form-control" />
-                }
-                <span asp-validation-for="PracticumForms.FormA.StuFirstName" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.StuId" class="form-label">Student ID:</label>
-                @if (User.IsInRole("student"))
-                {
-                    <input asp-for="PracticumForms.FormA.StuId" type="text" class="form-control" value="@Model.Student.StuId" readonly>
-                }
-                else
-                {
-                    <input asp-for="PracticumForms.FormA.StuId" type="text" class="form-control">
-                }
-                <span asp-validation-for="PracticumForms.FormA.StuId" class="text-danger"></span>
-            </div>
-
-        </div>
-
-
-        <!-- Program, Host Company, Type of Organization -->
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.Program" class="form-label">Program: </label>
-                <input asp-for="PracticumForms.FormA.Program" type="text" class="form-control" value="Computer Information Technology" readonly>
-                <span asp-validation-for="PracticumForms.FormA.Program" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.HostCompany" class="form-label">Host Company:</label>
-                <input asp-for="PracticumForms.FormA.HostCompany" type="text" class="form-control">
-                <span asp-validation-for="PracticumForms.FormA.HostCompany" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.OrgType" class="form-label">Type of organization:</label>
-                <input asp-for="PracticumForms.FormA.OrgType" type="text" class="form-control">
-                <span asp-validation-for="PracticumForms.FormA.OrgType" class="text-danger"></span>
-            </div>
-        </div>
-
-        <!-- Supervisor's Name, Position, and Email -->
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.SVName" class="form-label">Supervisor's name:</label>
-                <input asp-for="PracticumForms.FormA.SVName" type="text" class="form-control">
-                <span asp-validation-for="PracticumForms.FormA.SVName" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.SVPosition" class="form-label">Supervisor's position:</label>
-                <input asp-for="PracticumForms.FormA.SVPosition" type="text" class="form-control">
-                <span asp-validation-for="PracticumForms.FormA.SVPosition" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.SVEmail" class="form-label">Supervisor's e-mail:</label>
-                <input asp-for="PracticumForms.FormA.SVEmail" type="text" class="form-control">
-                <span asp-validation-for="PracticumForms.FormA.SVEmail" class="text-danger"></span>
-            </div>
-        </div>
-        <!-- ... other fields ... -->
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.SVPhoneNumber" class="form-label">Phone number:</label>
-                <input asp-for="PracticumForms.FormA.SVPhoneNumber" type="text" class="form-control">
-                <span asp-validation-for="PracticumForms.FormA.SVPhoneNumber" class="text-danger"></span>
-            </div>
-        </div>
-        <!-- ... other fields ... -->
-
-        <div class="form-group mb-3">
-            <label asp-for="PracticumForms.FormA.SVCredentials" class="form-label">Supervisor's Credentials</label>
-            <div class="col-md-9">
-                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
-                <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
-                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
-            </div>
-            <span asp-validation-for="PracticumForms.FormA.SVCredentials" class="text-danger"></span>
-        </div>
-        <div class="row mb-3">
-            <div>
-                <label asp-for="PracticumForms.FormA.SVCredOther" class="form-label">Other Credentials:</label>
-                <input asp-for="PracticumForms.FormA.SVCredOther" type="text" class="form-control">
-                <span asp-validation-for="PracticumForms.FormA.SVCredOther" class="text-danger"></span>
-            </div>
-        </div>
-
-        <!-- ... other fields ... -->
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.Address.Street" class="form-label">Street:</label>
-                <input asp-for="PracticumForms.FormA.Address.Street" type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.Address.City" class="form-label">City:</label>
-                <input asp-for="PracticumForms.FormA.Address.City" type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.Address.Prov" class="form-label">Province:</label>
-                <input asp-for="PracticumForms.FormA.Address.Prov" type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.Address.Country" class="form-label">Country:</label>
-                <input asp-for="PracticumForms.FormA.Address.Country" type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.Address.PostalCode" class="form-label">Postal Code:</label>
-                <input asp-for="PracticumForms.FormA.Address.PostalCode" type="text" class="form-control">
-            </div>
-        </div>
-        <!-- ... other fields ... -->
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label asp-for="PracticumForms.FormA.StartDate" class="form-label">Date you expect to begin:</label>
-                <input asp-for="PracticumForms.FormA.StartDate" type="date" class="form-control">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <div class="form-check form-check-inline px-0">
-                    <label asp-for="PracticumForms.FormA.PaymentCategory" class="form-label">Paid or Unpaid:</label>
-                    <select asp-for="PracticumForms.FormA.PaymentCategory" asp-items="@Html.GetEnumSelectList<PaymentCategory>()" class="form-control">
-                        <option>--Select--</option>
-                    </select>
-                    <span asp-validation-for="PracticumForms.FormA.PaymentCategory" class="text-danger"></span>
+                <!-- Program, Host Company, Type of Organization -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="Program" class="form-label">Program: </label>
+                        <input asp-for="Program" type="text" class="form-control" value="Computer Information Technology" readonly>
+                        <span asp-validation-for="Program" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="HostCompany" class="form-label">Host Company:</label>
+                        <input asp-for="HostCompany" type="text" class="form-control">
+                        <span asp-validation-for="HostCompany" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="OrgType" class="form-label">Type of organization:</label>
+                        <input asp-for="OrgType" type="text" class="form-control">
+                        <span asp-validation-for="OrgType" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-5">
-                <div class="form-check form-check-inline px-0">
-                    <label asp-for="PracticumForms.FormA.OutOfCountry" class="form-label">Will you be working outside of the country?</label>
-                    <select asp-for="PracticumForms.FormA.OutOfCountry" name="workOutsideCountry" class="form-control">
-                        <option value="">--Select--</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                    <span class="text-danger"></span>
+
+                <!-- Supervisor's Name, Position, and Email -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="SVFirstName" class="form-label">Supervisor's Firstname:</label>
+                        <input asp-for="SVFirstName" id="supervisor" type="text" class="form-control">
+                        <span asp-validation-for="SVFirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="SVLastName" class="form-label">Supervisor's Lastname:</label>
+                        <input asp-for="SVLastName" id="supervisor" type="text" class="form-control">
+                        <span asp-validation-for="SVLastName" class="text-danger"></span>
+                        <a class="btn btn-outline-secondary" asp-controller="PracticumForm" asp-action="SearchEmployer">Search Employer</a>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="SVPosition" class="form-label">Supervisor's position:</label>
+                        <input asp-for="SVPosition" type="text" class="form-control">
+                        <span asp-validation-for="SVPosition" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="SVEmail" class="form-label">Supervisor's e-mail:</label>
+                        <input asp-for="SVEmail" class="form-control">
+                        <span asp-validation-for="SVEmail" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
+                <!-- ... other fields ... -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="SVPhoneNumber" class="form-label">Phone number:</label>
+                        <input asp-for="SVPhoneNumber" class="form-control">
+                        <span asp-validation-for="SVPhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <!-- ... other fields ... -->
+
+                <div class="form-group mb-3">
+                    <label asp-for="SVCredentials" class="form-label">Supervisor's Credentials</label>
+                    <div class="col-md-9">
+                        @if (Model.SVCredentials == null)
+                        {
+                            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma"/> <span class="mx-2">CIT Diploma</span>
+                        }
+                        else if (Model.SVCredentials.Contains("CIT Diploma") || Model.SVCredentials == "CIT Diploma")
+                        {
+                            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" checked/> <span class="mx-2">CIT Diploma</span>
+                        }
+                        @if (Model.SVCredentials == null)
+                        {
+                            <input class="form-check-input" type="checkbox" name="SVCredentialsList" value="IS Degree" />
+
+                            <span class="mx-2">IS Degree</span>
+                        }
+                        else if (Model.SVCredentials.Contains("IS Degree") || Model.SVCredentials == "IS Degree")
+                        {
+                            <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" checked/>
+
+                            <span class="mx-2">IS Degree</span>
+                        }
+                        @if (Model.SVCredentials == null)
+                        {
+                            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree"/>
+
+                            <span class="mx-2">CS Degree</span>
+                        }
+                        else if (Model.SVCredentials.Contains("CS Degree") || Model.SVCredentials == "CS Degree")
+                        {
+                            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" checked/>
+
+                            <span class="mx-2">CS Degree</span>
+                        }
+                    </div>
+                    <span asp-validation-for="SVCredentials" class="text-danger"></span>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <label asp-for="SVCredOther" class="form-label">Other Credentials:</label>
+                        <input asp-for="SVCredOther" type="text" class="form-control">
+                        <span asp-validation-for="SVCredOther" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- ... other fields ... -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="CreateAddressViewModel.Street" class="form-label">Street:</label>
+                        <input asp-for="CreateAddressViewModel.Street" type="text" class="form-control">
+                        <span asp-validation-for="CreateAddressViewModel.Street" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="CreateAddressViewModel.City" class="form-label">City:</label>
+                        <input asp-for="CreateAddressViewModel.City" type="text" class="form-control">
+                        <span asp-validation-for="CreateAddressViewModel.City" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="CreateAddressViewModel.Prov" class="form-label">Province:</label>
+                        <input asp-for="CreateAddressViewModel.Prov" type="text" class="form-control">
+                        <span asp-validation-for="CreateAddressViewModel.Prov" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="CreateAddressViewModel.Country" class="form-label">Country:</label>
+                        <input asp-for="CreateAddressViewModel.Country" type="text" class="form-control">
+                        <span asp-validation-for="CreateAddressViewModel.Country" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="CreateAddressViewModel.PostalCode" class="form-label">Postal Code:</label>
+                        <input asp-for="CreateAddressViewModel.PostalCode" type="text" class="form-control">
+                        <span asp-validation-for="CreateAddressViewModel.PostalCode" class="text-danger"></span>
+                    </div>
+                </div>
+                <!-- ... other fields ... -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="StartDate" class="form-label">Date you expect to begin:</label>
+                        <input asp-for="StartDate" type="date" id="startDateInput" class="form-control">
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="form-check form-check-inline px-0">
+                            <label asp-for="PaymentCategory" class="form-label">Paid or Unpaid:</label>
+                            <select asp-for="PaymentCategory" asp-items="@Html.GetEnumSelectList<PaymentCategory>()" class="form-control">
+                                <option>--Select--</option>
+                            </select>
+                            <span asp-validation-for="PaymentCategory" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-5">
+                        <div class="form-check form-check-inline px-0">
+                            <label asp-for="OutOfCountry" class="form-label">Will you be working outside of the country?</label>
+                            <select asp-for="OutOfCountry" asp-items="@Html.GetEnumSelectList<YesNoCategory>()" class="form-control">
+                                <option>--Select--</option>                             
+                            </select>
+                            <span asp-validation-for="OutOfCountry" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 text-center">
+                    <p>Aside from the forms available on this webpage, the Program Assistant will look after all documents required for your host. Formal practicum agreements and evaluation forms will be supplied to your host.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <input type="button" class="btn btn-danger" value="Cancel" />
+                    <input type="submit" class="btn btn-success" value="Submit" />
+                    <input type="button" id="openFormB" class="btn btn-primary" value="Next" />
+                </div>
+            </form>
         </div>
-        <div class="mb-3 text-center">
-            <p>Aside from the forms available on this webpage, the Program Assistant will look after all documents required for your host. Formal practicum agreements and evaluation forms will be supplied to your host.</p>
-        </div>
-        <div class="modal-footer justify-content-center">
-            <div>
-                <a href="/PracticumForm/Index" class="btn btn-danger">Cancel</a>
-            </div>
-            <input type="submit" class="btn btn-success" value="Submit" />
-            <div>
-                <a href="/PracticumForm/CreateFormB" class="btn btn-primary">Next</a>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
+</div>
+
+@section scripts {
+    <script>
+        // Get today's date in the client's local time
+        var today = new Date().toLocaleDateString('en-CA');
+
+        // Set the min attribute of the input field to today's date
+        document.getElementById('startDateInput').min = today;
+    </script>
+}
+

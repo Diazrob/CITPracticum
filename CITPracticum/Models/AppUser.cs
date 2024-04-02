@@ -13,6 +13,9 @@ namespace CITPracticum.Models
         [ForeignKey("Administrator")]
         public int? AdministratorId { get; set; }
         public Administrator? Administrator { get; set; }
+        [ForeignKey("Instructor")]
+        public int? InstructorId { get; set; }
+        public Instructor? Instructor { get; set; }
 
         [ForeignKey("Student")]
         public int? StudentId { get; set; }

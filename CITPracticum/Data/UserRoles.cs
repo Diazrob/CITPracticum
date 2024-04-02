@@ -5,5 +5,6 @@
         public const string Admin = "admin";
         public const string Student = "student";
         public const string Employer = "employer";
+        public const string Instructor = "instructor";
     }
 }

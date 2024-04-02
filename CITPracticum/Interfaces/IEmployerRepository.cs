@@ -6,6 +6,7 @@ namespace CITPracticum.Interfaces
     {
         Task<IEnumerable<Employer>> GetAll();
         Task<Employer> GetByIdAsync(int id);
+        Task<Employer> GetByEmailAsync(string Email);
         Task<Employer> GetIdAsyncNoTracking(int id);
         bool Add(Employer employer);
         bool Update(Employer employer);

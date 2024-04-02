@@ -25,5 +25,22 @@ namespace CITPracticum.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password do not match")]
         public string ConfirmPassword { get; set; }
+        [Display(Name = "Supervisor's position")]
+        [Required(ErrorMessage = "Supervisor's position is required")]
+        public string SVPosition { get; set; }
+        [Display(Name = "Type of Organization")]
+        [Required(ErrorMessage = "Type of Organization is required")]
+        public string OrgType { get; set; }
+        [Display(Name = "Phone Number")]
+        [Required(ErrorMessage = "Phone number is required")]
+        [DataType(DataType.PhoneNumber)]
+        public string PhoneNumber { get; set; }
+        [Display(Name = "Supervisor Credentials")]
+        [Required(ErrorMessage = "Supervisor credentials is required")]
+        public string Credentials { get; set; }
+        public string? CredOther { get; set; }
+        public CreateAddressViewModel CreateAddressViewModel { get; set; }
+        public bool Affiliation { get; set; }
+
     }
 }

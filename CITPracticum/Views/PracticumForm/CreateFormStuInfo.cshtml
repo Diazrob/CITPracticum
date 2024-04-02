@@ -1,0 +1,172 @@
+﻿@using CITPracticum.ViewModels;
+@model CreateFormStuInfoViewModel
+
+<style>
+    /* Custom styles for the navigation tabs */
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background-color: #ffffff; /* Active tab background color */
+        color: #3431f4; /* Active tab text color */
+        border-color: #dee2e6 #dee2e6 #fff; /* Borders around the active tab */
+        border-radius: 0.25rem; /* Rounded corners on the top */
+    }
+
+    .nav-link {
+        color: #007bff; /* Non-active tab text color */
+        margin-right: 2px; /* Spacing between tabs */
+        border: 1px solid transparent; /* Transparent border for non-active tabs */
+        border-radius: 0.25rem; /* Rounded corners on the top */
+    }
+
+    .nav-tabs {
+        border-bottom: 1px solid #dee2e6; /* Bottom border for the whole nav */
+    }
+
+    .modal-header, .modal-footer {
+        border-bottom: 1px solid #dee2e6;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .modal-logo {
+        height: 50px; /* You can adjust the size as needed */
+    }
+
+    .modal-body {
+        background-color: #f7f7f7;
+        padding: 2rem;
+    }
+
+    .modal-footer {
+        padding: 1rem 2rem;
+        background-color: #f7f7f7;
+    }
+
+    .submit-btn {
+        background-color: #3431f4;
+        border-color: #3431f4;
+    }
+
+</style>
+
+
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <div class="modal-header justify-content-center" style="background: linear-gradient(to right, #FFFFFF, #FFFFFF, #69a620);">
+                <img src="~/images/lc.png" alt="Logo" class="float-start" style="height: 50px;">
+                <h5 class="modal-title text-center w-100" id="formFOIPModalLabel">Student Information (Form ID)</h5>
+                <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <div class="mx-auto" style="width: 50%;">
+                    <form method="post" asp-action="CreateFormStuInfo" enctype="multipart/form-data">
+                        <div class="row mb-1">
+                            <div class="col-md-6">
+                                <label asp-for="StuLastName" class="form-label">Last name:</label>
+                                <input asp-for="StuLastName" type="text" class="form-control" readonly>
+                                <span asp-validation-for="StuLastName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="StuFirstName" class="form-label">First name:</label>
+                        <input asp-for="StuFirstName" type="text" class="form-control" readonly>
+                                <span asp-validation-for="StuFirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="StuId" class="form-label">Student ID:</label>
+                        <input asp-for="StuId" type="text" class="form-control" readonly>
+                                <span asp-validation-for="StuId" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Program" class="form-label">Program:</label>
+                                <input asp-for="Program" type="text" class="form-control" value="Computer Information Technology" readonly>
+                                <span asp-validation-for="Program" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label asp-for="ProgStartDate" class="form-label">In what year and semester did you start in the program? (Example, 18FL):</label>
+                                <input asp-for="ProgStartDate" type="text" class="form-control">
+                                <span asp-validation-for="ProgStartDate" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PracStartDate" class="form-label">Year and term in which you are/will be registered for CIT 2271 Practicum (Example, 19WN):</label>
+                                <input asp-for="PracStartDate" type="text" class="form-control">
+                               <span asp-validation-for="PracStartDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label asp-for="CollegeEmail" class="form-label">College e-mail address (will be used to share info):</label>
+                        <input asp-for="CollegeEmail" class="form-control" readonly>
+                                <span asp-validation-for="CollegeEmail" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PhoneNumber" class="form-label">Phone number best able to reach you through:</label>
+                                <input asp-for="PhoneNumber" class="form-control">
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label asp-for="AltPhoneNumber" class="form-label">Alternate phone number to reach you through:</label>
+                                <input asp-for="AltPhoneNumber" class="form-control">
+                                <span asp-validation-for="AltPhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label asp-for="CreateAddressViewModel.Street" class="form-label">Street:</label>
+                                <input asp-for="CreateAddressViewModel.Street" type="text" class="form-control">
+                                 <span asp-validation-for="CreateAddressViewModel.Street" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="CreateAddressViewModel.City" class="form-label">City:</label>
+                                <input asp-for="CreateAddressViewModel.City" type="text" class="form-control">
+                                <span asp-validation-for="CreateAddressViewModel.City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+
+                                <label asp-for="CreateAddressViewModel.Prov" class="form-label">Prov:</label>
+                                <input asp-for="CreateAddressViewModel.Prov" type="text" class="form-control">
+                                <span asp-validation-for="CreateAddressViewModel.Prov" class="text-danger"></span>
+
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="CreateAddressViewModel.Country" class="form-label">Country:</label>
+                                <input asp-for="CreateAddressViewModel.Country" type="text" class="form-control">
+                                <span asp-validation-for="CreateAddressViewModel.Country" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+
+                                <label asp-for="CreateAddressViewModel.PostalCode" class="form-label">Postal Code:</label>
+                                <input asp-for="CreateAddressViewModel.PostalCode" type="text" class="form-control">
+                                <span asp-validation-for="CreateAddressViewModel.PostalCode" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-2">
+                                <p><b>Please note:</b></p>
+                            </div>
+                            <div class="col-md-10">
+                                <p>
+                                    You need to be registered in CIT 2271 for your practicum experience to be recognized by
+                                    the college. This course is offered beginning in January during the second year of your
+                                    program – your last semester. You can begin your practicum in January and work parttime
+                                    around your other classes with the goal of completing it by mid-June.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <input type="button" class="btn btn-danger" value="Cancel" />
+                            <input type="submit" class="btn btn-success" value="Submit" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+</div>

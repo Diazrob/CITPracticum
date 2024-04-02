@@ -86,4 +86,4 @@ namespace CITPracticum.Data.Migrations
                 table: "Student");
         }
     }
-}
+    }

@@ -114,20 +114,96 @@ body {
                         <input asp-for="CompanyName" class="form-control" max-length="50" />
                         <span asp-validation-for="CompanyName" class="text-danger"></span>
                     </div>
+                    @if(User.IsInRole("student"))
+                    {
+                        <div class="form-group">
+                            <input type="hidden" asp-for="Password" value="Password1!" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="ConfirmPassword" value="Password1!" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    } 
+                    else
+                    {
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ConfirmPassword" class="control-label"></label>
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    }
+    
                     <div class="form-group">
-                        <label asp-for="Password" class="control-label mt-2">Password:</label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <label asp-for="SVPosition" class="control-label"></label>
+                        <input asp-for="SVPosition" class="form-control" />
+                        <span asp-validation-for="SVPosition" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ConfirmPassword" class="control-label mt-2">Confirm Password:</label>
-                        <input asp-for="ConfirmPassword" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        <label asp-for="OrgType" class="control-label"></label>
+                        <input asp-for="OrgType" class="form-control" />
+                        <span asp-validation-for="OrgType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        <div class="form-group mb-3">
+                            <label asp-for="Credentials" class="form-label">Supervisor's Credentials</label>
+                            <div class="col-md-9">
+                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
+                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
+                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
+                            </div>
+                            <span asp-validation-for="Credentials" class="text-danger"></span>
+                        </div>
+                        <div class="row mb-3">
+                            <div>
+                                <label asp-for="CredOther" class="form-label">Other Credentials:</label>
+                                <input asp-for="CredOther" type="text" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- ... other fields ... -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label asp-for="CreateAddressViewModel.Street" class="form-label">Street:</label>
+                                <input asp-for="CreateAddressViewModel.Street" type="text" class="form-control">
+                                <span asp-validation-for="CreateAddressViewModel.Street" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="CreateAddressViewModel.City" class="form-label">City:</label>
+                                <input asp-for="CreateAddressViewModel.City" type="text" class="form-control">
+                                <span asp-validation-for="CreateAddressViewModel.City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="CreateAddressViewModel.Prov" class="form-label">Province:</label>
+                                <input asp-for="CreateAddressViewModel.Prov" type="text" class="form-control">
+                                <span asp-validation-for="CreateAddressViewModel.Prov" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="CreateAddressViewModel.Country" class="form-label">Country:</label>
+                                <input asp-for="CreateAddressViewModel.Country" type="text" class="form-control">
+                                <span asp-validation-for="CreateAddressViewModel.Country" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="CreateAddressViewModel.PostalCode" class="form-label">Postal Code:</label>
+                                <input asp-for="CreateAddressViewModel.PostalCode" type="text" class="form-control">
+                                <span asp-validation-for="CreateAddressViewModel.PostalCode" class="text-danger"></span>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="form-group mt-2">
                         <input class="btn btn-outline-success float right" type="submit" value="Register Employer" />
                         <a class="btn btn-outline-secondary" asp-controller="Employer" asp-action="Index">Cancel</a>
                     </div>
+
                 </form>
             </div>
         </div>

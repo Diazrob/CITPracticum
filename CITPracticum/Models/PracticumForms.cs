@@ -32,8 +32,5 @@ namespace CITPracticum.Models
         public int? FormStuInfoId { get; set; }
         public FormStuInfo? FormStuInfo { get; set; }
 
-        // View Models
-
-        public CreateFormAViewModel CreateFormAViewModel { get; set; }
     }
 }
