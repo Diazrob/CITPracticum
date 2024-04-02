@@ -7,6 +7,6 @@ namespace CITPracticum.Models
         [Key]
         public int Id { get; set; }
         public List<TimeEntry>? TimeEntries { get; set; }
-        public decimal TotalHours { get; set; }
+        public decimal TotalHours => TimeEntries?.Sum(entry => entry.Hours) ?? 0;
     }
 }

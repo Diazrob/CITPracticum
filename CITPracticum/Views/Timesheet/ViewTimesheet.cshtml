@@ -1,6 +1,8 @@
 ﻿@model Placement
 
 @{
+    ViewData["Title"] = "Time entries";
+    ViewData["CurrentPage"] = "Time entries";
     DateTime now = DateTime.Now;
 }
 
@@ -61,12 +63,18 @@
     }
 
 </style>
-<button onclick="window.history.back();" class="btn btn-secondary mb-2">Back</button>
+@if (!User.IsInRole("student"))
+{
+    <button onclick="window.history.back();" class="btn btn-secondary mb-2">Back</button>
+}
 <!-- Tab navigation with button -->
 <ul class="nav nav-tabs mb-3" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link" href="/Timesheet/Index">Timesheets</a>
-    </li>
+    @if (!User.IsInRole("student"))
+    {
+        <li class="nav-item">
+            <a class="nav-link" href="/Timesheet/Index">Timesheets</a>
+        </li>
+    }
     <li class="nav-item">
         <a class="nav-link active">Time Entries</a>
     </li>
@@ -74,14 +82,27 @@
     <li class="nav-item" role="presentation">
         @if (Model != null)
         {
-            <button class="btn btn-primary" asp-controller="Timesheet" asp-action="CreateTimeEntry"><i class="fa-solid fa-plus"></i> Add Time Entry</button>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
+            <form>
+                <button class="btn btn-primary" asp-controller="Timesheet" asp-action="CreateTimeEntry"><i class="fa-solid fa-plus"></i> Add Time Entry</button>
+                @if (!User.IsInRole("student"))
+                {
+                    <button class="btn btn-danger"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
+                }
+            </form>
         }
     </li>
 </ul>
 
 @if (Model != null)
 {
+    @if (User.IsInRole("student"))
+    {
+        // What the user sees for the title, currently nothing
+    }
+    else
+    {
+        <h4>@Model.Student.FirstName's Time Entries</h4>
+    }
     <table class="table table-striped table-hover">
         <thead>
             <tr>
@@ -89,13 +110,16 @@
                 <th class="view-column"># of Hours</th>
                 <th class="view-column">Description</th>
                 <th class="view-column">Total Hours to Date</th>
-                <th>Action</th>
-                <th class="checkbox-column">
-                    <div class="select-all-container">
-                        <label for="select-all" class="select-all-label">Select All</label>
-                        <input type="checkbox" id="select-all" class="form-check-input">
-                    </div>
-                </th>
+                @if (!User.IsInRole("student"))
+                {
+                    <th>Action</th>
+                    <th class="checkbox-column">
+                        <div class="select-all-container">
+                            <label for="select-all" class="select-all-label">Select All</label>
+                            <input type="checkbox" id="select-all" class="form-check-input">
+                        </div>
+                    </th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -104,20 +128,24 @@
                 @foreach (var entry in Model.Timesheet.TimeEntries)
                 {
                     <tr>
-                        <td>@entry.ShiftDate.ToString("yyyy-MM-dd");</td>
+                        <td>@entry.ShiftDate.ToString("yyyy-MM-dd")</td>
                         <td>
-                            @entry.Hours.ToString("0.0");
+                            @entry.Hours.ToString("0.0")
                         </td>
                         <td>
                             @entry.Description
                         </td>
                         <td>
-                            @Model.Timesheet.TotalHours
+                            @entry.HoursToDate
                         </td>
-                        <td>
-                            <button class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#editTimesheetModal">Edit</button>
-                        </td>
-                        <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+
+                        @if (!User.IsInRole("student"))
+                        {
+                            <td>
+                                <button class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#editTimesheetModal">Edit</button>
+                            </td>
+                            <td class="text-end"><input type="checkbox" class="form-check-input"></td>
+                        }
                     </tr>
                 }
             }

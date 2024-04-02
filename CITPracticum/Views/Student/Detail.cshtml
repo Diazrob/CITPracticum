@@ -1,5 +1,10 @@
 ﻿@model Student
 
+@{
+    ViewData["Title"] = "Students";
+    ViewData["CurrentPage"] = "Students > Profile";
+}
+
 <!-- Portfolio Item Heading -->
 <button onclick="window.history.back();" class="btn btn-secondary mb-3">Back</button>
 @if (User.IsInRole("admin"))

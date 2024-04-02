@@ -25,7 +25,7 @@ namespace CITPracticum.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             if (User.IsInRole("student"))
             {
                 var usr = await _userManager.GetUserAsync(User);
@@ -56,54 +56,54 @@ namespace CITPracticum.Controllers
 
         public IActionResult CreateFormA()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
 
         public IActionResult CreateFormB()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
 
         public IActionResult CreateFormC()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
 
         public IActionResult CreateFormD()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
 
         public IActionResult CreateFormFOIP()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
 
         public IActionResult CreateFormID()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
 
         public IActionResult CreateFormExitInterview()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
 
         public IActionResult EmployerSubmittedForms()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
         public IActionResult StudentSubmittedForms()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
 

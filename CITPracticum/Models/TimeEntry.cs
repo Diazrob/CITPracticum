@@ -9,5 +9,6 @@ namespace CITPracticum.Models
         public DateTime ShiftDate { get; set; }
         public string? Description { get; set; }
         public decimal Hours { get; set; }
+        public decimal? HoursToDate { get; set; }
     }
 }

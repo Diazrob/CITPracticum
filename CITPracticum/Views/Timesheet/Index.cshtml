@@ -1,4 +1,11 @@
-﻿<style>
+﻿@model Placement
+
+@{
+    ViewData["Title"] = "Timesheets";
+    ViewData["CurrentPage"] = "Timesheets";
+}
+
+<style>
     /* Additional styling to ensure the layout matches the screenshot provided */
     .table th, .table td {
         vertical-align: middle;
@@ -50,9 +57,9 @@
 
     <!-- Tab navigation with button -->
     <ul class="nav nav-tabs mb-3" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" href="/Timesheet/Index">Timesheets</a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/Timesheet/Index">Timesheets</a>
+            </li>
         <li class="nav-item" role="presentation">
             <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
         </li>
@@ -61,7 +68,7 @@
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th class="name-column">Name</th>
+                <th class="name-column">FirstName LastName</th>
                 <th class="view-column">View</th>
                 <th class="checkbox-column">
                     <div class="select-all-container">
