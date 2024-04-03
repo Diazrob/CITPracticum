@@ -27,11 +27,9 @@ namespace CITPracticum.ViewModels
         [Required(ErrorMessage = "Supervisor phone number is required")]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
-        [Required(ErrorMessage = "Student signature is required")]
-        public bool StuSign { get; set; }
+        public string? StuSign { get; set; }
         public DateTime StuSignDate { get; set; }
-        [Required(ErrorMessage = "Employee signature is required")]
-        public bool EmpSign { get; set; }
+        public string? EmpSign { get; set; }
         public DateTime EmpSignDate { get; set; }
     }
 }

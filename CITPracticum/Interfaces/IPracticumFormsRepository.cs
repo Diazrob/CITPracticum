@@ -21,6 +21,12 @@ namespace CITPracticum.Interfaces
         bool Delete(FormA formA);
 
         // Form B Interfaces
+        Task<IEnumerable<FormB>> GetAllFormB();
+        Task<FormB> FormBGetByIdAsync(int id);
+        Task<FormB> FormBGetIdAsyncNoTracking(int id);
+        bool Add(FormB formB);
+        bool Update(FormB formB);
+        bool Delete(FormB formB);
 
         // Form C Interfaces
         Task<IEnumerable<FormC>> GetAllFormC();

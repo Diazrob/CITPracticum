@@ -19,9 +19,9 @@ namespace CITPracticum.Models
         public string Position { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public bool StuSign { get; set; }
+        public string? StuSign { get; set; }
         public DateTime StuSignDate { get; set; }
-        public bool EmpSign { get; set; }
+        public string? EmpSign { get; set; }
         public DateTime EmpSignDate { get; set; }
         public bool Submitted { get; set; }
 

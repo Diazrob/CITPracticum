@@ -5,7 +5,7 @@
 
 <a href="/PracticumForm/Index"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
 <div class="mx-auto" style="width: 65%;">
-    <form>
+    <form method="post" asp-action="CreateFormB" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-12">
                 <h3 class="text-center">Practicum Agreement between Host and Student (Form B)</h3>
@@ -37,8 +37,17 @@
         </ul>
         <div class="row mb-3">
             <div class="col-md-3">
-                <label for="pracHost" class="form-label">Practicum Host:</label>
-                <input type="text" name="pracHost" class="form-control" />
+                <label asp-for="PracHost" class="form-label">Practicum Host:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="PracHost" name="pracHost" value="@Model.PracHost" class="form-control" readonly/>
+                    <span asp-validation-for="PracHost" class="text-danger"></span>
+                } else
+                {
+                    <input asp-for="PracHost" name="pracHost" class="form-control"/>
+                    <span asp-validation-for="PracHost" class="text-danger"></span>
+                }
+                
             </div>
             <div class="col-md-9" style="margin-top: 2.5rem !important;">
                 agrees to provide a meaningful work experience for
@@ -46,29 +55,33 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-3">
-                <label for="studName" class="form-label">Student's Name:</label>
-                @if (User.IsInRole("student"))
+                <label asp-for="StuName" class="form-label">Student's Name:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
                 {
-                    <input type="text" name="studName" class="form-control" readonly />
+                    <input asp-for="StuName" name="studName" value="@Model.StuName" class="form-control" readonly />
+                    <span asp-validation-for="StuName" class="text-danger"></span>
                 }
                 else
                 {
-                    <input type="text" name="studName" class="form-control" />
+                    <input asp-for="StuName" name="studName" class="form-control" />
+                    <span asp-validation-for="StuName" class="text-danger"></span>
                 }
             </div>
             <div class="col-md-1" style="margin-top: 2.5rem !important;">
                 from
             </div>
             <div class="col-md-3">
-                <label for="studName" class="form-label">Start Date:</label>
-                <input type="date" class="form-control">
+                <label asp-for="StartDate" class="form-label">Start Date:</label>
+                <input asp-for="StartDate" id="startDateInput" type="date" class="form-control">
+                <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="col-md-1" style="margin-top: 2.5rem !important;">
                 to
             </div>
             <div class="col-md-3">
-                <label for="studName" class="form-label">End Date:</label>
-                <input type="date" class="form-control">
+                <label asp-for="EndDate" class="form-label">End Date:</label>
+                <input asp-for="EndDate" id="endDateInput" type="date" class="form-control">
+                <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
         </div>
         <div class="row mb-3">
@@ -108,30 +121,122 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="formBOrgName" class="form-label">Organization Name:</label>
-                <input type="text" name="formBOrgName" class="form-control" />
+                <label asp-for="OrgName" class="form-label">Organization Name:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="OrgName" value="@Model.PracHost" class="form-control" readonly />
+                    <span asp-validation-for="OrgName" class="text-danger"></span>
+                } 
+                else
+                {
+                    <input asp-for="OrgName" class="form-control" />
+                    <span asp-validation-for="OrgName" class="text-danger"></span>
+                }
+
             </div>
             <div class="col-md-4">
-                <label for="formBPrac" class="form-label">Practicum Supervisor:</label>
-                <input type="text" name="formBPrac" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <label for="formBAddress" class="form-label">Address:</label>
-                <input type="text" name="formBAddress" class="form-control" />
+                <label asp-for="PracSV" class="form-label">Practicum Supervisor:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="PracSV" value="@Model.PracSV" class="form-control" readonly />
+                    <span asp-validation-for="PracSV" class="text-danger"></span>
+                } else
+                {
+                    <input asp-for="PracSV" class="form-control" readonly />
+                    <span asp-validation-for="PracSV" class="text-danger"></span>
+                }
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="formBPosition" class="form-label">Position:</label>
-                <input type="text" name="formBPosition" class="form-control" />
+                <label asp-for="Address.Street" class="form-label">Street:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="Address.Street" type="text" value="@Model.Address.Street" class="form-control" readonly>
+                } else
+                {
+                    <input asp-for="Address.Street" type="text" class="form-control">
+                }
+                <span asp-validation-for="Address.Street" class="text-danger"></span>
             </div>
             <div class="col-md-4">
-                <label for="formBEmail" class="form-label">Email Address:</label>
-                <input type="text" name="formBEmail" class="form-control" />
+                <label asp-for="Address.City" class="form-label">City:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="Address.City" type="text" value="@Model.Address.City" class="form-control" readonly>
+                } else
+                {
+                <input asp-for="Address.City" type="text" class="form-control">
+                }
+                <span asp-validation-for="Address.City" class="text-danger"></span>
             </div>
             <div class="col-md-4">
-                <label for="formBPhone" class="form-label">Phone Number:</label>
-                <input type="text" name="formBPhone" class="form-control" />
+                <label asp-for="Address.Prov" class="form-label">Province:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="Address.Prov" type="text" value="@Model.Address.Prov" class="form-control" readonly>
+                } else
+                {
+                <input asp-for="Address.Prov" type="text" class="form-control">
+                }
+                <span asp-validation-for="Address.Prov" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Address.Country" class="form-label">Country:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="Address.Country" type="text" value="@Model.Address.Country" class="form-control" readonly>
+                } else
+                {
+                <input asp-for="Address.Country" type="text" class="form-control">
+                }
+                <span asp-validation-for="Address.Country" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Address.PostalCode" class="form-label">Postal Code:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="Address.PostalCode" type="text" value="@Model.Address.PostalCode" class="form-control" readonly>
+                } else
+                {
+                <input asp-for="Address.PostalCode" type="text" class="form-control">
+                }
+                <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label asp-for="Position" class="form-label">Position:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="Position" type="text" value="@Model.Position" class="form-control" readonly>
+                } else
+                {
+                    <input asp-for="Position" type="text" class="form-control">
+                }
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Email" class="form-label">Email Address:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="Email" type="text" value="@Model.Email" class="form-control" readonly>
+                } else
+                {
+                    <input asp-for="Email" type="text" class="form-control">
+                }
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Phone" class="form-label">Phone Number:</label>
+                @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="Phone" type="text" value="@Model.Phone" class="form-control" readonly>
+                } else
+                {
+                    <input asp-for="Phone" type="text" class="form-control">
+                }
+                <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
         </div>
         <div class="row">
@@ -142,20 +247,94 @@
         <div class="row mb-3 mt-2">
             <div class="col-md-6">
                 <label for="formBStudentName" class="form-label">Student Name:</label>
-                <input type="text" name="formBStudentName" class="form-control" />
+                 @if (User.IsInRole("student") || User.IsInRole("employer"))
+                {
+                    <input asp-for="StuName" type="text" value="@Model.StuName" class="form-control" readonly>
+                } else
+                {
+                    <input asp-for="StuName" type="text" class="form-control">
+                }
+                <span asp-validation-for="StuName" class="text-danger"></span>
             </div>
-            @if (User.IsInRole("employer") || User.IsInRole("admin"))
+           
+        </div>
+       
+            @if(User.IsInRole("student"))
             {
-                <div class="col-md-6">
-                    <label for="formBEmployerName" class="form-label">Employer Name:</label>
-                    <input type="text" name="formBEmployerName" class="form-control" />
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <label asp-for="StuSign" class="form-label">Name:</label>
+                    <input asp-for="StuSign" type="text" class="form-control" required>
+                    <span asp-validation-for="StuSign" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="StuSignDate" class="form-label">Date:</label>
+                    <input asp-for="StuSignDate" type="date" class="form-control">
+                    <span asp-validation-for="StuSignDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <label asp-for="EmpSign" class="form-label">Name:</label >
+                    <input asp-for="EmpSign" type="text" class="form-control" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="EmpSignDate" class="form-label">Date:</label>
+                    <input asp-for="EmpSignDate" type="date" class="form-control" readonly>
+                </div>
+                </div>
+            } else if (User.IsInRole("employer"))
+            {
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <label asp-for="StuSign" class="form-label">Name:</label>
+                    <input asp-for="StuSign" type="text" class="form-control" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="StuSignDate" class="form-label">Date:</label>
+                    <input asp-for="StuSignDate" id="stuDateInput" type="date" class="form-control" readonly>
+                </div>
+                </div>
+                 <div class="row mb-3">
+                <div class="col-md-8">
+                    <label asp-for="EmpSign" class="form-label">Name:</label>
+                    <input asp-for="EmpSign" type="text" class="form-control" required>
+                    <span asp-validation-for="EmpSign" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="EmpSignDate" class="form-label">Date:</label>
+                    <input asp-for="EmpSignDate" id="empDateInput"  type="date" class="form-control">
+                    <span asp-validation-for="EmpSignDate" class="text-danger"></span>
+                </div>
+                </div>
+            } else
+            {
+                 <div class="row mb-3">
+                <div class="col-md-8">
+                    <label asp-for="StuSign" class="form-label">Name:</label>
+                    <input asp-for="StuSign" type="text" class="form-control" readonly>
+                    <span asp-validation-for="StuSign" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="StuSignDate" class="form-label">Date:</label>
+                    <input asp-for="StuSignDate" id="stuDateInput" type="date" class="form-control" readonly>
+                    <span asp-validation-for="StuSignDate" class="text-danger"></span>
+                </div>
+                </div>
+                 <div class="row mb-3">
+                <div class="col-md-8">
+                    <label asp-for="EmpSign" class="form-label">Name:</label>
+                    <input asp-for="EmpSign" type="text" class="form-control" readonly>
+                    <span asp-validation-for="EmpSign" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="EmpSignDate" class="form-label">Date:</label>
+                    <input asp-for="EmpSignDate" id="empDateInput" type="date" class="form-control" readonly>
+                    <span asp-validation-for="EmpSignDate" class="text-danger"></span>
+                </div>
                 </div>
             }
-            else
-            {
-                @* Currently displays nothing, but can display readonly of the input as well *@
-            }
-        </div>
+            
         <!-- Content for Form B -->
         <div class="modal-footer sticky justify-content-center">
             <div>
@@ -168,3 +347,15 @@
         </div>
     </form>
 </div>
+@section scripts {
+    <script>
+        // Get today's date in the client's local time
+        var today = new Date().toLocaleDateString('en-CA');
+
+        // Set the min attribute of the input field to today's date
+        document.getElementById('startDateInput').min = today;
+        document.getElementById('endDateInput').min = today;
+        document.getElementById('stuDateInput').min = today;
+        document.getElementById('empDateInput').min = today;
+    </script>
+}
