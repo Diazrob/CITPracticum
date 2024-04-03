@@ -83,6 +83,38 @@ namespace CITPracticum.Repository
             _context.Update(formA);
             return Save();
         }
+        // Form B Functions
+        public bool Add(FormB formB)
+        {
+            _context.Add(formB);
+            return Save();
+        }
+        public bool Delete(FormB formB)
+        {
+            _context.Remove(formB);
+            return Save();
+        }
+
+        public async Task<FormB> FormBGetByIdAsync(int id)
+        {
+            return await _context.FormBs.FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<FormB> FormBGetIdAsyncNoTracking(int id)
+        {
+            return await _context.FormBs.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<FormB>> GetAllFormB()
+        {
+            return await _context.FormBs.ToListAsync();
+        }
+
+        public bool Update(FormB formB)
+        {
+            _context.Update(formB);
+            return Save();
+        }
 
         // Form C Functions
         public bool Add(FormC formC)

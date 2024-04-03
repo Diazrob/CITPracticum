@@ -191,7 +191,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label asp-for="StuSignDate" class="form-label">Date:</label>
-                                <input asp-for="StuSignDate" type="date" class="form-control">
+                                <input asp-for="StuSignDate" id="signDateInput" type="date" class="form-control">
                                 <span asp-validation-for="StuSignDate" class="text-danger"></span>
                             </div>
                         </div>
@@ -208,3 +208,13 @@
                 </div>
             </div>
 </div>
+
+@section scripts {
+    <script>
+        // Get today's date in the client's local time
+        var today = new Date().toLocaleDateString('en-CA');
+
+        // Set the min attribute of the input field to today's date
+        document.getElementById('signDateInput').min = today;
+    </script>
+}

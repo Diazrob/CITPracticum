@@ -1,5 +1,6 @@
 ﻿
 using CITPracticum.Data;
+using CITPracticum.Data.Migrations;
 using CITPracticum.Interfaces;
 using CITPracticum.Models;
 using CITPracticum.ViewModels;
@@ -7,7 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Data.SqlClient.Server;
 using System.Globalization;
+using System.Net;
 
 
 namespace CITPracticum.Controllers
@@ -385,32 +388,307 @@ namespace CITPracticum.Controllers
         // Form B submission handler
         public async Task<IActionResult> CreateFormB()
         {
+            var placements = await _placementRepository.GetAll();
+          
+
             if (User.IsInRole("student"))
             {
                 var usr = await _userManager.GetUserAsync(User);
                 int stuId = Convert.ToInt32(usr.StudentId);
                 var student = await _studentRepository.GetByIdAsync(stuId);
-                var usrLastName = student.LastName;
-                var usrFirstName = student.FirstName;
-                var usrStuId = student.StuId;
 
-                var createFormBViewModel = new CreateFormBViewModel()
+                foreach (var placement in placements)
                 {
-                    StuName = usrFirstName + " " + usrLastName,
-                };
-                return View(createFormBViewModel);
+                    if (placement.StudentId == stuId)
+                    {
+                        var employerId = Convert.ToInt32(placement.EmployerId);
+                        var employer = await _employerRepository.GetByIdAsync(employerId);
+                        var practicumFormId = Convert.ToInt32(placement.PracticumFormsId);
+                        var practicumForm = await _practicumFormsRepository.FormsGetByIdAsync(practicumFormId);
+                        var addressId = Convert.ToInt32(employer.AddressId);
+                        var address = await _addressRepository.GetByIdAsync(addressId);
+                        var formBs = await _practicumFormsRepository.GetAllFormB();
+                        var stuSignature = "";
+                        var stuSignatureDate = DateTime.Now;
+                        var empSignature = "";
+                        var empSignatureDate = DateTime.Now;
+
+                        if (practicumForm.FormBId != null)
+                        {
+                            foreach (var formB in formBs)
+                            {
+                                if (formB.Id == placement.PracticumForms.FormBId)
+                                {
+                                    stuSignature = formB.StuSign;
+                                    stuSignatureDate = formB.StuSignDate;
+                                    empSignature = formB.EmpSign;
+                                    empSignatureDate = formB.EmpSignDate;
+                                }
+                            }
+                        }
+
+                        var createFormBViewModel = new CreateFormBViewModel()
+                        {
+                            StuName = student.FirstName + " " + student.LastName,
+                            PracHost = employer.CompanyName,
+                            StartDate = DateTime.Now,
+                            EndDate = DateTime.Now,
+                            OrgName = employer.CompanyName,
+                            PracSV = employer.FirstName + " " + employer.LastName,
+                            Address = new Address()
+                            {
+                                Street = address.Street,
+                                City = address.City,
+                                Prov = address.Prov,
+                                Country = address.Country,
+                                PostalCode = address.PostalCode
+                            },
+                            Position = employer.SVPosition,
+                            Email = employer.EmpEmail,
+                            Phone = employer.PhoneNumber,
+                            StuSign = stuSignature,
+                           StuSignDate = stuSignatureDate,
+                           EmpSign = empSignature,
+                           EmpSignDate = empSignatureDate
+                         
+                        }; // stopped here enter form B on forms database
+                        return View(createFormBViewModel);
+                    }
+                    
+                }
+                
             }
+            else if (User.IsInRole("employer"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                int empId = Convert.ToInt32(usr.EmployerId);
+                var employer = await _employerRepository.GetByIdAsync(empId);
+
+                foreach (var placement in placements)
+                {
+                    if (placement.EmployerId == empId)
+                    {
+                        var stuId = Convert.ToInt32(placement.StudentId);
+                        var student = await _studentRepository.GetByIdAsync(stuId);
+                        var practicumFormId = Convert.ToInt32(placement.PracticumFormsId);
+                        var practicumForm = await _practicumFormsRepository.FormsGetByIdAsync(practicumFormId);
+                        var addressId = Convert.ToInt32(employer.AddressId);
+                        var address = await _addressRepository.GetByIdAsync(addressId);
+                        var formBs = await _practicumFormsRepository.GetAllFormB();
+                        var stuSignature = "";
+                        var stuSignatureDate = DateTime.Now;
+                        var empSignature = "";
+                        var empSignatureDate = DateTime.Now;
+                        var pracStarteDate = DateTime.Now;
+                        var pracEndDate = DateTime.Now;
+
+                        if (practicumForm.FormBId != null)
+                        {
+                            foreach (var formB in formBs)
+                            {
+                                if (formB.Id == placement.PracticumForms.FormBId)
+                                {
+                                    stuSignature = formB.StuSign;
+                                    stuSignatureDate = formB.StuSignDate;
+                                    empSignature = formB.EmpSign;
+                                    empSignatureDate = formB.EmpSignDate;
+                                    pracStarteDate = formB.StartDate;
+                                    pracEndDate = formB.EndDate;
+                                }
+                            }
+                        }
+
+                        var createFormBViewModel = new CreateFormBViewModel()
+                        {
+                            StuName = student.FirstName + " " + student.LastName,
+                            PracHost = employer.CompanyName,
+                            StartDate = pracStarteDate,
+                            EndDate = pracEndDate,
+                            OrgName = employer.CompanyName,
+                            PracSV = employer.FirstName + " " + employer.LastName,
+                            Address = new Address()
+                            {
+                                Street = address.Street,
+                                City = address.City,
+                                Prov = address.Prov,
+                                Country = address.Country,
+                                PostalCode = address.PostalCode
+                            },
+                            Position = employer.SVPosition,
+                            Email = employer.EmpEmail,
+                            Phone = employer.PhoneNumber,
+                            StuSign = stuSignature,
+                            StuSignDate = stuSignatureDate,
+                            EmpSign = empSignature,
+                            EmpSignDate = empSignatureDate
+
+                        };
+                        return View(createFormBViewModel);
+                    }
+                }
+            } 
             else
             {
                 var createFormBViewModel = new CreateFormBViewModel();
                 return View(createFormBViewModel);
             }
+
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> CreateFormB(CreateFormBViewModel formBViewModel)
-        { 
-                return View(formBViewModel);
+        {
+            var usr = await _userManager.GetUserAsync(User);
+            var placements = await _placementRepository.GetAll();
+            var practicumForms = await _practicumFormsRepository.GetAllForms();
+
+
+            if (User.IsInRole("student"))
+            {
+                int stuId = Convert.ToInt32(usr.StudentId);
+
+                foreach (var placement in placements)
+                {
+                    if (placement.StudentId == stuId)
+                    {
+                        var practicumFormId = Convert.ToInt32(placement.PracticumFormsId);
+                        var practicumForm = await _practicumFormsRepository.FormsGetByIdAsync(practicumFormId);
+                        var formBs = await _practicumFormsRepository.GetAllFormB();
+                        string studentSignature =  Convert.ToString(formBViewModel.StuSign);
+                        string employerSignature = Convert.ToString(formBViewModel.EmpSign);
+
+                        if (ModelState.IsValid)
+                        {
+                            if (practicumForm.FormBId == null)
+                            {
+                                practicumForm.FormB = new FormB()
+                                {
+                                    StuName = formBViewModel.StuName,
+                                    PracHost = formBViewModel.PracHost,
+                                    StartDate = formBViewModel.StartDate,
+                                    EndDate = formBViewModel.EndDate,
+                                    OrgName = formBViewModel.OrgName,
+                                    PracSV = formBViewModel.PracSV,
+                                    Address = new Address()
+                                    {
+                                        Street = formBViewModel.Address.Street,
+                                        City = formBViewModel.Address.City,
+                                        Prov = formBViewModel.Address.Prov,
+                                        Country = formBViewModel.Address.Country,
+                                        PostalCode = formBViewModel.Address.PostalCode
+                                    },
+                                    Position = formBViewModel.Position,
+                                    Email = formBViewModel.Email,
+                                    Phone = formBViewModel.Phone,
+                                    StuSign = studentSignature,
+                                    StuSignDate = formBViewModel.StuSignDate,
+                                    EmpSign = employerSignature,
+                                    EmpSignDate = formBViewModel.EmpSignDate
+                                };
+                                _practicumFormsRepository.Add(practicumForm.FormB);
+                                return RedirectToAction("Index");
+                            }
+                            else
+                            {
+                                foreach (var formB in formBs)
+                                {
+                                    if (formB.Id == practicumForm.FormBId)
+                                    {
+                                        formB.StartDate = formBViewModel.StartDate;
+                                        formB.EndDate = formBViewModel.EndDate;
+                                        formB.StuSign = formBViewModel.StuSign;
+                                        formB.StuSignDate = formBViewModel.StuSignDate;
+                                        if (formB.StuSign != null && formB.EmpSign != null)
+                                        {
+                                            formB.Submitted = true;
+                                        }
+                                    }
+                                    _practicumFormsRepository.Update(formB);
+                                    return RedirectToAction("Index");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (User.IsInRole("employer"))
+                {
+                    int empId = Convert.ToInt32(usr.EmployerId);
+
+                    foreach (var placement in placements)
+                    {
+                        if (placement.EmployerId == empId)
+                        {
+                            var practicumFormId = Convert.ToInt32(placement.PracticumFormsId);
+                            var practicumForm = await _practicumFormsRepository.FormsGetByIdAsync(practicumFormId);
+                            var formBs = await _practicumFormsRepository.GetAllFormB();
+                            string studentSignature = Convert.ToString(formBViewModel.StuSign);
+                            string employerSignature = Convert.ToString(formBViewModel.EmpSign);
+
+                            if (ModelState.IsValid)
+                            {
+                                if (practicumForm.FormBId == null)
+                                {
+                                    practicumForm.FormB = new FormB()
+                                    {
+                                        StuName = formBViewModel.StuName,
+                                        PracHost = formBViewModel.PracHost,
+                                        StartDate = formBViewModel.StartDate,
+                                        EndDate = formBViewModel.EndDate,
+                                        OrgName = formBViewModel.OrgName,
+                                        PracSV = formBViewModel.PracSV,
+                                        Address = new Address()
+                                        {
+                                            Street = formBViewModel.Address.Street,
+                                            City = formBViewModel.Address.City,
+                                            Prov = formBViewModel.Address.Prov,
+                                            Country = formBViewModel.Address.Country,
+                                            PostalCode = formBViewModel.Address.PostalCode
+                                        },
+                                        Position = formBViewModel.Position,
+                                        Email = formBViewModel.Email,
+                                        Phone = formBViewModel.Phone,
+                                        StuSign = studentSignature,
+                                        StuSignDate = formBViewModel.StuSignDate,
+                                        EmpSign = employerSignature,
+                                        EmpSignDate = formBViewModel.EmpSignDate
+                                    };
+                                    _practicumFormsRepository.Add(practicumForm.FormB);
+                                    return RedirectToAction("Index");
+                                }
+                                else
+                                {
+                                    foreach (var formB in formBs)
+                                    {
+                                        if (formB.Id == practicumForm.FormBId)
+                                        {
+                                            formB.StartDate = formBViewModel.StartDate;
+                                            formB.EndDate = formBViewModel.EndDate;
+                                            formB.EmpSign = formBViewModel.EmpSign;
+                                            formB.EmpSignDate = formBViewModel.EmpSignDate;
+                                            if (formB.StuSign != null && formB.EmpSign != null)
+                                            {
+                                                formB.Submitted = true;
+                                            }
+                                        }
+                                        _practicumFormsRepository.Update(formB);
+                                        return RedirectToAction("Index");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return View(formBViewModel);
         }
+
+                        
+
+                       
+            
 
         // Form C submission handler
         public IActionResult CreateFormC()
