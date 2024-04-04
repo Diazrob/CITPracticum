@@ -1,4 +1,4 @@
-﻿@model Placement
+﻿@model IEnumerable<Placement>
 
 @{
     ViewData["Title"] = "Timesheets";
@@ -58,7 +58,7 @@
     <!-- Tab navigation with button -->
     <ul class="nav nav-tabs mb-3" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" href="/Timesheet/Index">Timesheets</a>
+                <a class="nav-link active">Timesheets</a>
             </li>
         <li class="nav-item" role="presentation">
             <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
@@ -68,7 +68,7 @@
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th class="name-column">FirstName LastName</th>
+                <th class="name-column">Student Name</th>
                 <th class="view-column">View</th>
                 <th class="checkbox-column">
                     <div class="select-all-container">
@@ -79,13 +79,29 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>William Garcia</td>
-                <td>
-                    <a class="btn btn-link view-btn" href="/Timesheet/ViewTimesheet" role="button">View</a>
-                </td>
-                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-            </tr>
+        @if(Model != null)
+        {
+            foreach (var placement in Model)
+            {
+                if (placement.Timesheet != null && placement.Timesheet.TimeEntries != null)
+                {
+                    <tr>
+                        <td>@placement.Student.FirstName @placement.Student.LastName</td>
+                        <td>
+                            <a asp-controller="Timesheet" asp-action="ViewTimesheet" asp-route-id="@placement.Id">View</a>
+                        </td>
+                        <td class="text-end"><input type="checkbox" class="form-check-input"></td>
+                    </tr>
+                } else
+                {
+                    <tr>
+                        <td>@placement.Student.FirstName @placement.Student.LastName</td>
+                        <td>N/A</td>
+                        <td class="text-end"><input type="checkbox" class="form-check-input"></td>
+                    </tr>
+                }
+            }
+        }
         </tbody>
     </table>
 

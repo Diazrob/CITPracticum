@@ -83,48 +83,51 @@
 
     @if (User.IsInRole("admin") || User.IsInRole("student"))
     {
-
-        <div class="card mt=3 zoom" style="cursor: pointer;">
-            <div class="card-body">
-                <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormFOIP">Form FOIP - Student Release</a>
-            </div>
-        </div>
-
-        <div class="card mt-3 zoom" style="cursor: pointer;">
-            <div class="card-body">
-                <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormStuInfo">Form ID - Student Information</a>
-            </div>
-        </div>
-
-    <!-- List of Forms as Cards -->
-    <div class="card mt-3 zoom" style="cursor: pointer;">
-        <div class="card-body">
-            <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormA">Form A - Host Information</a>
-        </div>
-    </div>
- 
-    }
-
-    <div class="card mt-3 zoom" style="cursor: pointer;">
+        <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormFOIP">
+            <div class="card mt=3 zoom" style="cursor: pointer;">
                 <div class="card-body">
-                     <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">Form B - Practicum Agreement</a>
+                    Form FOIP - Student Release
                 </div>
             </div>
-        
+        </a>
+        <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormStuInfo">
             <div class="card mt-3 zoom" style="cursor: pointer;">
                 <div class="card-body">
-                    <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">Form C - Practicum Evaluation (100 hours)</a>
+                    Form ID - Student Information
                 </div>
             </div>
-        
+        </a>
+    <!-- List of Forms as Cards -->
+    <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormA">
+        <div class="card mt-3 zoom" style="cursor: pointer;">
+            <div class="card-body">
+                Form A - Host Information
+            </div>
+        </div>
+    </a>
+    }
+        <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+            <div class="card mt-3 zoom" style="cursor: pointer;">
+                <div class="card-body">
+                        Form B - Practicum Agreement
+                </div>
+            </div>
+        </a>
+             <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+                <div class="card mt-3 zoom" style="cursor: pointer;">
+                    <div class="card-body">
+                       Form C - Practicum Evaluation (100 hours)
+                    </div>
+                </div>
+            </a>
 
-        
+        <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
             <div class="card zoom mt-3" style="cursor: pointer;">
                 <div class="card-body">
-                    <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">Form D - Practicum Evaluation (200 hours)</a>
+                    Form D - Practicum Evaluation (200 hours)
                 </div>
             </div>
-        
+        </a>
 
     @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.
     {

@@ -48,5 +48,6 @@ namespace CITPracticum.Data
         public DbSet<FormStuInfo> FormStuInfos { get; set; }
         public DbSet<Placement> Placements { get; set; }
         public DbSet<Timesheet> Timesheets { get; set; }
+        public DbSet<TimeEntry> TimeEntries { get; set; }
     }
 }

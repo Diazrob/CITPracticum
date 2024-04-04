@@ -4,6 +4,7 @@ using CITPracticum.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CITPracticum.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240403225604_timeentry_approval")]
+    partial class timeentry_approval
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -335,8 +337,8 @@ namespace CITPracticum.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmpSign")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("EmpSign")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("EmpSignDate")
                         .HasColumnType("datetime2");
@@ -371,8 +373,8 @@ namespace CITPracticum.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StuSign")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("StuSign")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("StuSignDate")
                         .HasColumnType("datetime2");
@@ -1015,6 +1017,8 @@ namespace CITPracticum.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("ApprovalCategory")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -1024,10 +1028,6 @@ namespace CITPracticum.Data.Migrations
 
                     b.Property<decimal?>("HoursToDate")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ApprovalCategory")
-                        .HasColumnType("int");
-
 
                     b.Property<DateTime>("ShiftDate")
                         .HasColumnType("datetime2");
@@ -1362,9 +1362,6 @@ namespace CITPracticum.Data.Migrations
 
             modelBuilder.Entity("CITPracticum.Models.TimeEntry", b =>
                 {
-                    b.HasOne("CITPracticum.Models.Timesheet", null)
-                        .WithMany("TimeEntries")
-                        .HasForeignKey("TimesheetId");
                     b.HasOne("CITPracticum.Models.Timesheet", "Timesheet")
                         .WithMany("TimeEntries")
                         .HasForeignKey("TimesheetId")
