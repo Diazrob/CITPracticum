@@ -685,72 +685,387 @@ namespace CITPracticum.Controllers
             return View(formBViewModel);
         }
 
-                        
-
-                       
-            
 
         // Form C submission handler
-        public IActionResult CreateFormC()
+        public async Task<IActionResult> CreateFormC()
         {
 
-            var createFormCViewModel = new CreateFormCViewModel();
+            var placements = await _placementRepository.GetAll();
 
-            return View(createFormCViewModel);
 
+            if (User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                int stuId = Convert.ToInt32(usr.StudentId);
+                var student = await _studentRepository.GetByIdAsync(stuId);
+
+                foreach (var placement in placements)
+                {
+                    if (placement.StudentId == stuId)
+                    {
+                        var employerId = Convert.ToInt32(placement.EmployerId);
+                        var employer = await _employerRepository.GetByIdAsync(employerId);
+                        var practicumFormId = Convert.ToInt32(placement.PracticumFormsId);
+                        var practicumForm = await _practicumFormsRepository.FormsGetByIdAsync(practicumFormId);
+                        var formCs = await _practicumFormsRepository.GetAllFormC();
+
+                        if (practicumForm.FormCId != null)
+                        {
+                            foreach (var formC in formCs)
+                            {
+                                if (formC.Id == placement.PracticumForms.FormCId)
+                                {
+                                    var createFormCViewModel = new CreateFormCViewModel()
+                                    {
+                                        PracSV = formC.PracSV,
+                                        Org = formC.Org,
+                                        StuName = formC.StuName,
+                                        A1 = formC.A1,
+                                        A2 = formC.A2,
+                                        A3 = formC.A3,
+                                        A4 = formC.A4,
+                                        A5 = formC.A5,
+                                        AComments = formC.AComments,
+                                        B1 = formC.B1,
+                                        B2 = formC.B2,
+                                        B3 = formC.B3,
+                                        B4 = formC.B4,
+                                        B5 = formC.B5,
+                                        B6 = formC.B6,
+                                        B7 = formC.B7,
+                                        B8 = formC.B8,
+                                        BComments = formC.BComments,
+                                        C1 = formC.C1,
+                                        C2 = formC.C2,
+                                        C3 = formC.C3,
+                                        C4 = formC.C4,
+                                        C5 = formC.C5,
+                                        C6 = formC.C6,
+                                        C7 = formC.C7,
+                                        C8 = formC.C8,
+                                        C9 = formC.C9,
+                                        C10 = formC.C10,
+                                        C11 = formC.C11,
+                                        C12 = formC.C12,
+                                        CComments = formC.CComments,
+                                        PracSVComments = formC.PracSVComments,
+                                        SVSign = formC.SVSign,
+                                        StuComments = formC.StuComments,
+                                        StuSign = formC.StuSign,
+                                        InsComments = formC.InsComments,
+                                        InsSign = formC.InsSign
+                                    }; // stopped here enter form B on forms database
+                                    return View(createFormCViewModel);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var createFormCViewModel = new CreateFormCViewModel()
+                            {
+                                PracSV = employer.FirstName + " " + employer.LastName,
+                                Org = employer.CompanyName,
+                                StuName = student.LastName + " " + student.LastName,
+
+                            };
+                            return View(createFormCViewModel);
+                        }
+
+
+                    }
+
+                }
+
+            }
+            else if (User.IsInRole("employer"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                int empId = Convert.ToInt32(usr.EmployerId);
+                var employer = await _employerRepository.GetByIdAsync(empId);
+
+                foreach (var placement in placements)
+                {
+                    if (placement.EmployerId == empId)
+                    {
+                        var stuId = Convert.ToInt32(placement.StudentId);
+                        var student = await _studentRepository.GetByIdAsync(stuId);
+                        var practicumFormId = Convert.ToInt32(placement.PracticumFormsId);
+                        var practicumForm = await _practicumFormsRepository.FormsGetByIdAsync(practicumFormId);
+                        var formCs = await _practicumFormsRepository.GetAllFormC();
+
+                        if (practicumForm.FormCId != null)
+                        {
+                            foreach (var formC in formCs)
+                            {
+                                if (formC.Id == placement.PracticumForms.FormCId)
+                                {
+                                    var createFormCViewModel = new CreateFormCViewModel()
+                                    {
+                                        PracSV = formC.PracSV,
+                                        Org = formC.Org,
+                                        StuName = formC.StuName,
+                                        A1 = formC.A1,
+                                        A2 = formC.A2,
+                                        A3 = formC.A3,
+                                        A4 = formC.A4,
+                                        A5 = formC.A5,
+                                        AComments = formC.AComments,
+                                        B1 = formC.B1,
+                                        B2 = formC.B2,
+                                        B3 = formC.B3,
+                                        B4 = formC.B4,
+                                        B5 = formC.B5,
+                                        B6 = formC.B6,
+                                        B7 = formC.B7,
+                                        B8 = formC.B8,
+                                        BComments = formC.BComments,
+                                        C1 = formC.C1,
+                                        C2 = formC.C2,
+                                        C3 = formC.C3,
+                                        C4 = formC.C4,
+                                        C5 = formC.C5,
+                                        C6 = formC.C6,
+                                        C7 = formC.C7,
+                                        C8 = formC.C8,
+                                        C9 = formC.C9,
+                                        C10 = formC.C10,
+                                        C11 = formC.C11,
+                                        C12 = formC.C12,
+                                        CComments = formC.CComments,
+                                        PracSVComments = formC.PracSVComments,
+                                        SVSign = formC.SVSign,
+                                        StuComments = formC.StuComments,
+                                        StuSign = formC.StuSign,
+                                        InsComments = formC.InsComments,
+                                        InsSign = formC.InsSign
+                                    }; // stopped here enter form B on forms database
+                                    return View(createFormCViewModel);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var createFormCViewModel = new CreateFormCViewModel()
+                            {
+                                PracSV = employer.FirstName + " " + employer.LastName,
+                                Org = employer.CompanyName,
+                                StuName = student.FirstName + " " + student.LastName,
+
+                            };
+                            return View(createFormCViewModel);
+                        }
+                    }
+                }
+            }
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> CreateFormC(CreateFormCViewModel formCViewModel)
         {
-            if (ModelState.IsValid)
+            var usr = await _userManager.GetUserAsync(User);
+            var placements = await _placementRepository.GetAll();
+            var practicumForms = await _practicumFormsRepository.GetAllForms();
+
+
+            if (User.IsInRole("student"))
             {
-                var formC = new FormC()
+                int stuId = Convert.ToInt32(usr.StudentId);
+
+                foreach (var placement in placements)
                 {
-                    PracSV = formCViewModel.PracSV,
-                    Org = formCViewModel.Org,
-                    StuName = formCViewModel.StuName,
-                    A1 = formCViewModel.A1,
-                    A2 = formCViewModel.A2,
-                    A3 = formCViewModel.A3,
-                    A4 = formCViewModel.A4,
-                    A5 = formCViewModel.A5,
-                    AComments = formCViewModel.AComments,
-                    B1 = formCViewModel.B1,
-                    B2 = formCViewModel.B2,
-                    B3 = formCViewModel.B3,
-                    B4 = formCViewModel.B4,
-                    B5 = formCViewModel.B5,
-                    B6 = formCViewModel.B6,
-                    B7 = formCViewModel.B7,
-                    B8 = formCViewModel.B8,
-                    BComments = formCViewModel.BComments,
-                    C1 = formCViewModel.C1,
-                    C2 = formCViewModel.C2,
-                    C3 = formCViewModel.C3,
-                    C4 = formCViewModel.C4,
-                    C5 = formCViewModel.C5,
-                    C6 = formCViewModel.C6,
-                    C7 = formCViewModel.C7,
-                    C8 = formCViewModel.C8,
-                    C9 = formCViewModel.C9,
-                    C10 = formCViewModel.C10,
-                    C11 = formCViewModel.C11,
-                    C12 = formCViewModel.C12,
-                    CComments = formCViewModel.CComments,
-                    PracSVComments = formCViewModel.PracSVComments,
-                    SVSign = formCViewModel.SVSign,
-                    SVSubmitted = formCViewModel.SVSubmitted,
-                    StuComments = formCViewModel.StuComments,
-                    StuSign = formCViewModel.StuSign,
-                    StuSubmitted = formCViewModel.StuSubmitted,
-                    InsComments = formCViewModel.InsComments,
-                    InsSign = formCViewModel.InsSign,
-                    InsSubmitted = formCViewModel.InsSubmitted
-                };
-                _practicumFormsRepository.Add(formC);
-                return RedirectToAction("Index");
+                    if (placement.StudentId == stuId)
+                    {
+                        var practicumFormId = Convert.ToInt32(placement.PracticumFormsId);
+                        var practicumForm = await _practicumFormsRepository.FormsGetByIdAsync(practicumFormId);
+                        var formCs = await _practicumFormsRepository.GetAllFormC();
+                        string studentSignature = Convert.ToString(formCViewModel.StuSign);
+                        string employerSignature = Convert.ToString(formCViewModel.SVSign);
+
+                        if (ModelState.IsValid)
+                        {
+                            if (practicumForm.FormCId == null)
+                            {
+                                practicumForm.FormC = new FormC()
+                                {
+                                    PracSV = formCViewModel.PracSV,
+                                    Org = formCViewModel.Org,
+                                    StuName = formCViewModel.StuName,
+                                    A1 = formCViewModel.A1,
+                                    A2 = formCViewModel.A2,
+                                    A3 = formCViewModel.A3,
+                                    A4 = formCViewModel.A4,
+                                    A5 = formCViewModel.A5,
+                                    AComments = formCViewModel.AComments,
+                                    B1 = formCViewModel.B1,
+                                    B2 = formCViewModel.B2,
+                                    B3 = formCViewModel.B3,
+                                    B4 = formCViewModel.B4,
+                                    B5 = formCViewModel.B5,
+                                    B6 = formCViewModel.B6,
+                                    B7 = formCViewModel.B7,
+                                    B8 = formCViewModel.B8,
+                                    BComments = formCViewModel.BComments,
+                                    C1 = formCViewModel.C1,
+                                    C2 = formCViewModel.C2,
+                                    C3 = formCViewModel.C3,
+                                    C4 = formCViewModel.C4,
+                                    C5 = formCViewModel.C5,
+                                    C6 = formCViewModel.C6,
+                                    C7 = formCViewModel.C7,
+                                    C8 = formCViewModel.C8,
+                                    C9 = formCViewModel.C9,
+                                    C10 = formCViewModel.C10,
+                                    C11 = formCViewModel.C11,
+                                    C12 = formCViewModel.C12,
+                                    CComments = formCViewModel.CComments,
+                                    PracSVComments = formCViewModel.PracSVComments,
+                                    SVSign = formCViewModel.SVSign,
+                                    StuComments = formCViewModel.StuComments,
+                                    StuSign = formCViewModel.StuSign,
+                                    StuSubmitted = true,
+                                    InsComments = formCViewModel.InsComments,
+                                    InsSign = formCViewModel.InsSign,
+                                };
+                                _practicumFormsRepository.Add(practicumForm.FormC);
+                                return RedirectToAction("Index");
+                            }
+                            else
+                            {
+                                foreach (var formC in formCs)
+                                {
+                                    if (formC.Id == practicumForm.FormCId)
+                                    {
+                                        formC.StuComments = formCViewModel.StuComments;
+                                        formC.StuSign = formCViewModel.StuSign;
+                                        formC.StuSubmitted = true;
+                                    }
+                                    _practicumFormsRepository.Update(formC);
+                                    return RedirectToAction("Index");
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            return View(formCViewModel);
+            else
+            {
+                if (User.IsInRole("employer"))
+                {
+                    int empId = Convert.ToInt32(usr.EmployerId);
+
+                    foreach (var placement in placements)
+                    {
+                        if (placement.EmployerId == empId)
+                        {
+                            var practicumFormId = Convert.ToInt32(placement.PracticumFormsId);
+                            var practicumForm = await _practicumFormsRepository.FormsGetByIdAsync(practicumFormId);
+                            var formCs = await _practicumFormsRepository.GetAllFormC();
+                            string studentSignature = Convert.ToString(formCViewModel.StuSign);
+                            string employerSignature = Convert.ToString(formCViewModel.SVSign);
+
+                            if (ModelState.IsValid)
+                            {
+                                if (practicumForm.FormCId == null)
+                                {
+                                    practicumForm.FormC = new FormC()
+                                    {
+                                        PracSV = formCViewModel.PracSV,
+                                        Org = formCViewModel.Org,
+                                        StuName = formCViewModel.StuName,
+                                        A1 = formCViewModel.A1,
+                                        A2 = formCViewModel.A2,
+                                        A3 = formCViewModel.A3,
+                                        A4 = formCViewModel.A4,
+                                        A5 = formCViewModel.A5,
+                                        AComments = formCViewModel.AComments,
+                                        B1 = formCViewModel.B1,
+                                        B2 = formCViewModel.B2,
+                                        B3 = formCViewModel.B3,
+                                        B4 = formCViewModel.B4,
+                                        B5 = formCViewModel.B5,
+                                        B6 = formCViewModel.B6,
+                                        B7 = formCViewModel.B7,
+                                        B8 = formCViewModel.B8,
+                                        BComments = formCViewModel.BComments,
+                                        C1 = formCViewModel.C1,
+                                        C2 = formCViewModel.C2,
+                                        C3 = formCViewModel.C3,
+                                        C4 = formCViewModel.C4,
+                                        C5 = formCViewModel.C5,
+                                        C6 = formCViewModel.C6,
+                                        C7 = formCViewModel.C7,
+                                        C8 = formCViewModel.C8,
+                                        C9 = formCViewModel.C9,
+                                        C10 = formCViewModel.C10,
+                                        C11 = formCViewModel.C11,
+                                        C12 = formCViewModel.C12,
+                                        CComments = formCViewModel.CComments,
+                                        PracSVComments = formCViewModel.PracSVComments,
+                                        SVSign = formCViewModel.SVSign,
+                                        StuComments = formCViewModel.StuComments,
+                                        StuSign = formCViewModel.StuSign,
+                                        SVSubmitted = true,
+                                        InsComments = formCViewModel.InsComments,
+                                        InsSign = formCViewModel.InsSign,
+                                    };
+                                    _practicumFormsRepository.Add(practicumForm.FormC);
+                                    return RedirectToAction("Index");
+                                }
+                                else
+                                {
+                                    foreach (var formC in formCs)
+                                    {
+                                        if (formC.Id == practicumForm.FormCId)
+                                        {
+                                            formC.PracSV = formCViewModel.PracSV;
+                                            formC.Org = formCViewModel.Org;
+                                            formC.StuName = formCViewModel.StuName;
+                                            formC.A1 = formCViewModel.A1;
+                                            formC.A2 = formCViewModel.A2;
+                                            formC.A3 = formCViewModel.A3;
+                                            formC.A4 = formCViewModel.A4;
+                                            formC.A5 = formCViewModel.A5;
+                                            formC.AComments = formCViewModel.AComments;
+                                            formC.B1 = formCViewModel.B1;
+                                            formC.B2 = formCViewModel.B2;
+                                            formC.B3 = formCViewModel.B3;
+                                            formC.B4 = formCViewModel.B4;
+                                            formC.B5 = formCViewModel.B5;
+                                            formC.B6 = formCViewModel.B6;
+                                            formC.B7 = formCViewModel.B7;
+                                            formC.B8 = formCViewModel.B8;
+                                            formC.BComments = formCViewModel.BComments;
+                                            formC.C1 = formCViewModel.C1;
+                                            formC.C2 = formCViewModel.C2;
+                                            formC.C3 = formCViewModel.C3;
+                                            formC.C4 = formCViewModel.C4;
+                                            formC.C5 = formCViewModel.C5;
+                                            formC.C6 = formCViewModel.C6;
+                                            formC.C7 = formCViewModel.C7;
+                                            formC.C8 = formCViewModel.C8;
+                                            formC.C9 = formCViewModel.C9;
+                                            formC.C10 = formCViewModel.C10;
+                                            formC.C11 = formCViewModel.C11;
+                                            formC.C12 = formCViewModel.C12;
+                                            formC.CComments = formCViewModel.CComments;
+                                            formC.PracSVComments = formCViewModel.PracSVComments;
+                                            formC.SVSign = formCViewModel.SVSign;
+                                            formC.StuComments = formCViewModel.StuComments;
+                                            formC.StuSign = formCViewModel.StuSign;
+                                            formC.SVSubmitted = true;
+                                            formC.InsComments = formCViewModel.InsComments;
+                                            formC.InsSign = formCViewModel.InsSign;
+                                        }
+                                        _practicumFormsRepository.Update(formC);
+                                        return RedirectToAction("Index");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return View(formCViewModel);           
         }
         // Form D submission handler
         public IActionResult CreateFormD()
