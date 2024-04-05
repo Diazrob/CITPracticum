@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CITPracticum.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shepherd.css" />
     <link href="~/fontawesome6/css/all.css" rel="stylesheet">
 
     <style>
@@ -58,15 +59,19 @@
     </style>
 </head>
 <body>
+    <script src="~/js/shepherd.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     <div class="flex-container">
         <!-- Side Navigation -->
-        <div class="d-flex align-items-center justify-content-center flex-column flex-shrink-0 p-3 bg-light side-nav" style="width: 225px; background: linear-gradient(10deg, #69a620, #FFFFFF, #FFFFFF);">
+        <div class="d-flex align-items-center justify-content-center flex-column flex-shrink-0 p-3 bg-light side-nav nav1" style="width: 225px; background: linear-gradient(10deg, #69a620, #FFFFFF, #FFFFFF);">
             <a href="/Dashboard/Index" class=" mb-3 mb-md-0 link-dark text-decoration-none">
                 <img src="/images/lc.png" alt="CITPracticum Logo" style="width: 100%; height: 90px;">
             </a>
             <h4 class="mt-2">CIT Practicum</h4>
             <hr style="width: 100%;">
-            <ul class="nav nav-pills flex-column mb-auto card mt-1 w-100">
+            <ul class="nav nav-pills flex-column mb-auto card mt-1 w-100 nav2">
                 <li class="nav-item">
                     <a href="/Dashboard/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Dashboard" ? "active" : "") link-dark" aria-current="page">
                         <i class="fa-solid fa-gauge fa-lg" style="width: 1.5em;"></i>
@@ -106,7 +111,7 @@
                     <li>
                         <a href="/Timesheet/ViewTimesheet" class="nav-link @((ViewData["ActivePage"] as string) == "Timesheets" ? "active" : "") link-dark">
                             <i class="fa-solid fa-clock fa-lg" style="width: 1.5em;"></i>
-                            <span>Time Sheets</span>
+                            <span>Timesheets</span>
                         </a>
                     </li>
                 }
@@ -115,7 +120,7 @@
                     <li>
                         <a href="/Timesheet/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Timesheets" ? "active" : "") link-dark">
                             <i class="fa-solid fa-clock fa-lg" style="width: 1.5em;"></i>
-                            <span>Time Sheets</span>
+                            <span>Timesheets</span>
                         </a>
                     </li>
                 }
@@ -131,14 +136,14 @@
 
             </ul>
             <hr style="width: 100%;">
-            <div class="dropdown">
+            <div class="dropdown nav3">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle text-white" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-gear fa-lg pe-1"></i><strong>Settings</strong>
                 </a>
-                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                <ul class="dropdown-menu text-small shadow nav4" aria-labelledby="dropdownUser2">
                     @if (!User.IsInRole("admin"))
                     {
-                        <li><a class="dropdown-item" href="/Student/Detail?email=@User.Identity.">Profile</a></li>
+                        <li><a class="dropdown-item" href="/Student/Detail?email=">Profile</a></li>
                     }
                     <form asp-area="" asp-controller="Account" asp-action="Logout">
                     <li><input type="submit" class="dropdown-item" value="Sign Out" /></li>
@@ -159,8 +164,8 @@
 
                     <!-- Spacer to push the notification icon to the right -->
                     <div class="d-flex ms-auto">
-                        <a class="nav-link" href="#">
-                            <i class="fa-solid fa-bell"></i> Notifications
+                        <a class="nav-link" href="#" onclick="tour.start();">
+                            <i class="fa-regular fa-circle-question fa-xl"></i> Help
                         </a>
                     </div>
                 </div>
@@ -177,9 +182,7 @@
 
         </div>
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
+
 </body>
 </html>

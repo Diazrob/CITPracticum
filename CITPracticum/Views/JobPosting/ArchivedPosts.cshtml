@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<JobPosting>
 
 @{
-    ViewData["CurrentPage"] = "Archived Posts";
+    ViewData["Title"] = "Archived Postings";
+    ViewData["CurrentPage"] = "Archived Postings";
 }
 
 <style>
@@ -45,7 +46,7 @@
     </li>
 </ul>
 
-<div class="tab-content" id="myTabContent">
+<div class="tab-content step1" id="myTabContent">
     <div class="tab-pane fade show active" id="job-posts" role="tabpanel" aria-labelledby="job-posts-tab">
         <div class="row">
             @foreach (var item in Model)
@@ -106,7 +107,7 @@
                                 <a class="btn btn-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
                                 <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                 <a class="btn btn-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                <a class="btn btn-warning" asp-controller="JobPosting" asp-action="ConfirmUnarchive" asp-route-id="@item.Id">Restore Post</a>
+                                <a class="btn btn-warning step2" asp-controller="JobPosting" asp-action="ConfirmUnarchive" asp-route-id="@item.Id">Restore Post</a>
                             </div>
                         </div>
                     </div>
@@ -123,3 +124,62 @@
         </nav>
     </div>
 </div>
+
+<script>
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        },
+        defaultStepOptions: {
+            exitOnEsc: true
+        }
+    });
+
+    @*Start of Archived Posts Demo*@
+        tour.addStep({
+            id: 'example-step',
+            text: 'Here is the list of all archived posts. This page works exactly like Job Posts if you would like a more thorough demo.',
+            attachTo: {
+                element: '.step1',
+                on: 'bottom'
+            },
+            classes: 'step1',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'This is the restore archived job post button. This will put the post back into the list of available job posts. A confirmation page will appear after pressing.',
+        attachTo: {
+            element: '.step2',
+            on: 'bottom'
+        },
+        classes: 'step2',
+        scrollTo: {
+            behavior: 'smooth',
+            block: 'center'
+        },
+        buttons: [
+            {
+                text: 'Finish',
+                action: tour.cancel
+            }
+        ]
+    });
+    @*End of Archived Posts Demo*@
+</script>

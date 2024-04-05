@@ -1,0 +1,92 @@
+﻿@using CITPracticum.Data.Enum;
+
+@model TimeEntry
+
+@{
+    ViewData["Title"] = "Edit Time Entry";
+}
+
+<div class="row offset-3 step1">
+    <div class="col-md-6">
+        <h4>Edit a time entry</h4>
+    </div>
+    <form>
+        <div class="col-md-6">
+            <input asp-for="@Model.TimesheetId" type="hidden" />
+            <input asp-for="@Model.HoursToDate" type="hidden" />
+            <input asp-for="@Model.Id" type="hidden" />
+            <label asp-for="@Model.ShiftDate" class="form-label">Shift Date:</label>
+            <input asp-for="@Model.ShiftDate" class="form-control" type="date" value="@Model.ShiftDate.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="@Model.ShiftDate" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mt-2">
+            <label asp-for="@Model.Description" class="form-label">Description:</label>
+            <input asp-for="@Model.Description" class="form-control" type="text" value="@Model.Description" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mt-2">
+            <label asp-for="@Model.Hours" class="form-label">Hours:</label>
+            <input asp-for="@Model.Hours" class="form-control" type="text" value="@Model.Hours" />
+            <span asp-validation-for="Hours" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mt-2">
+            <label asp-for="@Model.ApprovalCategory" class="form-label">Status:</label>
+            <select asp-for="@Model.ApprovalCategory" class="form-control">
+                @foreach (var category in Enum.GetValues(typeof(ApprovalCategory)))
+                {
+                    if (Model.ApprovalCategory == (ApprovalCategory)category)
+                    {
+                        <option value="@category" selected>
+                            @((ApprovalCategory)category == ApprovalCategory.Yes ? "Approved" :
+                                (ApprovalCategory)category == ApprovalCategory.No ? "Denied" :
+                                (ApprovalCategory)category == ApprovalCategory.InProgress ? "In Progress" : "")
+                        </option>
+                    } else
+                    {
+                        <option value="@category">
+                            @((ApprovalCategory)category == ApprovalCategory.Yes ? "Approved" :
+                                (ApprovalCategory)category == ApprovalCategory.No ? "Denied" :
+                                (ApprovalCategory)category == ApprovalCategory.InProgress ? "In Progress" : "")
+                        </option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="ApprovalCategory" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mt-2">
+            <button class="btn btn-outline-success" asp-controller="Timesheet" asp-action="EditTE">Edit Entry</button>
+            <button onclick="window.history.back();" class="btn btn-outline-secondary">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        },
+        defaultStepOptions: {
+            exitOnEsc: true
+        }
+    });
+
+    @*Start of Dashboard Demo*@
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the edit time entry page. Edit the information as needed and then submit the form.',
+            attachTo: {
+                element: '.step1',
+                on: 'bottom'
+            },
+            classes: 'step1',
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+    @*End of Dashboard Demo*@
+</script>

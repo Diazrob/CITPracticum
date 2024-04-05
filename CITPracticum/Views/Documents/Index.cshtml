@@ -1,5 +1,10 @@
 @model IEnumerable<AppUser>
 
+@{
+    ViewData["Title"] = "Documents";
+    ViewData["CurrentPage"] = "Documents > Resume";
+}
+
 <style>
     .nav-tabs {
         border-bottom: 1px solid #ddd;
@@ -41,82 +46,84 @@
     }
 </style>
 
-        <ul class="nav nav-tabs mb-3">
-            <li class="nav-item">
-                <a class="nav-link active" href="/Documents/Index">Resume</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Documents/CoverLetter">Cover Letter</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
-            </li>
-        </ul>
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link active" href="/Documents/Index">Resume</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/Documents/CoverLetter">Cover Letter</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
+    </li>
+</ul>
 
 <!-- Content for the Resume page -->
-  @if (User.IsInRole("student"))
-  {
-      <h3 class="my-4">Upload Resume</h3>
-      <form asp-controller="Documents" asp-action="UploadPdf" method="post" enctype="multipart/form-data">
-          <input type="file" name="pdfFile" />
-          <input type="hidden" name="studentId" value="ITEM Id" />
-          <button type="submit" class="btn btn-primary">Upload</button>
-      </form>
-  }
-  else if (User.IsInRole("admin"))
-  {
-      <table class="table table-striped table-hover">
-          <thead>
-              <tr>
-                  <th class="name-column">Name</th>
-                  <th class="view-column">Resume</th>
-                  <th class="checkbox-column">
-                      <div class="select-all-container">
-                          <label for="select-all" class="select-all-label">Select All</label>
-                          <input type="checkbox" id="select-all" class="form-check-input">
-                      </div>
-                  </th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>William Garcia</td>
-                  <td>
-                      <a class="btn btn-link" role="button">will_res.pdf</a>
-                  </td>
-                  <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-              </tr>
-              <tr>
-                  <td>Sophia Martinez</td>
-                  <td>
-                      <a class="btn btn-link" role="button">soph_res.pdf</a>
-                  </td>
-                  <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-              </tr>
-              <tr>
-                  <td>James Wilson</td>
-                  <td>
-                      <a class="btn btn-link" role="button">james_res.pdf</a>
-                  </td>
-                  <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-              </tr>
-              <tr>
-                  <td>Isabella Miller</td>
-                  <td>
-                      <a class="btn btn-link" role="button">isabella_res.pdf</a>
-                  </td>
-                  <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-              </tr>
-              <tr>
-                  <td>Oliver Taylor</td>
-                  <td>
-                      <a class="btn btn-link" role="button">oliver_res.pdf</a>
-                  </td>
-                  <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-              </tr>
-          </tbody>
-      </table>
-  }
+@if (User.IsInRole("student"))
+{
+    <form asp-controller="Documents" asp-action="UploadPdf" method="post" enctype="multipart/form-data">
+        <div class="step1">
+            <h3 class="my-4">Upload Resume</h3>
+            <input type="file" name="pdfFile" />
+        </div>
+        <input type="hidden" name="studentId" value="ITEM Id" />
+        <button type="submit" class="btn btn-primary mt-2 step2">Upload</button>
+    </form>
+}
+else if (User.IsInRole("admin"))
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="name-column">Name</th>
+                <th class="view-column">Resume</th>
+                <th class="checkbox-column">
+                    <div class="select-all-container">
+                        <label for="select-all" class="select-all-label">Select All</label>
+                        <input type="checkbox" id="select-all" class="form-check-input">
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>William Garcia</td>
+                <td>
+                    <a class="btn btn-link" role="button">will_res.pdf</a>
+                </td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+            </tr>
+            <tr>
+                <td>Sophia Martinez</td>
+                <td>
+                    <a class="btn btn-link" role="button">soph_res.pdf</a>
+                </td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+            </tr>
+            <tr>
+                <td>James Wilson</td>
+                <td>
+                    <a class="btn btn-link" role="button">james_res.pdf</a>
+                </td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+            </tr>
+            <tr>
+                <td>Isabella Miller</td>
+                <td>
+                    <a class="btn btn-link" role="button">isabella_res.pdf</a>
+                </td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+            </tr>
+            <tr>
+                <td>Oliver Taylor</td>
+                <td>
+                    <a class="btn btn-link" role="button">oliver_res.pdf</a>
+                </td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+            </tr>
+        </tbody>
+    </table>
+}
 
 <!-- Modal -->
 <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
@@ -137,20 +144,79 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('select-all').addEventListener('change', function (event) {
-            const checkboxes = document.querySelectorAll('.table .form-check-input');
-            const isChecked = event.target.checked;
+@if (User.IsInRole("student"))
+{
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
 
-            checkboxes.forEach(function (checkbox) {
-                // Skip the 'Select All' checkbox to avoid recursive checking
-                if (checkbox !== event.target) {
-                    checkbox.checked = isChecked;
+        @*Start of Resume Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'Here is the file upload for your Resume. Click on the Choose File option and select your resume from your files.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Press the Upload button when you have the correct and best version of your current Resume.',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            classes: 'step2',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
                 }
+            ]
+        });
+
+        @*End of Resume Demo*@
+    </script>
+}
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('select-all').addEventListener('change', function (event) {
+                const checkboxes = document.querySelectorAll('.table .form-check-input');
+                const isChecked = event.target.checked;
+
+                checkboxes.forEach(function (checkbox) {
+                    // Skip the 'Select All' checkbox to avoid recursive checking
+                    if (checkbox !== event.target) {
+                        checkbox.checked = isChecked;
+                    }
+                });
             });
         });
-    });
 
     // Function to delete selected rows
     function deleteSelected() {

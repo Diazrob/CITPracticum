@@ -4,88 +4,186 @@
     ViewData["Title"] = "Students";
     ViewData["CurrentPage"] = "Students > Profile";
 }
+<div class="step1">
+    <!-- Portfolio Item Heading -->
+    <button onclick="window.history.back();" class="btn btn-secondary mb-3">Back</button>
+    @if (User.IsInRole("admin"))
+    {
+        <h1 class="step2">@Model.FirstName @Model.LastName's Profile</h1>
+    }
+    else
+    {
+        <h1>Welcome, @Model.FirstName @Model.LastName!</h1>
+    }
+    <!-- Porfolio Item Row -->
 
-<!-- Portfolio Item Heading -->
-<button onclick="window.history.back();" class="btn btn-secondary mb-3">Back</button>
-@if (User.IsInRole("admin"))
-{
-    <h1>@Model.FirstName @Model.LastName's Profile</h1>
-}
-else
-{
-    <h1>Welcome, @Model.FirstName @Model.LastName!</h1>
-}
-<!-- Porfolio Item Row -->
-
-<div class="row mt-3">
-    <label>Profile Picture:</label>
-    <div class="col-md-4">
-        <img src="~/images/side.jpg" class="w-50" style="" />
-    </div>
-</div>
-
-@if (User.IsInRole("student"))
-{
-    <div class="row mt-2">
+    <div class="row mt-3">
+        <label>Profile Picture:</label>
         <div class="col-md-4">
-            <label>Upload new profile picture:</label>
-            <input type="file" class="mt-2" value="Choose Profile Picture" />
-            <form>
-                <button class="btn btn-primary mt-2">Change Profile Picture</button>
-            </form>
+            <img src="~/images/side.jpg" class="w-50" style="" />
         </div>
     </div>
-}
 
-@if(User.IsInRole("admin"))
-{
-    <h4 class="mt-3">Student Information</h4>
-}
-else if (User.IsInRole("student"))
-{
-    <h4 class="mt-3">My Information</h4>
-}
+    @if (User.IsInRole("student"))
+    {
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <label>Upload new profile picture:</label>
+                <input type="file" class="mt-2" value="Choose Profile Picture" />
+                <form>
+                    <button class="btn btn-primary mt-2">Change Profile Picture</button>
+                </form>
+            </div>
+        </div>
+    }
 
-<div class="row mt-3">
-    <div class="col-md-4">
-        <label asp-for="@Model.FirstName">First Name:</label>
-        <input type="text" class="form-control mb-3" value="@Model.FirstName" readonly />
-    </div>
-    <div class="col-md-4">
-        <label asp-for="@Model.LastName">Last Name:</label>
-        <input type="text" class="form-control" value="@Model.LastName" readonly />
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <label asp-for="@Model.StuId">Student ID:</label>
-        <input type="text" class="form-control" value="@Model.StuId" readonly />
-    </div>
-    <div class="col-md-4">
-        <label asp-for="@Model.StuEmail">Email Address:</label>
-        <input type="text" class="form-control mb-3" value="@Model.StuEmail" readonly />
-    </div>
-</div>
-
-@if (User.IsInRole("admin"))
-{
-    <h4 class="mt-4">Change Password</h4>
-
-    <form>
+    <div class="step3">
+        @if (User.IsInRole("admin"))
+        {
+            <h4 class="mt-3">Student Information</h4>
+        }
+        else if (User.IsInRole("student"))
+        {
+            <h4 class="mt-3">My Information</h4>
+        }
         <div class="row mt-3">
             <div class="col-md-4">
-                <label>New Password:</label>
-                <input type="text" class="form-control" />
+                <label asp-for="@Model.FirstName">First Name:</label>
+                <input type="text" class="form-control mb-3" value="@Model.FirstName" readonly />
             </div>
             <div class="col-md-4">
-                <label>Confirm New Password:</label>
-                <input type="text" class="form-control mb-3" />
+                <label asp-for="@Model.LastName">Last Name:</label>
+                <input type="text" class="form-control" value="@Model.LastName" readonly />
             </div>
         </div>
         <div class="row">
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary">Change Password</button>
+            <div class="col-md-4">
+                <label asp-for="@Model.StuId">Student ID:</label>
+                <input type="text" class="form-control" value="@Model.StuId" readonly />
+            </div>
+            <div class="col-md-4">
+                <label asp-for="@Model.StuEmail">Email Address:</label>
+                <input type="text" class="form-control mb-3" value="@Model.StuEmail" readonly />
             </div>
         </div>
-    </form>
+    </div>
+
+    @if (User.IsInRole("admin"))
+    {
+        <div class="step4">
+            <h4 class="mt-4">Change Password</h4>
+
+            <form>
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <label>New Password:</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label>Confirm New Password:</label>
+                        <input type="text" class="form-control mb-3" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+</div>
+
+@if (User.IsInRole("admin"))
+{
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
+
+        @*Start of Dashboard Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'This is the students information and profile page.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This shows you whose profile you are currently on.',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            classes: 'step2',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is their information.',
+            attachTo: {
+                element: '.step3',
+                on: 'bottom'
+            },
+            classes: 'step3',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the area you can change the password in for the student in the case that they forget or misplace their old password.',
+            attachTo: {
+                element: '.step4',
+                on: 'bottom'
+            },
+            classes: 'step4',
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+        @*End of Dashboard Demo*@
+    </script>
 }

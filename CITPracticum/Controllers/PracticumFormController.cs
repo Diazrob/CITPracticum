@@ -27,15 +27,15 @@ namespace CITPracticum.Controllers
         private readonly IAddressRepository _addressRepository;
 
         public PracticumFormController(
-            ApplicationDbContext context, 
-            IPracticumFormsRepository practicumFormsRepository, 
-            IPlacementRepository placementRepository, 
-            IEmployerRepository employerRepository, 
-            UserManager<AppUser> userManager, 
-            SignInManager<AppUser> signInManager, 
+            ApplicationDbContext context,
+            IPracticumFormsRepository practicumFormsRepository,
+            IPlacementRepository placementRepository,
+            IEmployerRepository employerRepository,
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
             IStudentRepository studentRepository,
             IAddressRepository addressRepository
-            )     
+            )
         {
             _context = context;
             _practicumFormsRepository = practicumFormsRepository;
@@ -48,25 +48,26 @@ namespace CITPracticum.Controllers
         }
         public async Task<IActionResult> Index()
         {
-                var submitFormAVM = new Placement();
-                return View(submitFormAVM);
-         
+            ViewData["ActivePage"] = "Practicum Forms";
+            var submitFormAVM = new Placement();
+            return View(submitFormAVM);
         }
 
         public IActionResult EmployerSubmittedForms()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
         public IActionResult StudentSubmittedForms()
         {
-            ViewData["ActivePage"] = "PracForms";
+            ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
 
         // Form FOIP submission handler
         public async Task<IActionResult> CreateFormFOIP()
         {
+            ViewData["ActivePage"] = "Practicum Forms";
             if (User.IsInRole("student"))
             {
                 var usr = await _userManager.GetUserAsync(User);
@@ -96,7 +97,7 @@ namespace CITPracticum.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFormFOIP(CreateFormFOIPViewModel formFOIPViewModel)
         {
-
+            ViewData["ActivePage"] = "Practicum Forms";
             var usr = await _userManager.GetUserAsync(User);
             int stuId = Convert.ToInt32(usr.StudentId);
 
@@ -133,6 +134,7 @@ namespace CITPracticum.Controllers
         // Form StuInfo submission handler
         public async Task<IActionResult> CreateFormStuInfo()
         {
+            ViewData["ActivePage"] = "Practicum Forms";
             if (User.IsInRole("student"))
             {
                 var usr = await _userManager.GetUserAsync(User);
@@ -160,10 +162,17 @@ namespace CITPracticum.Controllers
             }
 
         }
+
+        public IActionResult CreateFormExitInterview()
+        {
+            ViewData["ActivePage"] = "Practicum Forms";
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateFormStuInfo(CreateFormStuInfoViewModel formStuInfoViewModel)
         {
-
+            ViewData["ActivePage"] = "Practicum Forms";
             var usr = await _userManager.GetUserAsync(User);
             var placements = await _placementRepository.GetAll();
             var practicumForms = await _practicumFormsRepository.GetAllForms();
@@ -172,44 +181,44 @@ namespace CITPracticum.Controllers
             {
                 int stuId = Convert.ToInt32(usr.StudentId);
 
-                foreach(var placement in placements )
+                foreach (var placement in placements)
                 {
-                    if (placement.StudentId ==  stuId)
+                    if (placement.StudentId == stuId)
                     {
-                        foreach(var practicumForm in practicumForms)
+                        foreach (var practicumForm in practicumForms)
                         {
                             if (placement.PracticumFormsId == practicumForm.Id)
                             {
-                                 if (ModelState.IsValid)
-                                    {
-                                practicumForm.FormStuInfo = new FormStuInfo()
+                                if (ModelState.IsValid)
                                 {
-                                    StuLastName = formStuInfoViewModel.StuLastName,
-                                    StuFirstName = formStuInfoViewModel.StuFirstName,
-                                    StuId = formStuInfoViewModel.StuId,
-                                    Program = formStuInfoViewModel.Program,
-                                    ProgStartDate = formStuInfoViewModel.ProgStartDate,
-                                    PracStartDate = formStuInfoViewModel.PracStartDate,
-                                    CollegeEmail = formStuInfoViewModel.CollegeEmail,
-                                    PhoneNumber = formStuInfoViewModel.PhoneNumber,
-                                    AltPhoneNumber = formStuInfoViewModel.AltPhoneNumber,
-                                    Address = new Address()
+                                    practicumForm.FormStuInfo = new FormStuInfo()
                                     {
-                                        Street = formStuInfoViewModel.CreateAddressViewModel.Street,
-                                        City = formStuInfoViewModel.CreateAddressViewModel.City,
-                                        Prov = formStuInfoViewModel.CreateAddressViewModel.Prov,
-                                        Country = formStuInfoViewModel.CreateAddressViewModel.Country,
-                                        PostalCode = formStuInfoViewModel.CreateAddressViewModel.PostalCode
-                                    },
-                                    Submitted = true
+                                        StuLastName = formStuInfoViewModel.StuLastName,
+                                        StuFirstName = formStuInfoViewModel.StuFirstName,
+                                        StuId = formStuInfoViewModel.StuId,
+                                        Program = formStuInfoViewModel.Program,
+                                        ProgStartDate = formStuInfoViewModel.ProgStartDate,
+                                        PracStartDate = formStuInfoViewModel.PracStartDate,
+                                        CollegeEmail = formStuInfoViewModel.CollegeEmail,
+                                        PhoneNumber = formStuInfoViewModel.PhoneNumber,
+                                        AltPhoneNumber = formStuInfoViewModel.AltPhoneNumber,
+                                        Address = new Address()
+                                        {
+                                            Street = formStuInfoViewModel.CreateAddressViewModel.Street,
+                                            City = formStuInfoViewModel.CreateAddressViewModel.City,
+                                            Prov = formStuInfoViewModel.CreateAddressViewModel.Prov,
+                                            Country = formStuInfoViewModel.CreateAddressViewModel.Country,
+                                            PostalCode = formStuInfoViewModel.CreateAddressViewModel.PostalCode
+                                        },
+                                        Submitted = true
                                     };
-                                _practicumFormsRepository.Add(practicumForm.FormStuInfo);
-                                return RedirectToAction("Index");
+                                    _practicumFormsRepository.Add(practicumForm.FormStuInfo);
+                                    return RedirectToAction("Index");
                                 }
                             }
-                                  
+
                         }
-                        
+
                     }
                 }
             }
@@ -240,11 +249,12 @@ namespace CITPracticum.Controllers
             }
             return View(users);
         }
-       
+
         // Form A submission handler
 
         public async Task<IActionResult> CreateFormA(int id)
         {
+            ViewData["ActivePage"] = "Practicum Forms";
             Employer employer = await _employerRepository.GetByIdAsync(id);
 
             if (User.IsInRole("student"))
@@ -283,7 +293,7 @@ namespace CITPracticum.Controllers
                             Country = empAddress.Country,
                             PostalCode = empAddress.PostalCode
                         }
-                    // database created. create a new employer
+                        // database created. create a new employer
                     };
                     return View(createFormAViewModel);
                 }
@@ -298,7 +308,7 @@ namespace CITPracticum.Controllers
                     };
                     return View(createFormAViewModel);
                 }
-                
+
             }
             else
             {
@@ -310,6 +320,7 @@ namespace CITPracticum.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFormA(CreateFormAViewModel formAViewModel, List<string> credentialsList)
         {
+            ViewData["ActivePage"] = "Practicum Forms";
             string credentials = string.Join(", ", credentialsList);
 
             if (credentials != "")
@@ -329,7 +340,7 @@ namespace CITPracticum.Controllers
 
                 foreach (var placement in placements)
                 {
-                    
+
                     if (placement.StudentId == stuId)
                     {
 
@@ -374,7 +385,7 @@ namespace CITPracticum.Controllers
 
                                     _placementRepository.Update(placement);
                                     _practicumFormsRepository.Add(practicumForm.FormA);
-                                    
+
                                     return RedirectToAction("Index");
                                 }
                             }
@@ -388,8 +399,9 @@ namespace CITPracticum.Controllers
         // Form B submission handler
         public async Task<IActionResult> CreateFormB()
         {
+            ViewData["ActivePage"] = "Practicum Forms";
             var placements = await _placementRepository.GetAll();
-          
+
 
             if (User.IsInRole("student"))
             {
@@ -447,16 +459,16 @@ namespace CITPracticum.Controllers
                             Email = employer.EmpEmail,
                             Phone = employer.PhoneNumber,
                             StuSign = stuSignature,
-                           StuSignDate = stuSignatureDate,
-                           EmpSign = empSignature,
-                           EmpSignDate = empSignatureDate
-                         
+                            StuSignDate = stuSignatureDate,
+                            EmpSign = empSignature,
+                            EmpSignDate = empSignatureDate
+
                         }; // stopped here enter form B on forms database
                         return View(createFormBViewModel);
                     }
-                    
+
                 }
-                
+
             }
             else if (User.IsInRole("employer"))
             {
@@ -526,7 +538,7 @@ namespace CITPracticum.Controllers
                         return View(createFormBViewModel);
                     }
                 }
-            } 
+            }
             else
             {
                 var createFormBViewModel = new CreateFormBViewModel();
@@ -538,6 +550,7 @@ namespace CITPracticum.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFormB(CreateFormBViewModel formBViewModel)
         {
+            ViewData["ActivePage"] = "Practicum Forms";
             var usr = await _userManager.GetUserAsync(User);
             var placements = await _placementRepository.GetAll();
             var practicumForms = await _practicumFormsRepository.GetAllForms();
@@ -554,7 +567,7 @@ namespace CITPracticum.Controllers
                         var practicumFormId = Convert.ToInt32(placement.PracticumFormsId);
                         var practicumForm = await _practicumFormsRepository.FormsGetByIdAsync(practicumFormId);
                         var formBs = await _practicumFormsRepository.GetAllFormB();
-                        string studentSignature =  Convert.ToString(formBViewModel.StuSign);
+                        string studentSignature = Convert.ToString(formBViewModel.StuSign);
                         string employerSignature = Convert.ToString(formBViewModel.EmpSign);
 
                         if (ModelState.IsValid)
@@ -685,13 +698,10 @@ namespace CITPracticum.Controllers
             return View(formBViewModel);
         }
 
-
         // Form C submission handler
         public async Task<IActionResult> CreateFormC()
         {
-
             var placements = await _placementRepository.GetAll();
-
 
             if (User.IsInRole("student"))
             {
@@ -770,8 +780,6 @@ namespace CITPracticum.Controllers
                             };
                             return View(createFormCViewModel);
                         }
-
-
                     }
 
                 }
@@ -1448,6 +1456,6 @@ namespace CITPracticum.Controllers
             return View(formDViewModel);
         }
 
-       
+
     }
 }

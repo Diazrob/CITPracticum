@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<AppUser>
 
+@{
+    ViewData["Title"] = "Documents";
+    ViewData["CurrentPage"] = "Documents > Coverletter";
+}
+
 <style>
     .nav-tabs {
         border-bottom: 1px solid #ddd;
@@ -43,10 +48,13 @@
         <a class="nav-link" href="/Documents/Index">Resume</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" href="/Documents/CoverLetter">Cover Letter</a>
+        <a class="nav-link active" href="/Documents/CoverLetter">Work Preference</a>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
+        @if(User.IsInRole("admin"))
+        {  
+            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
+        }
     </li>
 </ul>
 
@@ -54,11 +62,10 @@
 <div class="container mt-4">
     @if (User.IsInRole("student"))
     {
-        <h3 class="my-1">Cover Letter</h3>
-        <form>
+        <form class="step1">
             <!-- Question 1: Most Preferred Job Preference -->
-            <fieldset class="mb-3">
-                <legend>1. What is your most preferred Job preference?</legend>
+            <fieldset class="mb-3 step2">
+                <legend>1. Most Desirable Work Preference</legend>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="mostPreferred[]" id="networking1" value="Networking">
                     <label class="form-check-label" for="networking1">Networking</label>
@@ -73,13 +80,13 @@
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="mostPreferred[]" id="others1" value="Others">
-                    <label class="form-check-label" for="others1">Others</label>
+                    <label class="form-check-label" for="others1">Other</label>
                 </div>
             </fieldset>
 
             <!-- Question 2: Second Most Preferred Job Preference -->
-            <fieldset class="mb-3">
-                <legend>2. What is your second most preferred Job preference?</legend>
+            <fieldset class="mb-3 step3">
+                <legend>2. Slightly Less Desirable Work Preference</legend>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="secondPreferred[]" id="networking2" value="Networking">
                     <label class="form-check-label" for="networking2">Networking</label>
@@ -94,13 +101,13 @@
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="secondPreferred[]" id="others2" value="Others">
-                    <label class="form-check-label" for="others2">Others</label>
+                    <label class="form-check-label" for="others2">Other</label>
                 </div>
             </fieldset>
 
             <!-- Question 3: Least Desired Job Preference -->
-            <fieldset class="mb-3">
-                <legend>3. What is your least desired Job preference?</legend>
+            <fieldset class="mb-3 step4">
+                <legend>3. Least Desirable Work Preference</legend>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="leastPreferred[]" id="networking3" value="Networking">
                     <label class="form-check-label" for="networking3">Networking</label>
@@ -115,12 +122,12 @@
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="leastPreferred[]" id="others3" value="Others">
-                    <label class="form-check-label" for="others3">Others</label>
+                    <label class="form-check-label" for="others3">Other</label>
                 </div>
             </fieldset>
 
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary step5">Submit</button>
         </form>
     }
     else if (User.IsInRole("admin"))
@@ -230,6 +237,141 @@
     </div>
 </div>
 
+@if (User.IsInRole("student"))
+{
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
+
+        @*Start of Cover Letter Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'This is the work preference page. It is split into 3 sections: Most Desirable, Less Desirable, and Least Desirable.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                scrollTo: {
+                    behavior: 'smooth',
+                    block: 'center'
+                },
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Here you should choose the positions that you are most comfortable with, most excited for, have experience in, etc.',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            classes: 'step2',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Here you should choose the positions that you are a bit less comfortable with, not as excited for as the first choices, have less experience in, etc.',
+            attachTo: {
+                element: '.step3',
+                on: 'bottom'
+            },
+            classes: 'step3',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Here you should choose the positions that you are a not comfortable with, not really excited for, have little to none experience in, etc.',
+            attachTo: {
+                element: '.step4',
+                on: 'bottom'
+            },
+            classes: 'step4',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Press the Submit button when you are comfortable with your answers to the questions. You may come back at later date to change these.',
+            attachTo: {
+                element: '.step5',
+                on: 'bottom'
+            },
+            classes: 'step5',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        @*End of Cover Letter Demo*@
+    </script>
+}
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('select-all').addEventListener('change', function (event) {
@@ -244,15 +386,4 @@
             });
         });
     });
-
-    // Function to delete selected rows
-    function deleteSelected() {
-        const checkboxes = document.querySelectorAll('.table tbody .form-check-input');
-        checkboxes.forEach(function (checkbox) {
-            if (checkbox.checked) {
-                // Assuming each checkbox is in a row that should be deleted
-                checkbox.closest('tr').remove();
-            }
-        });
-    }
 </script>

@@ -9,7 +9,7 @@
 }
 
 <div class="row">
-    <div class="col-md-6 offset-3">
+    <div class="col-md-6 offset-3 step1">
         <p>
             <h4>Edit a Student</h4>
         </p>
@@ -56,5 +56,33 @@
     </div>
 </div>
 
+<script>
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        },
+        defaultStepOptions: {
+            exitOnEsc: true
+        }
+    });
 
-
+    @*Start of Dashboard Demo*@
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the edit student page. Edit the information as needed and then submit the form.',
+            attachTo: {
+                element: '.step1',
+                on: 'bottom'
+            },
+            classes: 'step1',
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+    @*End of Dashboard Demo*@
+</script>

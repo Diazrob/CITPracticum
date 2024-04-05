@@ -4,12 +4,12 @@
 @model CreateJobPostingViewModel
 
 @{
-    ViewData["Title"] = "Job Posts";
+    ViewData["Title"] = "Job Postings";
     ViewData["CurrentPage"] = "Job Postings > Create";
 }
 
 <div class="row">
-    <div class="col-md-6 offset-3">
+    <div class="col-md-6 offset-3 step1">
         <p>
             <h4 class="offset-2">Create a Job Posting</h4>
         </p>
@@ -71,5 +71,33 @@
     </div>
 </div>
 
+<script>
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        },
+        defaultStepOptions: {
+            exitOnEsc: true
+        }
+    });
 
-
+    @*Start of Add Student Demo*@
+        tour.addStep({
+            id: 'example-step',
+            text: 'Here is the add job posting page. Please fill out all of the information, and then submit the form.',
+            attachTo: {
+                element: '.step1',
+                on: 'bottom'
+            },
+            classes: 'step1',
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+    @*End of Add Student Demo*@
+</script>

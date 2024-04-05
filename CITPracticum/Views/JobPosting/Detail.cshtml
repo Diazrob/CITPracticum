@@ -1,50 +1,52 @@
 ﻿@model JobPosting
 
 @{
-    ViewData["Title"] = "Job Posts";
+    ViewData["Title"] = "Job Postings";
     ViewData["CurrentPage"] = "Job Postings > Post";
 }
 
 <div class="container d-flex justify-content-center align-items-center mt-4">
-    <div class="mx-auto" style="width: 100%;">
+    <div class="mx-auto step1" style="width: 100%;">
         <div class="row mb-3">
             <div class="col-md-8">
                 <div class="d-flex align-items-center">
                     <button onclick="window.history.back();" class="btn btn-secondary mb-3" style="margin-bottom: 200px; margin-left: -150px !important;"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <h2 class="mb-3" style="margin-left: 8vh;">@Model.JobTitle</h2>
+                    <h2 class="mb-3 step2" style="margin-left: 8vh;">@Model.JobTitle</h2>
                 </div>
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-md-12">
+            <div class="col-md-12 step3">
                 <h5 class="mb-2 text-secondary">Job Description</h5>
                 <p>@Model.JobDescription</p>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <h5 class="mb-2 text-secondary">Due Date</h5>
-                <p>@Model.Deadline</p>
+        <div class="step4">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h5 class="mb-2 text-secondary">Application Deadline</h5>
+                    <p>@Model.Deadline</p>
+                </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <h5 class="mb-2 text-secondary">Company</h5>
-                <p>@Model.Company</p>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h5 class="mb-2 text-secondary">Company</h5>
+                    <p>@Model.Company</p>
+                </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <h5 class="mb-2 text-secondary">Location</h5>
-                <p>@Model.Location</p>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h5 class="mb-2 text-secondary">Location</h5>
+                    <p>@Model.Location</p>
+                </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <h5 class="text-secondary">Link</h5>
-                <p>
-                    <a href="@Model.Link" target="_blank">@Model.Link</a>
-                </p>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h5 class="text-secondary">Link</h5>
+                    <p>
+                        <a href="@Model.Link" target="_blank">@Model.Link</a>
+                    </p>
+                </div>
             </div>
         </div>
         <form class="row" asp-action="Apply" method="post">
@@ -52,8 +54,11 @@
                 <input type="hidden" name="Id" value="@Model.Id" />
             </div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-success" asp-controller="JobPosting" asp-action="Apply" asp-route-id="@Model.Id">Apply</button>
-                <button type="submit" class="btn btn-primary">Print</button>
+                @if (User.IsInRole("student"))
+                {
+                    <button type="submit" class="btn btn-success studstep5" asp-controller="JobPosting" asp-action="Apply" asp-route-id="@Model.Id">Apply</button>
+                }
+                <button type="submit" class="btn btn-primary step5 studstep6">Print</button>
             </div>
         </form>
     </div>
@@ -66,3 +71,293 @@
     </div>
     -->
 </div>
+
+@if (User.IsInRole("admin"))
+{
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
+
+        @*Start of View Job Posting Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'This is the details for a job posting.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                scrollTo: {
+                    behavior: 'smooth',
+                    block: 'center'
+                },
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the title of the position',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            classes: 'step2',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the job description.',
+            attachTo: {
+                element: '.step3',
+                on: 'bottom'
+            },
+            classes: 'step3',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'These are the job details such as: application deadline, company name, job location, and link to their website or external job board.',
+            attachTo: {
+                element: '.step4',
+                on: 'bottom'
+            },
+            classes: 'step4',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the print button, this will allow you to print or save the document as a PDF on your own system.',
+            attachTo: {
+                element: '.step5',
+                on: 'bottom'
+            },
+            classes: 'step5',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+        @*End of View Job Posting Demo*@
+    </script>
+} else if (User.IsInRole("student"))
+{
+    <script>
+                const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
+
+        @*Start of View Job Posting Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'This is the details for a job posting.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                scrollTo: {
+                    behavior: 'smooth',
+                    block: 'center'
+                },
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the title of the position.',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            classes: 'step2',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the job description.',
+            attachTo: {
+                element: '.step3',
+                on: 'bottom'
+            },
+            classes: 'step3',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'These are the job details such as: application deadline, company name, job location, and link to their website or external job board.',
+            attachTo: {
+                element: '.step4',
+                on: 'bottom'
+            },
+            classes: 'step4',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the apply button, this will allow you to apply for the position that the job posting is advertising.',
+            attachTo: {
+                element: '.studstep5',
+                on: 'bottom'
+            },
+            classes: 'studstep5',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the print button, this will allow you to print or save the document as a PDF on your own system.',
+            attachTo: {
+                element: '.studstep6',
+                on: 'bottom'
+            },
+            classes: 'studstep6',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+        @*End of View Job Posting Demo*@
+    </script>
+}

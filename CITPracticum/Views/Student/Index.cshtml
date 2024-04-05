@@ -17,31 +17,31 @@
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .btn-primary:hover {
-        background-color: #5a9bd5; /* Darker shade of kodiaks-blue */
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    }
+        .btn-primary:hover {
+            background-color: #5a9bd5; /* Darker shade of kodiaks-blue */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
 
     .table {
         width: 100%;
         border-collapse: collapse;
     }
 
-    .table thead {
-        background-color: var(--stone-pipe-grey);
-        color: white;
-    }
+        .table thead {
+            background-color: var(--stone-pipe-grey);
+            color: white;
+        }
 
-    .table thead th {
-        padding: 0.75rem 1rem;
-        text-align: left;
-    }
+            .table thead th {
+                padding: 0.75rem 1rem;
+                text-align: left;
+            }
 
-    .table tbody td {
-        padding: 0.75rem 1rem;
-        border-bottom: 1px solid var(--stone-pipe-grey);
-    }
+        .table tbody td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--stone-pipe-grey);
+        }
 
     .img-fluid {
         max-width: 100%;
@@ -61,10 +61,10 @@
         border-bottom: 1px solid #dee2e6; /* Bottom border for the whole nav */
     }
 
-    /* Styles to align the button with the tab items */
-    .nav-tabs .nav-item:last-child {
-        margin-left: auto; /* Push the button to the right */
-    }
+        /* Styles to align the button with the tab items */
+        .nav-tabs .nav-item:last-child {
+            margin-left: auto; /* Push the button to the right */
+        }
 
     td.name-column {
         max-width: 300px; /* Adjust the max-width as needed */
@@ -78,10 +78,6 @@
     }
 </style>
 
-@* <section class="py-5 text-center container">
-    <div class="row py-lg-2">
-        <div class="col-lg-6 col-md-8 mx-auto"> *@
-
 <!-- Tab navigation with button -->
 <ul class="nav nav-tabs mb-3" role="tablist">
     <li class="nav-item">
@@ -89,11 +85,11 @@
     </li>
     <!-- This is where the 'Create Form' button is placed -->
     <li class="nav-item" role="presentation">
-        <a class="btn btn-primary" asp-controller="Student" asp-action="Register"><i class="fa-solid fa-plus"></i> Add Student</a>
+        <a class="btn btn-primary step4" asp-controller="Student" asp-action="Register"><i class="fa-solid fa-plus"></i> Add Student</a>
     </li>
 </ul>
 
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover step1">
     <thead>
         <tr>
             <th scope="col">Image</th>
@@ -109,15 +105,15 @@
         {
             @if (item.Student != null)
             {
-                <tr>
+                <tr class="step2">
                     <td scope="row"><img class="img-fluid" src="https://placehold.jp/30x30.png" alt="" /></td>
                     <td class="name-column">
-                            @item.Student.FirstName @item.Student.LastName
+                        @item.Student.FirstName @item.Student.LastName
                     </td>
                     <td>@item.UserName</td>
                     <td>@item.Email</td>
                     <td>@item.Student.StuId</td>
-                    <td>
+                    <td class="step3">
                         <a class="btn btn-sm btn-outline-primary" asp-controller="Student" asp-action="Detail" asp-route-id="@item.Student.Id">View</a>
                         <a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Edit" asp-route-id="@item.Student.Id">Edit</a>
                         <a class="btn btn-sm btn-outline-danger" asp-controller="Student" asp-action="Delete" asp-route-email="@item.Email" asp-route-id="@item.Student.Id">Delete</a>
@@ -136,6 +132,94 @@
 
     </tbody>
 </table>
-@* </div>
-  </div>
-</section> *@
+
+<script>
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        },
+        defaultStepOptions: {
+            exitOnEsc: true
+        }
+    });
+
+    @*Start of Dashboard Demo*@
+        tour.addStep({
+            id: 'example-step',
+            text: 'Here is the list of all students.',
+            attachTo: {
+                element: '.step1',
+                on: 'bottom'
+            },
+            classes: 'step1',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'Each row gives personal information on each student added into the system',
+        attachTo: {
+            element: '.step2',
+            on: 'bottom'
+        },
+        classes: 'step2',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+            {
+                text: 'Exit Tour',
+                action: tour.cancel
+            }
+        ]
+    });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'There are three actions available: View, Edit and Delete.',
+        attachTo: {
+            element: '.step3',
+            on: 'bottom'
+        },
+        classes: 'step3',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+            {
+                text: 'Exit Tour',
+                action: tour.cancel
+            }
+        ]
+    });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'Finally, this is the add student button, this will direct you to a new page to add a student into the system.',
+        attachTo: {
+            element: '.step4',
+            on: 'bottom'
+        },
+        classes: 'step4',
+        buttons: [
+            {
+                text: 'Finish',
+                action: tour.cancel
+            }
+        ]
+    });
+    @*End of Dashboard Demo*@
+</script>

@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<AppUser>
 
+@{
+    ViewData["Title"] = "Employers";
+    ViewData["CurrentPage"] = "Employers";
+}
+
 <style>
     .btn-primary {
         background-color: var(--kodiaks-blue);
@@ -72,22 +77,16 @@
     }
 </style>
 
-
-@* <section class="py-5 text-center container">
-    <div class="row py-lg-2">
-        <div class="col-lg-6 col-md-8 mx-auto"> *@
-
-
 <ul class="nav nav-tabs mb-3" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="job-posts-tab" data-toggle="tab" href="/Employer/Index" role="tab" aria-controls="job-posts" aria-selected="true">Employers</a>
     </li>
     <li class="nav-item">
-        <a class="btn btn-primary" asp-controller="Employer" asp-action="Register"><i class="fa-solid fa-plus"></i> Add Employer</a>
+        <a class="btn btn-primary step4" asp-controller="Employer" asp-action="Register"><i class="fa-solid fa-plus"></i> Add Employer</a>
     </li>
 </ul>
 
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover step1">
     <thead>
         <tr>
             <th scope="col">Image</th>
@@ -103,13 +102,13 @@
         {
             @if (item.Employer != null)
             {
-                <tr>
+                <tr class="step2">
                     <td scope="row"><img class="img-fluid" src="https://placehold.jp/30x30.png" alt="" /></td>
                     <td class="name-column">@item.Employer.FirstName @item.Employer.LastName</td>
                     <td>@item.UserName</td>
                     <td>@item.Email</td>
                     <td>@item.Employer.CompanyName</td>
-                    <td>
+                    <td class="step3">
                         <a class="btn btn-sm btn-outline-primary" asp-controller="Employer" asp-action="Detail" asp-route-id="@item.Employer.Id">View</a>
                         <a class="btn btn-sm btn-outline-secondary" asp-controller="Employer" asp-action="Edit" asp-route-id="@item.Employer.Id">Edit</a>
                         <a class="btn btn-sm btn-outline-danger" asp-controller="Employer" asp-action="Delete" asp-route-email="@item.Email" asp-route-id="@item.Employer.Id">Delete</a>
@@ -128,6 +127,94 @@
 
     </tbody>
 </table>
-@*  </div>
-  </div>
- </section> *@
+
+<script>
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        },
+        defaultStepOptions: {
+            exitOnEsc: true
+        }
+    });
+
+    @*Start of Dashboard Demo*@
+        tour.addStep({
+            id: 'example-step',
+            text: 'Here is the list of all employers.',
+            attachTo: {
+                element: '.step1',
+                on: 'bottom'
+            },
+            classes: 'step1',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'Each row gives personal information on the given employer.',
+        attachTo: {
+            element: '.step2',
+            on: 'bottom'
+        },
+        classes: 'step2',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+            {
+                text: 'Exit Tour',
+                action: tour.cancel
+            }
+        ]
+    });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'There are three actions available: View, Edit and Delete.',
+        attachTo: {
+            element: '.step3',
+            on: 'bottom'
+        },
+        classes: 'step3',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+            {
+                text: 'Exit Tour',
+                action: tour.cancel
+            }
+        ]
+    });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'Finally, this is the add employer button, this will direct you to a new page to add an employer into the system.',
+        attachTo: {
+            element: '.step4',
+            on: 'bottom'
+        },
+        classes: 'step4',
+        buttons: [
+            {
+                text: 'Finish',
+                action: tour.cancel
+            }
+        ]
+    });
+    @*End of Dashboard Demo*@
+</script>
