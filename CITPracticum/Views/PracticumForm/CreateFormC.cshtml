@@ -2,6 +2,11 @@
 @using CITPracticum.ViewModels;
 @model CreateFormCViewModel
 
+@{
+    ViewData["Title"] = "Practicum Forms";
+    ViewData["CurrentPage"] = "Practicum Forms > Form C";
+}
+
 <a href="/PracticumForm/Index"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
 <div class="mx-auto" style="width: 65%;">
     <form method="post" asp-action="FormCSubmit" enctype="multipart/form-data">

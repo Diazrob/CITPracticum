@@ -2,85 +2,84 @@
 @model RegisterEmployerViewModel
 
 @{
-    ViewData["Title"] = "Add an Employer";
+    ViewData["Title"] = "Employers";
+    ViewData["CurrentPage"] = "Employers > Add";
 }
-
 <style>
-/* Base Styles */
-:root {
- --kodiaks-blue: #6AADE4;
---coulee-green: #739600;
---coal-miner-black: #62646C;
---stone-pipe-grey: #808080;
---body-background: #F3F3F3;
-}
+    /* Base Styles */
+    :root {
+        --kodiaks-blue: #6AADE4;
+        --coulee-green: #739600;
+        --coal-miner-black: #62646C;
+        --stone-pipe-grey: #808080;
+        --body-background: #F3F3F3;
+    }
 
-body {
-  font-family: 'Open Sans', sans-serif;
-  background-color: var(--body-background);
-  color: var(--coal-miner-black);
-}
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background-color: var(--body-background);
+        color: var(--coal-miner-black);
+    }
 
-/* Form Header */
-.form-header h4 {
-  color: var(--kodiaks-blue);
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
+    /* Form Header */
+    .form-header h4 {
+        color: var(--kodiaks-blue);
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
 
-/* Form Field Styling */
-.form-control {
-  border: 1px solid var(--stone-pipe-grey);
-  border-radius: 0.25rem;
-  padding: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--coal-miner-black);
-  background-color: white;
-}
+    /* Form Field Styling */
+    .form-control {
+        border: 1px solid var(--stone-pipe-grey);
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--coal-miner-black);
+        background-color: white;
+    }
 
-.form-control:focus {
-  border-color: var(--kodiaks-blue);
-  box-shadow: 0 0 0 0.2rem rgba(106, 173, 228, 0.25);
-}
+        .form-control:focus {
+            border-color: var(--kodiaks-blue);
+            box-shadow: 0 0 0 0.2rem rgba(106, 173, 228, 0.25);
+        }
 
-/* Validation Messages */
-.text-danger {
-  color: #d9534f; /* Bootstrap default danger color */
-}
+    /* Validation Messages */
+    .text-danger {
+        color: #d9534f; /* Bootstrap default danger color */
+    }
 
-/* Button Styling */
-.btn-outline-success {
-  border-color: var(--coulee-green);
-  color: var(--coulee-green);
-}
+    /* Button Styling */
+    .btn-outline-success {
+        border-color: var(--coulee-green);
+        color: var(--coulee-green);
+    }
 
-.btn-outline-success:hover {
-  background-color: var(--coulee-green);
-  color: white;
-}
+        .btn-outline-success:hover {
+            background-color: var(--coulee-green);
+            color: white;
+        }
 
-.btn-outline-secondary {
-  border-color: var(--stone-pipe-grey);
-  color: var(--coal-miner-black);
-}
+    .btn-outline-secondary {
+        border-color: var(--stone-pipe-grey);
+        color: var(--coal-miner-black);
+    }
 
-.btn-outline-secondary:hover {
-  background-color: var(--stone-pipe-grey);
-  color: white;
-}
+        .btn-outline-secondary:hover {
+            background-color: var(--stone-pipe-grey);
+            color: white;
+        }
 
-/* Utility Classes */
-.float-right {
-  float: right;
-}
+    /* Utility Classes */
+    .float-right {
+        float: right;
+    }
 
-}
-
+    }
 </style>
 
 
 <div class="row">
-    <div class="col-md-6 offset-3">
+    <div class="col-md-8 offset-2 step1">
         <p>
             <h4 class="offset-2">Add an Employer</h4>
         </p>
@@ -114,7 +113,7 @@ body {
                         <input asp-for="CompanyName" class="form-control" max-length="50" />
                         <span asp-validation-for="CompanyName" class="text-danger"></span>
                     </div>
-                    @if(User.IsInRole("student"))
+                    @if (User.IsInRole("student"))
                     {
                         <div class="form-group">
                             <input type="hidden" asp-for="Password" value="Password1!" class="form-control" />
@@ -124,37 +123,37 @@ body {
                             <input type="hidden" asp-for="ConfirmPassword" value="Password1!" class="form-control" />
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
-                    } 
+                    }
                     else
                     {
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <label asp-for="Password" class="control-label"></label>
                             <input asp-for="Password" class="form-control" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <label asp-for="ConfirmPassword" class="control-label"></label>
                             <input asp-for="ConfirmPassword" class="form-control" />
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
                     }
-    
-                    <div class="form-group">
+
+                    <div class="form-group mt-2">
                         <label asp-for="SVPosition" class="control-label"></label>
                         <input asp-for="SVPosition" class="form-control" />
                         <span asp-validation-for="SVPosition" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <label asp-for="OrgType" class="control-label"></label>
                         <input asp-for="OrgType" class="form-control" />
                         <span asp-validation-for="OrgType" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <label asp-for="PhoneNumber" class="control-label"></label>
                         <input asp-for="PhoneNumber" class="form-control" />
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         <div class="form-group mb-3">
-                            <label asp-for="Credentials" class="form-label">Supervisor's Credentials</label>
+                            <label asp-for="Credentials" class="form-label mt-2">Supervisor's Credentials</label>
                             <div class="col-md-9">
                                 <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
                                 <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
@@ -187,19 +186,19 @@ body {
                                 <span asp-validation-for="CreateAddressViewModel.Prov" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="CreateAddressViewModel.Country" class="form-label">Country:</label>
+                                <label asp-for="CreateAddressViewModel.Country" class="form-label mt-2">Country:</label>
                                 <input asp-for="CreateAddressViewModel.Country" type="text" class="form-control">
                                 <span asp-validation-for="CreateAddressViewModel.Country" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="CreateAddressViewModel.PostalCode" class="form-label">Postal Code:</label>
+                                <label asp-for="CreateAddressViewModel.PostalCode" class="form-label mt-2">Postal Code:</label>
                                 <input asp-for="CreateAddressViewModel.PostalCode" type="text" class="form-control">
                                 <span asp-validation-for="CreateAddressViewModel.PostalCode" class="text-danger"></span>
                             </div>
                         </div>
 
                     </div>
-                    <div class="form-group mt-2">
+                    <div class="form-group mt-2 mb-5">
                         <input class="btn btn-outline-success float right" type="submit" value="Register Employer" />
                         <a class="btn btn-outline-secondary" asp-controller="Employer" asp-action="Index">Cancel</a>
                     </div>
@@ -209,3 +208,34 @@ body {
         </div>
     </div>
 </div>
+
+<script>
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        },
+        defaultStepOptions: {
+            exitOnEsc: true
+        }
+    });
+
+    @*Start of Add Student Demo*@
+        tour.addStep({
+            id: 'example-step',
+            text: 'Here is the add employer page. Please fill out all of the information, and then submit the form.',
+            attachTo: {
+                element: '.step1',
+                on: 'bottom'
+            },
+            classes: 'step1',
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+    @*End of Add Student Demo*@
+</script>

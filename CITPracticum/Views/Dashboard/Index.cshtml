@@ -1,7 +1,6 @@
-﻿﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["CurrentPage"] = "Dashboard";
 }
 
 @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
@@ -39,54 +38,11 @@
 
     <!-- Main Content -->
     <div class="container-fluid mt-3">
-        <div class="row">
-            <!-- Recent Activity -->
-            <div class="col-lg-8">
-                <h5>Recent Activity</h5>
-                <!-- List of Recent Activities -->
-                <div class="list-group">
-                    <!-- Repeat this for each form type -->
-                    <div class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Form Type</h6>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">FOIP Student Release</p>
-                        <button class="btn btn-primary">View File</button>
-                    </div>
-                    <div class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Form Type</h6>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">FOIP Student Release</p>
-                        <button class="btn btn-primary">View File</button>
-                    </div>
-                    <div class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Form Type</h6>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">FOIP Student Release</p>
-                        <button class="btn btn-primary">View File</button>
-                    </div>
-                    <!-- ... other items ... -->
-                </div>
-
-                <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <!-- Generate page numbers here -->
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
-            </div>
-
+        <div class="row  offset-3">
             <!-- Average Student Progress -->
-            <div class="col-lg-4">
-                <h5>Average Student Progress</h5>
-                <div class="card mb-3">
+            <div class="col-lg-6 step1">
+                <h5 class="mb-3">Average Student Progress</h5>
+                <div class="card mb-3 step2">
                     <div class="card-body">
                         <h6 class="progress-label">Student Average Hours</h6>
                         <div class="progress progress-custom">
@@ -94,7 +50,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-3">
+                <div class="card mb-3 step3">
                     <div class="card-body">
                         <h6 class="progress-label">First 100 Hours Completed</h6>
                         <div class="progress progress-custom">
@@ -102,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-3">
+                <div class="card mb-3 step4">
                     <div class="card-body">
                         <h6 class="progress-label">All Forms Signed</h6>
                         <div class="progress progress-custom">
@@ -113,281 +69,201 @@
                 <!-- ... other progress cards ... -->
             </div>
         </div>
-
-        <!-- Practicum Hours -->
-        <h5>Recently Updates Timesheets</h5>
-        <div class="row mt-3">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="progress-label">Bradley Pike</h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="120" aria-valuemin="0" aria-valuemax="200">120/200 Hours Completed</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
 }
 else if (User.Identity.IsAuthenticated && User.IsInRole("student"))
 {
-    <h2>Hello Student</h2>
-
-    <style>
-        /* Custom styles */
-        .progress-custom {
-            height: 20px;
-        }
-
-        .progress-label {
-            font-size: 0.9rem;
-            color: #6c757d;
-            margin-bottom: 0;
-        }
-
-        .page-link {
-            color: #6c757d; /* Customize pagination color */
-        }
-
-        .page-item.active .page-link {
-            background-color: #6c757d; /* Customize active pagination color */
-            border-color: #6c757d;
-        }
-
-        .search-bar {
-            max-width: 300px;
-            margin-bottom: 20px;
-        }
-
-        h5 {
-            text-align: center;
-        }
-    </style>
-
-    <!-- Main Content -->
-    <div class="container-fluid mt-3">
-        <div class="row">
-            <!-- Recent Activity -->
-            <div class="col-lg-8">
-                <h5>Recent Activity</h5>
-                <!-- List of Recent Activities -->
-                <div class="list-group">
-                    <!-- Repeat this for each form type -->
-                    <div class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Form Type</h6>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">FOIP Student Release</p>
-                        <button class="btn btn-primary">View File</button>
-                    </div>
-                    <div class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Form Type</h6>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">FOIP Student Release</p>
-                        <button class="btn btn-primary">View File</button>
-                    </div>
-                    <div class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Form Type</h6>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">FOIP Student Release</p>
-                        <button class="btn btn-primary">View File</button>
-                    </div>
-                    <!-- ... other items ... -->
-                </div>
-
-                <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <!-- Generate page numbers here -->
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
-            </div>
-
-            <!-- My Progress -->
-            <div class="col-lg-4">
-                <h5>My Progress</h5>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6 class="progress-label">Forms Completed</h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6 class="progress-label">Uncompleted Forms</h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6 class="progress-label">New Job Postings</h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">8 New Postings</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- ... other progress cards ... -->
-            </div>
-        </div>
-
-        <!-- Practicum Hours -->
-        <h5>Practicum Hours</h5>
-        <div class="row mt-3">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="progress-label">Completed Practicum Hours</h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="120" aria-valuemin="0" aria-valuemax="200">120/200 Hours Completed</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    //Student dashboard content
+    <h3>This is the student dashboard.</h3>
 }
 else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 {
-    <h2>Hello Employer</h2>
-
-    <style>
-        /* Custom styles */
-        .progress-custom {
-            height: 20px;
-        }
-
-        .progress-label {
-            font-size: 0.9rem;
-            color: #6c757d;
-            margin-bottom: 0;
-        }
-
-        .page-link {
-            color: #6c757d; /* Customize pagination color */
-        }
-
-        .page-item.active .page-link {
-            background-color: #6c757d; /* Customize active pagination color */
-            border-color: #6c757d;
-        }
-
-        .search-bar {
-            max-width: 300px;
-            margin-bottom: 20px;
-        }
-
-        h5 {
-            text-align: center;
-        }
-    </style>
-
-    <div class="container-fluid mt-3">
-        <div class="row">
-            <!-- Recent Activity -->
-            <div class="col-lg-8">
-                <h5>Recent Activity</h5>
-                <!-- List of Recent Activities -->
-                <div class="list-group">
-                    <!-- Repeat this for each form type -->
-                    <div class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Form Type</h6>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">FOIP Student Release</p>
-                        <button class="btn btn-primary">View File</button>
-                    </div>
-                    <div class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Form Type</h6>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">FOIP Student Release</p>
-                        <button class="btn btn-primary">View File</button>
-                    </div>
-                    <div class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Form Type</h6>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">FOIP Student Release</p>
-                        <button class="btn btn-primary">View File</button>
-                    </div>
-                    <!-- ... other items ... -->
-                </div>
-
-                <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <!-- Generate page numbers here -->
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
-            </div>
-
-            <!-- Average Student Progress -->
-            <div class="col-lg-4">
-                <h5>Average Student Progress</h5>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6 class="progress-label">Forms Completed</h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6 class="progress-label">Uncompleted Forms</h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- ... other progress cards ... -->
-            </div>
-        </div>
-
-        <!-- Practicum Hours -->
-        <h5>Practicum Hours</h5>
-        <div class="row mt-3">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="progress-label">Nate Lapointe</h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="120" aria-valuemin="0" aria-valuemax="200">120/200 Hours Completed</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="progress-label">Irah Loreto</h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="120" aria-valuemin="0" aria-valuemax="200">120/200 Hours Completed</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    //Student dashboard content
+    <h3>This is the employer dashboard.</h3>
 }
+@if (User.IsInRole("admin"))
+{
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            }
+        });
+
+        @*Start of Dashboard Demo*@
+        tour.addStep({
+                id: 'example-step',
+                text: 'Demo time! Here is the average of student progress.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'It is broken down into three fields: Average Student Hours',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            classes: 'step2',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'First 100 Hours Completed',
+            attachTo: {
+                element: '.step3',
+                on: 'bottom'
+            },
+            classes: 'step3',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'And finally, All Forms Signed.',
+            attachTo: {
+                element: '.step4',
+                on: 'bottom'
+            },
+            classes: 'step4',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+        @*End of Dashboard Demo*@
+    </script>
+}
+else if (User.IsInRole("student"))
+{
+    //Student Demo
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            }
+        });
+    </script>
+}
+else if (User.IsInRole("employer"))
+{
+    //Employer Demo
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            }
+        });
+    </script>
+}
+
+<script>
+    @*Start of Side nav/Top nav Demo*@
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Here is the navigation menu!',
+            attachTo: {
+                element: '.nav1',
+                on: 'right'
+            },
+            classes: 'nav1',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'The main content to focus on is the navigation links. These will take you to the other areas of the application.',
+        attachTo: {
+            element: '.nav2',
+            on: 'bottom'
+        },
+        classes: 'nav2',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+            {
+                text: 'Exit Tour',
+                action: tour.cancel
+            }
+        ]
+    });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'This is the settings menu. Here you can access your profile, or sign out.',
+        attachTo: {
+            element: '.nav3',
+            on: 'top'
+        },
+        classes: 'nav3',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+            {
+                text: 'Exit Tour',
+                action: tour.cancel
+            }
+        ]
+    });
+    @*End of Side nav & Top nav Demo*@
+</script>

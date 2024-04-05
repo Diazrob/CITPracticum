@@ -2,11 +2,12 @@
 @model CreateTimeEntryViewModel;
 
 @{
-    ViewData["Title"] = "Create Time Entry";
+    ViewData["Title"] = "Time Entries";
+    ViewData["CurrentPage"] = "Time Entries > Add";
 }
 
 <div class="row">
-    <div class="col-md-6 offset-3">
+    <div class="col-md-6 offset-3 step1">
         <p>
             <h4 class="offset-2">Create Time Entry</h4>
         </p>
@@ -20,29 +21,30 @@
             <div class="col-md-8 offset-2">
                 <form method="post" asp-controller="Timesheet" asp-action="SubmitTimeEntry" asp-route-id="@Model.Placement.Id" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
+                    <div class="form-group step2">
                         <label asp-for="NewTimeEntry.ShiftDate" class="control-label">Shift Date:</label>
                         <input type="date" asp-for="NewTimeEntry.ShiftDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
                         <span asp-validation-for="NewTimeEntry.ShiftDate" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group step3">
                         <label asp-for="NewTimeEntry.Description" class="control-label mt-2">Description:</label>
                         <input asp-for="NewTimeEntry.Description" class="form-control" required />
                         <span asp-validation-for="NewTimeEntry.Description" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group step4">
                         <label asp-for="NewTimeEntry.Hours" class="control-label mt-2">Hours (e.g., "8.5" for 8 hours and 30 minutes):</label>
                         <input asp-for="NewTimeEntry.Hours" class="form-control" required />
                         <span asp-validation-for="NewTimeEntry.Hours" class="text-danger"></span>
                     </div>
                     <div class="form-group mt-2">
-                        <input class="btn btn-outline-success float right" type="submit" value="Create Entry" />
+                        <input class="btn btn-outline-success float right step5" type="submit" value="Create Entry" />
                         @if (User.IsInRole("admin"))
                         {
                             <a class="btn btn-outline-secondary" asp-controller="Timesheet" asp-action="ViewTimesheet" asp-route-id="@Model.Placement.Id">Cancel</a>
-                        } else
+                        }
+                        else
                         {
-                            <a class="btn btn-outline-secondary" asp-controller="Timesheet" asp-action="ViewTimesheet">Cancel</a>
+                            <a class="btn btn-outline-secondary step6" asp-controller="Timesheet" asp-action="ViewTimesheet">Cancel</a>
                         }
 
                     </div>
@@ -51,3 +53,170 @@
         </div>
     </div>
 </div>
+
+@if (User.IsInRole("admin"))
+{
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
+
+        @*Start of Dashboard Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'This is the create time entry page. Please enter all of the information and then submit the form.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                buttons: [
+                    {
+                        text: 'Finish',
+                        action: tour.cancel
+                    }
+                ]
+            });
+        @*End of Dashboard Demo*@
+    </script>
+}
+else if (User.IsInRole("student"))
+{
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
+
+        @*Start of Dashboard Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'This is the create time entry page. Please enter all of the information and then submit the form.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Enter the shift date for the shift that you worked.',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            classes: 'step2',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Enter a description of the tasks done that shift.',
+            attachTo: {
+                element: '.step3',
+                on: 'bottom'
+            },
+            classes: 'step3',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Enter the amount of hours that were worked that shift. This uses decimal numbers, so 8.5 is 8 hours and 30 minutes.',
+            attachTo: {
+                element: '.step4',
+                on: 'bottom'
+            },
+            classes: 'step4',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Click the Create Entry button to submit the entry.',
+            attachTo: {
+                element: '.step5',
+                on: 'bottom'
+            },
+            classes: 'step5',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Click the Cancel button to delete the information entered, and go back to the previous page.',
+            attachTo: {
+                element: '.step6',
+                on: 'bottom'
+            },
+            classes: 'step6',
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+        @*End of Dashboard Demo*@
+    </script>
+}

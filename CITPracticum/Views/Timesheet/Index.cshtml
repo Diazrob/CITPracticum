@@ -65,7 +65,7 @@
         </li>
     </ul>
 
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover step1">
         <thead>
             <tr>
                 <th class="name-column">Student Name</th>
@@ -87,16 +87,16 @@
                 {
                     <tr>
                         <td>@placement.Student.FirstName @placement.Student.LastName</td>
-                        <td>
+                        <td class="step4">
                             <a asp-controller="Timesheet" asp-action="ViewTimesheet" asp-route-id="@placement.Id">View</a>
                         </td>
                         <td class="text-end"><input type="checkbox" class="form-check-input"></td>
                     </tr>
                 } else
                 {
-                    <tr>
+                    <tr class="step2">
                         <td>@placement.Student.FirstName @placement.Student.LastName</td>
-                        <td>N/A</td>
+                        <td class="step3">N/A</td>
                         <td class="text-end"><input type="checkbox" class="form-check-input"></td>
                     </tr>
                 }
@@ -138,6 +138,100 @@
         </div>
     </div>
 </div>
+
+@if (User.IsInRole("admin"))
+{
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
+
+        @*Start of Dashboard Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'Here is the list of all students.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Each row shows whether or not the student is currently assigned to a position, with a filled timesheet.',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            classes: 'step2',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'The students without a timesheet will have the action: N/A.',
+            attachTo: {
+                element: '.step3',
+                on: 'bottom'
+            },
+            classes: 'step3',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'The students with timesheets will have the action: View. Press this to see the students time entries.',
+            attachTo: {
+                element: '.step4',
+                on: 'bottom'
+            },
+            classes: 'step4',
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+        @*End of Dashboard Demo*@
+    </script>
+}
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

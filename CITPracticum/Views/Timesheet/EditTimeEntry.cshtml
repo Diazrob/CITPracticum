@@ -6,7 +6,7 @@
     ViewData["Title"] = "Edit Time Entry";
 }
 
-<div class="row offset-3">
+<div class="row offset-3 step1">
     <div class="col-md-6">
         <h4>Edit a time entry</h4>
     </div>
@@ -59,3 +59,34 @@
         </div>
     </form>
 </div>
+
+<script>
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        },
+        defaultStepOptions: {
+            exitOnEsc: true
+        }
+    });
+
+    @*Start of Dashboard Demo*@
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the edit time entry page. Edit the information as needed and then submit the form.',
+            attachTo: {
+                element: '.step1',
+                on: 'bottom'
+            },
+            classes: 'step1',
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+    @*End of Dashboard Demo*@
+</script>
