@@ -4,6 +4,7 @@ using CITPracticum.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CITPracticum.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240404065004_Updated FormCD Models")]
+    partial class UpdatedFormCDModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -950,7 +952,6 @@ namespace CITPracticum.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -960,21 +961,17 @@ namespace CITPracticum.Data.Migrations
                     b.Property<decimal?>("HoursToDate")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ApprovalCategory")
-                        .HasColumnType("int");
-
-
                     b.Property<DateTime>("ShiftDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TimesheetId")
+                    b.Property<int?>("TimesheetId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TimesheetId");
 
-                    b.ToTable("TimeEntries");
+                    b.ToTable("TimeEntry");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.Timesheet", b =>
@@ -1300,13 +1297,6 @@ namespace CITPracticum.Data.Migrations
                     b.HasOne("CITPracticum.Models.Timesheet", null)
                         .WithMany("TimeEntries")
                         .HasForeignKey("TimesheetId");
-                    b.HasOne("CITPracticum.Models.Timesheet", "Timesheet")
-                        .WithMany("TimeEntries")
-                        .HasForeignKey("TimesheetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Timesheet");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
