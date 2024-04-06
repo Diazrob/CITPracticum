@@ -145,7 +145,22 @@ namespace CITPracticum.Controllers
                 CreateTimeEntryViewModel vm = new CreateTimeEntryViewModel();
                 var placement = await _placementRepository.GetByIdAsync((Int32)id);
                 placement.Student = await _studentRepository.GetByIdAsync((Int32)placement.StudentId);
-                placement.Timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
+
+                if (placement.TimesheetId == null)
+                {
+                    //Create new timesheet if there is no timesheet
+                    placement.Timesheet = new Timesheet();
+                    _timesheetRepository.Add(placement.Timesheet);
+                    _timesheetRepository.Save();
+                    //Assign placement timesheet to newly created timesheet
+                    placement.TimesheetId = placement.Timesheet.Id;
+                    _placementRepository.Update(placement);
+                    _placementRepository.Save();
+                } else
+                {
+                    placement.Timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
+                }
+
                 await _timeEntryRepository.GetAll();
                 vm.Placement = placement;
                 return View(vm);
