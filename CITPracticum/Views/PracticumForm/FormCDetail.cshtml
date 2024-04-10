@@ -1,0 +1,856 @@
+﻿@using CITPracticum.Data.Enum;
+@using CITPracticum.ViewModels;
+@model FormC
+
+@{
+    ViewData["Title"] = "Practicum Forms";
+    ViewData["CurrentPage"] = "Practicum Forms > Form C";
+}
+
+<a href="/PracticumForm/Index"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
+<div class="mx-auto" style="width: 65%;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">CIT 2271 - IT Practicum Evaluation (Form C)</h3>
+                <hr />
+            </div>
+        </div>
+                
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label asp-for="PracSV" class="form-label">Practicum Supervisor:</label>
+                <input asp-for="PracSV" class="form-control" readonly>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Org" class="form-label">Organization:</label>
+                <input asp-for="Org" class="form-control" readonly>
+
+            </div>
+            <div class="col-md-4">
+                <label asp-for="StuName" class="form-label">Student Name:</label>
+                <input asp-for="StuName" class="form-control" readonly>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <p>Faculty Advisor:</p>
+            </div>
+            <div class="col-md-8">
+                <ul style="list-style-type: none; margin-left: 0; padding-left: 0;">
+                    <li><h6 class="mb-2">Stephen Graham</h6></li>
+                    <li><p class="mb-2"><a href="mailto:stephen.graham@lethbridgecollege.ca">stephen.graham@lethbridgecollege.ca</a></p></li>
+                    <li><p><a href="tel:4033203202">(403) 320-3202 ext 5794</a></p></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <p>Program Assistant:</p>
+            </div>
+            <div class="col-md-8">
+                <ul style="list-style-type: none; margin-left: 0; padding-left: 0;">
+                    <li><h6 class="mb-2">Toni Gfrerer</h6></li>
+                    <li><p><a href="mailto:toni.gfrerer@lethbridgecollege.ca">toni.gfrerer@lethbridgecollege.ca</a></p></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <ol>
+                    <li>Please complete this form after the student has finished 100 hours of work</li>
+                    <li>Discuss the evaluation with the student and provide them a copy.</li>
+                    <li>Return the completed copy to the Faculty Advisor or Program Assistant.</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <p><b>Please use the following ratings in evaluating the practicum students.</b></p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <p>Excellent:</p>
+            </div>
+            <div class="col-md-10">
+                <p>Meets professional level standards</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <p>Good:</p>
+            </div>
+            <div class="col-md-10">
+                <p>Adequately fulfills expectations</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <p>Fair:</p>
+            </div>
+            <div class="col-md-10">
+                <p>
+                    Inconsistent, needs work to achieve acceptable standards.
+                    Please explain “fair” ratings in “comments” section.
+                </p>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">A.</th>
+                    <th scope="col">Professionalism</th>
+                    <th scope="col"><center>Rating</center></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td>The student is on time, organized and prepared to work.</td>
+                    <td>
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A1" value="Excellent" onclick="return false;">
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A1" value="Good" onclick="return false;">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A1" value="Fair" onclick="return false;">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="A1" value="N/A" onclick="return false;">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                       
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>The student's attire and grooming is appropriate.</td>
+                    <td>
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A2" value="Excellent" onclick="return false;">
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="A2" value="Good" onclick="return false;">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A2" value="Fair" onclick="return false;">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="A2" value="N/A" onclick="return false;">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>                          
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>The student is dependable.</td>
+                    <td>
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A3" value="Excellent" onclick="return false;">
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A3" value="Good" onclick="return false;">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A3" value="Fair" onclick="return false;">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="A3" value="N/A" onclick="return false;">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>The student understands and follows company policies and procedures.</td>
+                    <td>
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A4" value="Excellent" onclick="return false;">
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A4" value="Good" onclick="return false;">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A4" value="Fair" onclick="return false;">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A4" value="N/A" onclick="return false;">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>The student presents a professional image when dealing with co-workers or clients of the company.</td>
+                    <td>
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A5" value="Excellent" onclick="return false;">
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A5" value="Good" onclick="return false;">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="A5" value="Fair" onclick="return false;">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="A5" value="N/A" onclick="return false;">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                       
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                            <textarea class="form-control" rows="3" asp-for="AComments" placeholder="Enter comments for Section A" readonly></textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">B.</th>
+                    <th scope="col">Professionalism</th>
+                    <th scope="col"><center>Rating</center></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td>The student understands the company's chain of command and follows it.</td>
+                    <td>
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B1" value="Excellent" onclick="return false;">
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B1" value="Good" onclick="return false;">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B1" value="Fair" onclick="return false;">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B1" value="N/A" onclick="return false;">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>The student follows instructions and asks for clarification if needed.</td>
+                    <td>
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B2" value="Excellent" onclick="return false;">
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B2" value="Good" onclick="return false;">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B2" value="Fair" onclick="return false;">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B2" value="N/A" onclick="return false;">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                       
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>The student communicates effectively in both written and oral form.</td>
+                    <td>
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B3" value="Excellent" onclick="return false;">
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B3" value="Good" onclick="return false;">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B3" value="Fair" onclick="return false;">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B3" value="N/A" onclick="return false;">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                      
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>The student is able to contribute at meetings.</td>
+                    <td>
+
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B4" value="Excellent" onclick="return false;">
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B4" value="Good" onclick="return false;">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B4" value="Fair" onclick="return false;">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B4" value="N/A" onclick="return false;">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                      
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>The student exhibits tact and diplomacy prior to making comments.</td>
+                    <td>
+
+                            <div class="d-flex align-items-center">                                           
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B5" value="Excellent" onclick="return false;">
+                                <label class="form-check-label" for="excellent1">Excellent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B5" value="Good" onclick="return false;">
+                                <label class="form-check-label" for="good1">Good</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="B5" value="Fair" onclick="return false;">
+                                <label class="form-check-label" for="fair1">Fair</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B5" value="N/A" onclick="return false;">
+                                <label class="form-check-label" for="na1">N/A</label>
+                            </div>
+                        </div>
+                        
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>6.</td>
+                    <td>The student demonstrates effective learning skills at all levels of placement.</td>
+                    <td>
+
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B6" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B6" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B6" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B6" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                       
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>7.</td>
+                    <td>The student facilitates appropriate conflict resolution strategies.</td>
+                    <td>
+
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B7" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B7" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B7" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B7" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                       
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>8.</td>
+                    <td>The student is willing to accept constructive feedback.</td>
+                    <td>
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B8" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B8" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B8" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="B8" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                      
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <textarea class="form-control" rows="3" asp-for="BComments" placeholder="Enter comments for Section B" readonly></textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">C.</th>
+                    <th scope="col">Professionalism</th>
+                    <th scope="col"><center>Rating</center></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td>The student has the ability to problem solve and make appropriate decisions.</td>
+                    <td>
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C1" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C1" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C1" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C1" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                      
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>The student is creative, innovative and flexible when completing assigned duties.</td>
+                    <td>
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C2" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C2" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C2" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C2" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                       
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>The student takes responsibility and follows through with decisions once made.</td>
+                    <td>
+                      
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C3" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C3" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C3" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C3" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                       
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>The student works independently or as a team member as required.</td>
+                    <td>
+                     
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C4" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C4" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C4" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C4" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                       
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>The student has a high productivity level—is industrious, and completes quality work.</td>
+                    <td>
+                        {
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C5" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C5" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C5" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C5" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                       
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>6.</td>
+                    <td>The student is capable of managing pressure and stressful situations appropriately.</td>
+                    <td>
+                       
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C6" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C6" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C6" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C6" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                       
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>7.</td>
+                    <td>The student respects schedules and meets deadlines.</td>
+                    <td>
+                      
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C7" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C7" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C7" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C7" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                      
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>8.</td>
+                    <td>The student is able to change to meet the demands of a new environment or settings.</td>
+                    <td>
+
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C8" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C8" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C8" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C8" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                      
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>9.</td>
+                    <td>The student has the ability to anticipate needs and to plan ahead; possesses good organizational skills.</td>
+                    <td>
+
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C9" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C9" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C9" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C9" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                       
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>10.</td>
+                    <td>The student has a learning attitude.</td>
+                    <td>
+
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C10" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C10" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C10" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C10" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                     
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>11.</td>
+                    <td>The student is prepared to work with commonly encountered business software/hardware.</td>
+                    <td>
+
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C11" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C11" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C11" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C11" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                        
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>12.</td>
+                    <td>The student possesses a broad-based and comprehensive understanding of current information technologies.</td>
+                    <td>
+
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C12" value="Excellent" onclick="return false;">
+                                    <label class="form-check-label" for="excellent1">Excellent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C12" value="Good" onclick="return false;">
+                                    <label class="form-check-label" for="good1">Good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C12" value="Fair" onclick="return false;">
+                                    <label class="form-check-label" for="fair1">Fair</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="C12" value="N/A" onclick="return false;">
+                                    <label class="form-check-label" for="na1">N/A</label>
+                                </div>
+                            </div>
+                      
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <textarea class="form-control" rows="3" asp-for="CComments" placeholder="Enter comments for Section C" readonly></textarea>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                    <label class="form-label" asp-for="PracSVComments">Practicum supervisor's comments:</label>
+                    <textarea class="form-control" rows="3" asp-for="PracSVComments" placeholder="Comments" readonly></textarea>
+            </div>
+            <div class="col-md-8">
+                    <label asp-for="SVSign" class="form-label">Practicum Supervisor Signature:</label>
+                    <input asp-for="SVSign" type="text" class="form-control" readonly>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label" asp-for="StuComments">Student's comments:</label>
+                <textarea class="form-control" rows="3" asp-for="StuComments" placeholder="Comments" readonly></textarea>
+            </div>
+            <div class="col-md-8">
+                    <label asp-for="StuSign" class="form-label">Student Signature:</label>
+                    <input asp-for="StuSign" type="text" class="form-control" readonly>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label" asp-for="InsComments">Instructor's comments:</label>
+                <textarea class="form-control" rows="3" asp-for="InsComments" placeholder="Comments" readonly></textarea>
+            </div>
+            <div class="col-md-8">
+                    <label asp-for="InsSign" class="form-label">Instructor Signature:</label>
+                    <input asp-for="InsSign" type="text" class="form-control" readonly>
+                </div>
+        </div>
+</div>

@@ -247,5 +247,38 @@ namespace CITPracticum.Repository
             _context.Update(formStuInfo);
             return Save();
         }
+
+        // Form ExitInterview Functions
+        public bool Add(FormExitInterview formExitInterview)
+        {
+            _context.Add(formExitInterview);
+            return Save();
+        }
+        public bool Delete(FormExitInterview formExitInterview)
+        {
+            _context.Remove(formExitInterview);
+            return Save();
+        }
+
+        public async Task<FormExitInterview> FormExitInterviewGetByIdAsync(int id)
+        {
+            return await _context.FormExitInterviews.FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<FormExitInterview> FormExitInterviewGetIdAsyncNoTracking(int id)
+        {
+            return await _context.FormExitInterviews.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<FormExitInterview>> GetAllFormExitInterview()
+        {
+            return await _context.FormExitInterviews.ToListAsync();
+        }
+
+        public bool Update(FormExitInterview formExitInterview)
+        {
+            _context.Update(formExitInterview);
+            return Save();
+        }
     }
 }

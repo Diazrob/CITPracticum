@@ -8,7 +8,7 @@ namespace CITPracticum.Models
     public class FormA
     {
         [Key]
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public string StuLastName { get; set; }
         public string StuFirstName { get; set; }
         public string StuId { get; set; }

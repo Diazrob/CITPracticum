@@ -61,5 +61,12 @@ namespace CITPracticum.Interfaces
         bool Add(FormStuInfo formStuInfo);
         bool Update(FormStuInfo formStuInfo);
         bool Delete(FormStuInfo formStuInfo);
+        // Form ExitInterview Interfaces
+        Task<IEnumerable<FormExitInterview>> GetAllFormExitInterview();
+        Task<FormExitInterview> FormExitInterviewGetByIdAsync(int id);
+        Task<FormExitInterview> FormExitInterviewGetIdAsyncNoTracking(int id);
+        bool Add(FormExitInterview formExitInterview);
+        bool Update(FormExitInterview formExitInterview);
+        bool Delete(FormExitInterview formExitInterview);
     }
 }

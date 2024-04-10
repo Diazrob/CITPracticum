@@ -1,0 +1,106 @@
+﻿@using CITPracticum.Data.Enum;
+@using CITPracticum.ViewModels;
+@model FormStuInfo
+
+@{
+    ViewData["Title"] = "Practicum Forms";
+    ViewData["CurrentPage"] = "Practicum Forms > Form ID";
+}
+
+<a href="/PracticumForm/Index"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
+<div class="mx-auto" style="width: 65%;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">Student Information (Form ID)</h3>
+                <hr />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-md-6">
+                <label asp-for="StuLastName" class="form-label">Last name:</label>
+                <input asp-for="StuLastName" type="text" class="form-control" readonly>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="StuFirstName" class="form-label">First name:</label>
+                <input asp-for="StuFirstName" type="text" class="form-control" readonly>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label asp-for="StuId" class="form-label">Student ID:</label>
+                <input asp-for="StuId" type="text" class="form-control" readonly>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Program" class="form-label">Program:</label>
+                <input asp-for="Program" type="text" class="form-control" value="Computer Information Technology" readonly>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label asp-for="ProgStartDate" class="form-label">In what year and semester did you start in the program? (Example, 18FL):</label>
+            <input asp-for="ProgStartDate" type="text" class="form-control" readonly>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="PracStartDate" class="form-label">Year and term in which you are/will be registered for CIT 2271 Practicum (Example, 19WN):</label>
+            <input asp-for="PracStartDate" type="text" class="form-control" readonly>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label asp-for="CollegeEmail" class="form-label">College e-mail address (will be used to share info):</label>
+            <input asp-for="CollegeEmail" type="text" class="form-control" readonly />
+            </div>
+            <div class="col-md-6">
+                <label asp-for="PhoneNumber" class="form-label">Phone number best able to reach you through:</label>
+                <input asp-for="PhoneNumber" type="text" class="form-control" readonly/>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label asp-for="AltPhoneNumber" class="form-label">Alternate phone number to reach you through:</label>
+            <input asp-for="AltPhoneNumber" type="text" class="form-control" readonly/>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label asp-for="Address.Street" class="form-label">Street:</label>
+            <input asp-for="Address.Street" type="text" class="form-control" readonly/>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Address.City" class="form-label">City:</label>
+                <input asp-for="Address.City" type="text" class="form-control" readonly/>
+            </div>
+            <div class="col-md-4">
+
+                <label asp-for="Address.Prov" class="form-label">Prov:</label>
+                <input asp-for="Address.Prov" type="text" class="form-control" readonly/>
+
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Address.Country" class="form-label">Country:</label>
+            <input asp-for="Address.Country" type="text" class="form-control" readonly/>
+            </div>
+            <div class="col-md-4">
+
+                <label asp-for="Address.PostalCode" class="form-label">Postal Code:</label>
+            <input asp-for="Address.PostalCode" type="text" class="form-control" readonly/>
+
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-2">
+                <p><b>Please note:</b></p>
+            </div>
+            <div class="col-md-10">
+                <p>
+                    You need to be registered in CIT 2271 for your practicum experience to be recognized by
+                    the college. This course is offered beginning in January during the second year of your
+                    program – your last semester. You can begin your practicum in January and work parttime
+                    around your other classes with the goal of completing it by mid-June.
+                </p>
+            </div>
+        </div>
+
+</div>
