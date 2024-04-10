@@ -227,6 +227,7 @@ namespace CITPracticum.Data.Migrations
                     AddressId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "date", nullable: false),
                     PaymentCategory = table.Column<int>(type: "int", nullable: false),
+                    OutOfCountry = table.Column<int>(type: "int", nullable: false),
                     Submitted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

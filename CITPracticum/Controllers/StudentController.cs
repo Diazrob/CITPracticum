@@ -15,13 +15,15 @@ namespace CITPracticum.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ApplicationDbContext _context;
         private readonly IStudentRepository _studentRepository;
+        private readonly IPlacementRepository _placementRepository;
 
-        public StudentController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context, IStudentRepository studentRepository)
+        public StudentController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context, IStudentRepository studentRepository, IPlacementRepository placementRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _studentRepository = studentRepository;
+            _placementRepository = placementRepository;
         }
 
         // displays all the students on index page
@@ -81,6 +83,13 @@ namespace CITPracticum.Controllers
                 }
             };
             var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+
+            var placement = new Placement()
+            {
+                StudentId = newUser.Student.Id,
+            };
+
+            _placementRepository.Add(placement);
 
             if (newUserResponse.Succeeded)
                 await _userManager.AddToRoleAsync(newUser, UserRoles.Student);

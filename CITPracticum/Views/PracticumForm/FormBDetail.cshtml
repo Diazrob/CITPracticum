@@ -1,0 +1,193 @@
+﻿@using CITPracticum.Data.Enum;
+@using CITPracticum.ViewModels;
+@model FormB
+
+@{
+    ViewData["Title"] = "Practicum Forms";
+    ViewData["CurrentPage"] = "Practicum Forms > Form B";
+}
+
+<a href="/PracticumForm/Index"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
+<div class="mx-auto" style="width: 65%;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">Practicum Agreement between Host and Student (Form B)</h3>
+                <hr />
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label asp-for="PracHost" class="form-label">Practicum Host:</label>
+                    <input asp-for="PracHost" name="pracHost" class="form-control" readonly />
+                    <span asp-validation-for="PracHost" class="text-danger"></span>
+            </div>
+            <div class="col-md-9" style="margin-top: 2.5rem !important;">
+                agrees to provide a meaningful work experience for
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label asp-for="StuName" class="form-label">Student's Name:</label>
+                    <input asp-for="StuName" name="studName"class="form-control" readonly />
+                    <span asp-validation-for="StuName" class="text-danger"></span>
+            </div>
+            <div class="col-md-1" style="margin-top: 2.5rem !important;">
+                from
+            </div>
+            <div class="col-md-3">
+                <label asp-for="StartDate" class="form-label">Start Date:</label>
+                <input asp-for="StartDate" id="startDateInput" type="date" class="form-control" readonly>
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="col-md-1" style="margin-top: 2.5rem !important;">
+                to
+            </div>
+            <div class="col-md-3">
+                <label asp-for="EndDate" class="form-label">End Date:</label>
+                <input asp-for="EndDate" id="endDateInput" type="date" class="form-control" readonly>
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                based on the student’s skills gained in the Lethbridge College <b>Computer Information Technology</b>
+                program. The Practicum Host is responsible for the student’s final evaluation, using the Student
+                Evaluation form included in this package and in the host information package.
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                The student shall:
+                <ul>
+                    <li>
+                        Maintain a professional attitude and a high level of participation.
+                    </li>
+                    <li>
+                        Treat this practicum as a job and should adhere to all company employee policies.
+                    </li>
+                    <li>
+                        Track hours worked and report them to the Program Assistant through <b>Form D</b>.
+                    </li>
+                    <li>
+                        Maintain contact with the lead instructor during their practicum.
+                    </li>
+                    <li>
+                        Respect schedules and meet deadlines.
+                    </li>
+                    <li>
+                        Conduct themselves appropriately.
+                    </li>
+                    <li>
+                        Acknowledges that the Host and/or College has the right to terminate an unsatisfactory placement.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label asp-for="OrgName" class="form-label">Organization Name:</label>
+                    <input asp-for="OrgName" class="form-control" readonly />
+                    <span asp-validation-for="OrgName" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="PracSV" class="form-label">Practicum Supervisor:</label>
+                    <input asp-for="PracSV" class="form-control" readonly />
+                    <span asp-validation-for="PracSV" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label asp-for="Address.Street" class="form-label">Street:</label>
+                    <input asp-for="Address.Street" type="text" class="form-control" readonly>
+                <span asp-validation-for="Address.Street" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Address.City" class="form-label">City:</label>
+                    <input asp-for="Address.City" type="text" class="form-control" readonly>
+                <span asp-validation-for="Address.City" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Address.Prov" class="form-label">Province:</label>
+                    <input asp-for="Address.Prov" type="text" class="form-control" readonly>
+                <span asp-validation-for="Address.Prov" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Address.Country" class="form-label">Country:</label>
+                    <input asp-for="Address.Country" type="text" class="form-control" readonly>
+                <span asp-validation-for="Address.Country" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Address.PostalCode" class="form-label">Postal Code:</label>
+                    <input asp-for="Address.PostalCode" type="text" class="form-control" readonly>
+                <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label asp-for="Position" class="form-label">Position:</label>
+                    <input asp-for="Position" type="text" class="form-control" readonly>
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Email" class="form-label">Email Address:</label>
+                    <input asp-for="Email" type="text" class="form-control" readonly>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Phone" class="form-label">Phone Number:</label>
+                    <input asp-for="Phone" type="text" class="form-control" readonly>
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                Please enter your first and last name below:
+            </div>
+        </div>
+        <div class="row mb-3 mt-2">
+            <div class="col-md-6">
+                <label asp-for="StuName" class="form-label">Student Name:</label>
+                    <input asp-for="StuName" type="text" class="form-control" readonly>
+                <span asp-validation-for="StuName" class="text-danger"></span>
+            </div>
+
+        </div>
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <label asp-for="StuSign" class="form-label">Name:</label>
+                    <input asp-for="StuSign" type="text" class="form-control" readonly>
+                    <span asp-validation-for="StuSign" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="StuSignDate" class="form-label">Date:</label>
+                <input asp-for="StuSignDate" type="date" class="form-control" readonly>
+                    <span asp-validation-for="StuSignDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <label asp-for="EmpSign" class="form-label">Name:</label>
+                    <input asp-for="EmpSign" type="text" class="form-control" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="EmpSignDate" class="form-label">Date:</label>
+                    <input asp-for="EmpSignDate" type="date" class="form-control" readonly>
+                </div>
+            </div>
+        
+
+        <!-- Content for Form B -->
+</div>
+@section scripts {
+    <script>
+        // Get today's date in the client's local time
+        var today = new Date().toLocaleDateString('en-CA');
+
+        // Set the min attribute of the input field to today's date
+        document.getElementById('startDateInput').min = today;
+        document.getElementById('endDateInput').min = today;
+        document.getElementById('stuDateInput').min = today;
+        document.getElementById('empDateInput').min = today;
+    </script>
+}

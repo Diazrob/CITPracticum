@@ -1,0 +1,219 @@
+﻿@using CITPracticum.Data.Enum;
+@using CITPracticum.ViewModels;
+@model FormFOIP
+
+@{
+    ViewData["Title"] = "Practicum Forms";
+    ViewData["CurrentPage"] = "Practicum Forms > Form FOIP";
+}
+
+<style>
+    /* Custom styles for the navigation tabs */
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background-color: #ffffff; /* Active tab background color */
+        color: #3431f4; /* Active tab text color */
+        border-color: #dee2e6 #dee2e6 #fff; /* Borders around the active tab */
+        border-radius: 0.25rem; /* Rounded corners on the top */
+    }
+
+    .nav-link {
+        color: #007bff; /* Non-active tab text color */
+        margin-right: 2px; /* Spacing between tabs */
+        border: 1px solid transparent; /* Transparent border for non-active tabs */
+        border-radius: 0.25rem; /* Rounded corners on the top */
+    }
+
+    .nav-tabs {
+        border-bottom: 1px solid #dee2e6; /* Bottom border for the whole nav */
+    }
+
+    .modal-header, .modal-footer {
+        border-bottom: 1px solid #dee2e6;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .modal-logo {
+        height: 50px; /* You can adjust the size as needed */
+    }
+
+    .modal-body {
+        background-color: #f7f7f7;
+        padding: 2rem;
+    }
+
+    .modal-footer {
+        padding: 1rem 2rem;
+        background-color: #f7f7f7;
+    }
+
+    .submit-btn {
+        background-color: #3431f4;
+        border-color: #3431f4;
+    }
+
+</style>
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="modal-header justify-content-center" style="background: linear-gradient(to right, #FFFFFF, #FFFFFF, #69a620);">
+        <img src="~/images/lc.png" alt="Logo" class="float-start" style="height: 50px;">
+        <h5 class="modal-title text-center w-100" id="formFOIPModalLabel">
+            Consent for Collecting & Sharing Student
+            Information and acknowledgement of procedures (Form FOIP)
+        </h5>
+    </div>
+    <div class="modal-body d-flex justify-content-center">
+        <div class="mx-auto" style="width: 50%;">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>
+                        The personal information requested on this form is collected and protected under the authority of the Post-secondary
+                        Learning Act of Alberta and the Alberta Freedom of Information and Protection of Privacy (FOIP) Act, for the purpose
+                        of managing the authorization for collection, use and disclosure of personal information process. Questions can be
+                        directed to the Program Assistant, Centre for Applied Management, Lethbridge College, 3000 College Drive S.,
+                        Lethbridge, AB T1K 1L6, (403) 320-3213.
+                    </p>
+                </div>
+            </div>
+                <div class="row mb-1">
+                    <div class="col-md-6">
+                        <label asp-for="StuFirstName" class="form-label">First name:</label>
+                        <input asp-for="StuFirstName" type="text" class="form-control" readonly>
+                        <span asp-validation-for="StuFirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="StuLastName" class="form-label">Last name:</label>
+                        <input asp-for="StuLastName" type="text" class="form-control" readonly>
+                        <span asp-validation-for="StuLastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="StuId" class="form-label">Student ID Number:</label>
+                        <input asp-for="StuId" type="text" class="form-control" readonly>
+                        <span asp-validation-for="StuId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Program" class="form-label">Program name:</label>
+                        <input asp-for="Program" type="text" class="form-control" value="Computer Information Technology" readonly>
+                        <span asp-validation-for="Program" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-4">
+                        <p><b>I authorize:</b></p>
+                    </div>
+                    <div class="col-md-8">
+                        <p>My program’s administration, faculty, and/or support staff</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <p><b>to collect and disclose the following personal information about me</b></p>
+                    </div>
+                    <div class="col-md-8">
+                        <ul class="m" style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                            <li>Attendance and participation</li>
+                            <li>Work and education history</li>
+                            <li>Future goals</li>
+                            <li>Learning needs</li>
+                            <li>Practicum placement requirements</li>
+                            <li>Any other relevant information</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-4">
+                        <p><b>with or from any or all of the following:</b></p>
+                    </div>
+                    <div class="col-md-8">
+                        <ol>
+                            <li>
+                                Lethbridge College Centre for Technology, Environment & Design administration, faculty, support staff
+                            </li>
+                            <li>
+                                Practicum site (hosting organization) supervisor, administration, and/or support staff
+                            </li>
+                            <li>
+                                <label asp-for="Other" class="form-label" style="font-weight: normal;">Other (Please specify):</label>
+                                <input asp-for="Other" type="text" class="form-control" readonly>
+                                <span asp-validation-for="Other" class="text-danger"></span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-4">
+                        <p><b>For the purpose of:</b></p>
+                    </div>
+                    <div class="col-md-8">
+                        <p>Helping me further my education and/or practicum experience.</p>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-4">
+                        <p><b>Date range/expiry date for which permission is authorized</b></p>
+                    </div>
+                    <div class="col-md-8">
+                        <p>Up to six months after the duration of my program registration at Lethbridge College, or two years from the date of signing, whichever is longer.</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <p><b>By submitting this form, I:</b></p>
+                    </div>
+                    <div class="col-md-8">
+                        <ul>
+                            <li>Authorize the collection and sharing of my personal information as outlined above.</li>
+                            <li>
+                                Understand that my doing so will greatly facilitate my learning opportunities. I also understand that by not
+                                signing this form I greatly limit my ability to participate and therefore my ability to complete the program. (If
+                                you choose not to sign this form, you are encouraged to discuss your concerns with your assigned
+                                practicum instructor or the Program Assistant).
+                            </li>
+                            <li>
+                                Understand that failure to meet practicum placement requirements (e.g. health requirements, criminal record
+                                check, driver’s abstract, etc.) may result in practicum placements not being facilitated.
+                            </li>
+                            <li>
+                                Acknowledge my receipt and understanding of the terms and conditions of my program as outlined in my
+                                course syllabuses, Lethbridge College calendar, and program’s practicum student information package.
+                            </li>
+                            <li>Practicum placement requirements</li>
+                            <li>Any other relevant information</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <label asp-for="StuSign" class="form-label">Name:</label>
+                        <input asp-for="StuSign" type="text" class="form-control" readonly>
+                        <span asp-validation-for="StuSign" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="StuSignDate" class="form-label">Date:</label>
+                        <input asp-for="StuSignDate" id="signDateInput" type="date" class="form-control" readonly>
+                        <span asp-validation-for="StuSignDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12 text-center">
+                        <input class="form-check-input" type="checkbox" asp-for="Acknowledged" required readonly/><span class="mx-2">This consent is obtained in accordance with the Alberta Freedom of Information and Protection of Privacy (FOIP) Act.</span>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        // Get today's date in the client's local time
+        var today = new Date().toLocaleDateString('en-CA');
+
+        // Set the min attribute of the input field to today's date
+        document.getElementById('signDateInput').min = today;
+    </script>
+}

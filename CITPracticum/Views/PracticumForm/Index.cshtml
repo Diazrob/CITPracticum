@@ -1,6 +1,6 @@
 ﻿@using CITPracticum.Data.Enum;
 @using CITPracticum.ViewModels;
-@model Placement
+@model IEnumerable<Placement>
 
 @{
     ViewData["Title"] = "Practicum Forms";
@@ -109,28 +109,64 @@
             </div>
         </a>
     }
-    <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
-        <div class="card mt-3 zoom" style="cursor: pointer;">
-            <div class="card-body">
-                Form B - Practicum Agreement
-            </div>
-        </div>
-    </a>
-    <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
-        <div class="card mt-3 zoom" style="cursor: pointer;">
-            <div class="card-body">
-                Form C - Practicum Evaluation (100 hours)
-            </div>
-        </div>
-    </a>
+    
+    @if (User.IsInRole("employer"))
+    {
+        @foreach (var item in Model)
+        {
+            @if (User.Identity.Name == item.Employer.FirstName)
+            {
+                <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+                    <div class="card mt-3 zoom" style="cursor: pointer;">
+                        <div class="card-body">
+                            Form B - Practicum Agreement - @item.Student.FirstName @item.Student.LastName
+                        </div>
+                    </div>
+                </a>
+                <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+                    <div class="card mt-3 zoom" style="cursor: pointer;">
+                        <div class="card-body">
+                            Form C - Practicum Evaluation (100 hours) - @item.Student.FirstName @item.Student.LastName
+                        </div>
+                    </div>
+                </a>
 
-    <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
-        <div class="card zoom mt-3" style="cursor: pointer;">
-            <div class="card-body">
-                Form D - Practicum Evaluation (200 hours)
+                <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
+                    <div class="card zoom mt-3" style="cursor: pointer;">
+                        <div class="card-body">
+                            Form D - Practicum Evaluation (200 hours) - @item.Student.FirstName @item.Student.LastName
+                        </div>
+                    </div>
+                </a>
+            }
+
+        }
+    }
+    else
+    {
+        <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+            <div class="card mt-3 zoom" style="cursor: pointer;">
+                <div class="card-body">
+                    Form B - Practicum Agreement
+                </div>
             </div>
-        </div>
-    </a>
+        </a>
+        <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+            <div class="card mt-3 zoom" style="cursor: pointer;">
+                <div class="card-body">
+                    Form C - Practicum Evaluation (100 hours)
+                </div>
+            </div>
+        </a>
+
+        <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
+            <div class="card zoom mt-3" style="cursor: pointer;">
+                <div class="card-body">
+                    Form D - Practicum Evaluation (200 hours)
+                </div>
+            </div>
+        </a>
+    }
 
     @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.
     {

@@ -32,5 +32,9 @@ namespace CITPracticum.Models
         public int? FormStuInfoId { get; set; }
         public FormStuInfo? FormStuInfo { get; set; }
 
+        [ForeignKey("FormExitInterview")]
+        public int? FormExitInterviewId { get; set; }
+        public FormExitInterview? FormExitInterview { get; set; }
+
     }
 }
