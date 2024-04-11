@@ -29,30 +29,33 @@
             <input asp-for="@Model.Hours" class="form-control" type="text" value="@Model.Hours" />
             <span asp-validation-for="Hours" class="text-danger"></span>
         </div>
-        <div class="col-md-6 mt-2">
-            <label asp-for="@Model.ApprovalCategory" class="form-label">Status:</label>
-            <select asp-for="@Model.ApprovalCategory" class="form-control">
-                @foreach (var category in Enum.GetValues(typeof(ApprovalCategory)))
-                {
-                    if (Model.ApprovalCategory == (ApprovalCategory)category)
+        @if(!User.IsInRole("student")) {
+            <div class="col-md-6 mt-2">
+                <label asp-for="@Model.ApprovalCategory" class="form-label">Status:</label>
+                <select asp-for="@Model.ApprovalCategory" class="form-control">
+                    @foreach (var category in Enum.GetValues(typeof(ApprovalCategory)))
                     {
-                        <option value="@category" selected>
-                            @((ApprovalCategory)category == ApprovalCategory.Yes ? "Approved" :
-                                (ApprovalCategory)category == ApprovalCategory.No ? "Denied" :
-                                (ApprovalCategory)category == ApprovalCategory.InProgress ? "In Progress" : "")
-                        </option>
-                    } else
-                    {
-                        <option value="@category">
-                            @((ApprovalCategory)category == ApprovalCategory.Yes ? "Approved" :
-                                (ApprovalCategory)category == ApprovalCategory.No ? "Denied" :
-                                (ApprovalCategory)category == ApprovalCategory.InProgress ? "In Progress" : "")
-                        </option>
+                        if (Model.ApprovalCategory == (ApprovalCategory)category)
+                        {
+                            <option value="@category" selected>
+                                @((ApprovalCategory)category == ApprovalCategory.Yes ? "Approved" :
+                                    (ApprovalCategory)category == ApprovalCategory.No ? "Denied" :
+                                    (ApprovalCategory)category == ApprovalCategory.InProgress ? "In Progress" : "")
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@category">
+                                @((ApprovalCategory)category == ApprovalCategory.Yes ? "Approved" :
+                                    (ApprovalCategory)category == ApprovalCategory.No ? "Denied" :
+                                    (ApprovalCategory)category == ApprovalCategory.InProgress ? "In Progress" : "")
+                            </option>
+                        }
                     }
-                }
-            </select>
-            <span asp-validation-for="ApprovalCategory" class="text-danger"></span>
-        </div>
+                </select>
+                <span asp-validation-for="ApprovalCategory" class="text-danger"></span>
+            </div>
+        }
         <div class="col-md-6 mt-2">
             <button class="btn btn-outline-success" asp-controller="Timesheet" asp-action="EditTE">Edit Entry</button>
             <button onclick="window.history.back();" class="btn btn-outline-secondary">Cancel</button>

@@ -19,20 +19,60 @@ namespace CITPracticum.Controllers
         private readonly IStudentRepository _studentRepository;
         private readonly ITimesheetRepository _timesheetRepository;
         private readonly ITimeEntryRepository _timeEntryRepository;
+        private readonly IEmployerRepository _employerRepository;
 
-        public TimesheetController(IPlacementRepository placementRepository, UserManager<AppUser> userManager, IStudentRepository studentRepository, ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository)
+        public TimesheetController(IPlacementRepository placementRepository, UserManager<AppUser> userManager, IStudentRepository studentRepository, ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository, IEmployerRepository employerRepository)
         {
             _placementRepository = placementRepository;
             _userManager = userManager;
             _studentRepository = studentRepository;
             _timesheetRepository = timesheetRepository;
             _timeEntryRepository = timeEntryRepository;
+            _employerRepository = employerRepository;
         }
         public async Task<IActionResult> Index()
         {
             ViewData["ActivePage"] = "Timesheets";
 
             var placements = await _placementRepository.GetAll();
+
+            if (User.IsInRole("employer"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                var emp = await _employerRepository.GetByIdAsync((Int32)usr.EmployerId);
+                var empPlacements = new List<Placement>();
+
+                foreach (var placement in placements)
+                {   
+                    if (emp.Id != placement.EmployerId)
+                    {
+                        //The employer does not have this student attached to their placement
+                        continue;
+                    } else
+                    {
+                        empPlacements.Add(placement);
+                    }
+
+                    var student = await _studentRepository.GetByIdAsync((Int32)placement.StudentId);
+                    placement.Student = student;
+                    if (placement.TimesheetId == null || placement.TimesheetId == 0)
+                    {
+                        continue;
+                    }
+                    if (placement.StudentId == null || placement.StudentId == 0)
+                    {
+                        // No student attached to placement
+                        // Return error
+                    }
+
+                    var timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
+                    await _timeEntryRepository.GetAll();
+
+                    placement.Timesheet = timesheet;
+                }
+
+                return View(empPlacements);
+            }
 
             foreach (var placement in placements)
             {
@@ -60,7 +100,7 @@ namespace CITPracticum.Controllers
         {
             ViewData["ActivePage"] = "Timesheets";
 
-            if (User.IsInRole("admin"))
+            if (!User.IsInRole("student"))
             {
                 var placement = await _placementRepository.GetByIdAsync((Int32)id);
                 var student = await _studentRepository.GetByIdAsync((Int32)placement.StudentId);
@@ -96,7 +136,7 @@ namespace CITPracticum.Controllers
                 {
                     timesheet = await _timesheetRepository.GetByIdAsync((Int32)assignedPlacement.TimesheetId);
                 }
-                
+
                 var timeEntries = await _timeEntryRepository.GetAll();
 
                 if (timesheet.TimeEntries == null)
@@ -129,7 +169,7 @@ namespace CITPracticum.Controllers
             foreach (var entry in ts.TimeEntries)
             {
                 // Check if the entry date is less than or equal to the current entry's date
-                if (entry.ShiftDate <= currentEntry.ShiftDate)
+                if (entry.ShiftDate <= currentEntry.ShiftDate && entry.ApprovalCategory == Data.Enum.ApprovalCategory.Yes)
                 {
                     totalCountToDate += entry.Hours;
                 }
@@ -142,8 +182,17 @@ namespace CITPracticum.Controllers
         {
             if (id != null)
             {
+                var usr = await _userManager.GetUserAsync(User);
                 CreateTimeEntryViewModel vm = new CreateTimeEntryViewModel();
                 var placement = await _placementRepository.GetByIdAsync((Int32)id);
+                if (User.IsInRole("student"))
+                {
+                    if (usr.StudentId != placement.StudentId)
+                    {
+                        //This prevents students from adding time entries to other students timesheets.
+                        return NotFound();
+                    }
+                }
                 placement.Student = await _studentRepository.GetByIdAsync((Int32)placement.StudentId);
 
                 if (placement.TimesheetId == null)
@@ -162,9 +211,11 @@ namespace CITPracticum.Controllers
                 }
 
                 await _timeEntryRepository.GetAll();
+
                 vm.Placement = placement;
                 return View(vm);
-            } else
+            }
+            else
             {
                 return View();
             }
@@ -192,6 +243,22 @@ namespace CITPracticum.Controllers
             foreach (var entryId in timeEntryIds)
             {
                 var entry = await _timeEntryRepository.GetByIdAsync(entryId);
+                var timesheet = await _timesheetRepository.GetByIdAsync(entry.TimesheetId);
+                await _timeEntryRepository.GetAll();
+
+                var placements = await _placementRepository.GetAll();
+                var assignedPlacement = new Placement();
+                var usr = await _userManager.GetUserAsync(User);
+
+                foreach (var placement in placements)
+                {
+                    if (placement.StudentId == usr.StudentId)
+                    {
+                        assignedPlacement = placement;
+                        break;
+                    }
+                }
+
                 if (actionType == "approve")
                 {
                     entry.ApprovalCategory = Data.Enum.ApprovalCategory.Yes;
@@ -200,6 +267,14 @@ namespace CITPracticum.Controllers
                 {
                     entry.ApprovalCategory = Data.Enum.ApprovalCategory.No;
                 }
+
+                foreach (var item in timesheet.TimeEntries)
+                {
+                    item.HoursToDate = TotalHoursToEntryDate(timesheet, item);
+                    _timeEntryRepository.Update(entry);
+                    _timeEntryRepository.Save();
+                }
+
                 _timeEntryRepository.Update(entry);
                 _timeEntryRepository.Save();
             }
@@ -210,11 +285,34 @@ namespace CITPracticum.Controllers
         [HttpGet("Timesheet/ViewTimesheet/{id}")]
         private async Task<IActionResult> DeleteEntries(int id, List<int> timeEntryIds)
         {
+            var usr = await _userManager.GetUserAsync(User);
+            var placement = await _placementRepository.GetByIdAsync(id);
+            var timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
+            await _timeEntryRepository.GetAll();
+            if (User.IsInRole("student"))
+            {
+                if (usr.StudentId != placement.StudentId)
+                {
+                    //Prevent students from deleting other students entries
+                    return NotFound();
+                }
+            }
             foreach (var entryId in timeEntryIds)
             {
                 var entry = await _timeEntryRepository.GetByIdAsync(entryId);
                 _timeEntryRepository.Delete(entry);
                 _timeEntryRepository.Save();
+            }
+
+            if (User.IsInRole("admin"))
+            {
+                //Update all of the 
+                foreach (var entry in timesheet.TimeEntries)
+                {
+                    entry.HoursToDate = TotalHoursToEntryDate(timesheet, entry);
+                    _timeEntryRepository.Update(entry);
+                    _timeEntryRepository.Save();
+                }
             }
 
             return RedirectToAction("ViewTimesheet", new { id = id });
@@ -225,7 +323,7 @@ namespace CITPracticum.Controllers
         {
             ViewData["ActivePage"] = "Timesheets";
 
-            if (User.IsInRole("admin"))
+            if (User.IsInRole("admin") || User.IsInRole("employer"))
             {
                 var placement = await _placementRepository.GetByIdAsync((Int32)id);
                 if (placement != null)
@@ -306,16 +404,6 @@ namespace CITPracticum.Controllers
                 _timesheetRepository.Update(assignedPlacement.Timesheet);
                 _timesheetRepository.Save();
 
-                var timesheet = await _timesheetRepository.GetByIdAsync((Int32)assignedPlacement.TimesheetId);
-                await _timeEntryRepository.GetAll();
-
-                foreach (var entry in timesheet.TimeEntries)
-                {
-                    entry.HoursToDate = TotalHoursToEntryDate(assignedPlacement.Timesheet, entry);
-                    _timeEntryRepository.Update(entry);
-                    _timeEntryRepository.Save();
-                }
-
                 return RedirectToAction("ViewTimesheet", "Timesheet");
             }
             else
@@ -327,6 +415,20 @@ namespace CITPracticum.Controllers
         public async Task<IActionResult> EditTimeEntry(int entryId)
         {
             var timeEntry = await _timeEntryRepository.GetByIdAsync(entryId);
+
+            if (User.IsInRole("student"))
+            {
+                //Ensures that students can only edit their own entries.
+                var usr = await _userManager.GetUserAsync(User);
+                var placement = await _placementRepository.GetByIdAsync((Int32)usr.StudentId);
+                var timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
+                await _timeEntryRepository.GetAll();
+                var entry = await _timeEntryRepository.GetByIdAsync(entryId);
+                if (!timesheet.TimeEntries.Contains(entry))
+                {
+                    return NotFound();
+                }
+            }
 
             return View(timeEntry);
         }

@@ -196,7 +196,7 @@ namespace CITPracticum.Controllers
                     EmpEmail = employerVM.EmpEmail
                 };
                 _employerRepository.Update(employer);
-                _userManager.UpdateAsync(user);
+                await _userManager.UpdateAsync(user);
 
                 return RedirectToAction("Index");
             }

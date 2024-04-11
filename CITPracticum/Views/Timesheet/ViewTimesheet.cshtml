@@ -70,7 +70,7 @@
 <!-- Tab navigation with button -->
 <form method="post" asp-controller="Timesheet" asp-action="ProcessEntries">
     <ul class="nav nav-tabs mb-3 d-flex justify-content-end w-100" role="tablist">
-        @if (!User.IsInRole("student"))
+        @if (User.IsInRole("admin") || User.IsInRole("employer"))
         {
             <li class="nav-item">
                 <a class="nav-link" href="/Timesheet/Index">Timesheets</a>
@@ -83,15 +83,20 @@
         <li class="nav-item" role="presentation">
             @if (Model != null)
             {
-                <button class="btn btn-primary step7 studstep4" asp-controller="Timesheet" asp-action="CreateTimeEntry" asp-route-id="@Model.Id"><i class="fa-solid fa-plus me-1"></i>Add Time Entry</button>
-                @if (!User.IsInRole("student"))
+                if (User.IsInRole("admin"))
                 {
-                    <div class="btn-group step5" role="group" aria-label="Basic example">
-
+                    <button class="btn btn-primary step7 studstep6" asp-controller="Timesheet" asp-action="CreateTimeEntry" asp-route-id="@Model.Id"><i class="fa-solid fa-plus me-1"></i>Add Time Entry</button>
+                }
+                <div class="btn-group step5" role="group" aria-label="Basic example">
+                    @if (User.IsInRole("admin") || User.IsInRole("employer"))
+                    {
                         <button type="button" class="btn btn-success" style="width: 120px;" data-bs-toggle="modal" data-bs-target="#approveModal"><i class="fa-regular fa-circle-check me-1"></i>Approve</button>
                         <button type="button" class="btn btn-danger" style="width: 120px;" data-bs-toggle="modal" data-bs-target="#denyModal"><i class="fa-regular fa-circle-xmark me-1"></i>Deny</button>
-                    </div>
-                    <button type="button" class="btn btn-danger ms-auto step6" style="width: 100px;" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-regular fa-trash-can me-1"></i>Delete</button>
+                    }
+                </div>
+                if (User.IsInRole("admin"))
+                {
+                    <button type="button" class="btn btn-danger ms-auto step6 studstep7" style="width: 100px;" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-regular fa-trash-can me-1"></i>Delete</button>
                 }
             }
         </li>
@@ -115,18 +120,18 @@
                         <th class="name-column">Date Worked</th>
                         <th class="view-column"># of Hours</th>
                         <th class="view-column">Description</th>
-                        <th class="view-column">Total Hours to Date</th>
+                        <th class="view-column">Total Approved Hours to Date</th>
                         <th class="view-column">Status</th>
-                        @if (!User.IsInRole("student"))
+                        @if (User.IsInRole("student") || User.IsInRole("admin"))
                         {
                             <th>Action</th>
-                            <th class="checkbox-column">
-                                <div class="select-all-container step8">
-                                    <label for="select-all" class="select-all-label">Select All</label>
-                                    <input type="checkbox" id="select-all" class="form-check-input">
-                                </div>
-                            </th>
                         }
+                        <th class="checkbox-column">
+                            <div class="select-all-container step8">
+                                <label for="select-all" class="select-all-label">Select All</label>
+                                <input type="checkbox" id="select-all" class="form-check-input">
+                            </div>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -137,14 +142,25 @@
                             <tr class="step2">
                                 <td>@entry.ShiftDate.ToString("yyyy-MM-dd")</td>
                                 <td>
-                                    @entry.Hours.ToString("0.0")
+                                    @entry.Hours.ToString("0.00")
                                 </td>
                                 <td>
                                     @entry.Description
                                 </td>
-                                <td>
-                                    @entry.HoursToDate
-                                </td>
+
+                                @if (entry.ApprovalCategory == CITPracticum.Data.Enum.ApprovalCategory.Yes)
+                                {
+                                    <td>
+                                        @entry.HoursToDate
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        N/A
+                                    </td>
+                                }
+
 
                                 @switch (entry.ApprovalCategory)
                                 {
@@ -159,12 +175,24 @@
                                         break;
                                 }
 
-                                @if (!User.IsInRole("student"))
+                                @if (!User.IsInRole("employer"))
                                 {
-                                    <td class="adminstep3">
-                                        <button class="btn btn-link" asp-controller="Timesheet" asp-action="EditTimeEntry" asp-route-entryId="@entry.Id">Edit</button>
-                                    </td>
-                                    <td class="text-end step4"><input type="checkbox" name="timeEntryIds" value="@entry.Id" class="form-check-input"></td>
+                                    @if (!User.IsInRole("student") || entry.ApprovalCategory == CITPracticum.Data.Enum.ApprovalCategory.InProgress)
+                                    {
+                                        <td class="adminstep3 studstep4">
+                                            <button class="btn btn-outline-primary" asp-controller="Timesheet" asp-action="EditTimeEntry" asp-route-entryId="@entry.Id">Edit</button>
+                                        </td>
+                                        <td class="text-end step4 studstep5"><input type="checkbox" name="timeEntryIds" value="@entry.Id" class="form-check-input"></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="studstep4">N/A</td>
+                                        <td class="text-end studstep5">N/A</td>
+                                    }
+                                }
+                                else
+                                {
+                                    <td class="text-end step4 studstep5"><input type="checkbox" name="timeEntryIds" value="@entry.Id" class="form-check-input"></td>
                                 }
                             </tr>
                         }
@@ -418,7 +446,7 @@
 else if (User.IsInRole("student") && Model.TimesheetId != null)
 {
     <script>
-        const tour = new Shepherd.Tour({
+                const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',
@@ -452,7 +480,7 @@ else if (User.IsInRole("student") && Model.TimesheetId != null)
 
         tour.addStep({
             id: 'example-step',
-            text: 'Each row shows your: date worked, number of hours, description, total hours to date, and the approval status.',
+            text: 'Each row shows your: date worked, number of hours, description, total hours to date, and the approval status, actions, and a select button.',
             attachTo: {
                 element: '.step2',
                 on: 'bottom'
@@ -492,7 +520,7 @@ else if (User.IsInRole("student") && Model.TimesheetId != null)
 
         tour.addStep({
             id: 'example-step',
-            text: 'Finally, this is the add time entry button, this will direct you to a new page to add an entry to your timesheet.',
+            text: 'This is the action area. It will show Edit if the entry is in progress, or N/A if the entry has been approved or denied. You are able to edit them until they are approved or denied',
             attachTo: {
                 element: '.studstep4',
                 on: 'bottom'
@@ -500,11 +528,72 @@ else if (User.IsInRole("student") && Model.TimesheetId != null)
             classes: 'studstep4',
             buttons: [
                 {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the select area. If the entry or entries you have selected are in progress, you are able to delete them.',
+            attachTo: {
+                element: '.studstep5',
+                on: 'bottom'
+            },
+            classes: 'studstep5',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the add time entry button, this will direct you to a new page to add an entry to your timesheet.',
+            attachTo: {
+                element: '.studstep6',
+                on: 'bottom'
+            },
+            classes: 'studstep6',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Finally, this is the delete button, select 1 or more entries to delete using the select checkboxes, and then a pop-up will ask for your confirmation.',
+            attachTo: {
+                element: '.studstep7',
+                on: 'bottom'
+            },
+            classes: 'studstep7',
+            buttons: [
+                {
                     text: 'Finish',
                     action: tour.cancel
                 }
             ]
         });
+
         @*End of Dashboard Demo*@
     </script>
 }
@@ -513,23 +602,168 @@ else if (User.IsInRole("student") && Model.TimesheetId == null)
 
 }
 
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('select-all').addEventListener('change', function (event) {
-                const checkboxes = document.querySelectorAll('.table .form-check-input');
-                const isChecked = event.target.checked;
+@if (User.IsInRole("admin"))
+{
+    <script>
+            // This function updates the delete button's disabled state based on the checkboxes
+            function updateDeleteButtonState() {
+                // Find all checkboxes with name='timeEntryIds' except the 'select-all' checkbox
+                const checkboxes = document.querySelectorAll('input[name="timeEntryIds"]:not(#select-all)');
 
-                checkboxes.forEach(function (checkbox) {
-                    // Skip the 'Select All' checkbox to avoid recursive checking
-                    if (checkbox !== event.target) {
-                        checkbox.checked = isChecked;
-                    }
+                // Check if at least one checkbox is checked
+                const isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+                // Select the delete button using its class or ID
+                const deleteButton = document.querySelector('.btn-danger[data-bs-target="#deleteModal"]');
+                const approveButton = document.querySelector('.btn-success[data-bs-target="#approveModal"]');
+                const denyButton = document.querySelector('.btn-danger[data-bs-target="#denyModal"]');
+
+                // Enable or disable the delete button based on if any checkboxes are checked
+                deleteButton.disabled = !isAnyChecked;
+                approveButton.disabled = !isAnyChecked;
+                denyButton.disabled = !isAnyChecked;
+            }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // When the DOM is fully loaded, initialize the delete button state
+            updateDeleteButtonState();
+
+            // Listen for changes on each checkbox
+            document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
+                    // Update the delete button state whenever a checkbox changes
+                    updateDeleteButtonState();
                 });
             });
+
+            // Optional: If you have a 'Select All' checkbox, you can update all checkboxes and the delete button state on its change
+            const selectAllCheckbox = document.getElementById('select-all');
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', function (event) {
+                    const checkboxes = document.querySelectorAll('.table .form-check-input');
+                    const isChecked = event.target.checked;
+
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = isChecked;
+                    });
+
+                    // Update the delete button state after changing all checkboxes
+                    updateDeleteButtonState();
+                });
+            }
         });
 
-    function setActionType(actionType) {
-        // Set the value of the hidden input before submitting the form
-        document.getElementById('actionTypeInput').value = actionType;
-    }
-</script>
+        function setActionType(actionType) {
+            // Set the value of the hidden input before submitting the form
+            document.getElementById('actionTypeInput').value = actionType;
+        }
+    </script>
+}
+else if (User.IsInRole("student"))
+{
+    <script>
+        // This function updates the delete button's disabled state based on the checkboxes
+        function updateDeleteButtonState() {
+            // Find all checkboxes with name='timeEntryIds' except the 'select-all' checkbox
+            const checkboxes = document.querySelectorAll('input[name="timeEntryIds"]:not(#select-all)');
+
+            // Check if at least one checkbox is checked
+            const isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+            // Select the delete button using its class or ID
+            const deleteButton = document.querySelector('.btn-danger[data-bs-target="#deleteModal"]');
+
+            // Enable or disable the delete button based on if any checkboxes are checked
+            deleteButton.disabled = !isAnyChecked;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // When the DOM is fully loaded, initialize the delete button state
+            updateDeleteButtonState();
+
+            // Listen for changes on each checkbox
+            document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
+                    // Update the delete button state whenever a checkbox changes
+                    updateDeleteButtonState();
+                });
+            });
+
+            // Optional: If you have a 'Select All' checkbox, you can update all checkboxes and the delete button state on its change
+            const selectAllCheckbox = document.getElementById('select-all');
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', function (event) {
+                    const checkboxes = document.querySelectorAll('.table .form-check-input');
+                    const isChecked = event.target.checked;
+
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = isChecked;
+                    });
+
+                    // Update the delete button state after changing all checkboxes
+                    updateDeleteButtonState();
+                });
+            }
+        });
+
+        function setActionType(actionType) {
+            // Set the value of the hidden input before submitting the form
+            document.getElementById('actionTypeInput').value = actionType;
+        }
+    </script>
+}
+else if (User.IsInRole("employer"))
+{
+    <script>
+        // This function updates the delete button's disabled state based on the checkboxes
+        function updateDeleteButtonState() {
+            // Find all checkboxes with name='timeEntryIds' except the 'select-all' checkbox
+            const checkboxes = document.querySelectorAll('input[name="timeEntryIds"]:not(#select-all)');
+
+            // Check if at least one checkbox is checked
+            const isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+            // Select the delete button using its class or ID
+            const approveButton = document.querySelector('.btn-success[data-bs-target="#approveModal"]');
+            const denyButton = document.querySelector('.btn-danger[data-bs-target="#denyModal"]');
+
+            // Enable or disable the delete button based on if any checkboxes are checked
+            approveButton.disabled = !isAnyChecked;
+            denyButton.disabled = !isAnyChecked;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // When the DOM is fully loaded, initialize the delete button state
+            updateDeleteButtonState();
+
+            // Listen for changes on each checkbox
+            document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
+                    // Update the delete button state whenever a checkbox changes
+                    updateDeleteButtonState();
+                });
+            });
+
+            // Optional: If you have a 'Select All' checkbox, you can update all checkboxes and the delete button state on its change
+            const selectAllCheckbox = document.getElementById('select-all');
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', function (event) {
+                    const checkboxes = document.querySelectorAll('.table .form-check-input');
+                    const isChecked = event.target.checked;
+
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = isChecked;
+                    });
+
+                    // Update the delete button state after changing all checkboxes
+                    updateDeleteButtonState();
+                });
+            }
+        });
+
+        function setActionType(actionType) {
+            // Set the value of the hidden input before submitting the form
+            document.getElementById('actionTypeInput').value = actionType;
+        }
+    </script>
+}

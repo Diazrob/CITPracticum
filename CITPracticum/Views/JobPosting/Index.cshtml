@@ -24,10 +24,10 @@
         border-bottom: 1px solid #dee2e6; /* Bottom border for the whole nav */
     }
 
-    /* Styles to align the button with the tab items */
-    .nav-tabs .nav-item:last-child {
-        margin-left: auto; /* Push the button to the right */
-    }
+        /* Styles to align the button with the tab items */
+        .nav-tabs .nav-item:last-child {
+            margin-left: auto; /* Push the button to the right */
+        }
 </style>
 
 <ul class="nav nav-tabs mb-3" role="tablist">
@@ -52,109 +52,136 @@
 
 <div class="tab-content step1" id="myTabContent">
     <div class="tab-pane fade show active" id="job-posts" role="tabpanel" aria-labelledby="job-posts-tab">
-            <div class="row">
-                @foreach (var item in Model)
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                @if (!item.Archived)
                 {
-                    @if (!item.Archived)
-                    {
-                        <div class="col-md-6 col-lg-4 mb-3">
-                            <div class="card h-100 step2">
-                                <div class="card-body step3">
-                                    <div class="mb-2">
-                                        <h6 class="card-subtitle mb-1">Job Title:</h6>
-                                        <p class="card-text">@item.JobTitle</p>
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <h6 class="card-subtitle mb-1">Job Description:</h6>
-                                        <p class="card-text">
-                                            @if (item.JobDescription.Length > 100)
-                                            {
-                                                @Html.Raw(item.JobDescription.Substring(0, 250) + "...")
-                                            }
-                                            else
-                                            {
-                                                @item.JobDescription
-                                            }
-                                        </p>
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <h6 class="card-subtitle mb-1">Company:</h6>
-                                        <p class="card-text">@item.Company</p>
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <h6 class="card-subtitle mb-1">Location:</h6>
-                                        <p class="card-text">@item.Location</p>
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <h6 class="card-subtitle mb-1">Application Deadline:</h6>
-                                        <p class="card-text">@item.Deadline</p>
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <h6 class="card-subtitle mb-1">Payment Category:</h6>
-                                        <p class="card-text">@item.PaymentCategory</p>
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <h6 class="card-subtitle mb-1">More Info:</h6>
-                                        <p class="card-text">
-                                            <a href="@item.Link" target="_blank" class="card-link">@item.Link</a>
-                                        </p>
-                                    </div>
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card h-100 step2">
+                            <div class="card-body step3">
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1"><b>Job Title:</b></h6>
+                                    <p class="card-text">@item.JobTitle</p>
                                 </div>
 
-                                <div class="card-footer step4">
-                                    <a class="btn btn-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
-                                    @if (User.IsInRole("admin"))
-                                    {
-                                        <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                        <a class="btn btn-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                        <a class="btn btn-warning step5" asp-controller="JobPosting" asp-action="ConfirmArchive" asp-route-id="@item.Id">Archive</a>
-                                        <a class="btn btn-link step6" asp-controller="JobPosting" asp-action="Applicants" asp-route-id="@item.Id">Applicants</a>
-                                    }
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1"><b>Job Description:</b></h6>
+                                    <p class="card-text">
+                                        @if (item.JobDescription.Length > 100)
+                                        {
+                                            @Html.Raw(item.JobDescription.Substring(0, 250) + "...")
+                                        }
+                                        else
+                                        {
+                                            @item.JobDescription
+                                        }
+                                    </p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1"><b>Company:</b></h6>
+                                    <p class="card-text">@item.Company</p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1"><b>Location:</b></h6>
+                                    <p class="card-text">@item.Location</p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1"><b>Application Deadline:</b></h6>
+                                    <p class="card-text">@item.Deadline</p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1"><b>Payment Category:</b></h6>
+                                    <p class="card-text">@item.PaymentCategory</p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="card-subtitle mb-1"><b>More Info:</b></h6>
+                                    <p class="card-text">
+                                        <a href="@item.Link" target="_blank" class="card-link">@item.Link</a>
+                                    </p>
                                 </div>
                             </div>
+
+                            <div class="card-footer step4">
+                                <a class="btn btn-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
+                                @if (User.IsInRole("admin") || User.IsInRole("employer"))
+                                {
+                                    <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    <a class="btn btn-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                }
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <a class="btn btn-warning step5" asp-controller="JobPosting" asp-action="ConfirmArchive" asp-route-id="@item.Id">Archive</a>
+                                    <a class="btn btn-link step6" asp-controller="JobPosting" asp-action="Applicants" asp-route-id="@item.Id">Applicants</a>
+                                }
+                            </div>
                         </div>
-                    }
+                    </div>
                 }
-            </div>
-            <!-- Pagination (update as necessary for your pagination logic) -->
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <!-- Generate page numbers dynamically based on the model data -->
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
+            }
+        </div>
+        <!-- Pagination (update as necessary for your pagination logic) -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <!-- Generate page numbers dynamically based on the model data -->
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
     </div>
 </div>
-@if(User.IsInRole("admin"))
+@if (User.IsInRole("admin"))
 {
-<script>
-    const tour = new Shepherd.Tour({
-        useModalOverlay: true,
-        defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
-            scrollTo: true
-        },
-        defaultStepOptions: {
-            exitOnEsc: true
-        }
-    });
+    <script>
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
 
-    @*Start of Job Posting Demo*@
+        @*Start of Job Posting Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'Here is the list of all job postings.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
         tour.addStep({
             id: 'example-step',
-            text: 'Here is the list of all job postings.',
+            text: 'Each posting is split into two main areas: the post, and the actions.',
             attachTo: {
-                element: '.step1',
+                element: '.step2',
                 on: 'bottom'
             },
-            classes: 'step1',
+            classes: 'step2',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
             buttons: [
                 {
                     text: 'Next',
@@ -167,176 +194,152 @@
             ]
         });
 
-    tour.addStep({
-        id: 'example-step',
-        text: 'Each posting is split into two main areas: the post, and the actions.',
-        attachTo: {
-            element: '.step2',
-            on: 'bottom'
-        },
-        classes: 'step2',
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the content of the post. Displaying the title, description, etc.',
+            attachTo: {
+                element: '.step3',
+                on: 'bottom'
+            },
+            classes: 'step3',
             scrollTo: {
                 behavior: 'smooth',
                 block: 'center'
             },
-        buttons: [
-            {
-                text: 'Next',
-                action: tour.next
-            },
-            {
-                text: 'Exit Tour',
-                action: tour.cancel
-            }
-        ]
-    });
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
 
-    tour.addStep({
-        id: 'example-step',
-        text: 'This is the content of the post. Displaying the title, description, etc.',
-        attachTo: {
-            element: '.step3',
-            on: 'bottom'
-        },
-        classes: 'step3',
+        tour.addStep({
+            id: 'example-step',
+            text: 'There are many actions here. Starting from left to right: View',
+            attachTo: {
+                element: '.step4',
+                on: 'bottom'
+            },
+            classes: 'step4',
             scrollTo: {
                 behavior: 'smooth',
                 block: 'center'
             },
-        buttons: [
-            {
-                text: 'Next',
-                action: tour.next
-            },
-            {
-                text: 'Exit Tour',
-                action: tour.cancel
-            }
-        ]
-    });
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
 
-    tour.addStep({
-        id: 'example-step',
-        text: 'There are many actions here. Starting from left to right: View',
-        attachTo: {
-            element: '.step4',
-            on: 'bottom'
-        },
-        classes: 'step4',
+        tour.addStep({
+            id: 'example-step',
+            text: 'Archive allows you to archive a job posting. You can later restore it at any time.',
+            attachTo: {
+                element: '.step5',
+                on: 'bottom'
+            },
+            classes: 'step5',
             scrollTo: {
                 behavior: 'smooth',
                 block: 'center'
             },
-        buttons: [
-            {
-                text: 'Next',
-                action: tour.next
-            },
-            {
-                text: 'Exit Tour',
-                action: tour.cancel
-            }
-        ]
-    });
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
 
-    tour.addStep({
-        id: 'example-step',
-        text: 'Archive allows you to archive a job posting. You can later restore it at any time.',
-        attachTo: {
-            element: '.step5',
-            on: 'bottom'
-        },
-        classes: 'step5',
+        tour.addStep({
+            id: 'example-step',
+            text: 'Applicants shows you the list of students that have applied to a job posting.',
+            attachTo: {
+                element: '.step6',
+                on: 'bottom'
+            },
+            classes: 'step6',
             scrollTo: {
                 behavior: 'smooth',
                 block: 'center'
             },
-        buttons: [
-            {
-                text: 'Next',
-                action: tour.next
-            },
-            {
-                text: 'Exit Tour',
-                action: tour.cancel
-            }
-        ]
-    });
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
 
-    tour.addStep({
-        id: 'example-step',
-        text: 'Applicants shows you the list of students that have applied to a job posting.',
-        attachTo: {
-            element: '.step6',
-            on: 'bottom'
-        },
-        classes: 'step6',
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the area you can go to that stores the archived job postings.',
+            attachTo: {
+                element: '.step7',
+                on: 'bottom'
+            },
+            classes: 'step7',
             scrollTo: {
                 behavior: 'smooth',
                 block: 'center'
             },
-        buttons: [
-            {
-                text: 'Next',
-                action: tour.next
-            },
-            {
-                text: 'Exit Tour',
-                action: tour.cancel
-            }
-        ]
-    });
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
 
-    tour.addStep({
-        id: 'example-step',
-        text: 'This is the area you can go to that stores the archived job postings.',
-        attachTo: {
-            element: '.step7',
-            on: 'bottom'
-        },
-        classes: 'step7',
+        tour.addStep({
+            id: 'example-step',
+            text: 'Finally, this is the create job posting button, this will direct you to a new page to add a job posting into the system.',
+            attachTo: {
+                element: '.step8',
+                on: 'bottom'
+            },
+            classes: 'step8',
             scrollTo: {
                 behavior: 'smooth',
                 block: 'center'
             },
-        buttons: [
-            {
-                text: 'Next',
-                action: tour.next
-            },
-            {
-                text: 'Exit Tour',
-                action: tour.cancel
-            }
-        ]
-    });
-
-    tour.addStep({
-        id: 'example-step',
-        text: 'Finally, this is the create job posting button, this will direct you to a new page to add a job posting into the system.',
-        attachTo: {
-            element: '.step8',
-            on: 'bottom'
-        },
-        classes: 'step8',
-            scrollTo: {
-                behavior: 'smooth',
-                block: 'center'
-            },
-        buttons: [
-            {
-                text: 'Finish',
-                action: tour.cancel
-            }
-        ]
-    });
-    @*End of Job Posting Demo*@
-</script>
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
+        @*End of Job Posting Demo*@
+    </script>
 }
 @if (User.IsInRole("student"))
 {
     <script>
-        const tour = new Shepherd.Tour({
+                const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',
@@ -440,6 +443,135 @@
             ]
         });
 
+        @*End of Job Posting Demo*@
+    </script>
+}
+else if (User.IsInRole("employer"))
+{
+    <script>
+                const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
+
+        @*Start of Job Posting Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'Here is the list of the job postings that you have created.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Each posting is split into two main areas: the post, and the actions.',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            classes: 'step2',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'This is the content of the post. Displaying the title, description, etc.',
+            attachTo: {
+                element: '.step3',
+                on: 'bottom'
+            },
+            classes: 'step3',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'There are many actions here. Starting from left to right: View, Edit, and Delete. You may view the post, edit the posts contents, or delete the post.',
+            attachTo: {
+                element: '.step4',
+                on: 'bottom'
+            },
+            classes: 'step4',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Finally, this is the create job posting button, this will direct you to a new page to add a job posting into the system.',
+            attachTo: {
+                element: '.step8',
+                on: 'bottom'
+            },
+            classes: 'step8',
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: tour.cancel
+                }
+            ]
+        });
         @*End of Job Posting Demo*@
     </script>
 }

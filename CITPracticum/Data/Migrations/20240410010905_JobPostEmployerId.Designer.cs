@@ -4,6 +4,7 @@ using CITPracticum.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CITPracticum.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240410010905_JobPostEmployerId")]
+    partial class JobPostEmployerId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -239,11 +241,11 @@ namespace CITPracticum.Data.Migrations
 
             modelBuilder.Entity("CITPracticum.Models.FormA", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
@@ -653,54 +655,6 @@ namespace CITPracticum.Data.Migrations
                     b.ToTable("FormDs");
                 });
 
-            modelBuilder.Entity("CITPracticum.Models.FormExitInterview", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("A1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("A2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("A3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("A4")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("A5")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("A6")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InsName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("SignDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("StuName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FormExitInterviews");
-                });
-
             modelBuilder.Entity("CITPracticum.Models.FormFOIP", b =>
                 {
                     b.Property<int>("Id")
@@ -932,9 +886,6 @@ namespace CITPracticum.Data.Migrations
                     b.Property<int?>("FormDId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FormExitInterviewId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("FormFOIPId")
                         .HasColumnType("int");
 
@@ -950,8 +901,6 @@ namespace CITPracticum.Data.Migrations
                     b.HasIndex("FormCId");
 
                     b.HasIndex("FormDId");
-
-                    b.HasIndex("FormExitInterviewId");
 
                     b.HasIndex("FormFOIPId");
 
@@ -1322,10 +1271,6 @@ namespace CITPracticum.Data.Migrations
                         .WithMany()
                         .HasForeignKey("FormDId");
 
-                    b.HasOne("CITPracticum.Models.FormExitInterview", "FormExitInterview")
-                        .WithMany()
-                        .HasForeignKey("FormExitInterviewId");
-
                     b.HasOne("CITPracticum.Models.FormFOIP", "FormFOIP")
                         .WithMany()
                         .HasForeignKey("FormFOIPId");
@@ -1341,8 +1286,6 @@ namespace CITPracticum.Data.Migrations
                     b.Navigation("FormC");
 
                     b.Navigation("FormD");
-
-                    b.Navigation("FormExitInterview");
 
                     b.Navigation("FormFOIP");
 

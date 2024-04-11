@@ -2,6 +2,7 @@
 using CITPracticum.Interfaces;
 using CITPracticum.Models;
 using CITPracticum.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
@@ -11,10 +12,14 @@ namespace CITPracticum.Controllers
     public class JobPostingController : Controller
     {
         private readonly IJobPostingRepository _jobPostingRepository;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IEmployerRepository _employerRepository;
 
-        public JobPostingController(IJobPostingRepository jobPostingRepository)
+        public JobPostingController(IJobPostingRepository jobPostingRepository, UserManager<AppUser> userManager, IEmployerRepository employerRepository)
         {
             _jobPostingRepository = jobPostingRepository;
+            _userManager = userManager;
+            _employerRepository = employerRepository;
         }
         // displays all job postings on index page
         public async Task<IActionResult> Index()
@@ -22,6 +27,25 @@ namespace CITPracticum.Controllers
             ViewData["ActivePage"] = "Jobs";
 
             IEnumerable<JobPosting> jobPostings = await _jobPostingRepository.GetAll();
+
+            if (User.IsInRole("employer"))
+            {
+                // Only show the job postings that the employer has posted.
+                var user = await _userManager.GetUserAsync(User);
+                var emp = await _employerRepository.GetByIdAsync((Int32)user.EmployerId);
+                var empJobPostings = new List<JobPosting>();
+
+                foreach (var jp in jobPostings)
+                {
+                    if (emp.Id == jp.EmployerId)
+                    {
+                        empJobPostings.Add(jp);
+                    }
+                }
+
+                return View(empJobPostings);
+            }
+
             return View(jobPostings);
         }
 

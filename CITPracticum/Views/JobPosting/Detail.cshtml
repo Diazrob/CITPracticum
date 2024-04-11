@@ -10,39 +10,40 @@
         <div class="row mb-3">
             <div class="col-md-8">
                 <div class="d-flex align-items-center">
-                    <button onclick="window.history.back();" class="btn btn-secondary mb-3" style="margin-bottom: 200px; margin-left: -150px !important;"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <a onclick="window.history.back();" class="btn btn-secondary mb-3" style="margin-bottom: 200px; margin-left: -162px !important;"><i class="fa-solid fa-arrow-left"></i> Back</a>
                     <h2 class="mb-3 step2" style="margin-left: 8vh;">@Model.JobTitle</h2>
                 </div>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-md-12 step3">
-                <h5 class="mb-2 text-secondary">Job Description</h5>
+                <h5 class="mb-2 text-secondary"><b>Job Description</b></h5>
+                <hr />
                 <p>@Model.JobDescription</p>
             </div>
         </div>
         <div class="step4">
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <h5 class="mb-2 text-secondary">Application Deadline</h5>
+                    <h5 class="mb-2 text-secondary"><b>Application Deadline</b></h5>
                     <p>@Model.Deadline</p>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <h5 class="mb-2 text-secondary">Company</h5>
+                    <h5 class="mb-2 text-secondary"><b>Company Name</b></h5>
                     <p>@Model.Company</p>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <h5 class="mb-2 text-secondary">Location</h5>
+                    <h5 class="mb-2 text-secondary"><b>Location</b></h5>
                     <p>@Model.Location</p>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <h5 class="text-secondary">Link</h5>
+                    <h5 class="text-secondary"><b>Link</b></h5>
                     <p>
                         <a href="@Model.Link" target="_blank">@Model.Link</a>
                     </p>
@@ -72,7 +73,7 @@
     -->
 </div>
 
-@if (User.IsInRole("admin"))
+@if (User.IsInRole("admin") || User.IsInRole("employer"))
 {
     <script>
         const tour = new Shepherd.Tour({

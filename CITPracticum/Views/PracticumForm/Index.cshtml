@@ -87,29 +87,29 @@
     {
 
         <a class="step2" style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormFOIP">
-            <div class="card mt=3 zoom" style="cursor: pointer;">
+            <div class="card zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                 <div class="card-body">
                     Form FOIP - Student Release
                 </div>
             </div>
         </a>
-        <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormStuInfo">
-            <div class="card mt-3 zoom" style="cursor: pointer;">
+        <a class="step2" style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormStuInfo">
+            <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                 <div class="card-body">
                     Form ID - Student Information
                 </div>
             </div>
         </a>
         <!-- List of Forms as Cards -->
-        <a style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormA">
-            <div class="card mt-3 zoom" style="cursor: pointer;">
+        <a class="step2" style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormA">
+            <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                 <div class="card-body">
                     Form A - Host Information
                 </div>
             </div>
         </a>
     }
-    
+
     @if (User.IsInRole("employer"))
     {
         @foreach (var item in Model)
@@ -144,23 +144,23 @@
     }
     else
     {
-        <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
-            <div class="card mt-3 zoom" style="cursor: pointer;">
+        <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+            <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                 <div class="card-body">
                     Form B - Practicum Agreement
                 </div>
             </div>
         </a>
-        <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
-            <div class="card mt-3 zoom" style="cursor: pointer;">
+        <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+            <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                 <div class="card-body">
                     Form C - Practicum Evaluation (100 hours)
                 </div>
             </div>
         </a>
 
-        <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
-            <div class="card zoom mt-3" style="cursor: pointer;">
+        <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
+            <div class="card zoom mt-3 text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                 <div class="card-body">
                     Form D - Practicum Evaluation (200 hours)
                 </div>
@@ -170,8 +170,8 @@
 
     @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.
     {
-        <a asp-controller="PracticumForm" asp-action="CreateFormExitInterview" style="text-decoration: none;">
-            <div class="card mt-3 zoom">
+        <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormExitInterview" style="text-decoration: none;">
+            <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                 <div class="card-body">
                     Exit Interview
                 </div>
@@ -273,10 +273,68 @@
         @*End of Prac Forms Demo*@
     </script>
 }
+@if (User.IsInRole("employer"))
+{
+    <script>
+                const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+            },
+            defaultStepOptions: {
+                exitOnEsc: true
+            }
+        });
+
+        @*Start of Job Posting Demo*@
+            tour.addStep({
+                id: 'example-step',
+                text: 'Here is the list of all of the forms.',
+                attachTo: {
+                    element: '.step1',
+                    on: 'bottom'
+                },
+                classes: 'step1',
+                buttons: [
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    },
+                    {
+                        text: 'Exit Tour',
+                        action: tour.cancel
+                    }
+                ]
+            });
+
+        tour.addStep({
+            id: 'example-step',
+            text: 'Each form is clickable and allows you to fill out the necessary information once the student has submitted their forms.',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            classes: 'step2',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        @*End of Job Posting Demo*@
+    </script>
+}
 @if (User.IsInRole("student"))
 {
     <script>
-        const tour = new Shepherd.Tour({
+                        const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',

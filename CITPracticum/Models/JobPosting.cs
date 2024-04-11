@@ -16,5 +16,7 @@ namespace CITPracticum.Models
         public string Link { get; set; }
         public List<Student> Applicants { get; set; }
         public bool Archived { get; set; }
+        public Employer? Employer { get; set; }
+        public int? EmployerId { get; set; }
     }
 }

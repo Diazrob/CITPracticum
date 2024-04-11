@@ -21,49 +21,55 @@
         }
         <div class="row">
             <div class="col-md-8 offset-2">
-                
+
                 <form method="post" asp-action="Edit" enctype="multipart/form-data">
                     <input type="hidden" value="Id" id="Id" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="JobTitle" class="control-label">Job Title:</label>
-                        <input asp-for="JobTitle" class="form-control" />
-                        <span asp-validation-for="JobTitle" class="text-danger"></span>
+                    <div class="step2">
+                        <div class="form-group">
+                            <label asp-for="JobTitle" class="control-label">Job Title:</label>
+                            <input asp-for="JobTitle" class="form-control" />
+                            <span asp-validation-for="JobTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="JobDescription" class="control-label mt-2">Job Description:</label>
+                            <textarea asp-for="JobDescription" class="form-control"></textarea>
+                            <span asp-validation-for="JobDescription" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="JobDescription" class="control-label mt-2">Job Description:</label>
-                        <textarea asp-for="JobDescription" class="form-control"></textarea>
-                        <span asp-validation-for="JobDescription" class="text-danger"></span>
+                    <div class="step3">
+                        <div class="form-group">
+                            <label asp-for="Deadline" class="control-label mt-2">Application Deadline:</label>
+                            <input type="date" asp-for="Deadline" class="form-control" />
+                            <span asp-validation-for="Deadline" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Company" class="control-label mt-2">Company Name:</label>
+                            <input asp-for="Company" class="form-control" />
+                            <span asp-validation-for="Company" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Deadline" class="control-label mt-2">Application Deadline:</label>
-                        <input type="date" asp-for="Deadline" class="form-control" />
-                        <span asp-validation-for="Deadline" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Company" class="control-label mt-2">Company Name:</label>
-                        <input asp-for="Company" class="form-control" />
-                        <span asp-validation-for="Company" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Location" class="control-label mt-2">Location:</label>
-                        <input asp-for="Location" class="form-control" />
-                        <span asp-validation-for="Location" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="PaymentCategory" class="control-label mt-2">Paid or Unpaid:</label>
-                        <select asp-for="PaymentCategory" asp-items="@Html.GetEnumSelectList<PaymentCategory>()" class="form-control">
-                            <option>--Select--</option>
-                        </select>
-                        <span asp-validation-for="PaymentCategory" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="JobLink" class="control-label">Job Link:</label>
-                        <input type="url" asp-for="JobLink" class="form-control" />
-                        <span asp-validation-for="JobLink" class="text-danger"></span>
+                    <div class="step4">
+                        <div class="form-group">
+                            <label asp-for="Location" class="control-label mt-2">Location:</label>
+                            <input asp-for="Location" class="form-control" />
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="PaymentCategory" class="control-label mt-2">Paid or Unpaid:</label>
+                            <select asp-for="PaymentCategory" asp-items="@Html.GetEnumSelectList<PaymentCategory>()" class="form-control">
+                                <option>--Select--</option>
+                            </select>
+                            <span asp-validation-for="PaymentCategory" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="JobLink" class="control-label">Job Link:</label>
+                            <input type="url" asp-for="JobLink" class="form-control" />
+                            <span asp-validation-for="JobLink" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="form-group mt-2">
+                    <div class="form-group mt-2 step5">
                         <input class="btn btn-outline-success float right" type="submit" value="Edit Job Post" />
                         <a class="btn btn-outline-secondary" asp-controller="JobPosting" asp-action="Index">Cancel</a>
                     </div>
@@ -85,10 +91,10 @@
         }
     });
 
-    @*Start of Dashboard Demo*@
+    @*Start of Edit Job Posting Demo*@
         tour.addStep({
             id: 'example-step',
-            text: 'This is the edit job posting page. Edit the information as needed and then submit the form.',
+            text: 'This is the edit job posting form. Edit the information as needed and then submit the form.',
             attachTo: {
                 element: '.step1',
                 on: 'bottom'
@@ -96,10 +102,90 @@
             classes: 'step1',
             buttons: [
                 {
-                    text: 'Finish',
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
                     action: tour.cancel
                 }
             ]
         });
-    @*End of Dashboard Demo*@
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'Lets break the form down into the smaller pieces. This is the Title and Description. Enter the name of the position for the post, and a quick, or large description of what applicants should expect to do at the company.',
+        attachTo: {
+            element: '.step2',
+            on: 'bottom'
+        },
+        classes: 'step2',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+            {
+                text: 'Exit Tour',
+                action: tour.cancel
+            }
+        ]
+    });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'This is the application deadline and the company name. Enter the deadline of when the applicants are no longer able to apply for the position. Enter the company name for the position.',
+        attachTo: {
+            element: '.step3',
+            on: 'bottom'
+        },
+        classes: 'step3',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+            {
+                text: 'Exit Tour',
+                action: tour.cancel
+            }
+        ]
+    });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'This is the location, payment, and job link area. For location, enter the city that the position is being hosted in. For payment, state whether or not this will be a paid or unpaid position. You may enter a website of any kind to give the user more information on the position for the Link area.',
+        attachTo: {
+            element: '.step4',
+            on: 'bottom'
+        },
+        classes: 'step4',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+            {
+                text: 'Exit Tour',
+                action: tour.cancel
+            }
+        ]
+    });
+
+    tour.addStep({
+        id: 'example-step',
+        text: 'There are 2 buttons available here. Press Edit Job Post to confirm the changes, or press Cancel to undo the edit and go back to the previous page.',
+        attachTo: {
+            element: '.step5',
+            on: 'bottom'
+        },
+        classes: 'step5',
+        buttons: [
+            {
+                text: 'Finish',
+                action: tour.cancel
+            }
+        ]
+    });
+    @*End of Edit Job Posting Demo*@
 </script>
