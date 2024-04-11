@@ -180,7 +180,7 @@
                                     @if (!User.IsInRole("student") || entry.ApprovalCategory == CITPracticum.Data.Enum.ApprovalCategory.InProgress)
                                     {
                                         <td class="adminstep3 studstep4">
-                                            <button class="btn btn-outline-primary" asp-controller="Timesheet" asp-action="EditTimeEntry" asp-route-entryId="@entry.Id">Edit</button>
+                                            <button class="btn btn-outline-secondary" asp-controller="Timesheet" asp-action="EditTimeEntry" asp-route-entryId="@entry.Id">Edit</button>
                                         </td>
                                         <td class="text-end step4 studstep5"><input type="checkbox" name="timeEntryIds" value="@entry.Id" class="form-check-input"></td>
                                     }

@@ -48,6 +48,7 @@ namespace CITPracticum.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            ViewData["ActivePage"] = "Practicum Forms";
             IEnumerable<Placement> placements = await _placementRepository.GetAll();
             if (User.IsInRole("employer"))
             {
@@ -84,6 +85,7 @@ namespace CITPracticum.Controllers
         }
         public async Task<IActionResult> StudentSubmittedForms()
         {
+            ViewData["ActivePage"] = "Practicum Forms";
             IEnumerable<Placement> placements = await _placementRepository.GetAll();
             var students = await _studentRepository.GetAll();
             var practicumForms = await _practicumFormsRepository.GetAllForms();
