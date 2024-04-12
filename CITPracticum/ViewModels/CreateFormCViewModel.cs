@@ -17,7 +17,6 @@ namespace CITPracticum.ViewModels
         public string A4 { get; set; }
         [Required(ErrorMessage = "This field is required")]
         public string A5 { get; set; }
-        [Required(ErrorMessage = "This field is required")]
         public string AComments { get; set; }
         [Required(ErrorMessage = "This field is required")]
         public string B1 { get; set; }
@@ -35,7 +34,6 @@ namespace CITPracticum.ViewModels
         public string B7 { get; set; }
         [Required(ErrorMessage = "This field is required")]
         public string B8 { get; set; }
-        [Required(ErrorMessage = "This field is required")]
         public string BComments { get; set; }
         [Required(ErrorMessage = "This field is required")]
         public string C1 { get; set; }
@@ -61,7 +59,6 @@ namespace CITPracticum.ViewModels
         public string C11 { get; set; }
         [Required(ErrorMessage = "This field is required")]
         public string C12 { get; set; }
-        [Required(ErrorMessage = "This field is required")]
         public string CComments { get; set; }
         public string? PracSVComments { get; set; }
         public string? SVSign { get; set; }

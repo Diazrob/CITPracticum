@@ -5,6 +5,7 @@ using CITPracticum.Repository;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace CITPracticum.Controllers
@@ -94,6 +95,7 @@ namespace CITPracticum.Controllers
             if (newUserResponse.Succeeded)
                 await _userManager.AddToRoleAsync(newUser, UserRoles.Student);
 
+            TempData["Message"] = "Student Added Successfully.";
             return RedirectToAction("Index", "Student");
         }
         // displays page of a student
