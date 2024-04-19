@@ -205,10 +205,15 @@ namespace CITPracticum.Controllers
                             placement.PracticumForms = placementPForm;
                            
                             _placementRepository.Update(placement);
+                            return RedirectToAction("Index");
                         }
-                        return RedirectToAction("Index");
+                        else
+                        {
+                            return View(formFOIPViewModel);
+                        }
                     }
-                }
+                    
+                } 
             }
             return View(formFOIPViewModel);
         }

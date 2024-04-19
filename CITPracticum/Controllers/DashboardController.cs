@@ -69,12 +69,21 @@ namespace CITPracticum.Controllers
                 int bPercentage = (int)(((double)formBCount / placementCount) * 100);
                 int cPercentage = (int)(((double)formCCount / placementCount) * 100);
                 int dPercentage = (int)(((double)formDCount / placementCount) * 100);
-                string formFOIPPercentage = Convert.ToString((int)(((double)formFOIPCount / placementCount) * 100)) + "%";
-                string formIdPercentage = Convert.ToString((int)(((double)formIdCount / placementCount) * 100)) + "%";
-                string formAPercentage = Convert.ToString((int)(((double)formACount / placementCount) * 100)) + "%";
-                string formBPercentage = Convert.ToString((int)(((double)formBCount / placementCount) * 100)) + "%";
-                string formCPercentage = Convert.ToString((int)(((double)formCCount / placementCount) * 100)) + "%";
-                string formDPercentage = Convert.ToString((int)(((double)formDCount / placementCount) * 100)) + "%";
+                if (placementCount == 0)
+                {
+                    foipPercentage = 0;
+                    idPercentage = 0;
+                    aPercentage = 0;
+                    bPercentage = 0;
+                    cPercentage = 0;
+                    dPercentage = 0;
+                } 
+                string formFOIPPercentage = Convert.ToString(foipPercentage) + "%";
+                string formIdPercentage = Convert.ToString(idPercentage) + "%";
+                string formAPercentage = Convert.ToString(aPercentage) + "%";
+                string formBPercentage = Convert.ToString(bPercentage) + "%";
+                string formCPercentage = Convert.ToString(cPercentage) + "%";
+                string formDPercentage = Convert.ToString(dPercentage) + "%";
 
                 var dashboardVM = new DashboardViewModel()
                 {
@@ -91,6 +100,8 @@ namespace CITPracticum.Controllers
                     BPercentage = formBPercentage,
                     CPercentage = formCPercentage,
                     DPercentage = formDPercentage,
+                    FOIPPercent = foipPercentage,
+                    IdPercent = idPercentage,
                     APercent = aPercentage,
                     BPercent = bPercentage,
                     CPercent = cPercentage,

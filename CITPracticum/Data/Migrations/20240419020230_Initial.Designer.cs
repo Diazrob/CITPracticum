@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CITPracticum.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240402222207_adding_timeentries")]
-    partial class adding_timeentries
+    [Migration("20240419020230_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -241,11 +241,11 @@ namespace CITPracticum.Data.Migrations
 
             modelBuilder.Entity("CITPracticum.Models.FormA", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
@@ -337,8 +337,8 @@ namespace CITPracticum.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("EmpSign")
-                        .HasColumnType("bit");
+                    b.Property<string>("EmpSign")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EmpSignDate")
                         .HasColumnType("datetime2");
@@ -373,8 +373,8 @@ namespace CITPracticum.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("StuSign")
-                        .HasColumnType("bit");
+                    b.Property<string>("StuSign")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StuSignDate")
                         .HasColumnType("datetime2");
@@ -398,139 +398,109 @@ namespace CITPracticum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("A1")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("A2")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("A3")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("A4")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("A5")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AComments")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("B1")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("B2")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("B3")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("B4")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("B5")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("B6")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("B7")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("B8")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BComments")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C1")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C10")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C11")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C12")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C2")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C3")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C4")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C5")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C6")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C7")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C8")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("C9")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CComments")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InsComments")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("InsSign")
-                        .HasColumnType("bit");
+                    b.Property<string>("InsSign")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("InsSubmitted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Org")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PracSV")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PracSVComments")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("SVSign")
-                        .HasColumnType("bit");
+                    b.Property<string>("SVSign")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("SVSubmitted")
                         .HasColumnType("bit");
@@ -539,11 +509,10 @@ namespace CITPracticum.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StuName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("StuSign")
-                        .HasColumnType("bit");
+                    b.Property<string>("StuSign")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("StuSubmitted")
                         .HasColumnType("bit");
@@ -554,6 +523,139 @@ namespace CITPracticum.Data.Migrations
                 });
 
             modelBuilder.Entity("CITPracticum.Models.FormD", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("A1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("A5")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B5")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B6")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B7")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("B8")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C10")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C11")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C12")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C5")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C6")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C7")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C8")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("C9")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InsComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InsSign")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("InsSubmitted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Org")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PracSV")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PracSVComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SVSign")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SVSubmitted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("StuComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StuSign")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("StuSubmitted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FormDs");
+                });
+
+            modelBuilder.Entity("CITPracticum.Models.FormExitInterview", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -581,143 +683,24 @@ namespace CITPracticum.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AComments")
+                    b.Property<string>("A6")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("B1")
+                    b.Property<string>("InsName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("B2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("B3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("B4")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("B5")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("B6")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("B7")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("B8")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BComments")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C10")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C11")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C12")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C4")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C5")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C6")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C7")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C8")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("C9")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CComments")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InsComments")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("InsSign")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("InsSubmitted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Org")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PracSV")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PracSVComments")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("SVSign")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("SVSubmitted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("StuComments")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("SignDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("StuName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("StuSign")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("StuSubmitted")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
-                    b.ToTable("FormDs");
+                    b.ToTable("FormExitInterviews");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.FormFOIP", b =>
@@ -946,6 +929,9 @@ namespace CITPracticum.Data.Migrations
                     b.Property<int?>("FormDId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FormExitInterviewId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("FormFOIPId")
                         .HasColumnType("int");
 
@@ -961,6 +947,8 @@ namespace CITPracticum.Data.Migrations
                     b.HasIndex("FormCId");
 
                     b.HasIndex("FormDId");
+
+                    b.HasIndex("FormExitInterviewId");
 
                     b.HasIndex("FormFOIPId");
 
@@ -1017,6 +1005,9 @@ namespace CITPracticum.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("ApprovalCategory")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -1029,7 +1020,7 @@ namespace CITPracticum.Data.Migrations
                     b.Property<DateTime>("ShiftDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TimesheetId")
+                    b.Property<int>("TimesheetId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1319,6 +1310,10 @@ namespace CITPracticum.Data.Migrations
                         .WithMany()
                         .HasForeignKey("FormDId");
 
+                    b.HasOne("CITPracticum.Models.FormExitInterview", "FormExitInterview")
+                        .WithMany()
+                        .HasForeignKey("FormExitInterviewId");
+
                     b.HasOne("CITPracticum.Models.FormFOIP", "FormFOIP")
                         .WithMany()
                         .HasForeignKey("FormFOIPId");
@@ -1334,6 +1329,8 @@ namespace CITPracticum.Data.Migrations
                     b.Navigation("FormC");
 
                     b.Navigation("FormD");
+
+                    b.Navigation("FormExitInterview");
 
                     b.Navigation("FormFOIP");
 
@@ -1359,9 +1356,13 @@ namespace CITPracticum.Data.Migrations
 
             modelBuilder.Entity("CITPracticum.Models.TimeEntry", b =>
                 {
-                    b.HasOne("CITPracticum.Models.Timesheet", null)
+                    b.HasOne("CITPracticum.Models.Timesheet", "Timesheet")
                         .WithMany("TimeEntries")
-                        .HasForeignKey("TimesheetId");
+                        .HasForeignKey("TimesheetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Timesheet");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

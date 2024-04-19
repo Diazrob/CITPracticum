@@ -188,9 +188,54 @@ namespace CITPracticum.Controllers
         // displays page of a student
         public async Task<IActionResult> Detail(int id)
         {
+            if (User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                id = Convert.ToInt32(usr.StudentId);
+            }
             ViewData["ActivePage"] = "Student";
             Student student = await _studentRepository.GetByIdAsync(id);
-            return View(student);
+
+            var detailStudentVM = new DetailStudentViewModel()
+            {
+                Id = student.Id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                StuId = student.StuId,
+                StuEmail = student.StuEmail
+            };
+            return View(detailStudentVM);
+        }
+
+        // reset password
+        public async Task<IActionResult> ResetPassword(string email, int id)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            Student student = await _studentRepository.GetByIdAsync(id);
+            string StuId = student.StuId;
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, StuId + "College!");
+
+            TempData["Message"] = "Student password has been reset";
+            return RedirectToAction("Detail", "Student");
+        }
+        //change password
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(DetailStudentViewModel detailStudentVM)
+        {
+            var user = await _userManager.FindByEmailAsync(detailStudentVM.StuEmail);
+
+            if (!ModelState.IsValid)
+            {
+                TempData["Message"] = "Password details do not match. Please try again.";
+                return RedirectToAction("Detail", "Student");
+            }
+            TempData["Message"] = "Password successfully changed.";
+            await _userManager.ChangePasswordAsync(user, detailStudentVM.OldPassword, detailStudentVM.Password);
+
+            return RedirectToAction("Detail", "Student");
         }
         // deletes a student user
         public async Task<IActionResult> Delete(string email, int id)
