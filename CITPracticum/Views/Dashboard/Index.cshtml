@@ -1,4 +1,6 @@
-﻿@{
+﻿@using CITPracticum.ViewModels;
+@model DashboardViewModel
+@{
     ViewData["Title"] = "Dashboard";
     ViewData["CurrentPage"] = "Dashboard";
 }
@@ -39,35 +41,101 @@
     <!-- Main Content -->
     <div class="container-fluid mt-3">
         <div class="row  offset-3">
-            <!-- Average Student Progress -->
+            <!-- Forms Count -->
             <div class="col-lg-6 step1">
-                <h5 class="mb-3">Average Student Progress</h5>
+                <h5 class="mb-3">Form Submission Progress</h5>
                 <div class="card mb-3 step2">
                     <div class="card-body">
-                        <h6 class="progress-label">Student Average Hours</h6>
+                        <h6 class="progress-label">Form FOIP <span class="m-5">@Model.FormFOIPCount/@Model.PlacementCount</span></h6>
                         <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
+                            <div class="progress-bar" role="progressbar" style="width: @Model.FOIPPercentage;" aria-valuenow="@Model.FOIPPercent" aria-valuemin="0" aria-valuemax="100">@Model.FOIPPercentage</div>
                         </div>
                     </div>
                 </div>
                 <div class="card mb-3 step3">
                     <div class="card-body">
-                        <h6 class="progress-label">First 100 Hours Completed</h6>
+                        <h6 class="progress-label">Form ID <span class="m-5">@Model.FormIdCount/@Model.PlacementCount</span></h6>
                         <div class="progress progress-custom">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+                            <div class="progress-bar" role="progressbar" style="width: @Model.IdPercentage;" aria-valuenow="@Model.IdPercent" aria-valuemin="0" aria-valuemax="100">@Model.IdPercentage</div>
                         </div>
                     </div>
                 </div>
                 <div class="card mb-3 step4">
                     <div class="card-body">
-                        <h6 class="progress-label">All Forms Signed</h6>
+                        <h6 class="progress-label">Form A <span class="m-5">@Model.FormACount/@Model.PlacementCount</span></h6>
                         <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="70">70%</div>
+                            <div class="progress-bar" role="progressbar" style="width: @Model.APercentage;" aria-valuenow="@Model.APercent" aria-valuemin="0" aria-valuemax="100">@Model.APercentage</div>
                         </div>
                     </div>
                 </div>
-                <!-- ... other progress cards ... -->
-            </div>
+                <div class="card mb-3 step4">
+                    <div class="card-body">
+                        <h6 class="progress-label">Form B <span class="m-5">@Model.FormBCount/@Model.PlacementCount</span></h6>
+                        <div class="progress progress-custom">
+                            <div class="progress-bar" role="progressbar" style="width: @Model.BPercentage;" aria-valuenow="@Model.BPercent" aria-valuemin="0" aria-valuemax="100">@Model.BPercentage</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3 step4">
+                    <div class="card-body">
+                        <h6 class="progress-label">Form C <span class="m-5">@Model.FormCCount/@Model.PlacementCount</span></h6>
+                        <div class="progress progress-custom">
+                            <div class="progress-bar" role="progressbar" style="width: @Model.CPercentage;" aria-valuenow="@Model.CPercent" aria-valuemin="0" aria-valuemax="100">@Model.CPercentage</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3 step4">
+                    <div class="card-body">
+                        <h6 class="progress-label">Form D <span class="m-5">@Model.FormDCount/@Model.PlacementCount</span></h6>
+                        <div class="progress progress-custom">
+                            <div class="progress-bar" role="progressbar" style="width: @Model.DPercentage;" aria-valuenow="@Model.DPercent" aria-valuemin="0" aria-valuemax="100">@Model.DPercentage</div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- ...End... -->
+                <!-- Documents -->
+                <div class="col-lg-6 step1">
+                    <h5 class="mb-3">Documents Submission Progress</h5>
+                    <div class="card mb-3 step2">
+                        <div class="card-body">
+                        <h6 class="progress-label">Resume <span class="m-5">10/15</span></h6>
+                            <div class="progress progress-custom">
+                                <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 step3">
+                        <div class="card-body">
+                        <h6 class="progress-label">Cover Letter <span class="m-5">10/15</span></h6>
+                            <div class="progress progress-custom">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- ... End ... -->
+                    <!-- Hours Progress -->
+                    <div class="col-lg-6 step1">
+                        <h5 class="mb-3">Student Hours Progress</h5>
+                        <div class="card mb-3 step2">
+                            <div class="card-body">
+                        <h6 class="progress-label">100 Hours Completed <span class="m-5">10/15</span></h6>
+                                <div class="progress progress-custom">
+                                    <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 step3">
+                            <div class="card-body">
+                                <h6 class="progress-label">200 Hours Completed <span class="m-5">10/15</span></h6>
+                                <div class="progress progress-custom">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ... other progress cards ... -->
+                </div>
         </div>
     </div>
 

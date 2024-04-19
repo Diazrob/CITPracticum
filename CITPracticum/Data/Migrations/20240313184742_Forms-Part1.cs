@@ -13,17 +13,17 @@ namespace CITPracticum.Data.Migrations
                 name: "FK_Employer_AspNetUsers_AppUserId",
                 table: "Employer");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Employer_Student_StudentId",
-                table: "Employer");
+            //migrationBuilder.DropForeignKey(
+            //    name: "FK_Employer_Student_StudentId",
+            //    table: "Employer");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Student_AspNetUsers_AppUserId",
                 table: "Student");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Student_Employer_EmployerId",
-                table: "Student");
+            //migrationBuilder.DropForeignKey(
+            //    name: "FK_Student_Employer_EmployerId",
+            //    table: "Student");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Student",
@@ -41,20 +41,20 @@ namespace CITPracticum.Data.Migrations
                 name: "Employer",
                 newName: "Employers");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_Student_EmployerId",
-                table: "Students",
-                newName: "IX_Students_EmployerId");
+            //migrationBuilder.RenameIndex(
+            //    name: "IX_Student_EmployerId",
+            //    table: "Students",
+            //    newName: "IX_Students_EmployerId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Student_AppUserId",
                 table: "Students",
                 newName: "IX_Students_AppUserId");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_Employer_StudentId",
-                table: "Employers",
-                newName: "IX_Employers_StudentId");
+            //migrationBuilder.RenameIndex(
+            //    name: "IX_Employer_StudentId",
+            //    table: "Employers",
+            //    newName: "IX_Employers_StudentId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Employer_AppUserId",
@@ -402,12 +402,12 @@ namespace CITPracticum.Data.Migrations
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Employers_Students_StudentId",
-                table: "Employers",
-                column: "StudentId",
-                principalTable: "Students",
-                principalColumn: "Id");
+            //migrationBuilder.AddForeignKey(
+            //    name: "FK_Employers_Students_StudentId",
+            //    table: "Employers",
+            //    column: "StudentId",
+            //    principalTable: "Students",
+            //    principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Students_AspNetUsers_AppUserId",
@@ -416,13 +416,13 @@ namespace CITPracticum.Data.Migrations
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Students_Employers_EmployerId",
-                table: "Students",
-                column: "EmployerId",
-                principalTable: "Employers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            //migrationBuilder.AddForeignKey(
+            //    name: "FK_Students_Employers_EmployerId",
+            //    table: "Students",
+            //    column: "EmployerId",
+            //    principalTable: "Employers",
+            //    principalColumn: "Id",
+            //    onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -431,17 +431,17 @@ namespace CITPracticum.Data.Migrations
                 name: "FK_Employers_AspNetUsers_AppUserId",
                 table: "Employers");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Employers_Students_StudentId",
-                table: "Employers");
+            //migrationBuilder.DropForeignKey(
+            //    name: "FK_Employers_Students_StudentId",
+            //    table: "Employers");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Students_AspNetUsers_AppUserId",
                 table: "Students");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Students_Employers_EmployerId",
-                table: "Students");
+            //migrationBuilder.DropForeignKey(
+            //    name: "FK_Students_Employers_EmployerId",
+            //    table: "Students");
 
             migrationBuilder.DropTable(
                 name: "PracticumForms");
@@ -483,20 +483,20 @@ namespace CITPracticum.Data.Migrations
                 name: "Employers",
                 newName: "Employer");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_Students_EmployerId",
-                table: "Student",
-                newName: "IX_Student_EmployerId");
+            //migrationBuilder.RenameIndex(
+            //    name: "IX_Students_EmployerId",
+            //    table: "Student",
+            //    newName: "IX_Student_EmployerId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Students_AppUserId",
                 table: "Student",
                 newName: "IX_Student_AppUserId");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_Employers_StudentId",
-                table: "Employer",
-                newName: "IX_Employer_StudentId");
+            //migrationBuilder.RenameIndex(
+            //    name: "IX_Employers_StudentId",
+            //    table: "Employer",
+            //    newName: "IX_Employer_StudentId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Employers_AppUserId",
@@ -520,12 +520,13 @@ namespace CITPracticum.Data.Migrations
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Employer_Student_StudentId",
-                table: "Employer",
-                column: "StudentId",
-                principalTable: "Student",
-                principalColumn: "Id");
+            // this
+            //migrationBuilder.AddForeignKey(
+            //    name: "FK_Employer_Student_StudentId",
+            //    table: "Employer",
+            //    column: "StudentId",
+            //    principalTable: "Student",
+            //    principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Student_AspNetUsers_AppUserId",
@@ -534,13 +535,13 @@ namespace CITPracticum.Data.Migrations
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Student_Employer_EmployerId",
-                table: "Student",
-                column: "EmployerId",
-                principalTable: "Employer",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            //migrationBuilder.AddForeignKey(
+            //    name: "FK_Student_Employer_EmployerId",
+            //    table: "Student",
+            //    column: "EmployerId",
+            //    principalTable: "Employer",
+            //    principalColumn: "Id",
+            //    onDelete: ReferentialAction.Cascade);
         }
     }
 }

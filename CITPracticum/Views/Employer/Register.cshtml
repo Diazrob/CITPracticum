@@ -105,7 +105,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="LastName" class="control-label mt-2">Last Name:</label>
-                        <input asp-for="LastName" class="form-control" max-length="50" />
+                        <input asp-for="LastName" id="empLastName" class="form-control" max-length="50" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -116,11 +116,11 @@
                     @if (User.IsInRole("student"))
                     {
                         <div class="form-group">
-                            <input type="hidden" asp-for="Password" value="Password1!" class="form-control" />
+                            <input type="hidden" id="passwd" asp-for="Password" class="form-control" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input type="hidden" asp-for="ConfirmPassword" value="Password1!" class="form-control" />
+                            <input type="hidden" id="confirmPasswd" asp-for="ConfirmPassword" class="form-control" />
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
                     }
@@ -238,4 +238,10 @@
             ]
         });
     @*End of Add Student Demo*@
+
+        $('document').ready(function () {
+            var concat = $('#empLastName').val() + 'PasswordE1234!';
+            $('#passwd').val(concat);
+            $('#confirmPasswd').val(concat);
+        });
 </script>

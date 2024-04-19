@@ -9,29 +9,29 @@ namespace CITPracticum.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Employers_Students_StudentId",
-                table: "Employers");
+            //migrationBuilder.DropForeignKey(
+            //    name: "FK_Employers_Students_StudentId",
+            //    table: "Employers");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Students_Employers_EmployerId",
-                table: "Students");
+            //migrationBuilder.DropForeignKey(
+            //    name: "FK_Students_Employers_EmployerId",
+            //    table: "Students");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Students_EmployerId",
-                table: "Students");
+            //migrationBuilder.DropIndex(
+            //    name: "IX_Students_EmployerId",
+            //    table: "Students");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Employers_StudentId",
-                table: "Employers");
+            //migrationBuilder.DropIndex(
+            //    name: "IX_Employers_StudentId",
+            //    table: "Employers");
 
-            migrationBuilder.DropColumn(
-                name: "EmployerId",
-                table: "Students");
+            //migrationBuilder.DropColumn(
+            //    name: "EmployerId",
+            //    table: "Students");
 
-            migrationBuilder.DropColumn(
-                name: "StudentId",
-                table: "Employers");
+            //migrationBuilder.DropColumn(
+            //    name: "StudentId",
+            //    table: "Employers");
 
             migrationBuilder.DropColumn(
                 name: "CompanyName",

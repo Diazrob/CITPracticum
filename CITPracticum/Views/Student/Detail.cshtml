@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    @if (User.IsInRole("admin"))
+    @if (User.IsInRole("student"))
     {
         <div class="step4">
             <h4 class="mt-4">Change Password</h4>
@@ -91,6 +91,15 @@
                 </div>
             </form>
         </div>
+    } else if (User.IsInRole("admin"))
+    {
+        <form>
+        <div class="row">
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Reset Password</button>
+            </div>
+        </div>
+        </form>
     }
 </div>
 
