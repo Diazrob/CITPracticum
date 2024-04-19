@@ -60,28 +60,28 @@ namespace CITPracticum.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> uploadCSV (IFormFile file)
+        public async Task<IActionResult> uploadCSV(IFormFile file)
         {
-            if (file!=null && file.Length > 0)
+            if (file != null && file.Length > 0)
             {
                 var filesFolder = $"{Directory.GetCurrentDirectory()}\\wwwroot\\files\\";
 
-                if(!Directory.Exists(filesFolder))
+                if (!Directory.Exists(filesFolder))
                 {
                     Directory.CreateDirectory(filesFolder);
                 }
 
                 var filePath = Path.Combine(filesFolder, file.FileName);
 
-                using(var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
                 var fileStudents = this.GetStudentList(file.FileName);
 
-                foreach(var fileStudent in fileStudents)
+                foreach (var fileStudent in fileStudents)
                 {
-                    
+
                     var user = await _userManager.FindByEmailAsync(fileStudent.Email);
                     string updatedStuId = "s0" + fileStudent.StuId;
                     string[] SName = fileStudent.StuName.Split();
@@ -192,14 +192,22 @@ namespace CITPracticum.Controllers
         // displays page of a student
         public async Task<IActionResult> Detail(int id)
         {
+            var usr = await _userManager.GetUserAsync(User);
             if (User.IsInRole("student"))
             {
-                var usr = await _userManager.GetUserAsync(User);
                 id = Convert.ToInt32(usr.StudentId);
             }
             ViewData["ActivePage"] = "Student";
             var users = await _userManager.GetUsersInRoleAsync(UserRoles.Student);
             Student student = await _studentRepository.GetByIdAsync(id);
+
+            foreach (var selStudent in users)
+            {
+                if (selStudent.StudentId == student.Id)
+                {
+                    usr = selStudent;
+                }
+            }
 
             var detailStudentVM = new DetailStudentViewModel()
             {
@@ -207,8 +215,10 @@ namespace CITPracticum.Controllers
                 FirstName = student.FirstName,
                 LastName = student.LastName,
                 StuId = student.StuId,
-                StuEmail = student.StuEmail
+                StuEmail = student.StuEmail,
+                User = usr
             };
+
             return View(detailStudentVM);
         }
 
@@ -241,50 +251,50 @@ namespace CITPracticum.Controllers
             await _userManager.ChangePasswordAsync(user, detailStudentVM.OldPassword, detailStudentVM.Password);
 
             return RedirectToAction("Detail", "Student");
-  // comment this out for now and check if working
-            var user = new AppUser();
+            //// comment this out for now and check if working
+            //          var user = new AppUser();
 
-            if (student == null)
-            {
-                TempData["Error"] = "Student profile not found.";
-                return RedirectToAction("Index");
-            }
+            //          if (student == null)
+            //          {
+            //              TempData["Error"] = "Student profile not found.";
+            //              return RedirectToAction("Index");
+            //          }
 
-            foreach (var selectedUser in users)
-            {
-                if (student.Id == selectedUser.StudentId)
-                {
-                    user = await _userManager.FindByEmailAsync(selectedUser.Email);
-                    break;
-                }
-            }
+            //          foreach (var selectedUser in users)
+            //          {
+            //              if (student.Id == selectedUser.StudentId)
+            //              {
+            //                  user = await _userManager.FindByEmailAsync(selectedUser.Email);
+            //                  break;
+            //              }
+            //          }
 
-            var studentVM = new ViewStudentViewModel
-            {
-                Student = student,
-                User = user
-            };
+            //          var studentVM = new ViewStudentViewModel
+            //          {
+            //              Student = student,
+            //              User = user
+            //          };
 
-            if (student != null)
-            {
-                if (User.IsInRole("student"))
-                {
-                    if (student.Id != user.StudentId)
-                    {
-                        return RedirectToAction("Detail", new { id = user.StudentId });
-                    }
-                }
-                return View(studentVM);
-            }
-            else
-            {
-                if (User.IsInRole("student"))
-                {
-                    return RedirectToAction("Detail", new { id = user.StudentId });
-                }
-                TempData["Error"] = "Student profile not found.";
-                return RedirectToAction("Index");
-            }
+            //          if (student != null)
+            //          {
+            //              if (User.IsInRole("student"))
+            //              {
+            //                  if (student.Id != user.StudentId)
+            //                  {
+            //                      return RedirectToAction("Detail", new { id = user.StudentId });
+            //                  }
+            //              }
+            //              return View(studentVM);
+            //          }
+            //          else
+            //          {
+            //              if (User.IsInRole("student"))
+            //              {
+            //                  return RedirectToAction("Detail", new { id = user.StudentId });
+            //              }
+            //              TempData["Error"] = "Student profile not found.";
+            //              return RedirectToAction("Index");
+            //          }
             //end here
         }
         // deletes a student user

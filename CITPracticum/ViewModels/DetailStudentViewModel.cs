@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CITPracticum.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace CITPracticum.ViewModels
 {
@@ -18,5 +19,6 @@ namespace CITPracticum.ViewModels
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "Password do not match")]
         public string ConfirmPassword { get; set; }
+        public AppUser User { get; set; }
     }
 }
