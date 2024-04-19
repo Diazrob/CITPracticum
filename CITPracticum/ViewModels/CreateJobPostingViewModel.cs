@@ -1,4 +1,5 @@
 ﻿using CITPracticum.Data.Enum;
+using CITPracticum.Models;
 
 namespace CITPracticum.ViewModels
 {
@@ -12,5 +13,7 @@ namespace CITPracticum.ViewModels
         public PaymentCategory PaymentCategory { get; set; }
         public string JobLink { get; set; }
         public string Location { get; set; }
+        public Employer? Employer { get; set; }
+        public int? EmployerId { get; set; }
     }
 }

@@ -156,15 +156,19 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
         const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
-                classes: 'shadow-md bg-purple-dark',
-                scrollTo: true
+                classes: 'shepherd-theme-dark',
+                scrollTo: true,
+                cancelIcon: {
+                    enabled: true
+                },
             }
         });
 
         @*Start of Dashboard Demo*@
         tour.addStep({
                 id: 'example-step',
-                text: 'Demo time! Here is the average of student progress.',
+                title: 'Demo time!',
+                text: 'Here is the average of student progress.',
                 attachTo: {
                     element: '.step1',
                     on: 'bottom'
@@ -184,6 +188,7 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 
         tour.addStep({
             id: 'example-step',
+            title: 'Student Progress Tracking',
             text: 'It is broken down into three fields: Average Student Hours',
             attachTo: {
                 element: '.step2',
@@ -204,6 +209,7 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 
         tour.addStep({
             id: 'example-step',
+            title: 'Student Progress Tracking',
             text: 'First 100 Hours Completed',
             attachTo: {
                 element: '.step3',
@@ -224,6 +230,7 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 
         tour.addStep({
             id: 'example-step',
+            title: 'Student Progress Tracking',
             text: 'And finally, All Forms Signed.',
             attachTo: {
                 element: '.step4',
@@ -299,7 +306,7 @@ else if (User.IsInRole("employer"))
         text: 'The main content to focus on is the navigation links. These will take you to the other areas of the application.',
         attachTo: {
             element: '.nav2',
-            on: 'bottom'
+            on: 'right'
         },
         classes: 'nav2',
         buttons: [
@@ -319,7 +326,7 @@ else if (User.IsInRole("employer"))
         text: 'This is the settings menu. Here you can access your profile, or sign out.',
         attachTo: {
             element: '.nav3',
-            on: 'top'
+            on: 'right'
         },
         classes: 'nav3',
         buttons: [

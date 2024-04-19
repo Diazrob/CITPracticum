@@ -16,31 +16,31 @@
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .btn-primary:hover {
-        background-color: #5a9bd5; /* Darker shade of kodiaks-blue */
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    }
+        .btn-primary:hover {
+            background-color: #5a9bd5; /* Darker shade of kodiaks-blue */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
 
     .table {
         width: 100%;
         border-collapse: collapse;
     }
 
-    .table thead {
-        background-color: var(--stone-pipe-grey);
-        color: white;
-    }
+        .table thead {
+            background-color: var(--stone-pipe-grey);
+            color: white;
+        }
 
-    .table thead th {
-        padding: 0.75rem 1rem;
-        text-align: left;
-    }
+            .table thead th {
+                padding: 0.75rem 1rem;
+                text-align: left;
+            }
 
-    .table tbody td {
-        padding: 0.75rem 1rem;
-        border-bottom: 1px solid var(--stone-pipe-grey);
-    }
+        .table tbody td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--stone-pipe-grey);
+        }
 
     .img-fluid {
         max-width: 100%;
@@ -60,10 +60,10 @@
         border-bottom: 1px solid #dee2e6; /* Bottom border for the whole nav */
     }
 
-    /* Styles to align the button with the tab items */
-    .nav-tabs .nav-item:last-child {
-        margin-left: auto; /* Push the button to the right */
-    }
+        /* Styles to align the button with the tab items */
+        .nav-tabs .nav-item:last-child {
+            margin-left: auto; /* Push the button to the right */
+        }
 
     td.name-column {
         max-width: 300px; /* Adjust the max-width as needed */
@@ -76,6 +76,22 @@
         max-width: 350px; /* Adjust the max-width as needed */
     }
 </style>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-circle-exclamation fa-lg"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa-regular fa-circle-check fa-lg"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
 <ul class="nav nav-tabs mb-3" role="tablist">
     <li class="nav-item">
@@ -103,7 +119,14 @@
             @if (item.Employer != null)
             {
                 <tr class="step2">
-                    <td scope="row"><img class="img-fluid" src="https://placehold.jp/30x30.png" alt="" /></td>
+                    @if (item.ProfileImage != null)
+                    {
+                        <td scope="row"><img class="img-fluid" src="@Url.Content($"~/{item.ProfileImage}")" style="width:50px; height:50px; object-fit: cover; border: 1px solid black;" /></td>
+                    }
+                    else
+                    {
+                        <td scope="row"><img class="img-fluid" src="~/images/default.png" style="width:50px; height:50px; object-fit: cover; border: 1px solid black;" /></td>
+                    }
                     <td class="name-column">@item.Employer.FirstName @item.Employer.LastName</td>
                     <td>@item.UserName</td>
                     <td>@item.Email</td>
@@ -115,16 +138,7 @@
                     </td>
                 </tr>
             }
-            else
-            {
-                <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1>There are no Employers listed.</h1>
-                </div>
-                break;
-            }
-
         }
-
     </tbody>
 </table>
 

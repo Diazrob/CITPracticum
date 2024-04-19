@@ -37,7 +37,7 @@
                         <span asp-validation-for="NewTimeEntry.Hours" class="text-danger"></span>
                     </div>
                     <div class="form-group mt-2">
-                        <input class="btn btn-outline-success float right step5" type="submit" value="Create Entry" />
+                        <input class="btn btn-outline-success float right step5" type="submit" value="Create" />
                         @if (User.IsInRole("admin"))
                         {
                             <a class="btn btn-outline-secondary" asp-controller="Timesheet" asp-action="ViewTimesheet" asp-route-id="@Model.Placement.Id">Cancel</a>
@@ -90,7 +90,7 @@
 else if (User.IsInRole("student"))
 {
     <script>
-        const tour = new Shepherd.Tour({
+                const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',

@@ -10,24 +10,27 @@ using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using CsvHelper;
 using System.Globalization;
+using Microsoft.Extensions.Hosting;
 
 namespace CITPracticum.Controllers
 {
     public class StudentController : Controller
     {
+        private readonly IWebHostEnvironment _environment;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ApplicationDbContext _context;
         private readonly IStudentRepository _studentRepository;
         private readonly IPlacementRepository _placementRepository;
 
-        public StudentController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context, IStudentRepository studentRepository, IPlacementRepository placementRepository)
+        public StudentController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context, IStudentRepository studentRepository, IPlacementRepository placementRepository, IWebHostEnvironment environment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _studentRepository = studentRepository;
             _placementRepository = placementRepository;
+            _environment = environment;
         }
 
         // displays all the students on index page
@@ -183,6 +186,7 @@ namespace CITPracticum.Controllers
                 await _userManager.AddToRoleAsync(newUser, UserRoles.Student);
 
             TempData["Message"] = "Student Added Successfully.";
+
             return RedirectToAction("Index", "Student");
         }
         // displays page of a student
@@ -194,6 +198,7 @@ namespace CITPracticum.Controllers
                 id = Convert.ToInt32(usr.StudentId);
             }
             ViewData["ActivePage"] = "Student";
+            var users = await _userManager.GetUsersInRoleAsync(UserRoles.Student);
             Student student = await _studentRepository.GetByIdAsync(id);
 
             var detailStudentVM = new DetailStudentViewModel()
@@ -236,6 +241,51 @@ namespace CITPracticum.Controllers
             await _userManager.ChangePasswordAsync(user, detailStudentVM.OldPassword, detailStudentVM.Password);
 
             return RedirectToAction("Detail", "Student");
+  // comment this out for now and check if working
+            var user = new AppUser();
+
+            if (student == null)
+            {
+                TempData["Error"] = "Student profile not found.";
+                return RedirectToAction("Index");
+            }
+
+            foreach (var selectedUser in users)
+            {
+                if (student.Id == selectedUser.StudentId)
+                {
+                    user = await _userManager.FindByEmailAsync(selectedUser.Email);
+                    break;
+                }
+            }
+
+            var studentVM = new ViewStudentViewModel
+            {
+                Student = student,
+                User = user
+            };
+
+            if (student != null)
+            {
+                if (User.IsInRole("student"))
+                {
+                    if (student.Id != user.StudentId)
+                    {
+                        return RedirectToAction("Detail", new { id = user.StudentId });
+                    }
+                }
+                return View(studentVM);
+            }
+            else
+            {
+                if (User.IsInRole("student"))
+                {
+                    return RedirectToAction("Detail", new { id = user.StudentId });
+                }
+                TempData["Error"] = "Student profile not found.";
+                return RedirectToAction("Index");
+            }
+            //end here
         }
         // deletes a student user
         public async Task<IActionResult> Delete(string email, int id)
@@ -259,6 +309,8 @@ namespace CITPracticum.Controllers
 
             await _userManager.DeleteAsync(user);
             _studentRepository.Delete(student);
+
+            TempData["Success"] = "Student deleted successfully.";
 
             return RedirectToAction("index");
         }
@@ -306,7 +358,9 @@ namespace CITPracticum.Controllers
                     StuEmail = studentVM.StuEmail
                 };
                 _studentRepository.Update(student);
-                _userManager.UpdateAsync(user);
+                await _userManager.UpdateAsync(user);
+
+                TempData["Success"] = "Student edited successfully.";
 
                 return RedirectToAction("Index");
             }
@@ -314,6 +368,45 @@ namespace CITPracticum.Controllers
             {
                 return View(studentVM);
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> UploadPFP(IFormFile profilePicture)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var student = await _studentRepository.GetByIdAsync((Int32)user.StudentId);
+
+            if (profilePicture != null && profilePicture.Length > 0)
+            {
+                // Generate a unique name for the file
+                var fileName = student.StuId + Path.GetExtension(".png");
+
+                // Define the path to save the file to. For example, "wwwroot/uploads/"
+                // Use the web root path to create the save path
+                var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads/images");
+
+                // Ensure the directory exists
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var savePath = Path.Combine(uploadsFolder, fileName);
+
+                // Save the file
+                using (var fileStream = new FileStream(savePath, FileMode.Create))
+                {
+                    await profilePicture.CopyToAsync(fileStream);
+                }
+
+                // Save the relative path (relative to the web root) in the user's record
+                user.ProfileImage = Path.Combine("uploads/images", fileName);
+
+                // Update the user
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Detail", new { id = user.StudentId });
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

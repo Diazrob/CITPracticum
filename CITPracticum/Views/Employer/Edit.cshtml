@@ -8,61 +8,76 @@
     ViewData["CurrentPage"] = "Employers > Edit";
 }
 
-<div class="row">
-    <div class="col-md-6 offset-3 step1">
-        <p>
-            <h4>Edit an Employer</h4>
-        </p>
-        @if (TempData["Error"] != null)
-        {
-            <div class="col-md-12 alert alert-danger">
-                <span><b>Sorry! </b>@TempData["Error"]</span>
-            </div>
-        }
-        <div class="row">
-            <div class="col-md-8">
 
-                <form method="post" asp-action="Edit" enctype="multipart/form-data">
-                    <input type="hidden" value="Id" id="Id" />
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="FirstName" class="control-label">First Name:</label>
-                        <input asp-for="FirstName" class="form-control" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="LastName" class="control-label mt-2">Last Name:</label>
-                        <input asp-for="LastName" class="form-control" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CompanyName" class="control-label mt-2">Company Name:</label>
-                        <input asp-for="CompanyName" class="form-control" />
-                        <span asp-validation-for="CompanyName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="EmpEmail" class="control-label mt-2">Employer Email:</label>
-                        <input asp-for="EmpEmail" class="form-control" />
-                        <span asp-validation-for="EmpEmail" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="affiliationAgreement" class="control-label mt-2">Does the employer currently have an affiliation agreement?</label>
-                        <select id="affiliationAgreement" name="affiliationAgreement" class="form-control">
-                            <option value="">Select...</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                   
-                    <div class="form-group mt-2">
-                        <input class="btn btn-outline-success" type="submit" value="Edit Employer" />
-                        <a class="btn btn-outline-secondary" asp-controller="Employer" asp-action="Index">Cancel</a>
-                    </div>
-                </form>
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-circle-exclamation fa-lg"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <div class="mx-auto step1" style="width: 50%;">
+        <input type="hidden" value="Id" id="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Edit an Employer</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label asp-for="FirstName" class="control-label">First Name:</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="LastName" class="control-label">Last Name:</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label asp-for="CompanyName" class="control-label mt-2">Company Name:</label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="EmpEmail" class="control-label mt-2">Employer Email:</label>
+                <input asp-for="EmpEmail" class="form-control" />
+                <span asp-validation-for="EmpEmail" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label asp-for="Affiliation" class="control-label mt-2">Does the employer currently have an affiliation agreement?</label>
+                <select asp-for="Affiliation" class="form-control">
+                    <option value="@false">No</option>
+                    <option value="@true">Yes</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 mt-2">
+                <label asp-for="EmployerComments" class="form-label">Employer Comments:</label>
+                <textarea asp-for="EmployerComments" class="form-control" placeholder="Enter comments here" rows="6"></textarea>
+                <span asp-validation-for="EmployerComments" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mt-2">
+                <input class="btn btn-outline-success" type="submit" value="Save" />
+                <a class="btn btn-outline-secondary" asp-controller="Employer" asp-action="Index">Cancel</a>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 <script>
     const tour = new Shepherd.Tour({

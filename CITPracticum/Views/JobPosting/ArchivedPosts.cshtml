@@ -30,6 +30,22 @@
         }
 </style>
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-circle-exclamation fa-lg"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa-regular fa-circle-check fa-lg"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <ul class="nav nav-tabs mb-3" role="tablist">
     <li class="nav-item">
         <a class="nav-link" id="job-posts-tab" data-toggle="tab" href="/JobPosting/Index" role="tab" aria-controls="job-posts" aria-selected="true">Job Posts</a>
@@ -103,11 +119,11 @@
                                 </div>
                             </div>
 
-                            <div class="card-footer">
-                                <a class="btn btn-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
-                                <a class="btn btn-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                <a class="btn btn-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                <a class="btn btn-warning step2" asp-controller="JobPosting" asp-action="ConfirmUnarchive" asp-route-id="@item.Id">Restore Post</a>
+                            <div class="btn-group card-footer">
+                                <a class="btn btn-outline-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
+                                <a class="btn btn-outline-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-outline-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                <a class="btn btn-outline-warning step2" asp-controller="JobPosting" asp-action="ConfirmUnarchive" asp-route-id="@item.Id">Restore Post</a>
                             </div>
                         </div>
                     </div>

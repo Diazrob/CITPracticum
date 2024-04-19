@@ -9,5 +9,7 @@ namespace CITPracticum.ViewModels
         public string? LastName { get; set; }
         public string? CompanyName { get; set; }
         public string? EmpEmail { get; set; }
+        public bool? Affiliation { get; set; }
+        public string? EmployerComments { get; set;}
     }
 }

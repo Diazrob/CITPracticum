@@ -50,5 +50,6 @@ namespace CITPracticum.Data
         public DbSet<Placement> Placements { get; set; }
         public DbSet<Timesheet> Timesheets { get; set; }
         public DbSet<TimeEntry> TimeEntries { get; set; }
+        public DbSet<Application> Applications { get; set; }
     }
 }
