@@ -1,4 +1,20 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<AppUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var studId = 0;
+    var empId = 0;
+    if (User.IsInRole("student"))
+    {
+        studId = (Int32)user.StudentId;
+    }
+    if (User.IsInRole("employer"))
+    {
+        empId = (Int32)user.EmployerId;
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,8 +23,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CITPracticum.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/shepherd.css" />
     <link href="~/fontawesome6/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/shepherd.css" />
 
     <style>
         :root {
@@ -56,6 +72,15 @@
             max-height: 300px; /* Maximum height allowed */
         }
 
+        #chevronIcon {
+            transition: transform 0.1s ease-in-out; /* Transition for smooth animation */
+            display: inline-block; /* Ensures the icon behaves correctly during transformation */
+        }
+
+        /* Class to rotate the chevron indicating dropdown is open */
+        .chevron-rotate {
+            transform: rotate(180deg); /* Rotates the icon to point upwards */
+        }
     </style>
 </head>
 <body>
@@ -137,15 +162,21 @@
             </ul>
             <hr style="width: 100%;">
             <div class="dropdown nav3">
-                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle text-white" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-gear fa-lg pe-1"></i><strong>Settings</strong>
+                <a href="#" class="d-flex align-items-center link-dark text-decoration-none text-white" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-gears fa-lg me-1"></i><strong>Settings</strong><i class="fa-solid fa-chevron-down ms-1 fa-sm" id="chevronIcon"></i>
                 </a>
                 <ul class="dropdown-menu text-small shadow nav4" aria-labelledby="dropdownUser2">
                     @if (!User.IsInRole("admin"))
                     {
-                        <li><a class="dropdown-item" href="/Student/Detail?email=">Profile</a></li>
+                        @if (User.IsInRole("employer"))
+                        {
+                            <li><a class="dropdown-item text-black" href="@($"/Employer/Detail/{empId}")">Profile</a></li>
+                        } else if(User.IsInRole("student"))
+                        {
+                            <li><a class="dropdown-item text-black" href="@($"/Student/Detail/{studId}")">Profile</a></li>
+                        }
                     }
-                    <form asp-area="" asp-controller="Account" asp-action="Logout">
+                    <form asp-controller="Account" asp-action="Logout">
                     <li><input type="submit" class="dropdown-item" value="Sign Out" /></li>
                     </form>
                 </ul>
@@ -184,5 +215,21 @@
     </div>
     @RenderSection("Scripts", required: false)
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdown = document.getElementById('dropdownUser2');
+            var chevronIcon = document.getElementById('chevronIcon');
+
+            // Event listener for dropdown showing
+            dropdown.addEventListener('show.bs.dropdown', function () {
+                chevronIcon.classList.add('chevron-rotate'); // Rotate chevron up
+            });
+
+            // Event listener for dropdown hiding
+            dropdown.addEventListener('hide.bs.dropdown', function () {
+                chevronIcon.classList.remove('chevron-rotate'); // Rotate chevron down
+            });
+        });
+    </script>
 </body>
 </html>

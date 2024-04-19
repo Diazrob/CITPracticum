@@ -6,28 +6,6 @@
     ViewData["CurrentPage"] = "Employers > Add";
 }
 <style>
-    /* Base Styles */
-    :root {
-        --kodiaks-blue: #6AADE4;
-        --coulee-green: #739600;
-        --coal-miner-black: #62646C;
-        --stone-pipe-grey: #808080;
-        --body-background: #F3F3F3;
-    }
-
-    body {
-        font-family: 'Open Sans', sans-serif;
-        background-color: var(--body-background);
-        color: var(--coal-miner-black);
-    }
-
-    /* Form Header */
-    .form-header h4 {
-        color: var(--kodiaks-blue);
-        font-weight: 600;
-        margin-bottom: 1rem;
-    }
-
     /* Form Field Styling */
     .form-control {
         border: 1px solid var(--stone-pipe-grey);
@@ -73,140 +51,191 @@
     .float-right {
         float: right;
     }
-
-    }
 </style>
 
 
-<div class="row">
-    <div class="col-md-8 offset-2 step1">
-        <p>
-            <h4 class="offset-2">Add an Employer</h4>
-        </p>
+<div class="mx-auto" style="width: 50%;">
+    <div class="col-md-12">
         @if (TempData["Error"] != null)
         {
-            <div class="col-md-12 alert alert-danger">
-                <span><b>Sorry! </b>@TempData["Error"]</span>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fa-solid fa-circle-exclamation fa-lg"></i> @TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         }
+    </div>
+    <div class="col-md-6">
+        <h4>Add an Employer</h4>
+    </div>
+    <form method="post" asp-action="Register" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
-            <div class="col-md-8 offset-2">
-                <form method="post" asp-action="Register" enctype="multipart/form-data">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="EmailAddress" class="control-label">Email Address:</label>
-                        <input asp-for="EmailAddress" class="form-control" max-length="50" />
-                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="FirstName" class="control-label mt-2">First Name:</label>
-                        <input asp-for="FirstName" class="form-control" max-length="50" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="LastName" class="control-label mt-2">Last Name:</label>
-                        <input asp-for="LastName" class="form-control" max-length="50" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CompanyName" class="control-label mt-2">Company Name:</label>
-                        <input asp-for="CompanyName" class="form-control" max-length="50" />
-                        <span asp-validation-for="CompanyName" class="text-danger"></span>
-                    </div>
-                    @if (User.IsInRole("student"))
-                    {
-                        <div class="form-group">
-                            <input type="hidden" asp-for="Password" value="Password1!" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" asp-for="ConfirmPassword" value="Password1!" class="form-control" />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="form-group mt-2">
-                            <label asp-for="Password" class="control-label"></label>
-                            <input asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="form-group mt-2">
-                            <label asp-for="ConfirmPassword" class="control-label"></label>
-                            <input asp-for="ConfirmPassword" class="form-control" />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-                    }
-
-                    <div class="form-group mt-2">
-                        <label asp-for="SVPosition" class="control-label"></label>
-                        <input asp-for="SVPosition" class="form-control" />
-                        <span asp-validation-for="SVPosition" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label asp-for="OrgType" class="control-label"></label>
-                        <input asp-for="OrgType" class="form-control" />
-                        <span asp-validation-for="OrgType" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label asp-for="PhoneNumber" class="control-label"></label>
-                        <input asp-for="PhoneNumber" class="form-control" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                        <div class="form-group mb-3">
-                            <label asp-for="Credentials" class="form-label mt-2">Supervisor's Credentials</label>
-                            <div class="col-md-9">
-                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
-                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
-                                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
-                            </div>
-                            <span asp-validation-for="Credentials" class="text-danger"></span>
-                        </div>
-                        <div class="row mb-3">
-                            <div>
-                                <label asp-for="CredOther" class="form-label">Other Credentials:</label>
-                                <input asp-for="CredOther" type="text" class="form-control">
-                            </div>
-                        </div>
-
-                        <!-- ... other fields ... -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label asp-for="CreateAddressViewModel.Street" class="form-label">Street:</label>
-                                <input asp-for="CreateAddressViewModel.Street" type="text" class="form-control">
-                                <span asp-validation-for="CreateAddressViewModel.Street" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-4">
-                                <label asp-for="CreateAddressViewModel.City" class="form-label">City:</label>
-                                <input asp-for="CreateAddressViewModel.City" type="text" class="form-control">
-                                <span asp-validation-for="CreateAddressViewModel.City" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-4">
-                                <label asp-for="CreateAddressViewModel.Prov" class="form-label">Province:</label>
-                                <input asp-for="CreateAddressViewModel.Prov" type="text" class="form-control">
-                                <span asp-validation-for="CreateAddressViewModel.Prov" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-4">
-                                <label asp-for="CreateAddressViewModel.Country" class="form-label mt-2">Country:</label>
-                                <input asp-for="CreateAddressViewModel.Country" type="text" class="form-control">
-                                <span asp-validation-for="CreateAddressViewModel.Country" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-4">
-                                <label asp-for="CreateAddressViewModel.PostalCode" class="form-label mt-2">Postal Code:</label>
-                                <input asp-for="CreateAddressViewModel.PostalCode" type="text" class="form-control">
-                                <span asp-validation-for="CreateAddressViewModel.PostalCode" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="form-group mt-2 mb-5">
-                        <input class="btn btn-outline-success float right" type="submit" value="Register Employer" />
-                        <a class="btn btn-outline-secondary" asp-controller="Employer" asp-action="Index">Cancel</a>
-                    </div>
-
-                </form>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="EmailAddress" class="control-label">Email Address</label>
+                    <input asp-for="EmailAddress" class="form-control" max-length="50" />
+                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label">First Name</label>
+                    <input asp-for="FirstName" class="form-control" max-length="50" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label mt-2">Last Name</label>
+                    <input asp-for="LastName" class="form-control" max-length="50" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="CompanyName" class="control-label mt-2">Company Name</label>
+                    <input asp-for="CompanyName" class="form-control" max-length="50" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        @if (User.IsInRole("student"))
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="hidden" asp-for="Password" value="Password1!" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="hidden" asp-for="ConfirmPassword" value="Password1!" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <label asp-for="ConfirmPassword" class="control-label"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mt-2">
+                    <label asp-for="SVPosition" class="control-label"></label>
+                    <input asp-for="SVPosition" class="form-control" />
+                    <span asp-validation-for="SVPosition" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group mt-2">
+                    <label asp-for="OrgType" class="control-label"></label>
+                    <input asp-for="OrgType" class="form-control" />
+                    <span asp-validation-for="OrgType" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mt-2">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Affiliation" class="control-label mt-2">This employer has an affiliation agreement?</label>
+                <select asp-for="Affiliation" class="form-control">
+                    <option value="@false">No</option>
+                    <option value="@true">Yes</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <label asp-for="Credentials" class="form-label mt-2">Supervisor's Credentials</label>
+            <div class="col-md-12">
+                <div class="form-group mb-3">
+                    <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
+                    <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
+                    <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
+                    <span asp-validation-for="Credentials" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label asp-for="CredOther" class="form-label">Other Credentials</label>
+                <input asp-for="CredOther" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <label asp-for="CreateAddressViewModel.Street" class="form-label">Street</label>
+                <input asp-for="CreateAddressViewModel.Street" type="text" class="form-control">
+                <span asp-validation-for="CreateAddressViewModel.Street" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="CreateAddressViewModel.City" class="form-label">City</label>
+                <input asp-for="CreateAddressViewModel.City" type="text" class="form-control">
+                <span asp-validation-for="CreateAddressViewModel.City" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="CreateAddressViewModel.Prov" class="form-label">Province</label>
+                <input asp-for="CreateAddressViewModel.Prov" type="text" class="form-control">
+                <span asp-validation-for="CreateAddressViewModel.Prov" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="CreateAddressViewModel.Country" class="form-label mt-2">Country</label>
+                <input asp-for="CreateAddressViewModel.Country" type="text" class="form-control">
+                <span asp-validation-for="CreateAddressViewModel.Country" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="CreateAddressViewModel.PostalCode" class="form-label mt-2">Postal Code</label>
+                <input asp-for="CreateAddressViewModel.PostalCode" type="text" class="form-control">
+                <span asp-validation-for="CreateAddressViewModel.PostalCode" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label asp-for="EmployerComments" class="form-label mt-2">Employer Comments</label>
+            </div>
+
+            <div class="col-md-12">
+                <textarea class="form-control w-100" asp-for="EmployerComments" placeholder="Enter comments here" rows="6"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group mt-2 mb-5">
+            <input class="btn btn-outline-success float right" type="submit" value="Register" />
+            <a class="btn btn-outline-secondary" asp-controller="Employer" asp-action="Index">Cancel</a>
+        </div>
+
+    </form>
 </div>
 
 <script>

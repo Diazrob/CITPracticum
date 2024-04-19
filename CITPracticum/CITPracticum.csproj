@@ -32,4 +32,8 @@
     <None Include="wwwroot\images\lc.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\images\" />
+  </ItemGroup>
+
 </Project>

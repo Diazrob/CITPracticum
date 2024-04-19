@@ -1,126 +1,255 @@
-﻿@model Employer
+﻿@using CITPracticum.ViewModels;
+@model ViewEmployerViewModel
 
 @{
-    ViewData["Title"] = "Employers";
-    ViewData["CurrentPage"] = "Employers > Profile";
-}
-
-<div class="step1">
-    <!-- Portfolio Item Heading -->
-    <button onclick="window.history.back();" class="btn btn-secondary mb-3">Back</button>
-    @if (User.IsInRole("admin"))
+    if (User.IsInRole("employer"))
     {
-        <h1 class="step2">@Model.CompanyName's Profile</h1>
+        ViewData["Title"] = "Profile";
+        ViewData["CurrentPage"] = "Profile";
     }
     else
     {
-        <h1>Welcome, @Model.CompanyName!</h1>
+        ViewData["Title"] = "Employers";
+        ViewData["CurrentPage"] = "Employers > Profile";
     }
-    <!-- Porfolio Item Row -->
+}
 
-    <div class="row mt-3">
-        <label>Profile Picture:</label>
-        <div class="col-md-4">
-            <img src="~/images/side.jpg" class="w-50" style="" />
+<style>
+    .profile-pic-container {
+        text-align: left;
+        position: relative;
+        margin: 20px;
+    }
+
+    .image-container {
+        display: inline-block;
+        position: relative;
+    }
+
+        .image-container img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+    .overlay {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        height: 40px;
+    }
+
+    .upload-button {
+        border: none;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        padding: 8px;
+        box-shadow: 0px 2px 5px grey;
+        cursor: pointer;
+        outline: none;
+    }
+
+        .upload-button i {
+            color: #333;
+        }
+
+        .upload-button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+    #profilePictureInput {
+        display: none; /* Hide the default input */
+    }
+
+    /* Position the button on the bottom right of the image */
+    .image-container:hover .overlay {
+        display: block;
+    }
+</style>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mx-auto step1">
+        <div class="row">
+            <div class="col-md-2 mt-2" style="margin-left: -100px;">
+                <button onclick="window.history.back();" class="btn btn-secondary mb-3"><i class="fa-solid fa-chevron-left"></i> Back</button>
+            </div>
+            <div class="col-md-10" style="margin-left: -135px;">
+                @if (User.IsInRole("admin"))
+                {
+                    <h1 class="step2">@Model.Employer.FirstName @Model.Employer.LastName's Profile</h1>
+                }
+                else
+                {
+                    <h1>Welcome, @Model.Employer.FirstName @Model.Employer.LastName!</h1>
+                }
+            </div>
+        </div>
+
+        <div class="profile-pic-container" style="margin-left: -1px;">
+            <div class="image-container">
+                @if (Model.User.ProfileImage != null)
+                {
+                    <img id="profilePic" src="@Url.Content($"~/{Model.User.ProfileImage}")" alt="Profile Picture" style="border: 1px solid black;" />
+                }
+                else
+                {
+                    <img id="profilePic" src="~/images/default.png" alt="Profile Picture" style="border: 1px solid black;" />
+                }
+                <div class="overlay">
+                    @if (User.IsInRole("employer"))
+                    {
+                        <button type="button" class="upload-button">
+                            <i class="fa-solid fa-plus fa-2xs"></i><i class="fa-solid fa-camera"></i>
+                        </button>
+                        <input type="file" id="profilePictureInput" name="profilePicture" accept="image/*" />
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="uploadConfirmationModal" tabindex="-1" aria-labelledby="uploadConfirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uploadConfirmModalLabel">Confirm Image Upload</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to upload this picture?</p>
+                        <img id="imgPreview" src="#" alt="Image Preview" class="img-fluid" style="border-radius: 50%; object-fit: cover; width: 150px; height: 150px;" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" asp-action="UploadPFP" asp-controller="Employer">Upload</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</form>
+<script>
+    // When the custom upload button is clicked, trigger the hidden file input
+    document.querySelector('.upload-button').addEventListener('click', function () {
+        document.getElementById('profilePictureInput').click();
+    });
 
-    @if (User.IsInRole("employer"))
+    // When a file is selected, read it for the preview and show the Bootstrap modal
+    document.getElementById('profilePictureInput').addEventListener('change', function (event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // Correct the ID from 'imagePreview' to 'imgPreview'
+            document.getElementById('imgPreview').src = e.target.result;
+            // Show the modal using the correct Bootstrap 5 method
+            var uploadModal = new bootstrap.Modal(document.getElementById('uploadConfirmationModal'));
+            uploadModal.show();
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // The ID of the confirm button inside the modal is 'confirmUpload', so we should use that
+    document.getElementById('confirmUpload').addEventListener('click', function () {
+        // This is where the upload logic will go
+        var uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadConfirmationModal'));
+        uploadModal.hide();
+
+        // Add the logic to handle the actual file upload here
+    });
+</script>
+
+<div class="step3">
+    @if (User.IsInRole("admin"))
     {
-        <div class="row mt-2">
-            <div class="col-md-4">
-                <label>Upload new profile picture:</label>
-                <input type="file" class="mt-2" value="Choose Profile Picture" />
-                <form>
-                    <button class="btn btn-primary mt-2">Change Profile Picture</button>
-                </form>
+        <h4 class="mt-3">Employer Information</h4>
+    }
+    else if (User.IsInRole("employer"))
+    {
+        <h4 class="mt-3">Company Information</h4>
+    }
+
+    @* Main Content *@
+    <!-- Program, Host Company, Type of Organization -->
+    <div class="row mb-3 mt-3">
+        <div class="col-md-4">
+            <label class="form-label">Host Company:</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Type of organization:</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Supervisor's name:</label>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+
+    <!-- Supervisor's Name, Position, and Email -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="form-label">Supervisor's position:</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Supervisor's e-mail:</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Phone number:</label>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+    <!-- ... other fields ... -->
+
+    <div class="form-group mb-3">
+        <label class="form-label">Supervisor's Credentials</label>
+        <div class="col-md-8">
+            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
+            <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
+            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="form-label">Other Credentials:</label>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="form-label">Street:</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">City:</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Province:</label>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="form-label">Country:</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Postal Code:</label>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+    @if (User.IsInRole("admin"))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Employer Comments:</label>
+                <textarea class="form-control" placeholder="Enter comments here" rows="6"></textarea>
             </div>
         </div>
     }
-
-    <div class="step3">
-        @if (User.IsInRole("admin"))
-        {
-            <h4 class="mt-3">Employer Information</h4>
-        }
-        else if (User.IsInRole("employer"))
-        {
-            <h4 class="mt-3">Company Information</h4>
-        }
-
-        @* Main Content *@
-        <!-- Program, Host Company, Type of Organization -->
-        <div class="row mb-3 mt-3">
-            <div class="col-md-4">
-                <label class="form-label">Host Company:</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Type of organization:</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Supervisor's name:</label>
-                <input type="text" class="form-control">
-            </div>
-        </div>
-
-        <!-- Supervisor's Name, Position, and Email -->
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label class="form-label">Supervisor's position:</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Supervisor's e-mail:</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Phone number:</label>
-                <input type="text" class="form-control">
-            </div>
-        </div>
-        <!-- ... other fields ... -->
-
-        <div class="form-group mb-3">
-            <label class="form-label">Supervisor's Credentials</label>
-            <div class="col-md-9">
-                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
-                <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
-                <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div>
-                <label class="form-label">Other Credentials:</label>
-                <input type="text" class="form-control">
-            </div>
-        </div>
-
-        <!-- ... other fields ... -->
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label class="form-label">Street:</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">City:</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Province:</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Country:</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Postal Code:</label>
-                <input type="text" class="form-control">
-            </div>
-        </div>
-    </div>
 </div>
 
 @* End of Main Content *@

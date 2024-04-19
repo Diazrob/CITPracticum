@@ -1,4 +1,5 @@
 ﻿using CITPracticum.Data.Enum;
+using Microsoft.AspNetCore.Builder;
 using System.ComponentModel.DataAnnotations;
 
 namespace CITPracticum.Models
@@ -14,9 +15,9 @@ namespace CITPracticum.Models
         public PaymentCategory PaymentCategory { get; set; }
         public string Location { get; set; }
         public string Link { get; set; }
-        public List<Student> Applicants { get; set; }
         public bool Archived { get; set; }
         public Employer? Employer { get; set; }
         public int? EmployerId { get; set; }
+        public ICollection<Application> JobApplications { get; set; } = new List<Application>();
     }
 }

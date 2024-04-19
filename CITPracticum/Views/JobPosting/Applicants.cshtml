@@ -1,18 +1,16 @@
-﻿@model JobPosting
+﻿@model IEnumerable<Application>
 
 @{
     ViewData["Title"] = "Job Postings";
     ViewData["CurrentPage"] = "Job Postings > Applicants";
 }
 
-<button onclick="window.history.back();" class="btn btn-secondary mb-2">Back</button>
-
-@if (Model.Applicants == null)
+@if (Model.Any())
 {
-    <h1>No applicants on this posting.</h1>
-}
-else
-{
+    <div class="d-flex">
+        <a href="/JobPosting/Index" class="btn btn-secondary mb-3" style="margin-left: -100px;"><i class="fa-solid fa-chevron-left"></i> Back</a>
+        <h3 style="margin-left: 22px;">Students interested in this position</h3>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -20,15 +18,16 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var applicant in Model.Applicants)
-            {
-                <tr>
-                    <td>@applicant.FirstName @applicant.LastName</td>
-                </tr>
-            }
+            <tr>
+                @foreach (var application in Model)
+                {
+                    <td>
+                        @application.Student.FirstName @application.Student.LastName
+                    </td>
+                }
+            </tr>
         </tbody>
     </table>
-
     <!-- Pagination -->
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
@@ -43,26 +42,33 @@ else
             </li>
         </ul>
     </nav>
+} else
+{
+    <div class="d-flex">
+        <a href="/JobPosting/Index" class="btn btn-secondary mb-3" style="margin-left: -100px;"><i class="fa-solid fa-chevron-left"></i> Back</a>
+        <h3 style="margin-left: 22px;">No students have applied to this position.</h3>
+    </div>
+}
 
-    <!-- Modal -->
-    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete the selected items?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the selected items?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
             </div>
         </div>
     </div>
-}
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

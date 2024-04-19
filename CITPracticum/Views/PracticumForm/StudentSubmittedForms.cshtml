@@ -50,9 +50,6 @@
     <li class="nav-item">
         <a class="nav-link active" href="/PracticumForm/StudentSubmittedForms">Student Submitted Forms</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/PracticumForm/EmployerSubmittedForms">Employer Submitted Forms</a>
-    </li>
     <!-- This is where the 'Create Form' button is placed -->
     <li class="nav-item" role="presentation">
         <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i>Delete</button>
@@ -80,7 +77,7 @@
             <th style="width: 10%;">Form A <i class="fas fa-sort" onclick="sortTable(3)"></i></th>
             <th style="width: 10%;">Form B <i class="fas fa-sort" onclick="sortTable(4)"></i></th>
             <th style="width: 10%;">Form C <i class="fas fa-sort" onclick="sortTable(5)"></i></th>
-            <th style="width: 10%;">Form D <i class="fas fa-sort" onclick="sortTable(6)"></i></th>         
+            <th style="width: 10%;">Form D <i class="fas fa-sort" onclick="sortTable(6)"></i></th>
             <th>
                 <div class="select-all-container" style="justify-content: flex-end;">
                     <label class="select-all-label" for="select-all">Select All</label>
@@ -90,75 +87,77 @@
         </tr>
     </thead>
     <tbody>
-        
-            @foreach(var item in Model)
-            {
+
+        @foreach (var item in Model)
+        {
             <tr>
                 <td>@item.Student.FirstName @item.Student.LastName</td>
-                
-                          
-                @if(item.PracticumFormsId == null)
+
+
+                @if (item.PracticumFormsId == null)
                 {
-                <td>
-                <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
-                    <small>&#x274C;</small>
-                </div>
-                </td>
-                <td>
-                <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
-                    <small>&#x274C;</small>
-                </div>
-                </td>
-                <td>
-                <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
-                    <small>&#x274C;</small>
-                </div>
-                </td>
-                <td>
-                <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
-                    <small>&#x274C;</small>
-                </div>
-                </td>
-                <td>
-                <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
-                    <small>&#x274C;</small>
-                </div>
-                </td>
-                <td>
-                    <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
-                        <small>&#x274C;</small>
-                    </div>
+                    <td>
+                        <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; justify-content:center; gap:3px;">
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                        </div>
                     </td>
                     <td>
                         <div class="select-container" style="display: flex; justify-content: flex-end;">
                             <input type="checkbox" class="form-check-input individual-select">
                         </div>
                     </td>
-                }else
+                }
+                else
                 {
                     // FormFOIP validation
                     <td>
-                    <div style="display: flex; align-items: center; justify-content:center; gap: 3px;">                  
-                    @if(item.PracticumForms.FormFOIPId == null)
-                    {
-                        <small>&#x274C;</small>
-                    } else
-                    {
+                        <div style="display: flex; align-items: center; justify-content:center; gap: 3px;">
+                            @if (item.PracticumForms.FormFOIPId == null)
+                            {
+                                <i class="fa-solid fa-xmark fa-lg"></i>
+                            }
+                            else
+                            {
                                 <a class="btn btn-outline-primary" asp-controller="PracticumForm" asp-action="FormFOIPDetail" asp-route-id="@item.PracticumForms.FormFOIPId"><i class="fa-solid fa-check"></i> View</a>
-                    }
-                    </div>
+                            }
+                        </div>
                     </td>
                     // FormID validation
                     <td>
                         <div style="display: flex; align-items: center; justify-content:center; gap: 3px;">
                             @if (item.PracticumForms.FormStuInfoId == null)
                             {
-                                <small>&#x274C;</small>
+                                //Not started
+                                <i class="fa-solid fa-xmark fa-lg"></i>
                             }
                             else
                             {
-                                <a class="form-link" asp-controller="PracticumForm" asp-action="FormIdDetail" asp-route-id="@item.PracticumForms.FormStuInfoId" target="_blank">View</a>
-                                <span style='font-size:20px;'>&#x2705;</span>
+                                <a class="btn btn-outline-primary" asp-controller="PracticumForm" asp-action="FormIdDetail" asp-route-id="@item.PracticumForms.FormStuInfoId"><i class="fa-solid fa-check"></i> View</a>
                             }
                         </div>
                     </td>
@@ -167,12 +166,11 @@
                         <div style="display: flex; align-items: center; justify-content:center; gap: 3px;">
                             @if (item.PracticumForms.FormAId == null)
                             {
-                                <small>&#x274C;</small>
+                                <i class="fa-solid fa-xmark fa-lg"></i>
                             }
                             else
                             {
-                                <a class="form-link" asp-controller="PracticumForm" asp-action="FormADetail" asp-route-id="@item.PracticumForms.FormAId" target="_blank">View</a>
-                                <span style='font-size:20px;'>&#x2705;</span>
+                                <a class="btn btn-outline-primary" asp-controller="PracticumForm" asp-action="FormADetail" asp-route-id="@item.PracticumForms.FormAId"><i class="fa-solid fa-check"></i> View</a>
                             }
                         </div>
                     </td>
@@ -181,21 +179,20 @@
                         <div style="display: flex; align-items: center; justify-content:center; gap: 3px;">
                             @if (item.PracticumForms.FormBId == null)
                             {
-                                <small>&#x274C;</small>
+                                <i class="fa-solid fa-xmark fa-lg"></i>
                             }
                             else
                             {
-                                @if(item.PracticumForms.FormB.StuSign != null && item.PracticumForms.FormB.EmpSign != null)
+                                @if (item.PracticumForms.FormB.StuSign != null && item.PracticumForms.FormB.EmpSign != null)
                                 {
-                                    <a class="form-link" asp-controller="PracticumForm" asp-action="FormBDetail" asp-route-id="@item.PracticumForms.FormBId" target="_blank">View</a>
-                                    <span style='font-size:20px;'>&#x2705;</span>
-                                } else
+                                    <a class="btn btn-outline-primary" asp-controller="PracticumForm" asp-action="FormBDetail" asp-route-id="@item.PracticumForms.FormBId"><i class="fa-solid fa-check"></i> View</a>
+                                }
+                                else
                                 {
-                                    <a class="form-link" asp-controller="PracticumForm" asp-action="FormBDetail" asp-route-id="@item.PracticumForms.FormBId" target="_blank">View</a>
-                                    <span style='font-size:20px;'>&#9203;</span>
+                                    <a class="btn btn-outline-secondary" asp-controller="PracticumForm" asp-action="FormBDetail" asp-route-id="@item.PracticumForms.FormBId"><i class="fa-solid fa-hourglass-half"></i> View</a>
                                 }
 
-                    }
+                            }
                         </div>
                     </td>
                     // FormC validation
@@ -203,19 +200,17 @@
                         <div style="display: flex; align-items: center; justify-content:center; gap: 3px;">
                             @if (item.PracticumForms.FormCId == null)
                             {
-                                <small>&#x274C;</small>
+                                <i class="fa-solid fa-xmark fa-lg"></i>
                             }
                             else
                             {
                                 @if (item.PracticumForms.FormC.StuSign != null && item.PracticumForms.FormC.SVSign != null)
                                 {
-                                    <a class="form-link" asp-controller="PracticumForm" asp-action="FormCDetail" asp-route-id="@item.PracticumForms.FormCId" target="_blank">View</a>
-                                    <span style='font-size:20px;'>&#x2705;</span>
+                                    <a class="btn btn-outline-primary" asp-controller="PracticumForm" asp-action="FormCDetail" asp-route-id="@item.PracticumForms.FormCId"><i class="fa-solid fa-check"></i> View</a>
                                 }
                                 else
                                 {
-                                    <a class="form-link" asp-controller="PracticumForm" asp-action="FormCDetail" asp-route-id="@item.PracticumForms.FormCId" target="_blank">View</a>
-                                    <span style='font-size:20px;'>&#9203;</span>
+                                    <a class="btn btn-outline-secondary" asp-controller="PracticumForm" asp-action="FormCDetail" asp-route-id="@item.PracticumForms.FormCId"><i class="fa-solid fa-hourglass-half"></i> View</a>
                                 }
                             }
                         </div>
@@ -225,19 +220,17 @@
                         <div style="display: flex; align-items: center; justify-content:center; gap: 3px;">
                             @if (item.PracticumForms.FormDId == null)
                             {
-                                <small>&#x274C;</small>
+                                <i class="fa-solid fa-xmark fa-lg"></i>
                             }
                             else
                             {
                                 @if (item.PracticumForms.FormD.StuSign != null && item.PracticumForms.FormD.SVSign != null)
                                 {
-                                    <a class="form-link" asp-controller="PracticumForm" asp-action="FormDDetail" asp-route-id="@item.PracticumForms.FormDId" target="_blank">View</a>
-                                    <span style='font-size:20px;'>&#x2705;</span>
+                                    <a class="btn btn-outline-primary" asp-controller="PracticumForm" asp-action="FormDDetail" asp-route-id="@item.PracticumForms.FormDId"><i class="fa-solid fa-check"></i> View</a>
                                 }
                                 else
                                 {
-                                    <a class="form-link" asp-controller="PracticumForm" asp-action="FormDDetail" asp-route-id="@item.PracticumForms.FormDId" target="_blank">View</a>
-                                    <span style='font-size:20px;'>&#9203;</span>
+                                    <a class="btn btn-outline-secondary" asp-controller="PracticumForm" asp-action="FormDDetail" asp-route-id="@item.PracticumForms.FormDId"><i class="fa-solid fa-hourglass-half"></i> View</a>
                                 }
                             }
                         </div>
@@ -249,7 +242,7 @@
                     </td>
                 }
             </tr>
-            }
+        }
 
     </tbody>
 </table>

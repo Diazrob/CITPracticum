@@ -76,7 +76,7 @@
         {
             foreach (var placement in Model)
             {
-                if (placement.Timesheet != null && placement.Timesheet.TimeEntries != null)
+                if (placement.Timesheet != null)
                 {
                     <tr class="step2">
                         <td>@placement.Student.FirstName @placement.Student.LastName</td>

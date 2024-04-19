@@ -30,6 +30,22 @@
         }
 </style>
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-circle-exclamation fa-lg"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa-regular fa-circle-check fa-lg"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <ul class="nav nav-tabs mb-3" role="tablist">
     <li class="nav-item">
         <a class="nav-link" id="job-posts-tab" data-toggle="tab" href="/JobPosting/Index" role="tab" aria-controls="job-posts" aria-selected="true">Job Posts</a>

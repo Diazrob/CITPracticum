@@ -20,7 +20,8 @@ namespace CITPracticum.Models
         [ForeignKey("Address")]
         public int? AddressId { get; set; }
         public Address? Address { get; set; }
-        public bool? Affiliation { get; set; }
+        public bool? Affiliation { get; set; } = false;
+        public string? EmployerComments { get; set; }
 
     }
 }

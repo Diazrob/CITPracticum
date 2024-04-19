@@ -74,9 +74,6 @@
         <li class="nav-item">
             <a class="nav-link step3" href="/PracticumForm/StudentSubmittedForms">Student Submitted Forms</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link step4" href="/PracticumForm/EmployerSubmittedForms">Employer Submitted Forms</a>
-        </li>
     }
     <li class="nav-item">
     </li>
@@ -116,23 +113,23 @@
         {
             @if (User.Identity.Name == item.Employer.FirstName)
             {
-                <a asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
-                    <div class="card mt-3 zoom" style="cursor: pointer;">
+                <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+                    <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                         <div class="card-body">
                             Form B - Practicum Agreement - @item.Student.FirstName @item.Student.LastName
                         </div>
                     </div>
                 </a>
-                <a asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
-                    <div class="card mt-3 zoom" style="cursor: pointer;">
+                <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+                    <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                         <div class="card-body">
                             Form C - Practicum Evaluation (100 hours) - @item.Student.FirstName @item.Student.LastName
                         </div>
                     </div>
                 </a>
 
-                <a asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
-                    <div class="card zoom mt-3" style="cursor: pointer;">
+                <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
+                    <div class="card zoom mt-3 text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                         <div class="card-body">
                             Form D - Practicum Evaluation (200 hours) - @item.Student.FirstName @item.Student.LastName
                         </div>

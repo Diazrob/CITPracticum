@@ -78,6 +78,22 @@
     }
 </style>
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-circle-exclamation fa-lg"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa-regular fa-circle-check fa-lg"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <!-- Tab navigation with button -->
 <ul class="nav nav-tabs mb-3" role="tablist">
     <li class="nav-item">
@@ -106,7 +122,13 @@
             @if (item.Student != null)
             {
                 <tr class="step2">
-                    <td scope="row"><img class="img-fluid" src="https://placehold.jp/30x30.png" alt="" /></td>
+                    @if (item.ProfileImage != null)
+                    {
+                        <td scope="row"><img class="img-fluid" src="@Url.Content($"~/{item.ProfileImage}")" style="width:50px; height:50px; object-fit: cover; border: 1px solid black;" /></td>
+                    } else
+                    {
+                        <td scope="row"><img class="img-fluid" src="~/images/default.png" style="width:50px; height:50px; object-fit: cover; border: 1px solid black;" /></td>
+                    }
                     <td class="name-column">
                         @item.Student.FirstName @item.Student.LastName
                     </td>

@@ -5,72 +5,72 @@
     ViewData["CurrentPage"] = "Job Postings > Post";
 }
 
-<div class="container d-flex justify-content-center align-items-center mt-4">
-    <div class="mx-auto step1" style="width: 100%;">
+<div class="mx-auto" style="width: 80%">
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <div class="d-flex align-items-center">
+                <a href="/JobPosting/Index" class="btn btn-secondary mb-3" style="margin-left: -200px;"><i class="fa-solid fa-chevron-left"></i> Back</a>
+                <h2 class="mb-3 step2" style="margin-left: 122px;">@Model.JobTitle</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12 step3">
+            <h5 class="mb-2 text-secondary"><b>Job Description</b></h5>
+            <hr />
+            <p>@Model.JobDescription</p>
+        </div>
+    </div>
+    <div class="step4">
         <div class="row mb-3">
-            <div class="col-md-8">
-                <div class="d-flex align-items-center">
-                    <a onclick="window.history.back();" class="btn btn-secondary mb-3" style="margin-bottom: 200px; margin-left: -162px !important;"><i class="fa-solid fa-arrow-left"></i> Back</a>
-                    <h2 class="mb-3 step2" style="margin-left: 8vh;">@Model.JobTitle</h2>
-                </div>
+            <div class="col-md-12">
+                <h5 class="mb-2 text-secondary"><b>Application Deadline</b></h5>
+                <p>@Model.Deadline</p>
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-md-12 step3">
-                <h5 class="mb-2 text-secondary"><b>Job Description</b></h5>
-                <hr />
-                <p>@Model.JobDescription</p>
+            <div class="col-md-12">
+                <h5 class="mb-2 text-secondary"><b>Company Name</b></h5>
+                <p>@Model.Company</p>
             </div>
         </div>
-        <div class="step4">
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <h5 class="mb-2 text-secondary"><b>Application Deadline</b></h5>
-                    <p>@Model.Deadline</p>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <h5 class="mb-2 text-secondary"><b>Company Name</b></h5>
-                    <p>@Model.Company</p>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <h5 class="mb-2 text-secondary"><b>Location</b></h5>
-                    <p>@Model.Location</p>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <h5 class="text-secondary"><b>Link</b></h5>
-                    <p>
-                        <a href="@Model.Link" target="_blank">@Model.Link</a>
-                    </p>
-                </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <h5 class="mb-2 text-secondary"><b>Location</b></h5>
+                <p>@Model.Location</p>
             </div>
         </div>
-        <form class="row" asp-action="Apply" method="post">
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <h5 class="text-secondary"><b>Link</b></h5>
+                <p>
+                    <a href="@Model.Link" target="_blank">@Model.Link</a>
+                </p>
+            </div>
+        </div>
+        <div class="row mb-3">
             <div class="col-md-10">
-                <input type="hidden" name="Id" value="@Model.Id" />
+
             </div>
-            <div class="col-md-2">
-                @if (User.IsInRole("student"))
-                {
-                    <button type="submit" class="btn btn-success studstep5" asp-controller="JobPosting" asp-action="Apply" asp-route-id="@Model.Id">Apply</button>
-                }
+            <div class="col-md-2 d-flex">
+                <form asp-action="Apply" method="post">
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    @if (User.IsInRole("student"))
+                    {
+                        <button type="submit" class="btn btn-success studstep5 me-2" asp-controller="JobPosting" asp-action="Apply" asp-route-id="@Model.Id">Apply</button>
+                    }
+                </form>
                 <button type="submit" class="btn btn-primary step5 studstep6">Print</button>
             </div>
-        </form>
+        </div>
     </div>
-
-
-    <!-- Example placeholder for the PaymentCategory. Uncomment and modify as needed.
-    <div class="mb-3">
-        <h5 class="mb-2 text-secondary">Payment Category</h5>
-        <p class="border p-3">@Model.PaymentCategory.ToString()</p>
-    </div>
-    -->
 </div>
 
 @if (User.IsInRole("admin") || User.IsInRole("employer"))
@@ -205,10 +205,11 @@
         });
         @*End of View Job Posting Demo*@
     </script>
-} else if (User.IsInRole("student"))
+}
+else if (User.IsInRole("student"))
 {
     <script>
-                const tour = new Shepherd.Tour({
+                                const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',

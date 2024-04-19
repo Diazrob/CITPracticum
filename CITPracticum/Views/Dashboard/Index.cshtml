@@ -88,15 +88,19 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
         const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
-                classes: 'shadow-md bg-purple-dark',
-                scrollTo: true
+                classes: 'shepherd-theme-dark',
+                scrollTo: true,
+                cancelIcon: {
+                    enabled: true
+                },
             }
         });
 
         @*Start of Dashboard Demo*@
         tour.addStep({
                 id: 'example-step',
-                text: 'Demo time! Here is the average of student progress.',
+                title: 'Demo time!',
+                text: 'Here is the average of student progress.',
                 attachTo: {
                     element: '.step1',
                     on: 'bottom'
@@ -116,6 +120,7 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 
         tour.addStep({
             id: 'example-step',
+            title: 'Student Progress Tracking',
             text: 'It is broken down into three fields: Average Student Hours',
             attachTo: {
                 element: '.step2',
@@ -136,6 +141,7 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 
         tour.addStep({
             id: 'example-step',
+            title: 'Student Progress Tracking',
             text: 'First 100 Hours Completed',
             attachTo: {
                 element: '.step3',
@@ -156,6 +162,7 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 
         tour.addStep({
             id: 'example-step',
+            title: 'Student Progress Tracking',
             text: 'And finally, All Forms Signed.',
             attachTo: {
                 element: '.step4',

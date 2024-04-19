@@ -43,12 +43,13 @@ namespace CITPracticum.Controllers
                 var empPlacements = new List<Placement>();
 
                 foreach (var placement in placements)
-                {   
+                {
                     if (emp.Id != placement.EmployerId)
                     {
                         //The employer does not have this student attached to their placement
                         continue;
-                    } else
+                    }
+                    else
                     {
                         empPlacements.Add(placement);
                     }
@@ -205,7 +206,8 @@ namespace CITPracticum.Controllers
                     placement.TimesheetId = placement.Timesheet.Id;
                     _placementRepository.Update(placement);
                     _placementRepository.Save();
-                } else
+                }
+                else
                 {
                     placement.Timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
                 }
@@ -332,20 +334,22 @@ namespace CITPracticum.Controllers
                     if (timesheet != null)
                     {
                         await _timeEntryRepository.GetAll();
-                        if (timesheet.TimeEntries != null)
+                        if (timesheet.TimeEntries == null)
                         {
-                            te.NewTimeEntry.ApprovalCategory = Data.Enum.ApprovalCategory.Yes;
-                            te.NewTimeEntry.TimesheetId = timesheet.Id;
-                            te.NewTimeEntry.Timesheet = timesheet;
+                            // Create a list of entries if there are currently none associated with the user.
+                            timesheet.TimeEntries = new List<TimeEntry>();
+                        }
+                        te.NewTimeEntry.ApprovalCategory = Data.Enum.ApprovalCategory.Yes;
+                        te.NewTimeEntry.TimesheetId = timesheet.Id;
+                        te.NewTimeEntry.Timesheet = timesheet;
 
-                            _timeEntryRepository.Add(te.NewTimeEntry);
+                        _timeEntryRepository.Add(te.NewTimeEntry);
+                        _timeEntryRepository.Save();
+                        foreach (var entry in timesheet.TimeEntries)
+                        {
+                            entry.HoursToDate = TotalHoursToEntryDate(placement.Timesheet, entry);
+                            _timeEntryRepository.Update(entry);
                             _timeEntryRepository.Save();
-                            foreach (var entry in timesheet.TimeEntries)
-                            {
-                                entry.HoursToDate = TotalHoursToEntryDate(placement.Timesheet, entry);
-                                _timeEntryRepository.Update(entry);
-                                _timeEntryRepository.Save();
-                            }
                         }
                     }
                 }
@@ -448,6 +452,19 @@ namespace CITPracticum.Controllers
 
             _timeEntryRepository.Update(te);
             _timeEntryRepository.Save();
+
+            if (User.IsInRole("admin"))
+            {
+                var timesheet = await _timesheetRepository.GetByIdAsync((Int32)te.TimesheetId);
+                await _timeEntryRepository.GetAll();
+                //Update all of the 
+                foreach (var entry in timesheet.TimeEntries)
+                {
+                    entry.HoursToDate = TotalHoursToEntryDate(timesheet, entry);
+                    _timeEntryRepository.Update(entry);
+                    _timeEntryRepository.Save();
+                }
+            }
 
             return RedirectToAction("ViewTimesheet", "Timesheet", new { id = assignedPlacement.Id });
         }

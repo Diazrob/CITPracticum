@@ -41,6 +41,6 @@ namespace CITPracticum.ViewModels
         public string? CredOther { get; set; }
         public CreateAddressViewModel CreateAddressViewModel { get; set; }
         public bool Affiliation { get; set; }
-
+        public string? EmployerComments { get; set; }
     }
 }
