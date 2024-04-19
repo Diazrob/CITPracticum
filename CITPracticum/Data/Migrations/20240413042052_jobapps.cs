@@ -9,19 +9,6 @@ namespace CITPracticum.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_JobPostings",
-                table: "JobPostings",
-                column: "Id");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Students_JobPostingId",
-                table: "Students");
-
-            migrationBuilder.DropColumn(
-                name: "JobPostingId",
-                table: "Students");
-
             migrationBuilder.CreateTable(
                 name: "Applications",
                 columns: table => new
