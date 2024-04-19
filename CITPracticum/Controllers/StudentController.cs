@@ -5,7 +5,11 @@ using CITPracticum.Repository;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using CsvHelper;
+using System.Globalization;
 using Microsoft.Extensions.Hosting;
 
 namespace CITPracticum.Controllers
@@ -54,6 +58,90 @@ namespace CITPracticum.Controllers
 
             return View(users);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> uploadCSV (IFormFile file)
+        {
+            if (file!=null && file.Length > 0)
+            {
+                var filesFolder = $"{Directory.GetCurrentDirectory()}\\wwwroot\\files\\";
+
+                if(!Directory.Exists(filesFolder))
+                {
+                    Directory.CreateDirectory(filesFolder);
+                }
+
+                var filePath = Path.Combine(filesFolder, file.FileName);
+
+                using(var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                var fileStudents = this.GetStudentList(file.FileName);
+
+                foreach(var fileStudent in fileStudents)
+                {
+                    
+                    var user = await _userManager.FindByEmailAsync(fileStudent.Email);
+                    string updatedStuId = "s0" + fileStudent.StuId;
+                    string[] SName = fileStudent.StuName.Split();
+
+                    if (user == null)
+                    {
+                        var newUser = new AppUser()
+                        {
+                            Email = fileStudent.Email,
+                            UserName = SName.First(),
+                            Student = new Student()
+                            {
+                                FirstName = SName.First(),
+                                LastName = SName.Last(),
+                                StuEmail = fileStudent.Email,
+                                StuId = updatedStuId
+                            }
+                        };
+                        var newUserResponse = await _userManager.CreateAsync(newUser, updatedStuId + "College!");
+
+                        var placement = new Placement()
+                        {
+                            StudentId = newUser.Student.Id,
+                        };
+
+                        _placementRepository.Add(placement);
+
+                        if (newUserResponse.Succeeded)
+                            await _userManager.AddToRoleAsync(newUser, UserRoles.Student);
+                    }
+                }
+
+                TempData["Message"] = "File Uploaded Successfully. Students Added";
+                return RedirectToAction("Index", "Student");
+            }
+            TempData["Message"] = "File upload error. Please check your file.";
+            return RedirectToAction("Index", "Student");
+        }
+
+        // CSV reader
+
+        private List<studentCSV> GetStudentList(string fileName)
+        {
+            List<studentCSV> students = new List<studentCSV>();
+
+            var path = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\files"}" + "\\" + fileName;
+            using (var reader = new StreamReader(path))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                csv.Read();
+                csv.ReadHeader();
+                while (csv.Read())
+                {
+                    var student = csv.GetRecord<studentCSV>();
+                    students.Add(student);
+                }
+            }
+            return students;
+        }
+
         // add a new student user
         public IActionResult Register()
         {
@@ -97,16 +185,63 @@ namespace CITPracticum.Controllers
             if (newUserResponse.Succeeded)
                 await _userManager.AddToRoleAsync(newUser, UserRoles.Student);
 
-            TempData["Success"] = "Student created successfully.";
+            TempData["Message"] = "Student Added Successfully.";
 
             return RedirectToAction("Index", "Student");
         }
         // displays page of a student
         public async Task<IActionResult> Detail(int id)
         {
+            if (User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                id = Convert.ToInt32(usr.StudentId);
+            }
             ViewData["ActivePage"] = "Student";
             var users = await _userManager.GetUsersInRoleAsync(UserRoles.Student);
             Student student = await _studentRepository.GetByIdAsync(id);
+
+            var detailStudentVM = new DetailStudentViewModel()
+            {
+                Id = student.Id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                StuId = student.StuId,
+                StuEmail = student.StuEmail
+            };
+            return View(detailStudentVM);
+        }
+
+        // reset password
+        public async Task<IActionResult> ResetPassword(string email, int id)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            Student student = await _studentRepository.GetByIdAsync(id);
+            string StuId = student.StuId;
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, StuId + "College!");
+
+            TempData["Message"] = "Student password has been reset";
+            return RedirectToAction("Detail", "Student");
+        }
+        //change password
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(DetailStudentViewModel detailStudentVM)
+        {
+            var user = await _userManager.FindByEmailAsync(detailStudentVM.StuEmail);
+
+            if (!ModelState.IsValid)
+            {
+                TempData["Message"] = "Password details do not match. Please try again.";
+                return RedirectToAction("Detail", "Student");
+            }
+            TempData["Message"] = "Password successfully changed.";
+            await _userManager.ChangePasswordAsync(user, detailStudentVM.OldPassword, detailStudentVM.Password);
+
+            return RedirectToAction("Detail", "Student");
+  // comment this out for now and check if working
             var user = new AppUser();
 
             if (student == null)
@@ -150,6 +285,7 @@ namespace CITPracticum.Controllers
                 TempData["Error"] = "Student profile not found.";
                 return RedirectToAction("Index");
             }
+            //end here
         }
         // deletes a student user
         public async Task<IActionResult> Delete(string email, int id)
@@ -184,6 +320,7 @@ namespace CITPracticum.Controllers
         {
             ViewData["ActivePage"] = "Student";
             var student = await _studentRepository.GetByIdAsync(id);
+
             if (student == null) return View("Error");
             var studentVM = new EditStudentViewModel()
             {
@@ -201,7 +338,7 @@ namespace CITPracticum.Controllers
             ViewData["ActivePage"] = "Student";
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Failed to edit Employer");
+                ModelState.AddModelError("", "Failed to edit Student");
                 return View("Edit", studentVM);
             }
             var curStudent = await _studentRepository.GetIdAsyncNoTracking(id);

@@ -72,10 +72,18 @@ namespace CITPracticum.Controllers
                 ModelState.Remove("Credentials");
             }
 
+            if (User.IsInRole("student"))
+            {
+                registerVM.Password = registerVM.LastName + "Employer1!";
+                registerVM.ConfirmPassword = registerVM.LastName + "Employer1!";
+            }
+
             if (!ModelState.IsValid) return View(registerVM);
 
             var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
-            if (user != null)
+
+            if(user != null)
+
             {
                 TempData["Error"] = "This email address is already in use";
                 return View(registerVM);
@@ -108,10 +116,11 @@ namespace CITPracticum.Controllers
                     EmployerComments = registerVM.EmployerComments,
                 }
             };
+          
             var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
 
             if (newUserResponse.Succeeded)
-                await _userManager.AddToRoleAsync(newUser, UserRoles.Employer);
+            await _userManager.AddToRoleAsync(newUser, UserRoles.Employer);
 
             TempData["Success"] = "Employer created successfully.";
 

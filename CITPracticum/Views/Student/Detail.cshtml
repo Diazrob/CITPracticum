@@ -1,5 +1,10 @@
 ﻿@using CITPracticum.ViewModels;
+
+@model DetailStudentViewModel
+// comment this out for now
 @model ViewStudentViewModel
+ // end of comment here
+
 
 @{
     if (User.IsInRole("student"))
@@ -13,7 +18,20 @@
         ViewData["CurrentPage"] = "Students > Profile";
     }
 
-}
+    <!-- Porfolio Item Row -->
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Message"]
+        </div>
+    }
+    <div class="row mt-3">
+        <label>Profile Picture:</label>
+        <div class="col-md-4">
+            <img src="~/images/side.jpg" class="w-50" style="" />
+        </div>
+    </div>
+
 
 <style>
     .profile-pic-container {
@@ -139,6 +157,30 @@
             </div>
         </div>
 
+    @if (User.IsInRole("student"))
+    {
+        <div class="step4">
+            <h4 class="mt-4">Change Password</h4>
+
+            <form method="post" asp-action="ChangePassword" enctype="multipart/form-data">
+              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="StuEmail"/>
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <label asp-for="OldPassword">Old Password:</label>
+                        <input asp-for="OldPassword" class="form-control mb-3" />
+                        <span asp-validation-for="OldPassword" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Password">New Password:</label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="ConfirmPassword">Confirm New Password:</label>
+                        <input asp-for="ConfirmPassword" class="form-control mb-3" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+// comment this out for now
         @if (User.IsInRole("admin"))
         {
             <div class="step4">
@@ -158,6 +200,8 @@
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-primary">Change Password</button>
                         </div>
+           // end of comment
+
                     </div>
                 </form>
             </div>
@@ -171,9 +215,17 @@
                     <h5 class="modal-title" id="uploadConfirmModalLabel">Confirm Image Upload</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <input type="submit" class="btn btn-primary" value="Change Password"/>
+                    </div>
+ // comment this out for now
                 <div class="modal-body">
                     <p>Are you sure you want to upload this picture?</p>
                     <img id="imgPreview" src="#" alt="Image Preview" class="img-fluid" style="border-radius: 50%; object-fit: cover; width: 150px; height: 150px;" />
+                  // end of comment
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -181,6 +233,22 @@
                 </div>
             </div>
         </div>
+
+    } else if (User.IsInRole("admin"))
+    {
+        <form method="post" asp-action="ResetPassword" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-2">
+                    <input type="hidden" asp-for="StuEmail" />
+                    <input type="hidden" asp-for="Id" />
+                    <input type="submit" asp-controller="Student" asp-action="ResetPassword" asp-route-email="@Model.StuEmail" asp-route-id="Id" class="btn btn-primary" value="Reset Password"/>
+            </div>
+        </div>
+        </form>
+    }
+</div>
+
+                  //comment this out fo rnow
     </div>
 </form>
 
@@ -213,6 +281,7 @@
         // Add the logic to handle the actual file upload here
     });
 </script>
+          // end of comment for checking
 
 @if (User.IsInRole("admin"))
 {

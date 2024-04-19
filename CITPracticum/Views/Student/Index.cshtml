@@ -98,15 +98,35 @@
 <ul class="nav nav-tabs mb-3" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" href="/Student/Index">Students</a>
-    </li>
+    </li
+    <!-- Upload CSV-->
+    <li class="nav-item" role="presentation">
+        <form method="post" enctype="multipart/form-data">
+         <div class="row">
+        <label>Select CSV file</label>
+        <input type="file" name="file"/>
+        </div>
+        <div class="row">
+            <input type="submit" asp-controller="Student" asp-action="uploadCSV" class="btn btn-primary step4" value="Upload"/>
+        </div>
+        </form>
+      </li>
+
     <!-- This is where the 'Create Form' button is placed -->
     <li class="nav-item" role="presentation">
         <a class="btn btn-primary step4" asp-controller="Student" asp-action="Register"><i class="fa-solid fa-plus"></i> Add Student</a>
     </li>
 </ul>
 
+@if(TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+
 <table class="table table-striped table-hover step1">
-    <thead>
+    <thead> 
         <tr>
             <th scope="col">Image</th>
             <th class="name-column" scope="col">Name</th>

@@ -92,9 +92,9 @@
         {
             <tr>
                 <td>@item.Student.FirstName @item.Student.LastName</td>
+                
+                @if(item.PracticumFormsId == null)
 
-
-                @if (item.PracticumFormsId == null)
                 {
                     <td>
                         <div style="display: flex; align-items: center; justify-content:center; gap:3px;">

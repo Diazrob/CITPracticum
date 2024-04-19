@@ -24,7 +24,7 @@ namespace CIT_Practicum.Data
 
                 //Users
                 var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-                string adminUserEmail = "robee_lou.diaz@lethbridgecollege.ca";
+                string adminUserEmail = "stephen.graham@lethbridgecollege.ca";
 
                 var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
                 if (adminUser == null)
