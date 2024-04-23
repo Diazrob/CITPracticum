@@ -30,9 +30,11 @@ namespace CITPracticum.Controllers
             _timeEntryRepository = timeEntryRepository;
             _employerRepository = employerRepository;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string nameFilter)
         {
             ViewData["ActivePage"] = "Timesheets";
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentNameFilter"] = nameFilter;
 
             var placements = await _placementRepository.GetAll();
 
@@ -72,6 +74,23 @@ namespace CITPracticum.Controllers
                     placement.Timesheet = timesheet;
                 }
 
+                // Apply filters
+                if (!string.IsNullOrEmpty(nameFilter))
+                {
+                    empPlacements = empPlacements.Where(u => u.Student.FirstName.ToUpper().Contains(nameFilter.ToUpper())).ToList();
+                }
+
+                // Apply sorting
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        empPlacements = empPlacements.OrderByDescending(u => u.Student.FirstName).ToList();
+                        break;
+                    default:
+                        empPlacements = empPlacements.OrderBy(u => u.Student.FirstName).ToList();
+                        break;
+                }
+
                 return View(empPlacements);
             }
 
@@ -95,7 +114,24 @@ namespace CITPracticum.Controllers
                 placement.Timesheet = timesheet;
             }
 
-            return View(placements);
+            // Apply filters
+            if (!string.IsNullOrEmpty(nameFilter))
+            {
+                placements = placements.Where(u => u.Student.FirstName.ToUpper().Contains(nameFilter.ToUpper()));
+            }
+
+            // Apply sorting
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    placements = placements.OrderByDescending(u => u.Student.FirstName);
+                    break;
+                default:
+                    placements = placements.OrderBy(u => u.Student.FirstName);
+                    break;
+            }
+
+            return View(placements.ToList());
         }
         public async Task<IActionResult> ViewTimesheet(int? id)
         {

@@ -34,29 +34,81 @@ namespace CITPracticum.Controllers
         }
 
         // displays all the students on index page
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string nameFilter, string usernameFilter, string emailFilter, string studIdFilter, int page = 1, int pageSize = 8)
         {
             ViewData["ActivePage"] = "Student";
-            string roleName = "student";
+            ViewData["CurrentNameFilter"] = nameFilter;
+            ViewData["CurrentUsernameFilter"] = usernameFilter;
+            ViewData["CurrentEmailFilter"] = emailFilter;
+            ViewData["CurrentStudIdFilter"] = studIdFilter;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["UsernameSortParm"] = sortOrder == "username" ? "username_desc" : "username";
+            ViewData["EmailSortParm"] = sortOrder == "email" ? "email_desc" : "email";
+            ViewData["StudentIdSortParm"] = sortOrder == "studentid" ? "studentid_desc" : "studentid";
 
-            var users = await _userManager.GetUsersInRoleAsync(roleName);
-            IEnumerable<Student> students = await _studentRepository.GetAll();
+            // Start query with basic user role filter
+            var users = _userManager.Users.Where(u => u.StudentId.HasValue);
+            var students = await _studentRepository.GetAll();
 
-            foreach (var student in students)
+            foreach (var user in users)
             {
-                foreach (var user in users)
+                foreach (var stud in students)
                 {
-                    if (user.StudentId == student.Id)
+                    if (user.StudentId == stud.Id)
                     {
-                        user.Student.FirstName = student.FirstName;
-                        user.Student.LastName = student.LastName;
-                        user.Student.StuId = student.StuId;
+                        user.Student = stud;
                     }
                 }
             }
 
+            // Apply filters
+            if (!string.IsNullOrEmpty(nameFilter))
+            {
+                users = users.Where(u => u.Student.FirstName.Contains(nameFilter));
+            }
+            if (!string.IsNullOrEmpty(usernameFilter))
+            {
+                users = users.Where(u => u.UserName.Contains(usernameFilter));
+            }
+            if (!string.IsNullOrEmpty(emailFilter))
+            {
+                users = users.Where(u => u.Email.Contains(emailFilter));
+            }
+            if (!string.IsNullOrEmpty(studIdFilter))
+            {
+                users = users.Where(u => u.Student.StuId.Contains(studIdFilter));
+            }
 
-            return View(users);
+            // Apply sorting
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    users = users.OrderByDescending(u => u.Student.FirstName);
+                    break;
+                case "username":
+                    users = users.OrderBy(u => u.UserName);
+                    break;
+                case "username_desc":
+                    users = users.OrderByDescending(u => u.UserName);
+                    break;
+                case "email":
+                    users = users.OrderBy(u => u.Email);
+                    break;
+                case "email_desc":
+                    users = users.OrderByDescending(u => u.Email);
+                    break;
+                case "studentid":
+                    users = users.OrderBy(u => u.Student.StuId);
+                    break;
+                case "studentid_desc":
+                    users = users.OrderByDescending(u => u.Student.StuId);
+                    break;
+                default:
+                    users = users.OrderBy(u => u.Student.FirstName);
+                    break;
+            }
+
+            return View(users.ToList());
         }
 
         [HttpPost]

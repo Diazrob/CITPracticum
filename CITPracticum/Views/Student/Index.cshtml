@@ -98,19 +98,19 @@
 <ul class="nav nav-tabs mb-3" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" href="/Student/Index">Students</a>
-    </li
+    </li>
     <!-- Upload CSV-->
     <li class="nav-item" role="presentation">
         <form method="post" enctype="multipart/form-data">
-         <div class="row">
-        <label>Select CSV file</label>
-        <input type="file" name="file"/>
-        </div>
-        <div class="row">
-            <input type="submit" asp-controller="Student" asp-action="uploadCSV" class="btn btn-primary step4" value="Upload"/>
-        </div>
+            <div class="row">
+                <label>Select CSV file</label>
+                <input type="file" name="file" />
+            </div>
+            <div class="row">
+                <input type="submit" asp-controller="Student" asp-action="uploadCSV" class="btn btn-primary step4" value="Upload" />
+            </div>
         </form>
-      </li>
+    </li>
 
     <!-- This is where the 'Create Form' button is placed -->
     <li class="nav-item" role="presentation">
@@ -118,7 +118,7 @@
     </li>
 </ul>
 
-@if(TempData["Message"] != null)
+@if (TempData["Message"] != null)
 {
     <div class="alert alert-success">
         @TempData["Message"]
@@ -126,13 +126,118 @@
 }
 
 <table class="table table-striped table-hover step1">
-    <thead> 
+    <thead>
         <tr>
             <th scope="col">Image</th>
-            <th class="name-column" scope="col">Name</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Student Id</th>
+            <th class="name-column" scope="col">
+                <div class="d-flex">
+                    <!-- Sortable link with text and icon -->
+                    <a class="text-white" asp-action="Index"
+                       asp-route-sortOrder="@ViewData["NameSortParm"]"
+                       asp-route-nameFilter="@ViewData["CurrentNameFilter"]"
+                       asp-route-usernameFilter="@ViewData["CurrentUsernameFilter"]"
+                       asp-route-emailFilter="@ViewData["CurrentEmailFilter"]"
+                       asp-route-studIdFilter="@ViewData["CurrentStudIdFilter"]">
+                        Name <i class="fa-solid fa-sort me-2"></i>
+                    </a>
+                    <!-- Filter dropdown -->
+                    <div class="dropdown">
+                        <a class="text-white" style="cursor: pointer;" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i>
+                        </a>
+                        <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                            <div class="mb-3">
+                                <form>
+                                    <input type="text" class="form-control mb-2" name="nameFilter" placeholder="First name">
+                                    <button class="btn btn-primary mt-3" asp-action="Index">Apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
+
+            <th scope="col">
+                <div class="d-flex">
+                    <!-- Sortable link with text and icon -->
+                    <a class="text-white" asp-action="Index"
+                       asp-route-sortOrder="@ViewData["UsernameSortParm"]"
+                       asp-route-nameFilter="@ViewData["CurrentNameFilter"]"
+                       asp-route-usernameFilter="@ViewData["CurrentUsernameFilter"]"
+                       asp-route-emailFilter="@ViewData["CurrentEmailFilter"]"
+                       asp-route-studIdFilter="@ViewData["CurrentStudIdFilter"]">
+                        Username <i class="fa-solid fa-sort me-2"></i>
+                    </a>
+                    <!-- Filter dropdown -->
+                    <div class="dropdown">
+                        <a class="text-white" style="cursor: pointer;" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i>
+                        </a>
+                        <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                            <div class="mb-3">
+                                <form>
+                                    <input type="text" class="form-control mb-2" name="usernameFilter" placeholder="Username">
+                                    <button class="btn btn-primary mt-3" asp-action="Index">Apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="d-flex">
+                    <!-- Sortable link with text and icon -->
+                    <a class="text-white" asp-action="Index"
+                       asp-route-sortOrder="@ViewData["EmailSortParm"]"
+                       asp-route-nameFilter="@ViewData["CurrentNameFilter"]"
+                       asp-route-usernameFilter="@ViewData["CurrentUsernameFilter"]"
+                       asp-route-emailFilter="@ViewData["CurrentEmailFilter"]"
+                       asp-route-studIdFilter="@ViewData["CurrentStudIdFilter"]">
+                        Email <i class="fa-solid fa-sort me-2"></i>
+                    </a>
+                    <!-- Filter dropdown -->
+                    <div class="dropdown">
+                        <a class="text-white" style="cursor: pointer;" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i>
+                        </a>
+                        <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                            <div class="mb-3">
+                                <form>
+                                    <input type="text" class="form-control mb-2" name="emailFilter" placeholder="Email">
+                                    <button class="btn btn-primary mt-3" asp-action="Index">Apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="d-flex">
+                    <!-- Sortable link with text and icon -->
+                    <a class="text-white" asp-action="Index"
+                       asp-route-sortOrder="@ViewData["StudentIdSortParm"]"
+                       asp-route-nameFilter="@ViewData["CurrentNameFilter"]"
+                       asp-route-usernameFilter="@ViewData["CurrentUsernameFilter"]"
+                       asp-route-emailFilter="@ViewData["CurrentEmailFilter"]"
+                       asp-route-studIdFilter="@ViewData["CurrentStudIdFilter"]">
+                        Student Id <i class="fa-solid fa-sort me-2"></i>
+                    </a>
+                    <!-- Filter dropdown -->
+                    <div class="dropdown">
+                        <a class="text-white" style="cursor: pointer;" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i>
+                        </a>
+                        <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                            <div class="mb-3">
+                                <form>
+                                    <input type="text" class="form-control mb-2" name="studIdFilter" placeholder="Student Id">
+                                    <button class="btn btn-primary mt-3" asp-action="Index">Apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -145,7 +250,8 @@
                     @if (item.ProfileImage != null)
                     {
                         <td scope="row"><img class="img-fluid" src="@Url.Content($"~/{item.ProfileImage}")" style="width:50px; height:50px; object-fit: cover; border: 1px solid black;" /></td>
-                    } else
+                    }
+                    else
                     {
                         <td scope="row"><img class="img-fluid" src="~/images/default.png" style="width:50px; height:50px; object-fit: cover; border: 1px solid black;" /></td>
                     }
@@ -161,7 +267,6 @@
                         <a class="btn btn-sm btn-outline-danger" asp-controller="Student" asp-action="Delete" asp-route-email="@item.Email" asp-route-id="@item.Student.Id">Delete</a>
                     </td>
                 </tr>
-
             }
         }
 

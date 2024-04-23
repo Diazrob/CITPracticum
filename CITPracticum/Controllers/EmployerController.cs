@@ -29,26 +29,80 @@ namespace CITPracticum.Controllers
             _environment = environment;
         }
         // displays all the employers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string nameFilter, string usernameFilter, string emailFilter, string companyFilter, int page = 1, int pageSize = 8)
         {
             ViewData["ActivePage"] = "Employer";
-            string roleName = "employer";
+            ViewData["CurrentNameFilter"] = nameFilter;
+            ViewData["CurrentUsernameFilter"] = usernameFilter;
+            ViewData["CurrentEmailFilter"] = emailFilter;
+            ViewData["CurrentCompanyFilter"] = companyFilter;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["UsernameSortParm"] = sortOrder == "username" ? "username_desc" : "username";
+            ViewData["EmailSortParm"] = sortOrder == "email" ? "email_desc" : "email";
+            ViewData["CompanySortParm"] = sortOrder == "company" ? "company_desc" : "company";
 
-            var users = await _userManager.GetUsersInRoleAsync(roleName);
+            var users = _userManager.Users.Where(u => u.EmployerId.HasValue);
             IEnumerable<Employer> employers = await _employerRepository.GetAll();
 
-            foreach (var employer in employers)
+            foreach (var user in users)
             {
-                foreach (var user in users)
+                foreach (var employer in employers)
                 {
                     if (user.EmployerId == employer.Id)
                     {
-                        user.Employer.FirstName = employer.FirstName;
-                        user.Employer.LastName = employer.LastName;
-                        user.Employer.CompanyName = employer.CompanyName;
+                        user.Employer = employer;
+                        continue;
                     }
                 }
             }
+
+            // Apply filters
+            if (!string.IsNullOrEmpty(nameFilter))
+            {
+                users = users.Where(u => u.Employer.FirstName.Contains(nameFilter));
+            }
+            if (!string.IsNullOrEmpty(usernameFilter))
+            {
+                users = users.Where(u => u.UserName.Contains(usernameFilter));
+            }
+            if (!string.IsNullOrEmpty(emailFilter))
+            {
+                users = users.Where(u => u.Email.Contains(emailFilter));
+            }
+            if (!string.IsNullOrEmpty(companyFilter))
+            {
+                users = users.Where(u => u.Employer.CompanyName.Contains(companyFilter));
+            }
+
+            // Apply sorting
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    users = users.OrderByDescending(u => u.Employer.FirstName);
+                    break;
+                case "username":
+                    users = users.OrderBy(u => u.UserName);
+                    break;
+                case "username_desc":
+                    users = users.OrderByDescending(u => u.UserName);
+                    break;
+                case "email":
+                    users = users.OrderBy(u => u.Email);
+                    break;
+                case "email_desc":
+                    users = users.OrderByDescending(u => u.Email);
+                    break;
+                case "company":
+                    users = users.OrderBy(u => u.Employer.CompanyName);
+                    break;
+                case "company_desc":
+                    users = users.OrderByDescending(u => u.Employer.CompanyName);
+                    break;
+                default:
+                    users = users.OrderBy(u => u.Employer.FirstName);
+                    break;
+            }
+
             return View(users);
         }
         // function to register a new employer
