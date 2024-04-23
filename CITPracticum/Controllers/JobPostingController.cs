@@ -4,7 +4,9 @@ using CITPracticum.Models;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 using System.Transactions;
 
 namespace CITPracticum.Controllers
@@ -26,31 +28,43 @@ namespace CITPracticum.Controllers
             _applicationRepository = applicationRepository;
         }
         // displays all job postings on index page
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 6)
         {
             ViewData["ActivePage"] = "Jobs";
 
+            // Fetch all job postings
             IEnumerable<JobPosting> jobPostings = await _jobPostingRepository.GetAll();
+            IEnumerable<JobPosting> nonArchived = jobPostings.Where(jp => jp.Archived == false).ToList();
 
             if (User.IsInRole("employer"))
             {
-                // Only show the job postings that the employer has posted.
                 var user = await _userManager.GetUserAsync(User);
-                var emp = await _employerRepository.GetByIdAsync((Int32)user.EmployerId);
-                var empJobPostings = new List<JobPosting>();
+                nonArchived = jobPostings.Where(jp => jp.Archived == false && jp.EmployerId == user.EmployerId).ToList();
+            }
 
-                foreach (var jp in jobPostings)
-                {
-                    if (emp.Id == jp.EmployerId)
-                    {
-                        empJobPostings.Add(jp);
-                    }
-                }
+            var count = nonArchived.Count();
+            var totalPages = (int)Math.Ceiling(count / (double)pageSize);
+            var currentPage = page;
+            var skip = (page - 1) * pageSize;
 
+            var paginatedPostings = nonArchived.Skip(skip).Take(pageSize).ToList();
+
+            ViewBag.PageNum = currentPage;
+            ViewBag.TotalPages = totalPages;
+
+            if (User.IsInRole("employer"))
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var emp = await _employerRepository.GetByIdAsync((int)user.EmployerId);
+
+                var empJobPostings = jobPostings.Where(jp => jp.EmployerId == emp.Id)
+                                                .Skip(skip)
+                                                .Take(pageSize)
+                                                .ToList();
                 return View(empJobPostings);
             }
 
-            return View(jobPostings);
+            return View(paginatedPostings);
         }
 
         public async Task<IActionResult> Applicants(int id)
@@ -62,15 +76,25 @@ namespace CITPracticum.Controllers
             await _studentRepository.GetAll();
             return View(jobPosting.JobApplications);
         }
-        public async Task<IActionResult> ArchivedPosts(int id)
+        public async Task<IActionResult> ArchivedPosts(int page = 1, int pageSize = 6)
         {
             ViewData["ActivePage"] = "Jobs";
 
             IEnumerable<JobPosting> allJobPostings = await _jobPostingRepository.GetAll();
             IEnumerable<JobPosting> archivedJobPostings = allJobPostings
-                .Where(jp => jp.Archived);
+                .Where(jp => jp.Archived).ToList();
 
-            return View(archivedJobPostings);
+            var count = archivedJobPostings.Count();
+            var totalPages = (int)Math.Ceiling(count / (double)pageSize);
+            var curPage = page;
+            var skip = (page - 1) * pageSize;
+
+            var paginatedPostings = archivedJobPostings.Skip(skip).Take(pageSize).ToList();
+
+            ViewBag.PageNum = curPage;
+            ViewBag.TotalPages = totalPages;
+
+            return View(paginatedPostings);
         }
 
         // goes to a specific job posting page
@@ -154,9 +178,10 @@ namespace CITPracticum.Controllers
         }
 
         // edit a job post
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, int pageNum)
         {
             ViewData["ActivePage"] = "Jobs";
+            ViewBag.ArchPageNum = pageNum;
             var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
             if (jobPosting == null) return View("Error");
             var jobPostingVM = new EditJobPostingViewModel()
@@ -172,7 +197,7 @@ namespace CITPracticum.Controllers
             return View(jobPostingVM);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, EditJobPostingViewModel jobPostingVM)
+        public async Task<IActionResult> Edit(int id, EditJobPostingViewModel jobPostingVM, int pageNum = 1)
         {
             ViewData["ActivePage"] = "Jobs";
             if (!ModelState.IsValid)
@@ -186,42 +211,66 @@ namespace CITPracticum.Controllers
             {
                 if (User.IsInRole("employer"))
                 {
-                    var user = await _userManager.GetUserAsync(User);
-                    var jobPosting = new JobPosting()
+                    if (curJobPosting.JobTitle == jobPostingVM.JobTitle &&
+                        curJobPosting.JobDescription == jobPostingVM.JobDescription &&
+                        curJobPosting.Deadline == jobPostingVM.Deadline &&
+                        curJobPosting.Company == jobPostingVM.Company &&
+                        curJobPosting.Location == jobPostingVM.Location &&
+                        curJobPosting.PaymentCategory == jobPostingVM.PaymentCategory &&
+                        curJobPosting.Link == jobPostingVM.JobLink)
                     {
-                        Id = id,
-                        JobTitle = jobPostingVM.JobTitle,
-                        JobDescription = jobPostingVM.JobDescription,
-                        Deadline = jobPostingVM.Deadline,
-                        Company = jobPostingVM.Company,
-                        PaymentCategory = jobPostingVM.PaymentCategory,
-                        Location = jobPostingVM.Location,
-                        Link = jobPostingVM.JobLink,
-                        EmployerId = user.EmployerId
-                    };
+                        TempData["Error"] = "No data was changed, no changes saved.";
+                        return RedirectToAction("Index", new { page = pageNum });
+                    }
+                    var user = await _userManager.GetUserAsync(User);
 
-                    _jobPostingRepository.Update(jobPosting);
+                    curJobPosting.JobTitle = jobPostingVM.JobTitle;
+                    curJobPosting.JobDescription = jobPostingVM.JobDescription;
+                    curJobPosting.Deadline = jobPostingVM.Deadline;
+                    curJobPosting.Company = jobPostingVM.Company;
+                    curJobPosting.Location = jobPostingVM.Location;
+                    curJobPosting.PaymentCategory = jobPostingVM.PaymentCategory;
+                    curJobPosting.Link = jobPostingVM.JobLink;
+                    curJobPosting.EmployerId = user.EmployerId;
+
+                    _jobPostingRepository.Update(curJobPosting);
 
                     TempData["Success"] = "Job posting edited successfully.";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { page = pageNum });
                 } else
                 {
-                    var jobPosting = new JobPosting()
+                    if (curJobPosting.JobTitle == jobPostingVM.JobTitle &&
+                        curJobPosting.JobDescription == jobPostingVM.JobDescription &&
+                        curJobPosting.Deadline == jobPostingVM.Deadline &&
+                        curJobPosting.Company == jobPostingVM.Company &&
+                        curJobPosting.Location == jobPostingVM.Location &&
+                        curJobPosting.PaymentCategory == jobPostingVM.PaymentCategory &&
+                        curJobPosting.Link == jobPostingVM.JobLink)
                     {
-                        Id = id,
-                        JobTitle = jobPostingVM.JobTitle,
-                        JobDescription = jobPostingVM.JobDescription,
-                        Deadline = jobPostingVM.Deadline,
-                        Company = jobPostingVM.Company,
-                        PaymentCategory = jobPostingVM.PaymentCategory,
-                        Location = jobPostingVM.Location,
-                        Link = jobPostingVM.JobLink
-                    };
+                        TempData["Error"] = "No data was changed. Please try again.";
+                        if (curJobPosting.Archived)
+                        {
+                            return RedirectToAction("ArchivedPosts", new { page = pageNum });
+                        }
+                        return RedirectToAction("Index", new { page = pageNum });
+                    }
 
-                    _jobPostingRepository.Update(jobPosting);
+                    curJobPosting.JobTitle = jobPostingVM.JobTitle;
+                    curJobPosting.JobDescription = jobPostingVM.JobDescription;
+                    curJobPosting.Deadline = jobPostingVM.Deadline;
+                    curJobPosting.Company = jobPostingVM.Company;
+                    curJobPosting.Location = jobPostingVM.Location;
+                    curJobPosting.PaymentCategory = jobPostingVM.PaymentCategory;
+                    curJobPosting.Link = jobPostingVM.JobLink;
+
+                    _jobPostingRepository.Update(curJobPosting);
 
                     TempData["Success"] = "Job posting edited successfully.";
-                    return RedirectToAction("Index");
+                    if (curJobPosting.Archived)
+                    {
+                        return RedirectToAction("ArchivedPosts", new { page = pageNum });
+                    }
+                    return RedirectToAction("Index", new { page = pageNum });
                 }
             }
             else

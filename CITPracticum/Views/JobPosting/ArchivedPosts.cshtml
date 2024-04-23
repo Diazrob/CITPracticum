@@ -70,15 +70,13 @@
                 if (item.Archived)
                 {
                     <div class="col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
+                        <div class="card h-100 step2" style="min-height: 526px;">
+                            <div class="card-header bg-info bg-gradient">
+                                <h5 class="card-text pt-2 pb-2"><b>@item.JobTitle</b></h5>
+                            </div>
+                            <div class="card-body step3">
                                 <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1">Job Title:</h6>
-                                    <p class="card-text">@item.JobTitle</p>
-                                </div>
-
-                                <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1">Job Description:</h6>
+                                    <h6 class="card-subtitle mb-1"><b>Job Description:</b></h6>
                                     <p class="card-text">
                                         @if (item.JobDescription.Length > 100)
                                         {
@@ -91,54 +89,105 @@
                                     </p>
                                 </div>
 
-                                <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1">Company:</h6>
-                                    <p class="card-text">@item.Company</p>
+                                <div class="row mt-2">
+                                    <div class="mb-2 col-md-6">
+                                        <h6 class="card-subtitle mb-1"><b>Company:</b></h6>
+                                        <p class="card-text">
+                                            @if (item.Company.Length >= 50)
+                                            {
+                                                @Html.Raw(item.Company.Substring(0, 50) + "...")
+                                            }
+                                            else
+                                            {
+                                                @item.Company
+                                            }
+                                        </p>
+                                    </div>
+
+                                    <div class="mb-2 col-md-6">
+                                        <h6 class="card-subtitle mb-1"><b>Location:</b></h6>
+                                        <p class="card-text">
+                                            @if (item.Location.Length >= 50)
+                                            {
+                                                @Html.Raw(item.Location.Substring(0, 50) + "...")
+                                            }
+                                            else
+                                            {
+                                                @item.Location
+                                            }
+                                        </p>
+                                    </div>
+
                                 </div>
 
-                                <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1">Location:</h6>
-                                    <p class="card-text">@item.Location</p>
+                                <div class="row mt-2">
+                                    <div class="mb-2 col-md-6">
+                                        <h6 class="card-subtitle mb-1"><b>Application Deadline:</b></h6>
+                                        <p class="card-text">@item.Deadline</p>
+                                    </div>
+
+                                    <div class="mb-2 col-md-6">
+                                        <h6 class="card-subtitle mb-1"><b>Payment Category:</b></h6>
+                                        <p class="card-text">@item.PaymentCategory</p>
+                                    </div>
                                 </div>
 
-                                <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1">Application Deadline:</h6>
-                                    <p class="card-text">@item.Deadline</p>
-                                </div>
-
-                                <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1">Payment Category:</h6>
-                                    <p class="card-text">@item.PaymentCategory</p>
-                                </div>
-
-                                <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1">More Info:</h6>
+                                <div class="mt-2">
+                                    <h6 class="card-subtitle mb-1"><b>More Info:</b></h6>
                                     <p class="card-text">
-                                        <a href="@item.Link" target="_blank" class="card-link">@item.Link</a>
+                                        <a href="@item.Link" target="_blank" class="card-link">
+                                            @if (item.Link.Length >= 50)
+                                            {
+                                                @Html.Raw(item.Link.Substring(0, 50) + "...")
+                                            }
+                                            else
+                                            {
+                                                @item.Link
+                                            }
+                                        </a>
                                     </p>
                                 </div>
                             </div>
 
                             <div class="btn-group card-footer">
-                                <a class="btn btn-outline-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
-                                <a class="btn btn-outline-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                <a class="btn btn-outline-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                <a class="btn btn-outline-warning step2" asp-controller="JobPosting" asp-action="ConfirmUnarchive" asp-route-id="@item.Id">Restore Post</a>
+                                @if (ViewBag.PageNum != null)
+                                {
+                                    <a class="btn btn-outline-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">View</a>
+                                    <a class="btn btn-outline-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Edit</a>
+                                    <a class="btn btn-outline-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Delete</a>
+                                    <a class="btn btn-outline-warning step2" asp-controller="JobPosting" asp-action="ConfirmUnarchive" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Clone Post</a>
+                                }
                             </div>
                         </div>
                     </div>
                 }
             }
         </div>
-        <!-- Pagination (update as necessary for your pagination logic) -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <!-- Generate page numbers dynamically based on the model data -->
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-        </nav>
     </div>
+    <footer class="footer">
+        <div class="row mx-auto d-flex align-item-center">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <nav aria-label="Job postings navigation">
+                    <ul class="pagination">
+                        <li class="page-item @(ViewBag.PageNum == 1 ? "disabled" : "")">
+                            <a class="page-link" href="/JobPosting/ArchivedPosts?page=@(ViewBag.PageNum - 1)">Previous</a>
+                        </li>
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.PageNum ? "active" : "")">
+                                <a class="page-link" href="/JobPosting/ArchivedPosts?page=@i">@i</a>
+                            </li>
+                        }
+                        <li class="page-item @(ViewBag.PageNum == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link" href="/JobPosting/ArchivedPosts?page=@(ViewBag.PageNum + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </footer>
 </div>
 
 <script>

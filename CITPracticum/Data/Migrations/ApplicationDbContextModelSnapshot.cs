@@ -52,7 +52,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.Administrator", b =>
@@ -74,7 +74,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Administrator", (string)null);
+                    b.ToTable("Administrator");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.Application", b =>
@@ -97,7 +97,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Applications", (string)null);
+                    b.ToTable("Applications");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.AppUser", b =>
@@ -204,7 +204,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Document", (string)null);
+                    b.ToTable("Document");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.Employer", b =>
@@ -260,7 +260,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Employers", (string)null);
+                    b.ToTable("Employers");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.FormA", b =>
@@ -343,7 +343,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("FormAs", (string)null);
+                    b.ToTable("FormAs");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.FormB", b =>
@@ -410,7 +410,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("FormBs", (string)null);
+                    b.ToTable("FormBs");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.FormC", b =>
@@ -543,7 +543,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FormCs", (string)null);
+                    b.ToTable("FormCs");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.FormD", b =>
@@ -676,7 +676,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FormDs", (string)null);
+                    b.ToTable("FormDs");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.FormExitInterview", b =>
@@ -724,7 +724,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FormExitInterviews", (string)null);
+                    b.ToTable("FormExitInterviews");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.FormFOIP", b =>
@@ -769,7 +769,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FormFOIPs", (string)null);
+                    b.ToTable("FormFOIPs");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.FormStuInfo", b =>
@@ -817,7 +817,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("FormStuInfos", (string)null);
+                    b.ToTable("FormStuInfos");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.Instructor", b =>
@@ -839,7 +839,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Instructors", (string)null);
+                    b.ToTable("Instructors");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.JobPosting", b =>
@@ -887,7 +887,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasIndex("EmployerId");
 
-                    b.ToTable("JobPostings", (string)null);
+                    b.ToTable("JobPostings");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.Placement", b =>
@@ -935,7 +935,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasIndex("TimesheetId");
 
-                    b.ToTable("Placements", (string)null);
+                    b.ToTable("Placements");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.PracticumForms", b =>
@@ -983,7 +983,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasIndex("FormStuInfoId");
 
-                    b.ToTable("PracticumForms", (string)null);
+                    b.ToTable("PracticumForms");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.Student", b =>
@@ -1018,7 +1018,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasIndex("DocumentId");
 
-                    b.ToTable("Students", (string)null);
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.TimeEntry", b =>
@@ -1051,7 +1051,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasIndex("TimesheetId");
 
-                    b.ToTable("TimeEntries", (string)null);
+                    b.ToTable("TimeEntries");
                 });
 
             modelBuilder.Entity("CITPracticum.Models.Timesheet", b =>
@@ -1064,7 +1064,7 @@ namespace CITPracticum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Timesheets", (string)null);
+                    b.ToTable("Timesheets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -53,9 +53,7 @@
     <li class="nav-item">
         @if (User.IsInRole("admin"))
         {
-        <li class="nav-item step7">
-            <a class="nav-link" id="job-posts-tab" data-toggle="tab" href="/JobPosting/ArchivedPosts" role="tab" aria-controls="job-posts" aria-selected="true">Archived Posts</a>
-        </li>
+            <a class="nav-link step7" id="job-posts-tab" data-toggle="tab" href="/JobPosting/ArchivedPosts" role="tab" aria-controls="job-posts" aria-selected="true">Archived Posts</a>
         }
     </li>
     @if (!User.IsInRole("student"))
@@ -66,91 +64,140 @@
     }
 </ul>
 
-<div class="tab-content step1" id="myTabContent">
-    <div class="tab-pane fade show active" id="job-posts" role="tabpanel" aria-labelledby="job-posts-tab">
-        <div class="row">
-            @foreach (var item in Model)
+<div id="job-posts" role="tabpanel" aria-labelledby="job-posts-tab">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            @if (!item.Archived)
             {
-                @if (!item.Archived)
-                {
-                    <div class="col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100 step2">
-                            <div class="card-body step3">
-                                <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1"><b>Job Title:</b></h6>
-                                    <p class="card-text">@item.JobTitle</p>
-                                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100 step2" style="min-height: 526px;">
+                        <div class="card-header bg-info bg-gradient">
+                            <h5 class="card-text pt-2 pb-2"><b>@item.JobTitle</b></h5>
+                        </div>
+                        <div class="card-body step3">
+                            <div class="mb-2">
+                                <h6 class="card-subtitle mb-1"><b>Job Description:</b></h6>
+                                <p class="card-text">
+                                    @if (item.JobDescription.Length > 100)
+                                    {
+                                        @Html.Raw(item.JobDescription.Substring(0, 250) + "...")
+                                    }
+                                    else
+                                    {
+                                        @item.JobDescription
+                                    }
+                                </p>
+                            </div>
 
-                                <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1"><b>Job Description:</b></h6>
+                            <div class="row mt-2">
+                                <div class="mb-2 col-md-6">
+                                    <h6 class="card-subtitle mb-1"><b>Company:</b></h6>
                                     <p class="card-text">
-                                        @if (item.JobDescription.Length > 100)
+                                        @if (item.Company.Length >= 50)
                                         {
-                                            @Html.Raw(item.JobDescription.Substring(0, 250) + "...")
+                                            @Html.Raw(item.Company.Substring(0, 50) + "...")
                                         }
                                         else
                                         {
-                                            @item.JobDescription
+                                            @item.Company
                                         }
                                     </p>
                                 </div>
 
-                                <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1"><b>Company:</b></h6>
-                                    <p class="card-text">@item.Company</p>
-                                </div>
-
-                                <div class="mb-2">
+                                <div class="mb-2 col-md-6">
                                     <h6 class="card-subtitle mb-1"><b>Location:</b></h6>
-                                    <p class="card-text">@item.Location</p>
+                                    <p class="card-text">
+                                        @if (item.Location.Length >= 50)
+                                        {
+                                            @Html.Raw(item.Location.Substring(0, 50) + "...")
+                                        }
+                                        else
+                                        {
+                                            @item.Location
+                                        }
+                                    </p>
                                 </div>
 
-                                <div class="mb-2">
+                            </div>
+
+
+                            <div class="row mt-2">
+                                <div class="mb-2 col-md-6">
                                     <h6 class="card-subtitle mb-1"><b>Application Deadline:</b></h6>
                                     <p class="card-text">@item.Deadline</p>
                                 </div>
 
-                                <div class="mb-2">
+                                <div class="mb-2 col-md-6">
                                     <h6 class="card-subtitle mb-1"><b>Payment Category:</b></h6>
                                     <p class="card-text">@item.PaymentCategory</p>
                                 </div>
-
-                                <div class="mb-2">
-                                    <h6 class="card-subtitle mb-1"><b>More Info:</b></h6>
-                                    <p class="card-text">
-                                        <a href="@item.Link" target="_blank" class="card-link">@item.Link</a>
-                                    </p>
-                                </div>
                             </div>
 
-                            <div class="btn-group card-footer step4">
+                            <div class="mt-2">
+                                <h6 class="card-subtitle mb-1"><b>More Info:</b></h6>
+                                <p class="card-text">
+                                    <a href="@item.Link" target="_blank" class="card-link">
+                                        @if (item.Link.Length >= 50)
+                                        {
+                                            @Html.Raw(item.Link.Substring(0, 50) + "...")
+                                        }
+                                        else
+                                        {
+                                            @item.Link
+                                        }
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="btn-group card-footer step4">
+                            @if (ViewBag.PageNum != null)
+                            {
                                 <a class="btn btn-outline-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
                                 @if (User.IsInRole("admin") || User.IsInRole("employer"))
                                 {
-                                    <a class="btn btn-outline-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                    <a class="btn btn-outline-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <a class="btn btn-outline-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Edit</a>
+                                    <a class="btn btn-outline-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Delete</a>
                                 }
                                 @if (User.IsInRole("admin"))
                                 {
-                                    <a class="btn btn-outline-warning step5" asp-controller="JobPosting" asp-action="ConfirmArchive" asp-route-id="@item.Id">Archive</a>
-                                    <a class="btn btn-outline-dark step6" asp-controller="JobPosting" asp-action="Applicants" asp-route-id="@item.Id">Applicants</a>
+                                    <a class="btn btn-outline-warning step5" asp-controller="JobPosting" asp-action="ConfirmArchive" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Archive</a>
+                                    <a class="btn btn-outline-dark step6" asp-controller="JobPosting" asp-action="Applicants" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Applicants</a>
                                 }
-                            </div>
+                            }
                         </div>
                     </div>
-                }
+                </div>
             }
-        </div>
-        <!-- Pagination (update as necessary for your pagination logic) -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <!-- Generate page numbers dynamically based on the model data -->
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-        </nav>
+        }
     </div>
 </div>
+<footer class="footer">
+    <div class="row mx-auto d-flex align-item-center">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <nav aria-label="Job postings navigation">
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.PageNum == 1 ? "disabled" : "")">
+                        <a class="page-link" href="/JobPosting/Index?page=@(ViewBag.PageNum - 1)">Previous</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.PageNum ? "active" : "")">
+                            <a class="page-link" href="/JobPosting/Index?page=@i">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(ViewBag.PageNum == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="/JobPosting/Index?page=@(ViewBag.PageNum + 1)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</footer>
+
 @if (User.IsInRole("admin"))
 {
     <script>
@@ -355,7 +402,7 @@
 @if (User.IsInRole("student"))
 {
     <script>
-                const tour = new Shepherd.Tour({
+                                                        const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',
@@ -465,7 +512,7 @@
 else if (User.IsInRole("employer"))
 {
     <script>
-                const tour = new Shepherd.Tour({
+                                                        const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',

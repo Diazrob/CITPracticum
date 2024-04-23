@@ -70,7 +70,10 @@
                     </div>
 
                     <div class="form-group mt-2 step5">
-                        <input class="btn btn-outline-success float right" type="submit" value="Save" />
+                        @if (ViewBag.ArchPageNum != null)
+                        {
+                            <input class="btn btn-outline-success float right" type="submit" asp-route-pageNum="@ViewBag.ArchPageNum" value="Save" />
+                        }
                         <a class="btn btn-outline-secondary" asp-controller="JobPosting" asp-action="Index">Cancel</a>
                     </div>
                 </form>

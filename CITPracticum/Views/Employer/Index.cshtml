@@ -112,10 +112,114 @@
     <thead>
         <tr>
             <th scope="col">Image</th>
-            <th class="name-column" scope="col">Name</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Company</th>
+            <th>
+                <div class="d-flex">
+                    <!-- Sortable link with text and icon -->
+                    <a class="text-white" asp-action="Index"
+                       asp-route-sortOrder="@ViewData["NameSortParm"]"
+                       asp-route-nameFilter="@ViewData["CurrentNameFilter"]"
+                       asp-route-usernameFilter="@ViewData["CurrentUsernameFilter"]"
+                       asp-route-emailFilter="@ViewData["CurrentEmailFilter"]"
+                       asp-route-studIdFilter="@ViewData["CurrentCompanyFilter"]">
+                        Name <i class="fa-solid fa-sort me-2"></i>
+                    </a>
+                    <!-- Filter dropdown -->
+                    <div class="dropdown">
+                        <a class="text-white" style="cursor: pointer;" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i>
+                        </a>
+                        <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                            <div class="mb-3">
+                                <form>
+                                    <input type="text" class="form-control mb-2" name="nameFilter" placeholder="First name">
+                                    <button class="btn btn-primary mt-3" asp-action="Index">Apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="d-flex">
+                    <!-- Sortable link with text and icon -->
+                    <a class="text-white" asp-action="Index"
+                       asp-route-sortOrder="@ViewData["UsernameSortParm"]"
+                       asp-route-nameFilter="@ViewData["CurrentNameFilter"]"
+                       asp-route-usernameFilter="@ViewData["CurrentUsernameFilter"]"
+                       asp-route-emailFilter="@ViewData["CurrentEmailFilter"]"
+                       asp-route-studIdFilter="@ViewData["CurrentCompanyFilter"]">
+                        Username <i class="fa-solid fa-sort me-2"></i>
+                    </a>
+                    <!-- Filter dropdown -->
+                    <div class="dropdown">
+                        <a class="text-white" style="cursor: pointer;" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i>
+                        </a>
+                        <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                            <div class="mb-3">
+                                <form>
+                                    <input type="text" class="form-control mb-2" name="usernameFilter" placeholder="Username">
+                                    <button class="btn btn-primary mt-3" asp-action="Index">Apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="d-flex">
+                    <!-- Sortable link with text and icon -->
+                    <a class="text-white" asp-action="Index"
+                       asp-route-sortOrder="@ViewData["EmailSortParm"]"
+                       asp-route-nameFilter="@ViewData["CurrentNameFilter"]"
+                       asp-route-usernameFilter="@ViewData["CurrentUsernameFilter"]"
+                       asp-route-emailFilter="@ViewData["CurrentEmailFilter"]"
+                       asp-route-studIdFilter="@ViewData["CurrentCompanyFilter"]">
+                        Email <i class="fa-solid fa-sort me-2"></i>
+                    </a>
+                    <!-- Filter dropdown -->
+                    <div class="dropdown">
+                        <a class="text-white" style="cursor: pointer;" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i>
+                        </a>
+                        <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                            <div class="mb-3">
+                                <form>
+                                    <input type="text" class="form-control mb-2" name="emailFilter" placeholder="Email">
+                                    <button class="btn btn-primary mt-3" asp-action="Index">Apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="d-flex">
+                    <!-- Sortable link with text and icon -->
+                    <a class="text-white" asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CompanySortParm"]"
+                       asp-route-nameFilter="@ViewData["CurrentNameFilter"]"
+                       asp-route-usernameFilter="@ViewData["CurrentUsernameFilter"]"
+                       asp-route-emailFilter="@ViewData["CurrentEmailFilter"]"
+                       asp-route-studIdFilter="@ViewData["CurrentCompanyFilter"]">
+                        Company <i class="fa-solid fa-sort me-2"></i>
+                    </a>
+                    <!-- Filter dropdown -->
+                    <div class="dropdown">
+                        <a class="text-white" style="cursor: pointer;" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i>
+                        </a>
+                        <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                            <div class="mb-3">
+                                <form>
+                                    <input type="text" class="form-control mb-2" name="companyFilter" placeholder="Company">
+                                    <button class="btn btn-primary mt-3" asp-action="Index">Apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
             <th scope="col">Actions</th>
         </tr>
     </thead>

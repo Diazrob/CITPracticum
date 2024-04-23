@@ -12,5 +12,6 @@ namespace CITPracticum.ViewModels
         public PaymentCategory PaymentCategory { get; set; }
         public string JobLink { get; set; }
         public string Location { get; set; }
+        public bool Archived { get; set; }
     }
 }
