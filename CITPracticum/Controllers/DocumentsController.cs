@@ -1,5 +1,7 @@
-﻿using CITPracticum.Interfaces;
+﻿using CITPracticum.Data;
+using CITPracticum.Interfaces;
 using CITPracticum.Models;
+using CITPracticum.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +22,45 @@ namespace CITPracticum.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> uploadCV(IFormFile file)
+        {
+            if (file != null && file.Length > 0)
+            {
+                var filesFolder = $"{Directory.GetCurrentDirectory()}\\wwwroot\\resumes\\";
+
+                if (!Directory.Exists(filesFolder))
+                {
+                    Directory.CreateDirectory(filesFolder);
+                }
+
+                var usr = await _userManager.GetUserAsync(User);
+                int stuId = Convert.ToInt32(usr.StudentId);
+                var student = await _studentRepository.GetByIdAsync(stuId);
+                var usrStuId = student.StuId;
+
+                string resumeName = usrStuId + "_" + file.FileName;
+
+                var filePath = Path.Combine(filesFolder, resumeName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+
+
+
+                TempData["Message"] = "Resume Uploaded Successfully.";
+                return RedirectToAction("Index", "Document");
+            }
+            TempData["Message"] = "File upload error. Please check your file.";
+            return RedirectToAction("Index", "Document");
+        }
+
+
+
         [HttpPost]
         public async Task<IActionResult> UploadPdf(IFormFile pdfFile)
         {
