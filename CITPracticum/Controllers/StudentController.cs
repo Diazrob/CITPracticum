@@ -234,14 +234,14 @@ namespace CITPracticum.Controllers
             var result = await _userManager.ResetPasswordAsync(user, token, StuId + "College!");
 
             TempData["Message"] = "Student password has been reset";
-            return RedirectToAction("Detail", "Student");
+            return RedirectToAction("Index", "Student");
         }
         //change password
         [HttpPost]
         public async Task<IActionResult> ChangePassword(DetailStudentViewModel detailStudentVM)
         {
             var user = await _userManager.FindByEmailAsync(detailStudentVM.StuEmail);
-
+            ModelState.Remove("User");
             if (!ModelState.IsValid)
             {
                 TempData["Message"] = "Password details do not match. Please try again.";
@@ -251,6 +251,7 @@ namespace CITPracticum.Controllers
             await _userManager.ChangePasswordAsync(user, detailStudentVM.OldPassword, detailStudentVM.Password);
 
             return RedirectToAction("Detail", "Student");
+        }
             //// comment this out for now and check if working
             //          var user = new AppUser();
 
@@ -296,7 +297,7 @@ namespace CITPracticum.Controllers
             //              return RedirectToAction("Index");
             //          }
             //end here
-        }
+        
         // deletes a student user
         public async Task<IActionResult> Delete(string email, int id)
         {

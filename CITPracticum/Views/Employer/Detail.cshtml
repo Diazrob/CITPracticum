@@ -1,5 +1,5 @@
 ﻿@using CITPracticum.ViewModels;
-@model ViewEmployerViewModel
+@model DetailEmployerViewModel
 
 @{
     if (User.IsInRole("employer"))
@@ -12,6 +12,12 @@
         ViewData["Title"] = "Employers";
         ViewData["CurrentPage"] = "Employers > Profile";
     }
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
 }
 
 <style>
@@ -77,11 +83,11 @@
             <div class="col-md-10" style="margin-left: -135px;">
                 @if (User.IsInRole("admin"))
                 {
-                    <h1 class="step2">@Model.Employer.FirstName @Model.Employer.LastName's Profile</h1>
+                    <h1 class="step2">@Model.FirstName @Model.LastName's Profile</h1>
                 }
                 else
                 {
-                    <h1>Welcome, @Model.Employer.FirstName @Model.Employer.LastName!</h1>
+                    <h1>Welcome, @Model.FirstName @Model.LastName!</h1>
                 }
             </div>
         </div>
@@ -172,32 +178,32 @@
     <!-- Program, Host Company, Type of Organization -->
     <div class="row mb-3 mt-3">
         <div class="col-md-4">
-            <label class="form-label">Host Company:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.FirstName" class="form-label">Host Company:</label>
+            <input type="text" class="form-control" value="@Model.FirstName">
         </div>
         <div class="col-md-4">
-            <label class="form-label">Type of organization:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.OrgType" class="form-label">Type of organization:</label>
+            <input type="text" class="form-control" value="@Model.OrgType">
         </div>
         <div class="col-md-4">
             <label class="form-label">Supervisor's name:</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" value="@Model.FirstName @Model.LastName">
         </div>
     </div>
 
     <!-- Supervisor's Name, Position, and Email -->
     <div class="row mb-3">
         <div class="col-md-4">
-            <label class="form-label">Supervisor's position:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.SVPosition" class="form-label">Supervisor's position:</label>
+            <input type="text" class="form-control" value="@Model.SVPosition">
         </div>
         <div class="col-md-4">
-            <label class="form-label">Supervisor's e-mail:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.EmpEmail" class="form-label">Supervisor's e-mail:</label>
+            <input type="text" class="form-control" value="@Model.EmpEmail">
         </div>
         <div class="col-md-4">
-            <label class="form-label">Phone number:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.PhoneNumber" class="form-label">Phone number:</label>
+            <input type="text" class="form-control" value="@Model.PhoneNumber">
         </div>
     </div>
     <!-- ... other fields ... -->
@@ -205,48 +211,47 @@
     <div class="form-group mb-3">
         <label class="form-label">Supervisor's Credentials</label>
         <div class="col-md-8">
-            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CIT Diploma" /><span class="mx-2">CIT Diploma</span>
-            <input class="form-check-input" type="checkbox" name="CredentialsList" value="IS Degree" /><span class="mx-2">IS Degree</span>
-            <input class="form-check-input" type="checkbox" name="CredentialsList" value="CS Degree" /><span class="mx-2">CS Degree</span>
+            <label asp-for="@Model.Credentials" class="form-label">Supervisor Credentials:</label>
+            <input type="text" class="form-control" value="@Model.Credentials">
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-md-4">
-            <label class="form-label">Other Credentials:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.CredOther" class="form-label">Other Credentials:</label>
+            <input type="text" class="form-control" value="@Model.CredOther">
         </div>
     </div>
 
     <div class="row mb-3">
         <div class="col-md-4">
-            <label class="form-label">Street:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.Address.Street" class="form-label">Street:</label>
+            <input type="text" class="form-control" value="@Model.Address.Street">
         </div>
         <div class="col-md-4">
-            <label class="form-label">City:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.Address.City" class="form-label">City:</label>
+            <input type="text" class="form-control" value="@Model.Address.City">
         </div>
         <div class="col-md-4">
-            <label class="form-label">Province:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.Address.Prov" class="form-label">Province:</label>
+            <input type="text" class="form-control" value="@Model.Address.Prov">
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-md-4">
-            <label class="form-label">Country:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.Address.Country" class="form-label">Country:</label>
+            <input type="text" class="form-control" value="@Model.Address.Country">
         </div>
         <div class="col-md-4">
-            <label class="form-label">Postal Code:</label>
-            <input type="text" class="form-control">
+            <label asp-for="@Model.Address.PostalCode" class="form-label">Postal Code:</label>
+            <input type="text" class="form-control" value="@Model.Address.PostalCode">
         </div>
     </div>
     @if (User.IsInRole("admin"))
     {
         <div class="row">
             <div class="col-md-12">
-                <label class="form-label">Employer Comments:</label>
-                <textarea class="form-control" placeholder="Enter comments here" rows="6"></textarea>
+                <label asp-for="@Model.EmployerComments" class="form-label">Employer Comments:</label>
+                <textarea class="form-control" placeholder="Enter comments here" rows="6">@Model.EmployerComments</textarea>
             </div>
         </div>
     }
@@ -254,29 +259,47 @@
 
 @* End of Main Content *@
 
-@if (User.IsInRole("admin"))
+@if (User.IsInRole("employer"))
 {
     <div class="step4">
         <h4 class="mt-4">Change Password</h4>
 
-        <form>
+        <form method="post" asp-action="ChangePassword" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EmpEmail" />
             <div class="row mt-3">
                 <div class="col-md-4">
-                    <label>New Password:</label>
-                    <input type="text" class="form-control" />
+                    <label asp-for="OldPassword">Old Password:</label>
+                    <input asp-for="OldPassword" class="form-control mb-3" />
+                    <span asp-validation-for="OldPassword" class="text-danger"></span>
                 </div>
                 <div class="col-md-4">
-                    <label>Confirm New Password:</label>
-                    <input type="text" class="form-control mb-3" />
+                    <label asp-for="Password">New Password:</label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="row mb-5">
+                <div class="col-md-4">
+                    <label asp-for="ConfirmPassword">Confirm New Password:</label>
+                    <input asp-for="ConfirmPassword" class="form-control mb-3" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary">Change Password</button>
+                    <input type="submit" asp-controller="Employer" asp-action="ChangePassword" class="btn btn-primary" value="Change Password" />
                 </div>
-            </div>
         </form>
     </div>
+}
+@if (User.IsInRole("admin"))
+{
+    <form method="post" asp-action="ResetPassword" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-2">
+                <input type="hidden" asp-for="EmpEmail" />
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" asp-controller="Employer" asp-action="ResetPassword" asp-route-email="@Model.EmpEmail" asp-route-id="Id" class="btn btn-primary" value="Reset Password" />
+            </div>
+        </div>
+    </form>
 }
 
 @if (User.IsInRole("admin"))

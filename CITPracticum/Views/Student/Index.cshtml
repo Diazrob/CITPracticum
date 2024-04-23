@@ -93,6 +93,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
 
 <!-- Tab navigation with button -->
 <ul class="nav nav-tabs mb-3" role="tablist">

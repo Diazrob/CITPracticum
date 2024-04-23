@@ -14,19 +14,23 @@ namespace CITPracticum.Controllers
     public class EmployerController : Controller
     {
         private readonly IWebHostEnvironment _environment;
+        private readonly IAddressRepository _addressRepository;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ApplicationDbContext _context;
         private readonly IEmployerRepository _employerRepository;
 
         // employer constructor
-        public EmployerController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context, IEmployerRepository employerRepository, IWebHostEnvironment environment)
+        public EmployerController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context, IEmployerRepository employerRepository, IWebHostEnvironment environment,
+            IAddressRepository addressRepository
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _employerRepository = employerRepository;
             _environment = environment;
+            _addressRepository = addressRepository;
         }
         // displays all the employers
         public async Task<IActionResult> Index()
@@ -138,52 +142,139 @@ namespace CITPracticum.Controllers
         // shows the page of specific user
         public async Task<IActionResult> Detail(int id)
         {
-            var users = await _userManager.GetUsersInRoleAsync(UserRoles.Employer);
-            Employer emp = await _employerRepository.GetByIdAsync(id);
-            var user = new AppUser();
-
-            if (emp == null)
+            var usr = await _userManager.GetUserAsync(User);
+            if (User.IsInRole("employer"))
             {
-                TempData["Error"] = "Employer profile not found.";
-                return RedirectToAction("Index");
+                id = Convert.ToInt32(usr.EmployerId);
             }
+            ViewData["ActivePage"] = "Employer";
+            var users = await _userManager.GetUsersInRoleAsync(UserRoles.Employer);
+            var addresses = await _addressRepository.GetAll();
+            Employer employer = await _employerRepository.GetByIdAsync(id);
+            int addId = Convert.ToInt32(employer.AddressId);
+            Address address = await _addressRepository.GetByIdAsync(addId);
 
-            foreach (var selectedUser in users)
+            foreach (var selEmployer in users)
             {
-                if (emp.Id == selectedUser.EmployerId)
+                if (selEmployer.EmployerId == employer.Id)
                 {
-                    user = await _userManager.FindByEmailAsync(selectedUser.Email);
-                    break;
+                    usr = selEmployer;
+                }
+            }
+            foreach (var empAddress in addresses)
+            {
+                if (empAddress.Id == employer.AddressId)
+                {
+                    employer.Address.Street = empAddress.Street;
+                    employer.Address.City = empAddress.City;
+                    employer.Address.Prov = empAddress.Prov;
+                    employer.Address.Country = empAddress.Country;
+                    employer.Address.PostalCode = empAddress.PostalCode;
                 }
             }
 
-            var empVM = new ViewEmployerViewModel
+            var detailEmployerVM = new DetailEmployerViewModel()
             {
-                Employer = emp,
-                User = user
+                Id = employer.Id,
+                FirstName = employer.FirstName,
+                LastName = employer.LastName,
+                CompanyName = employer.CompanyName,
+                SVPosition = employer.SVPosition,
+                OrgType = employer.OrgType,
+                EmpEmail = employer.EmpEmail,
+                PhoneNumber = employer.PhoneNumber,
+                Credentials = employer.Credentials,
+                CredOther = employer.CredOther,
+                Address = new Address()
+                {
+                    Street = employer.Address.Street,
+                    City = employer.Address.City,
+                    Prov = employer.Address.Prov,
+                    Country = employer.Address.Country,
+                    PostalCode = employer.Address.PostalCode
+                },
+                User = usr
             };
 
-            if (emp != null)
-            {
-                if (User.IsInRole("employer"))
-                {
-                    if (emp.Id != user.EmployerId)
-                    {
-                        return RedirectToAction("Detail", new { id = user.EmployerId });
-                    }
-                }
-                return View(empVM);
-            }
-            else
-            {
-                if (User.IsInRole("employer"))
-                {
-                    return RedirectToAction("Detail", new { id = user.EmployerId });
-                }
-                TempData["Error"] = "Employer profile not found.";
-                return RedirectToAction("Index");
-            }
+            return View(detailEmployerVM);
         }
+
+        // reset password
+        public async Task<IActionResult> ResetPassword(string email, int id)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            Employer employer = await _employerRepository.GetByIdAsync(id);
+            
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, employer.LastName + "Employer1!");
+
+            TempData["Message"] = "Employer password has been reset";
+            return RedirectToAction("Index", "Employer");
+        }
+        //change password
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(DetailEmployerViewModel detailEmployerVM)
+        {
+            var user = await _userManager.FindByEmailAsync(detailEmployerVM.EmpEmail);
+            ModelState.Remove("User");
+            if (!ModelState.IsValid)
+            {
+                TempData["Message"] = "Password details do not match. Please try again.";
+                return RedirectToAction("Detail", "Employer");
+            }
+            TempData["Message"] = "Password successfully changed.";
+            await _userManager.ChangePasswordAsync(user, detailEmployerVM.OldPassword, detailEmployerVM.Password);
+
+            return RedirectToAction("Detail", "Employer");
+        }
+
+        //var users = await _userManager.GetUsersInRoleAsync(UserRoles.Employer);
+        //Employer emp = await _employerRepository.GetByIdAsync(id);
+        //var user = new AppUser();
+
+        //if (emp == null)
+        //{
+        //    TempData["Error"] = "Employer profile not found.";
+        //    return RedirectToAction("Index");
+        //}
+
+        //foreach (var selectedUser in users)
+        //{
+        //    if (emp.Id == selectedUser.EmployerId)
+        //    {
+        //        user = await _userManager.FindByEmailAsync(selectedUser.Email);
+        //        break;
+        //    }
+        //}
+
+        //var empVM = new ViewEmployerViewModel
+        //{
+        //    Employer = emp,
+        //    User = user
+        //};
+
+        //if (emp != null)
+        //{
+        //    if (User.IsInRole("employer"))
+        //    {
+        //        if (emp.Id != user.EmployerId)
+        //        {
+        //            return RedirectToAction("Detail", new { id = user.EmployerId });
+        //        }
+        //    }
+        //    return View(empVM);
+        //}
+        //else
+        //{
+        //    if (User.IsInRole("employer"))
+        //    {
+        //        return RedirectToAction("Detail", new { id = user.EmployerId });
+        //    }
+        //    TempData["Error"] = "Employer profile not found.";
+        //    return RedirectToAction("Index");
+        //}
 
         // deletes an employer user
         public async Task<IActionResult> Delete(string email, int id)
