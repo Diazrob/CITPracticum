@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Data.SqlClient;
 using Microsoft.Data.SqlClient.Server;
 using System.Globalization;
 using System.Net;
@@ -67,10 +68,7 @@ namespace CITPracticum.Controllers
                         placement.Employer.FirstName = employer.FirstName;
                     } else
                     {
-                        placement.Employer = new Employer()
-                        {
-                            FirstName = ""
-                        };
+                        return View();
                     }
                 }
                 return View(placements);
@@ -83,9 +81,12 @@ namespace CITPracticum.Controllers
             ViewData["ActivePage"] = "Practicum Forms";
             return View();
         }
-        public async Task<IActionResult> StudentSubmittedForms()
+        public async Task<IActionResult> StudentSubmittedForms(string sortOrder, string nameFilter)
         {
             ViewData["ActivePage"] = "Practicum Forms";
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentNameFilter"] = nameFilter;
+
             IEnumerable<Placement> placements = await _placementRepository.GetAll();
             var students = await _studentRepository.GetAll();
             var practicumForms = await _practicumFormsRepository.GetAllForms();
@@ -133,6 +134,23 @@ namespace CITPracticum.Controllers
                         }
                     }
                 }            
+            }
+
+            // Apply filters
+            if (!string.IsNullOrEmpty(nameFilter))
+            {
+                placements = placements.Where(u => u.Student.FirstName.ToUpper().Contains(nameFilter.ToUpper())).ToList();
+            }
+
+            // Apply sorting
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    placements = placements.OrderByDescending(u => u.Student.FirstName).ToList();
+                    break;
+                default:
+                    placements = placements.OrderBy(u => u.Student.FirstName).ToList();
+                    break;
             }
 
             return View(placements);

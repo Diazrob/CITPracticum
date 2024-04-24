@@ -1,4 +1,5 @@
 ﻿using CITPracticum.Data;
+using CITPracticum.Data.Migrations;
 using CITPracticum.Interfaces;
 using CITPracticum.Models;
 using CITPracticum.Repository;
@@ -239,6 +240,7 @@ namespace CITPracticum.Controllers
                 PhoneNumber = employer.PhoneNumber,
                 Credentials = employer.Credentials,
                 CredOther = employer.CredOther,
+                EmployerComments = employer.EmployerComments,
                 Address = new Address()
                 {
                     Street = employer.Address.Street,
@@ -350,8 +352,8 @@ namespace CITPracticum.Controllers
             Employer employer = await _employerRepository.GetByIdAsync(id);
             if (user == null) return View("Error");
 
-            await _userManager.DeleteAsync(user);
             _employerRepository.Delete(employer);
+            await _userManager.DeleteAsync(user);
 
             TempData["Success"] = "Employer deleted successfully.";
 
@@ -393,17 +395,14 @@ namespace CITPracticum.Controllers
                 user.Email = employerVM.EmpEmail;
                 user.NormalizedEmail = employerVM.EmpEmail.ToUpper();
 
-                var employer = new Employer()
-                {
-                    Id = id,
-                    FirstName = employerVM.FirstName,
-                    LastName = employerVM.LastName,
-                    CompanyName = employerVM.CompanyName,
-                    EmpEmail = employerVM.EmpEmail,
-                    EmployerComments = employerVM.EmployerComments,
-                    Affiliation = employerVM.Affiliation,
-                };
-                _employerRepository.Update(employer);
+                curEmployer.FirstName = employerVM.FirstName;
+                curEmployer.LastName = employerVM.LastName;
+                curEmployer.CompanyName = employerVM.CompanyName;
+                curEmployer.EmpEmail = employerVM.EmpEmail;
+                curEmployer.EmployerComments = employerVM.EmployerComments;
+                curEmployer.Affiliation = employerVM.Affiliation;
+
+                _employerRepository.Update(curEmployer);
                 await _userManager.UpdateAsync(user);
 
                 TempData["Success"] = "Employer edited successfully.";

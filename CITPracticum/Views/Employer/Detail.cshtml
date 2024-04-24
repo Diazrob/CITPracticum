@@ -83,7 +83,14 @@
             <div class="col-md-10" style="margin-left: -135px;">
                 @if (User.IsInRole("admin"))
                 {
-                    <h1 class="step2">@Model.FirstName @Model.LastName's Profile</h1>
+                    @if (@Model.LastName[Model.LastName.Length - 1] == 's')
+                    {
+                        <h1 class="step2">@Model.FirstName @Model.LastName' Profile</h1>
+                    }
+                    else
+                    {
+                        <h1 class="step2">@Model.FirstName @Model.LastName's Profile</h1>
+                    }
                 }
                 else
                 {
@@ -179,15 +186,15 @@
     <div class="row mb-3 mt-3">
         <div class="col-md-4">
             <label asp-for="@Model.FirstName" class="form-label">Host Company:</label>
-            <input type="text" class="form-control" value="@Model.FirstName">
+            <input type="text" class="form-control" value="@Model.FirstName" disabled>
         </div>
         <div class="col-md-4">
             <label asp-for="@Model.OrgType" class="form-label">Type of organization:</label>
-            <input type="text" class="form-control" value="@Model.OrgType">
+            <input type="text" class="form-control" value="@Model.OrgType" disabled>
         </div>
         <div class="col-md-4">
             <label class="form-label">Supervisor's name:</label>
-            <input type="text" class="form-control" value="@Model.FirstName @Model.LastName">
+            <input type="text" class="form-control" value="@Model.FirstName @Model.LastName" disabled>
         </div>
     </div>
 
@@ -195,55 +202,54 @@
     <div class="row mb-3">
         <div class="col-md-4">
             <label asp-for="@Model.SVPosition" class="form-label">Supervisor's position:</label>
-            <input type="text" class="form-control" value="@Model.SVPosition">
+            <input type="text" class="form-control" value="@Model.SVPosition" disabled>
         </div>
         <div class="col-md-4">
             <label asp-for="@Model.EmpEmail" class="form-label">Supervisor's e-mail:</label>
-            <input type="text" class="form-control" value="@Model.EmpEmail">
+            <input type="text" class="form-control" value="@Model.EmpEmail" disabled>
         </div>
         <div class="col-md-4">
             <label asp-for="@Model.PhoneNumber" class="form-label">Phone number:</label>
-            <input type="text" class="form-control" value="@Model.PhoneNumber">
+            <input type="text" class="form-control" value="@Model.PhoneNumber" disabled>
         </div>
     </div>
     <!-- ... other fields ... -->
 
     <div class="form-group mb-3">
-        <label class="form-label">Supervisor's Credentials</label>
         <div class="col-md-8">
             <label asp-for="@Model.Credentials" class="form-label">Supervisor Credentials:</label>
-            <input type="text" class="form-control" value="@Model.Credentials">
+            <input type="text" class="form-control" value="@Model.Credentials" disabled>
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-md-4">
             <label asp-for="@Model.CredOther" class="form-label">Other Credentials:</label>
-            <input type="text" class="form-control" value="@Model.CredOther">
+            <input type="text" class="form-control" value="@Model.CredOther" disabled>
         </div>
     </div>
 
     <div class="row mb-3">
         <div class="col-md-4">
             <label asp-for="@Model.Address.Street" class="form-label">Street:</label>
-            <input type="text" class="form-control" value="@Model.Address.Street">
+            <input type="text" class="form-control" value="@Model.Address.Street" disabled>
         </div>
         <div class="col-md-4">
             <label asp-for="@Model.Address.City" class="form-label">City:</label>
-            <input type="text" class="form-control" value="@Model.Address.City">
+            <input type="text" class="form-control" value="@Model.Address.City" disabled>
         </div>
         <div class="col-md-4">
             <label asp-for="@Model.Address.Prov" class="form-label">Province:</label>
-            <input type="text" class="form-control" value="@Model.Address.Prov">
+            <input type="text" class="form-control" value="@Model.Address.Prov" disabled>
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-md-4">
             <label asp-for="@Model.Address.Country" class="form-label">Country:</label>
-            <input type="text" class="form-control" value="@Model.Address.Country">
+            <input type="text" class="form-control" value="@Model.Address.Country" disabled>
         </div>
         <div class="col-md-4">
             <label asp-for="@Model.Address.PostalCode" class="form-label">Postal Code:</label>
-            <input type="text" class="form-control" value="@Model.Address.PostalCode">
+            <input type="text" class="form-control" value="@Model.Address.PostalCode" disabled>
         </div>
     </div>
     @if (User.IsInRole("admin"))
@@ -251,7 +257,7 @@
         <div class="row">
             <div class="col-md-12">
                 <label asp-for="@Model.EmployerComments" class="form-label">Employer Comments:</label>
-                <textarea class="form-control" placeholder="Enter comments here" rows="6">@Model.EmployerComments</textarea>
+                <textarea asp-for="@Model.EmployerComments" class="form-control" placeholder="Enter comments here" rows="6" disabled></textarea>
             </div>
         </div>
     }
@@ -286,21 +292,53 @@
                 <div class="col-md-2">
                     <input type="submit" asp-controller="Employer" asp-action="ChangePassword" class="btn btn-primary" value="Change Password" />
                 </div>
+            </div>
         </form>
     </div>
 }
 @if (User.IsInRole("admin"))
 {
-    <form method="post" asp-action="ResetPassword" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-md-2">
-                <input type="hidden" asp-for="EmpEmail" />
-                <input type="hidden" asp-for="Id" />
-                <input type="submit" asp-controller="Employer" asp-action="ResetPassword" asp-route-email="@Model.EmpEmail" asp-route-id="Id" class="btn btn-primary" value="Reset Password" />
-            </div>
+
+    <div class="row mt-2 mb-5">
+        <div class="col-md-12">
+            <h4>Reset Password</h4>
+            <p>If the employer has forgotten their password, press this button to reset it to the default password. Default password is: EmployerLastname + Employer1! (Ex: GrahamEmployer1!)</p>
         </div>
-    </form>
+        <div class="col-md-12">
+            <button class="btn btn-primary mt-1" data-bs-toggle="modal" data-bs-target="#resetModal">Reset Password</button>
+        </div>
+    </div>
 }
+
+<!-- Modal -->
+<div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="ResetPassword" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resetModalLabel">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if (@Model.LastName[Model.LastName.Length - 1] == 's')
+                    {
+                        <p>Are you sure you want to reset @Model.FirstName @Model.LastName' (@Model.CompanyName) password?</p>
+                    }
+                    else
+                    {
+                        <p>Are you sure you want to reset @Model.FirstName @Model.LastName's (@Model.CompanyName) password?</p>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <input type="hidden" asp-for="EmpEmail" />
+                    <input type="hidden" asp-for="Id" />
+                    <input type="submit" asp-controller="Employer" asp-action="ResetPassword" asp-route-email="@Model.EmpEmail" asp-route-id="Id" class="btn btn-primary mt-1" value="Reset Password" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @if (User.IsInRole("admin"))
 {

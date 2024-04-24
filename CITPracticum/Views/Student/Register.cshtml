@@ -6,107 +6,85 @@
     ViewData["CurrentPage"] = "Students > Add";
 }
 
-<style>
-    /* Form Field Styling */
-    .form-control {
-        border: 1px solid var(--stone-pipe-grey);
-        border-radius: 0.25rem;
-        padding: 0.5rem;
-        font-size: 0.875rem;
-        color: var(--coal-miner-black);
-        background-color: white;
+<div class="mx-auto step1" style="width: 50%;">
+    @if (TempData["Error"] != null)
+    {
+        <div class="col-md-12 alert alert-danger">
+            <span><b>Sorry! </b>@TempData["Error"]</span>
+        </div>
     }
-
-        .form-control:focus {
-            border-color: var(--kodiaks-blue);
-            box-shadow: 0 0 0 0.2rem rgba(106, 173, 228, 0.25);
-        }
-
-    /* Validation Messages */
-    .text-danger {
-        color: #d9534f; /* Bootstrap default danger color */
-    }
-
-    /* Button Styling */
-    .btn-outline-success {
-        border-color: var(--coulee-green);
-        color: var(--coulee-green);
-    }
-
-        .btn-outline-success:hover {
-            background-color: var(--coulee-green);
-            color: white;
-        }
-
-    .btn-outline-secondary {
-        border-color: var(--stone-pipe-grey);
-        color: var(--coal-miner-black);
-    }
-
-        .btn-outline-secondary:hover {
-            background-color: var(--stone-pipe-grey);
-            color: white;
-        }
-
-    /* Utility Classes */
-    .float-right {
-        float: right;
-    }
-</style>
-
-<div class="row">
-    <div class="col-md-6 offset-3 step1">
-        <p>
-            <h4 class="offset-2">Add a Student</h4>
-        </p>
-        @if (TempData["Error"] != null)
-        {
-            <div class="col-md-12 alert alert-danger">
-                <span><b>Sorry! </b>@TempData["Error"]</span>
+        <form method="post" asp-action="Register" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>
+                        <h4>Add a Student</h4>
+                    </p>
+                </div>
             </div>
-        }
-        <div class="row">
-            <div class="col-md-8 offset-2">
-                <form method="post" asp-action="Register" enctype="multipart/form-data">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-10">
                     <div class="form-group">
                         <label asp-for="EmailAddress" class="control-label">Email Address:</label>
                         <input asp-for="EmailAddress" class="form-control" maxlength="50" />
                         <span asp-validation-for="EmailAddress" class="text-danger"></span>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
                     <div class="form-group">
                         <label asp-for="FirstName" class="control-label mt-2">First Name:</label>
                         <input asp-for="FirstName" class="form-control" maxlength="50" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
                     <div class="form-group">
                         <label asp-for="LastName" class="control-label mt-2">Last Name:</label>
                         <input asp-for="LastName" class="form-control" maxlength="50" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
                     <div class="form-group">
                         <label asp-for="StuId" class="control-label mt-2">Student ID:</label>
                         <input asp-for="StuId" class="form-control" maxlength="8" />
                         <span asp-validation-for="StuId" class="text-danger"></span>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
                     <div class="form-group">
                         <label asp-for="Password" class="control-label mt-2">Password:</label>
                         <input asp-for="Password" class="form-control" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
                     <div class="form-group">
                         <label asp-for="ConfirmPassword" class="control-label mt-2">Confirm Password:</label>
                         <input asp-for="ConfirmPassword" class="form-control" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
                     <div class="form-group mt-2">
                         <input class="btn btn-outline-success float right" type="submit" value="Register" />
                         <a class="btn btn-outline-secondary" asp-controller="Student" asp-action="Index">Cancel</a>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
-    </div>
+        </form>
 </div>
 
 <script>

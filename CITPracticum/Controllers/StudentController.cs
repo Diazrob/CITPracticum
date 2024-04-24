@@ -166,10 +166,10 @@ namespace CITPracticum.Controllers
                     }
                 }
 
-                TempData["Message"] = "File Uploaded Successfully. Students Added";
+                TempData["Success"] = "File Uploaded. Students Added Successfully.";
                 return RedirectToAction("Index", "Student");
             }
-            TempData["Message"] = "File upload error. Please check your file.";
+            TempData["Error"] = "There was an error with the uploaded file. Please ensure the file is correctly formatted.";
             return RedirectToAction("Index", "Student");
         }
 

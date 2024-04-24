@@ -66,6 +66,10 @@
 
 <div id="job-posts" role="tabpanel" aria-labelledby="job-posts-tab">
     <div class="row">
+        @if (Model.Count() <= 0)
+        {
+            <h4>There are currently no job postings in the system.</h4>
+        }
         @foreach (var item in Model)
         {
             @if (!item.Archived)
@@ -173,30 +177,33 @@
         }
     </div>
 </div>
-<footer class="footer">
-    <div class="row mx-auto d-flex align-item-center">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <nav aria-label="Job postings navigation">
-                <ul class="pagination">
-                    <li class="page-item @(ViewBag.PageNum == 1 ? "disabled" : "")">
-                        <a class="page-link" href="/JobPosting/Index?page=@(ViewBag.PageNum - 1)">Previous</a>
-                    </li>
-                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                    {
-                        <li class="page-item @(i == ViewBag.PageNum ? "active" : "")">
-                            <a class="page-link" href="/JobPosting/Index?page=@i">@i</a>
+@if (Model.Count() > 0)
+{
+    <footer class="footer">
+        <div class="row mx-auto d-flex align-item-center">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <nav aria-label="Job postings navigation">
+                    <ul class="pagination">
+                        <li class="page-item @(ViewBag.PageNum == 1 ? "disabled" : "")">
+                            <a class="page-link" href="/JobPosting/Index?page=@(ViewBag.PageNum - 1)">Previous</a>
                         </li>
-                    }
-                    <li class="page-item @(ViewBag.PageNum == ViewBag.TotalPages ? "disabled" : "")">
-                        <a class="page-link" href="/JobPosting/Index?page=@(ViewBag.PageNum + 1)">Next</a>
-                    </li>
-                </ul>
-            </nav>
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.PageNum ? "active" : "")">
+                                <a class="page-link" href="/JobPosting/Index?page=@i">@i</a>
+                            </li>
+                        }
+                        <li class="page-item @(ViewBag.PageNum == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link" href="/JobPosting/Index?page=@(ViewBag.PageNum + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-4"></div>
         </div>
-        <div class="col-md-4"></div>
-    </div>
-</footer>
+    </footer>
+}
 
 @if (User.IsInRole("admin"))
 {

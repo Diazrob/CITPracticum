@@ -7,6 +7,7 @@ using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
@@ -133,9 +134,11 @@ namespace CITPracticum.Controllers
 
             return View(placements.ToList());
         }
-        public async Task<IActionResult> ViewTimesheet(int? id)
+        public async Task<IActionResult> ViewTimesheet(int? id, string sortOrder, DateTime? dateFilter)
         {
             ViewData["ActivePage"] = "Timesheets";
+            ViewData["DateSortParm"] = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
+            ViewData["DateFilter"] = dateFilter;
 
             if (!User.IsInRole("student"))
             {
@@ -145,6 +148,25 @@ namespace CITPracticum.Controllers
                 Timesheet timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
                 await _timeEntryRepository.GetAll();
                 placement.Timesheet = timesheet;
+
+                // Apply filters
+                if (dateFilter != null)
+                {
+                    timesheet.TimeEntries = timesheet.TimeEntries
+                            .Where(entry => entry.ShiftDate.Date == dateFilter.Value.Date)
+                            .ToList();
+                }
+
+                // Apply sorting
+                switch (sortOrder)
+                {
+                    case "date_desc":
+                        timesheet.TimeEntries = timesheet.TimeEntries.OrderByDescending(u => u.ShiftDate).ToList();
+                        break;
+                    default:
+                        timesheet.TimeEntries = timesheet.TimeEntries.OrderBy(u => u.ShiftDate).ToList();
+                        break;
+                }
 
                 return View(placement);
             }
@@ -185,6 +207,25 @@ namespace CITPracticum.Controllers
                             timesheet.TimeEntries.Add(entry);
                         }
                     }
+                }
+
+                // Apply filters
+                if (dateFilter != null)
+                {
+                    timesheet.TimeEntries = timesheet.TimeEntries
+                            .Where(entry => entry.ShiftDate.Date == dateFilter.Value.Date)
+                            .ToList();
+                }
+
+                // Apply sorting
+                switch (sortOrder)
+                {
+                    case "date_desc":
+                        timesheet.TimeEntries = timesheet.TimeEntries.OrderByDescending(u => u.ShiftDate).ToList();
+                        break;
+                    default:
+                        timesheet.TimeEntries = timesheet.TimeEntries.OrderBy(u => u.ShiftDate).ToList();
+                        break;
                 }
 
                 assignedPlacement.Timesheet = timesheet;

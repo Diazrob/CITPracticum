@@ -105,22 +105,11 @@
     <li class="nav-item">
         <a class="nav-link active" href="/Student/Index">Students</a>
     </li>
-    <!-- Upload CSV-->
-    <li class="nav-item" role="presentation">
-        <form method="post" enctype="multipart/form-data">
-            <div class="row">
-                <label>Select CSV file</label>
-                <input type="file" name="file" />
-            </div>
-            <div class="row">
-                <input type="submit" asp-controller="Student" asp-action="uploadCSV" class="btn btn-primary step4" value="Upload" />
-            </div>
-        </form>
-    </li>
 
     <!-- This is where the 'Create Form' button is placed -->
     <li class="nav-item" role="presentation">
-        <a class="btn btn-primary step4" asp-controller="Student" asp-action="Register"><i class="fa-solid fa-plus"></i> Add Student</a>
+        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal"><i class="fa-solid fa-users"></i> Add Students (.csv)</a>
+        <a class="btn btn-primary step4" asp-controller="Student" asp-action="Register"><i class="fa-solid fa-user-plus"></i> Add Student</a>
     </li>
 </ul>
 
@@ -278,6 +267,28 @@
 
     </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadModalLabel">Upload CSV (.csv)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="form-label">Please select a .csv file that is correctly formatted for our system:</label>
+                    <input type="file" name="file" class="form-control mt-2" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-primary" asp-controller="Student" asp-action="uploadCSV" value="Upload" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     const tour = new Shepherd.Tour({

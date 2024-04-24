@@ -79,103 +79,110 @@
     </li>
 </ul>
 
-<div class="step1">
-    @if (User.IsInRole("admin") || User.IsInRole("student"))
-    {
-
-        <a class="step2" style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormFOIP">
-            <div class="card zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                <div class="card-body">
-                    Form FOIP - Student Release
-                </div>
-            </div>
-        </a>
-        <a class="step2" style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormStuInfo">
-            <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                <div class="card-body">
-                    Form ID - Student Information
-                </div>
-            </div>
-        </a>
-        <!-- List of Forms as Cards -->
-        <a class="step2" style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormA">
-            <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                <div class="card-body">
-                    Form A - Host Information
-                </div>
-            </div>
-        </a>
-    }
-
-    @if (User.IsInRole("employer"))
-    {
-        @foreach (var item in Model)
+@if (Model == null)
+{
+    <h4>There are currently no student submitted forms attached to your practicum placement.</h4>
+}
+else
+{
+    <div class="step1">
+        @if (User.IsInRole("admin") || User.IsInRole("student"))
         {
-            @if (User.Identity.Name == item.Employer.FirstName)
-            {
-                <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
-                    <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                        <div class="card-body">
-                            Form B - Practicum Agreement - @item.Student.FirstName @item.Student.LastName
-                        </div>
-                    </div>
-                </a>
-                <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
-                    <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                        <div class="card-body">
-                            Form C - Practicum Evaluation (100 hours) - @item.Student.FirstName @item.Student.LastName
-                        </div>
-                    </div>
-                </a>
 
-                <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
-                    <div class="card zoom mt-3 text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                        <div class="card-body">
-                            Form D - Practicum Evaluation (200 hours) - @item.Student.FirstName @item.Student.LastName
-                        </div>
+            <a class="step2" style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormFOIP">
+                <div class="card zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                    <div class="card-body">
+                        Form FOIP - Student Release
                     </div>
-                </a>
-            }
-
+                </div>
+            </a>
+            <a class="step2" style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormStuInfo">
+                <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                    <div class="card-body">
+                        Form ID - Student Information
+                    </div>
+                </div>
+            </a>
+            <!-- List of Forms as Cards -->
+            <a class="step2" style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormA">
+                <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                    <div class="card-body">
+                        Form A - Host Information
+                    </div>
+                </div>
+            </a>
         }
-    }
-    else
-    {
-        <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
-            <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                <div class="card-body">
-                    Form B - Practicum Agreement
-                </div>
-            </div>
-        </a>
-        <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
-            <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                <div class="card-body">
-                    Form C - Practicum Evaluation (100 hours)
-                </div>
-            </div>
-        </a>
 
-        <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
-            <div class="card zoom mt-3 text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                <div class="card-body">
-                    Form D - Practicum Evaluation (200 hours)
-                </div>
-            </div>
-        </a>
-    }
+        @if (User.IsInRole("employer"))
+        {
+            @foreach (var item in Model)
+            {
+                @if (User.Identity.Name == item.Employer.FirstName)
+                {
+                    <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+                        <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                            <div class="card-body">
+                                Form B - Practicum Agreement - @item.Student.FirstName @item.Student.LastName
+                            </div>
+                        </div>
+                    </a>
+                    <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+                        <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                            <div class="card-body">
+                                Form C - Practicum Evaluation (100 hours) - @item.Student.FirstName @item.Student.LastName
+                            </div>
+                        </div>
+                    </a>
 
-    @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.
-    {
-        <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormExitInterview" style="text-decoration: none;">
-            <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                <div class="card-body">
-                    Exit Interview
+                    <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
+                        <div class="card zoom mt-3 text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                            <div class="card-body">
+                                Form D - Practicum Evaluation (200 hours) - @item.Student.FirstName @item.Student.LastName
+                            </div>
+                        </div>
+                    </a>
+                }
+
+            }
+        }
+        else
+        {
+            <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+                <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                    <div class="card-body">
+                        Form B - Practicum Agreement
+                    </div>
                 </div>
-            </div>
-        </a>
-    }
-</div>
+            </a>
+            <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+                <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                    <div class="card-body">
+                        Form C - Practicum Evaluation (100 hours)
+                    </div>
+                </div>
+            </a>
+
+            <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
+                <div class="card zoom mt-3 text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                    <div class="card-body">
+                        Form D - Practicum Evaluation (200 hours)
+                    </div>
+                </div>
+            </a>
+        }
+
+        @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.
+        {
+            <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormExitInterview" style="text-decoration: none;">
+                <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                    <div class="card-body">
+                        Exit Interview
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+}
 
 @if (User.IsInRole("admin"))
 {
@@ -273,7 +280,7 @@
 @if (User.IsInRole("employer"))
 {
     <script>
-                const tour = new Shepherd.Tour({
+                        const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',
@@ -331,7 +338,7 @@
 @if (User.IsInRole("student"))
 {
     <script>
-                        const tour = new Shepherd.Tour({
+                                const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',
