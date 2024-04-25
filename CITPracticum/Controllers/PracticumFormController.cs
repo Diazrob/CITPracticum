@@ -71,7 +71,7 @@ namespace CITPracticum.Controllers
                 var usr = await _userManager.GetUserAsync(User);
                 int empId = Convert.ToInt32(usr.EmployerId);
                 var employer = await _employerRepository.GetByIdAsync(empId);
-                IEnumerable<Placement> empPlacement;
+                List<Placement> empPlacement = new List<Placement>();
                 foreach (var placement in placements)
                 {
 
@@ -80,12 +80,11 @@ namespace CITPracticum.Controllers
                         var student = await _studentRepository.GetByIdAsync((Int32)placement.StudentId);
                         placement.Student = student;
                         placement.Employer = employer;
-                    } else
-                    {
-                        return View();
+
+                        empPlacement.Add(placement);
                     }
                 }
-                return View(placements);
+                return View(empPlacement);
             }
             return View(placements);
         }
