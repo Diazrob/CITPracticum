@@ -64,20 +64,23 @@
 
 </style>
 
-<!-- Tab navigation with button -->
-<ul class="nav nav-tabs mb-3" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" href="/PracticumForm/Index">Practicum Forms</a>
-    </li>
-    @if (User.IsInRole("admin"))
-    {
+@if (User.IsInRole("admin"))
+{
+    <!-- Tab navigation with button -->
+    <ul class="nav nav-tabs mb-3" role="tablist">
         <li class="nav-item">
-            <a class="nav-link step3" href="/PracticumForm/StudentSubmittedForms">Student Submitted Forms</a>
+            <a class="nav-link active" href="/PracticumForm/Index">Practicum Forms</a>
         </li>
-    }
-    <li class="nav-item">
-    </li>
-</ul>
+        @if (User.IsInRole("admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link step3" href="/PracticumForm/StudentSubmittedForms">Student Submitted Forms</a>
+            </li>
+        }
+        <li class="nav-item">
+        </li>
+    </ul>
+}
 
 @if (Model == null)
 {
@@ -88,7 +91,10 @@ else
     <div class="step1">
         @if (User.IsInRole("admin") || User.IsInRole("student"))
         {
-
+            if (User.IsInRole("student"))
+            {
+                <h5></h5>
+            }
             <a class="step2" style="text-decoration: none;" asp-controller="PracticumForm" asp-action="CreateFormFOIP">
                 <div class="card zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
                     <div class="card-body">
@@ -147,28 +153,43 @@ else
         }
         else
         {
-            <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
-                <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                    <div class="card-body">
-                        Form B - Practicum Agreement
-                    </div>
-                </div>
-            </a>
-            <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
-                <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                    <div class="card-body">
-                        Form C - Practicum Evaluation (100 hours)
-                    </div>
-                </div>
-            </a>
+            bool empId = false;
+            foreach (var place in Model)
+            {
+                if (place.EmployerId != null)
+                {
+                    empId = true;
+                } else
+                {
+                    empId = false;
+                }
+            }
 
-            <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
-                <div class="card zoom mt-3 text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
-                    <div class="card-body">
-                        Form D - Practicum Evaluation (200 hours)
+            if (empId || User.IsInRole("admin"))
+            {
+                <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
+                    <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                        <div class="card-body">
+                            Form B - Practicum Agreement
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+                <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormC" style="text-decoration: none;">
+                    <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                        <div class="card-body">
+                            Form C - Practicum Evaluation (100 hours)
+                        </div>
+                    </div>
+                </a>
+
+                <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormD" style="text-decoration: none;">
+                    <div class="card zoom mt-3 text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">
+                        <div class="card-body">
+                            Form D - Practicum Evaluation (200 hours)
+                        </div>
+                    </div>
+                </a>
+            }
         }
 
         @if (User.IsInRole("admin")) // Add an OR operator for when admin submits the exit interview the student can see it on their dashboard but have it readonly.

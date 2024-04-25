@@ -5,27 +5,49 @@
     ViewData["CurrentPage"] = "Job Postings > Applicants";
 }
 
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table thead {
+            background-color: var(--stone-pipe-grey);
+            color: white;
+        }
+
+            .table thead th {
+                padding: 0.75rem 1rem;
+                text-align: left;
+            }
+
+        .table tbody td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--stone-pipe-grey);
+        }
+</style>
+
 @if (Model.Any())
 {
     <div class="d-flex">
         <a href="/JobPosting/Index" class="btn btn-secondary mb-3" style="margin-left: -100px;"><i class="fa-solid fa-chevron-left"></i> Back</a>
-        <h3 style="margin-left: 22px;">Students interested in this position</h3>
+        <h3 style="margin-left: 25px;">Students interested in this position</h3>
     </div>
-    <table class="table">
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th class="name-column">Name</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                @foreach (var application in Model)
-                {
+            @foreach (var application in Model)
+            {
+                <tr>
                     <td>
                         @application.Student.FirstName @application.Student.LastName
                     </td>
-                }
-            </tr>
+                </tr>
+            }
         </tbody>
     </table>
     <!-- Pagination -->
@@ -42,7 +64,8 @@
             </li>
         </ul>
     </nav>
-} else
+}
+else
 {
     <div class="d-flex">
         <a href="/JobPosting/Index" class="btn btn-secondary mb-3" style="margin-left: -100px;"><i class="fa-solid fa-chevron-left"></i> Back</a>

@@ -96,28 +96,28 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/Timesheet/Index">Timesheets</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active">Time Entries</a>
+                </li>
             }
-            <li class="nav-item">
-                <a class="nav-link active">Time Entries</a>
-            </li>
             <!-- This is where the 'Create Form' button is placed -->
             <li class="nav-item" role="presentation">
                 @if (Model != null)
                 {
                     if (User.IsInRole("admin") || User.IsInRole("student"))
                     {
-                        <button class="btn btn-primary step7 studstep6" asp-controller="Timesheet" asp-action="CreateTimeEntry" asp-route-id="@Model.Id"><i class="fa-solid fa-plus me-1"></i>Add Time Entry</button>
+                        <button class="btn btn-primary step7 studstep6 mb-1" asp-controller="Timesheet" asp-action="CreateTimeEntry" asp-route-id="@Model.Id"><i class="fa-solid fa-plus me-1"></i>Add Time Entry</button>
                     }
                     <div class="btn-group step5" role="group" aria-label="Basic example">
                         @if (User.IsInRole("admin") || User.IsInRole("employer"))
                         {
-                            <button type="button" class="btn btn-success" style="width: 120px;" data-bs-toggle="modal" data-bs-target="#approveModal"><i class="fa-regular fa-circle-check me-1"></i>Approve</button>
-                            <button type="button" class="btn btn-danger" style="width: 120px;" data-bs-toggle="modal" data-bs-target="#denyModal"><i class="fa-regular fa-circle-xmark me-1"></i>Deny</button>
+                            <button type="button" class="btn btn-success mb-1" style="width: 120px;" data-bs-toggle="modal" data-bs-target="#approveModal"><i class="fa-regular fa-circle-check me-1"></i>Approve</button>
+                            <button type="button" class="btn btn-danger mb-1" style="width: 120px;" data-bs-toggle="modal" data-bs-target="#denyModal"><i class="fa-regular fa-circle-xmark me-1"></i>Deny</button>
                         }
                     </div>
                     if (User.IsInRole("admin") || User.IsInRole("student"))
                     {
-                        <button type="button" class="btn btn-danger ms-auto step6 studstep7" style="width: 100px;" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-regular fa-trash-can me-1"></i>Delete</button>
+                        <button type="button" class="btn btn-danger ms-auto step6 studstep7 mb-1" style="width: 100px;" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-regular fa-trash-can me-1"></i>Delete</button>
                     }
                 }
             </li>
@@ -491,7 +491,7 @@
 else if (User.IsInRole("student") && Model.TimesheetId != null)
 {
     <script>
-                        const tour = new Shepherd.Tour({
+                                const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',

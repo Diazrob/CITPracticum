@@ -1,5 +1,20 @@
 ﻿@using CITPracticum.ViewModels;
+@using Microsoft.AspNetCore.Identity;
 @model DashboardViewModel
+@inject UserManager<AppUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var empId = 0;
+    var studId = 0;
+    if (User.IsInRole("student"))
+    {
+        empId = (Int32)user.StudentId;
+    }
+    if (User.IsInRole("employer"))
+    {
+        empId = (Int32)user.EmployerId;
+    }
+}
 @{
     ViewData["Title"] = "Dashboard";
     ViewData["CurrentPage"] = "Dashboard";
@@ -8,7 +23,6 @@
 @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
 {
     <style>
-        /* Custom styles */
         .progress-custom {
             height: 20px;
         }
@@ -19,134 +33,291 @@
             margin-bottom: 0;
         }
 
-        .page-link {
-            color: #6c757d; /* Customize pagination color */
-        }
-
-        .page-item.active .page-link {
-            background-color: #6c757d; /* Customize active pagination color */
-            border-color: #6c757d;
-        }
-
-        .search-bar {
-            max-width: 300px;
-            margin-bottom: 20px;
-        }
-
         h5 {
             text-align: center;
         }
     </style>
 
     <!-- Main Content -->
-        <div class="row mx-auto">
-            <!-- Forms Count -->
-            <div class="col-lg-6 step1">
-                <h5 class="mb-3">Form Submission Progress</h5>
-                <div class="card mb-3 step2">
-                    <div class="card-body">
-                        <h6 class="progress-label">Form FOIP <span class="m-5">@Model.FormFOIPCount/@Model.PlacementCount</span></h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: @Model.FOIPPercentage;" aria-valuenow="@Model.FOIPPercent" aria-valuemin="0" aria-valuemax="100">@Model.FOIPPercentage</div>
-                        </div>
+    <div class="row mx-auto step1">
+        <!-- Forms Count -->
+        <div class="col-lg-6 step2">
+            <h5 class="mb-3">Form Submission Progress</h5>
+            <div class="card mb-3 step2">
+                <div class="card-body step3">
+                    <h6 class="progress-label">Form FOIP <span class="m-5">@Model.FormFOIPCount/@Model.PlacementCount</span></h6>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar" role="progressbar" style="width: @Model.FOIPPercentage;" aria-valuenow="@Model.FOIPPercent" aria-valuemin="0" aria-valuemax="100">@Model.FOIPPercentage</div>
                     </div>
                 </div>
-                <div class="card mb-3 step3">
-                    <div class="card-body">
-                        <h6 class="progress-label">Form ID <span class="m-5">@Model.FormIdCount/@Model.PlacementCount</span></h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: @Model.IdPercentage;" aria-valuenow="@Model.IdPercent" aria-valuemin="0" aria-valuemax="100">@Model.IdPercentage</div>
-                        </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h6 class="progress-label">Form ID <span class="m-5">@Model.FormIdCount/@Model.PlacementCount</span></h6>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar" role="progressbar" style="width: @Model.IdPercentage;" aria-valuenow="@Model.IdPercent" aria-valuemin="0" aria-valuemax="100">@Model.IdPercentage</div>
                     </div>
                 </div>
-                <div class="card mb-3 step4">
-                    <div class="card-body">
-                        <h6 class="progress-label">Form A <span class="m-5">@Model.FormACount/@Model.PlacementCount</span></h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: @Model.APercentage;" aria-valuenow="@Model.APercent" aria-valuemin="0" aria-valuemax="100">@Model.APercentage</div>
-                        </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h6 class="progress-label">Form A <span class="m-5">@Model.FormACount/@Model.PlacementCount</span></h6>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar" role="progressbar" style="width: @Model.APercentage;" aria-valuenow="@Model.APercent" aria-valuemin="0" aria-valuemax="100">@Model.APercentage</div>
                     </div>
                 </div>
-                <div class="card mb-3 step4">
-                    <div class="card-body">
-                        <h6 class="progress-label">Form B <span class="m-5">@Model.FormBCount/@Model.PlacementCount</span></h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: @Model.BPercentage;" aria-valuenow="@Model.BPercent" aria-valuemin="0" aria-valuemax="100">@Model.BPercentage</div>
-                        </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h6 class="progress-label">Form B <span class="m-5">@Model.FormBCount/@Model.PlacementCount</span></h6>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar" role="progressbar" style="width: @Model.BPercentage;" aria-valuenow="@Model.BPercent" aria-valuemin="0" aria-valuemax="100">@Model.BPercentage</div>
                     </div>
                 </div>
-                <div class="card mb-3 step4">
-                    <div class="card-body">
-                        <h6 class="progress-label">Form C <span class="m-5">@Model.FormCCount/@Model.PlacementCount</span></h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: @Model.CPercentage;" aria-valuenow="@Model.CPercent" aria-valuemin="0" aria-valuemax="100">@Model.CPercentage</div>
-                        </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h6 class="progress-label">Form C <span class="m-5">@Model.FormCCount/@Model.PlacementCount</span></h6>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar" role="progressbar" style="width: @Model.CPercentage;" aria-valuenow="@Model.CPercent" aria-valuemin="0" aria-valuemax="100">@Model.CPercentage</div>
                     </div>
                 </div>
-                <div class="card mb-3 step4">
-                    <div class="card-body">
-                        <h6 class="progress-label">Form D <span class="m-5">@Model.FormDCount/@Model.PlacementCount</span></h6>
-                        <div class="progress progress-custom">
-                            <div class="progress-bar" role="progressbar" style="width: @Model.DPercentage;" aria-valuenow="@Model.DPercent" aria-valuemin="0" aria-valuemax="100">@Model.DPercentage</div>
-                        </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h6 class="progress-label">Form D <span class="m-5">@Model.FormDCount/@Model.PlacementCount</span></h6>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar" role="progressbar" style="width: @Model.DPercentage;" aria-valuenow="@Model.DPercent" aria-valuemin="0" aria-valuemax="100">@Model.DPercentage</div>
                     </div>
                 </div>
-                </div>
-                <!-- ...End... -->
-                <!-- Documents -->
-                <div class="col-lg-6 step1">
-                    <h5 class="mb-3">Documents Submission Progress</h5>
-                    <div class="card mb-3 step2">
-                        <div class="card-body">
-                        <h6 class="progress-label">Resume <span class="m-5">10/15</span></h6>
-                            <div class="progress progress-custom">
-                                <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-3 step3">
-                        <div class="card-body">
-                        <h6 class="progress-label">Cover Letter <span class="m-5">10/15</span></h6>
-                            <div class="progress progress-custom">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    <!-- ... End ... -->
-                    <!-- Hours Progress -->
-                    <div class="col-lg-6 step1">
-                        <h5 class="mb-3">Student Hours Progress</h5>
-                        <div class="card mb-3 step2">
-                            <div class="card-body">
-                        <h6 class="progress-label">100 Hours Completed <span class="m-5">10/15</span></h6>
-                                <div class="progress progress-custom">
-                                    <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card mb-3 step3">
-                            <div class="card-body">
-                                <h6 class="progress-label">200 Hours Completed <span class="m-5">10/15</span></h6>
-                                <div class="progress progress-custom">
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ... other progress cards ... -->
-                </div>
+            </div>
         </div>
+        <!-- Documents -->
+        <div class="col-lg-6 step4">
+            <h5 class="mb-3">Documents Submission Progress</h5>
+            <div class="card mb-3">
+                <div class="card-body step5">
+                    <h6 class="progress-label">Resume <span class="m-5">10/15</span></h6>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h6 class="progress-label">Work Preferences <span class="m-5">10/15</span></h6>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ... End ... -->
+        <!-- Hours Progress -->
+        <div class="col-lg-6 step6">
+            <h5 class="mb-3">Student Hours Progress</h5>
+            <div class="card mb-3">
+                <div class="card-body step7">
+                    <h6 class="progress-label">100 Hours Completed <span class="m-5">10/15</span></h6>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h6 class="progress-label">200 Hours Completed <span class="m-5">10/15</span></h6>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+                    </div>
+                </div>
+            </div>
+            <!-- ... other progress cards ... -->
+        </div>
+    </div>
 
 }
 else if (User.Identity.IsAuthenticated && User.IsInRole("student"))
 {
     //Student dashboard content
-    <h3>This is the student dashboard.</h3>
+    <div class="mx-auto" style="width: 80%;">
+        <div class="row step1">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100 step2" style="min-height: 325px;">
+                    <div class="card-header bg-info bg-gradient">
+                        <h5 class="card-text pt-2 pb-2">Welcome to CIT Practicum</h5>
+                    </div>
+                    <div class="card-body">
+                        To get started, head over to <a href="/JobPosting/Index">job postings</a>
+                        and apply to some posts.
+                        Job postings are simple. You are presented
+                        with all available job postings. There are 6 postings per page. You can
+                        click the 'View' button to get a more in depth description for each posting.
+                        Once you click the 'View' button, you have the option to apply for the posting.
+                        If Stephen or the employer think you're a good fit for the position,
+                        they will personally contact you through email or in person.
+                    </div>
+                    <div class="card-footer">
+                        <a href="/JobPosting/Index" class="btn btn-outline-primary step3">Job Postings <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card h-100 step4" style="min-height: 325px;">
+                    <div class="card-header bg-info bg-gradient">
+                        <h5 class="card-text pt-2 pb-2">Forms</h5>
+                    </div>
+                    <div class="card-body">
+                        After getting selected for a position, you are now able to
+                        start filling out the necessary <a href="/PracticumForm/Index">forms</a>
+                        to get started. Start out by completing
+                        <a href="/PracticumForm/CreateFormFOIP">form FOIP</a>,
+                        <a href="/PracticumForm/CreateFormStuInfo">form ID</a>, and
+                        then <a href="/PracticumForm/CreateFormA">form A</a> respectively.
+                        After those forms are filled out, make sure to fill out form B.
+                        Forms C and D will be
+                        filled out initially by the employer, but you do need to sign and make some comments regarding
+                        your experience, and then Stephen will look over them to ensure the information is correct.
+                    </div>
+                    <div class="card-footer">
+                        <a href="/PracticumForm/Index" class="btn btn-outline-primary step5">Forms <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 step6" style="min-height: 325px;">
+                    <div class="card-header bg-info bg-gradient">
+                        <h5 class="card-text pt-2 pb-2">Timesheet</h5>
+                    </div>
+                    <div class="card-body">
+                        Once you have been placed in a position for a company, you are now ready to
+                        start your timesheet! You can start off by creating an entry for the date worked,
+                        shift duration, description of work done. Once submitted it will need to be approved by
+                        either Stephen or the employer you are working for. All of the hours are tracked in the
+                        system viewable by you, the employer, or Stephen.
+                    </div>
+                    <div class="card-footer">
+                        <a href="/Timesheet/ViewTimesheet" class="btn btn-outline-primary step7">Timesheet <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 step8" style="min-height: 325px;">
+                    <div class="card-header bg-info bg-gradient">
+                        <h5 class="card-text pt-2 pb-2">Documents</h5>
+                    </div>
+                    <div class="card-body">
+                        Uploading a resume and setting your work preferences are crucial
+                        to Stephen and the employer to ensure that you are
+                        a correct fit for the positions that you are applying for. This helps you
+                        get placed quicker, and can also assist Stephen in finding a good placement for you.
+                        You will start off by <a href="/Documents/Index">uploading a Resume</a> that is up to date, with correct information.
+                        After that you will see the <a href="/Documents/CoverLetter">work preference</a> tab, that allows for you to choose your work
+                        preferences that will assist in finding the right job postings for you.
+                    </div>
+                    <div class="card-footer">
+                        <a href="/Documents/Index" class="btn btn-outline-primary step9">Documents <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 step10" style="min-height: 325px;">
+                    <div class="card-header bg-info bg-gradient">
+                        <h5 class="card-text pt-2 pb-2">Profile</h5>
+                    </div>
+                    <div class="card-body">
+                        To access your profile, click the 'Settings' button on the bottom left of the screen.
+                        You will see 'Sign Out' and 'Profile'. Click on 'Profile'. Here you will see your information
+                        and the option to change your password. Feel free to upload a picture to your profile to put a face
+                        to the name.
+                    </div>
+                    <div class="card-footer">
+                        <a href="@($"/Student/Detail/{studId}")" class="btn btn-outline-primary step11">My Profile <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 {
-    //Student dashboard content
-    <h3>This is the employer dashboard.</h3>
+    //Employer dashboard content
+    <div class="mx-auto" style="width: 80%;">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="min-height: 325px;">
+                    <div class="card-header bg-info bg-gradient">
+                        <h5 class="card-text pt-2 pb-2">Welcome to CIT Practicum</h5>
+                    </div>
+                    <div class="card-body">
+                        To get started, head over to <a href="/JobPosting/Index">job postings</a>
+                        and create a job posting. Job postings are simple. If you have not yet created a posting,
+                        there is a button to create a posting. If you have created one or more, you are presented
+                        with your created job postings. There are 6 postings per page. You can
+                        click on the view to get a more in depth description for each posting, edit to change the information on
+                        the posting, and delete to remove your posting from the system.
+                    </div>
+                    <div class="card-footer">
+                        <a href="/JobPosting/Index" class="btn btn-outline-primary">Job Postings <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="min-height: 325px;">
+                    <div class="card-header bg-info bg-gradient">
+                        <h5 class="card-text pt-2 pb-2">Forms</h5>
+                    </div>
+                    <div class="card-body">
+                        Once the student(s) that are assigned to your company have submitted forms, the
+                        submitted forms will pop up on your forms page that require you to finish filling out
+                        the form. Once you submit it, it will get sent to the admin for approval.
+                    </div>
+                    <div class="card-footer">
+                        <a href="/PracticumForm/Index" class="btn btn-outline-primary">Forms <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card h-100" style="min-height: 325px;">
+                    <div class="card-header bg-info bg-gradient">
+                        <h5 class="card-text pt-2 pb-2">Timesheets</h5>
+                    </div>
+                    <div class="card-body">
+                        Once you have a student(s) assigned to your company, you will be able to see
+                        them on your timesheet page. It will say 'N/A' under actions if they have no time entries, or
+                        it will show 'View' for the actions if they do have time entries. Click the 'View' button
+                        and then you should see the submitted time entries from the student. Use the checkboxes on the right
+                        side and then press either 'Approve' or 'Deny' depending on what you believe seems fit.
+                    </div>
+                    <div class="card-footer">
+                        <a href="/Timesheet/Index" class="btn btn-outline-primary">Timesheets <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card h-100" style="min-height: 325px;">
+                    <div class="card-header bg-info bg-gradient">
+                        <h5 class="card-text pt-2 pb-2">Profile</h5>
+                    </div>
+                    <div class="card-body">
+                        To access your profile, click the 'Settings' button on the bottom left of the screen.
+                        You will see 'Sign Out' and 'Profile'. Click on 'Profile'. Here you will see information regarding
+                        both you, and your company. Feel free to upload a picture to our system to represent you and your
+                        company to your likings.
+                    </div>
+                    <div class="card-footer">
+                        <a href="@($"/Employer/Detail/{empId}")" class="btn btn-outline-primary">My Profile <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 @if (User.IsInRole("admin"))
 {
@@ -163,10 +334,10 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
         });
 
         @*Start of Dashboard Demo*@
-        tour.addStep({
+            tour.addStep({
                 id: 'example-step',
                 title: 'Demo time!',
-                text: 'Here is the average of student progress.',
+                text: 'Here are some statistics for tracking student progress.',
                 attachTo: {
                     element: '.step1',
                     on: 'bottom'
@@ -186,8 +357,8 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 
         tour.addStep({
             id: 'example-step',
-            title: 'Student Progress Tracking',
-            text: 'It is broken down into three fields: Average Student Hours',
+            title: 'Form Submission Progress',
+            text: 'These are the forms that are submitted by the students.',
             attachTo: {
                 element: '.step2',
                 on: 'bottom'
@@ -207,8 +378,8 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 
         tour.addStep({
             id: 'example-step',
-            title: 'Student Progress Tracking',
-            text: 'First 100 Hours Completed',
+            title: 'Form Submission Progress',
+            text: 'For example, this is how many students have submitted the form FOIP.',
             attachTo: {
                 element: '.step3',
                 on: 'bottom'
@@ -228,13 +399,76 @@ else if (User.Identity.IsAuthenticated && User.IsInRole("employer"))
 
         tour.addStep({
             id: 'example-step',
-            title: 'Student Progress Tracking',
-            text: 'And finally, All Forms Signed.',
+            title: 'Document Submission Progress',
+            text: 'This is the document submission area. This tracks the resumes, and work preferences.',
             attachTo: {
                 element: '.step4',
                 on: 'bottom'
             },
             classes: 'step4',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Document Submission Progress',
+            text: 'For example, these are how many resumes have been uploaded from the students.',
+            attachTo: {
+                element: '.step5',
+                on: 'bottom'
+            },
+            classes: 'step5',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Students Hours Progress',
+            text: 'This is where we track how many students have completed their 100 and 200 hour milestones.',
+            attachTo: {
+                element: '.step6',
+                on: 'bottom'
+            },
+            classes: 'step6',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Students Hours Progress',
+            text: 'For example, this is how many students have completed their 100 hour milestones.',
+            attachTo: {
+                element: '.step7',
+                on: 'bottom'
+            },
+            classes: 'step7',
             buttons: [
                 {
                     text: 'Next',
@@ -259,6 +493,281 @@ else if (User.IsInRole("student"))
                 classes: 'shadow-md bg-purple-dark',
                 scrollTo: true
             }
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Demo time!',
+            text: 'This page is an introduction to the system.',
+            attachTo: {
+                element: '.step1',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step1',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Welcome to CIT Practicum',
+            text: 'This is a quick rundown of how to interact with job postings. You are apply to view, and apply to any position that interests you.',
+            attachTo: {
+                element: '.step2',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step2',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Welcome to CIT Practicum',
+            text: 'Here is the button to go to the job postings page.',
+            attachTo: {
+                element: '.step3',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step3',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Forms',
+            text: 'This is a quick rundown on how and when you should fill out the forms. You will get here once you are assigned to a practicum placement.',
+            attachTo: {
+                element: '.step4',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step4',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Forms',
+            text: 'Here is the button to go to the forms page.',
+            attachTo: {
+                element: '.step5',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step5',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Timesheet',
+            text: 'This is a quick rundown on how to interact with the Timesheet page. Once you are assigned a placement, you are able to create time entries for the company you are now working for.',
+            attachTo: {
+                element: '.step6',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step6',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Timesheet',
+            text: 'Here is the button to go to your timesheet.',
+            attachTo: {
+                element: '.step7',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step7',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Documents',
+            text: 'This is a quick rundown on how to upload your resume, and select your work preferences.',
+            attachTo: {
+                element: '.step8',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step8',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Documents',
+            text: 'Here is the button to go to the documents page.',
+            attachTo: {
+                element: '.step9',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step9',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Profile',
+            text: 'This is a quick rundown on how to access your profile.',
+            attachTo: {
+                element: '.step10',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step10',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
+        });
+
+        tour.addStep({
+            id: 'example-step',
+            title: 'Profile',
+            text: 'Here is the button to access your profile.',
+            attachTo: {
+                element: '.step11',
+                on: 'bottom'
+            },
+            scrollTo: {
+                behavior: 'smooth',
+                block: 'center'
+            },
+            classes: 'step11',
+            buttons: [
+                {
+                    text: 'Next',
+                    action: tour.next
+                },
+                {
+                    text: 'Exit Tour',
+                    action: tour.cancel
+                }
+            ]
         });
     </script>
 }

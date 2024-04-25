@@ -51,6 +51,21 @@ namespace CITPracticum.Controllers
         {
             ViewData["ActivePage"] = "Practicum Forms";
             IEnumerable<Placement> placements = await _placementRepository.GetAll();
+            if (User.IsInRole("student"))
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                var stud = await _studentRepository.GetByIdAsync((Int32)usr.StudentId);
+                List<Placement> studPlacement = new List<Placement>();
+                foreach (var place in placements)
+                {
+                    if (stud.Id == place.StudentId)
+                    {
+                        studPlacement.Add(place);
+                        break;
+                    }
+                }
+                return View(studPlacement);
+            }
             if (User.IsInRole("employer"))
             {
                 var usr = await _userManager.GetUserAsync(User);
@@ -63,9 +78,8 @@ namespace CITPracticum.Controllers
                     if (placement.EmployerId == empId)
                     {
                         var student = await _studentRepository.GetByIdAsync((Int32)placement.StudentId);
-                        placement.Student.FirstName = student.FirstName;
-                        placement.Student.LastName = student.LastName;
-                        placement.Employer.FirstName = employer.FirstName;
+                        placement.Student = student;
+                        placement.Employer = employer;
                     } else
                     {
                         return View();

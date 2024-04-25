@@ -91,19 +91,23 @@
         }
 </style>
 
-<!-- Tab navigation with button -->
-<ul class="nav nav-tabs mb-3" role="tablist">
-    <li class="nav-item">
-        <a href="/Timesheet/Index" class="nav-link active">Timesheets</a>
-    </li>
-    <li class="nav-item" role="presentation">
-    </li>
-</ul>
+@if (User.IsInRole("admin") || User.IsInRole("employer"))
+{
+    <!-- Tab navigation with button -->
+    <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item">
+            <a href="/Timesheet/Index" class="nav-link active">Timesheets</a>
+        </li>
+        <li class="nav-item" role="presentation">
+        </li>
+    </ul>
+}
 
 @if (Model.Count() <= 0)
 {
     <h4>There are currently no students with submitted time entries attached to your practicum placement.</h4>
-} else
+}
+else
 {
     <table class="table table-striped table-hover step1">
         <thead>
@@ -292,8 +296,8 @@
 }
 else if (User.IsInRole("employer"))
 {
-        <script>
-        const tour = new Shepherd.Tour({
+    <script>
+                const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
                 classes: 'shadow-md bg-purple-dark',
