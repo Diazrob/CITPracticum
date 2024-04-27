@@ -93,10 +93,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
+
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-success">
-        @TempData["Message"]
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa-regular fa-circle-check fa-lg"></i> @TempData["Message"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 
@@ -112,13 +114,6 @@
         <a class="btn btn-primary step4" asp-controller="Student" asp-action="Register"><i class="fa-solid fa-user-plus"></i> Add Student</a>
     </li>
 </ul>
-
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Message"]
-    </div>
-}
 
 <table class="table table-striped table-hover step1">
     <thead>

@@ -172,6 +172,7 @@
                         <div class="col-md-2">
                             <input type="submit" asp-controller="Student" asp-action="ChangePassword" class="btn btn-primary" value="Change Password" />
                         </div>
+                    </div>
                 </form>
             </div>
         }
@@ -179,15 +180,15 @@
 
     @if (User.IsInRole("admin"))
     {
-        <form method="post" asp-action="ResetPassword" enctype="multipart/form-data">
-            <div class="row">
-                <div class="col-md-2">
-                    <input type="hidden" asp-for="StuEmail" />
-                    <input type="hidden" asp-for="Id" />
-                    <input type="submit" asp-controller="Student" asp-action="ResetPassword" asp-route-email="@Model.StuEmail" asp-route-id="Id" class="btn btn-primary" value="Reset Password" />
-                </div>
+        <div class="row mt-2 mb-5">
+            <div class="col-md-12">
+                <h4>Reset Password</h4>
+                <p>If the student has forgotten their password, press this button to reset it to the default password. Default password is: StudentLastname + Student1! (Ex: GrahamStudent1!)</p>
             </div>
-        </form>
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary mt-1" data-bs-toggle="modal" data-bs-target="#resetModal">Reset Password</button>
+            </div>
+        </div>
     }
 
     <div class="modal" id="uploadConfirmationModal" tabindex="-1" aria-labelledby="uploadConfirmModalLabel" aria-hidden="true">
@@ -212,6 +213,38 @@
         </div>
     </div>
 </form>
+
+<!-- Modal -->
+<div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="ResetPassword" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resetModalLabel">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if (@Model.LastName[Model.LastName.Length - 1] == 's')
+                    {
+                        <p>Are you sure you want to reset @Model.FirstName @Model.LastName' password?</p>
+                    }
+                    else
+                    {
+                        <p>Are you sure you want to reset @Model.FirstName @Model.LastName's password?</p>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <input type="hidden" asp-for="StuEmail" />
+                        <input type="hidden" asp-for="Id" />
+                        <input type="submit" asp-controller="Student" asp-action="ResetPassword" asp-route-email="@Model.StuEmail" asp-route-id="Id" class="btn btn-primary" value="Reset Password" />
+                    </form>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     // When the custom upload button is clicked, trigger the hidden file input

@@ -12,36 +12,26 @@ namespace CITPracticum.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IPracticumFormsRepository _practicumFormsRepository;
         private readonly IPlacementRepository _placementRepository;
-        private readonly IEmployerRepository _employerRepository;
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly IStudentRepository _studentRepository;
-        private readonly IAddressRepository _addressRepository;
         public DashboardController(
             ApplicationDbContext context,
             IPracticumFormsRepository practicumFormsRepository,
             IPlacementRepository placementRepository,
-            IEmployerRepository employerRepository,
-            UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager,
-            IStudentRepository studentRepository,
-            IAddressRepository addressRepository
-            ) 
+            UserManager<AppUser> userManager
+            )
         {
             _context = context;
             _practicumFormsRepository = practicumFormsRepository;
             _placementRepository = placementRepository;
-            _employerRepository = employerRepository;
             _userManager = userManager;
-            _signInManager = signInManager;
-            _studentRepository = studentRepository;
-            _addressRepository = addressRepository;
         }
 
         public async Task<IActionResult> Index()
         {
+            // Set page name for breadcrumbs
             ViewData["ActivePage"] = "Dashboard";
 
+            // Lists of forms and placements
             IEnumerable<Placement> placements = await _placementRepository.GetAll();
             IEnumerable<FormFOIP> formFOIPs = await _practicumFormsRepository.GetAllFormFOIP();
             IEnumerable<FormStuInfo> formIds = await _practicumFormsRepository.GetAllFormStuInfo();
@@ -50,12 +40,10 @@ namespace CITPracticum.Controllers
             IEnumerable<FormC> formCs = await _practicumFormsRepository.GetAllFormC();
             IEnumerable<FormD> formDs = await _practicumFormsRepository.GetAllFormD();
 
-            
-
-            var usr = await _userManager.GetUserAsync(User);
-
+            // Admin only logic
             if (User.IsInRole("admin"))
             {
+                // Grabs the counts of the forms
                 int placementCount = placements.Count();
                 int formFOIPCount = formFOIPs.Count();
                 int formIdCount = formIds.Count();
@@ -63,12 +51,16 @@ namespace CITPracticum.Controllers
                 int formBCount = formBs.Count();
                 int formCCount = formCs.Count();
                 int formDCount = formDs.Count();
+
+                // Create a percentage for each set of completed forms
                 int foipPercentage = (int)(((double)formFOIPCount / placementCount) * 100);
                 int idPercentage = (int)(((double)formIdCount / placementCount) * 100);
                 int aPercentage = (int)(((double)formACount / placementCount) * 100);
                 int bPercentage = (int)(((double)formBCount / placementCount) * 100);
                 int cPercentage = (int)(((double)formCCount / placementCount) * 100);
                 int dPercentage = (int)(((double)formDCount / placementCount) * 100);
+                
+                // Check if there are any placements, if there aren't any, set the percentages to zero
                 if (placementCount == 0)
                 {
                     foipPercentage = 0;
@@ -77,14 +69,17 @@ namespace CITPracticum.Controllers
                     bPercentage = 0;
                     cPercentage = 0;
                     dPercentage = 0;
-                } 
+                }
+
+                // Set percentage values to strings for displaying
                 string formFOIPPercentage = Convert.ToString(foipPercentage) + "%";
                 string formIdPercentage = Convert.ToString(idPercentage) + "%";
                 string formAPercentage = Convert.ToString(aPercentage) + "%";
                 string formBPercentage = Convert.ToString(bPercentage) + "%";
                 string formCPercentage = Convert.ToString(cPercentage) + "%";
                 string formDPercentage = Convert.ToString(dPercentage) + "%";
-
+                
+                // Create dashboard object, and provide all of the calculated values.
                 var dashboardVM = new DashboardViewModel()
                 {
                     PlacementCount = placementCount,

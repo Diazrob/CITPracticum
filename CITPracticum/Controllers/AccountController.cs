@@ -64,6 +64,7 @@ namespace CITPracticum.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
+            // Log out user, and send to login screen.
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }

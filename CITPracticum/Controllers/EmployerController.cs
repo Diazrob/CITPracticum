@@ -1,13 +1,10 @@
 ﻿using CITPracticum.Data;
-using CITPracticum.Data.Migrations;
 using CITPracticum.Interfaces;
 using CITPracticum.Models;
-using CITPracticum.Repository;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace CITPracticum.Controllers
@@ -17,38 +14,42 @@ namespace CITPracticum.Controllers
         private readonly IWebHostEnvironment _environment;
         private readonly IAddressRepository _addressRepository;
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly ApplicationDbContext _context;
         private readonly IEmployerRepository _employerRepository;
 
-        // employer constructor
-        public EmployerController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context, IEmployerRepository employerRepository, IWebHostEnvironment environment,
-            IAddressRepository addressRepository
-            )
+        // Employer constructor
+        public EmployerController(UserManager<AppUser> userManager, IEmployerRepository employerRepository, IWebHostEnvironment environment, IAddressRepository addressRepository)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
-            _context = context;
             _employerRepository = employerRepository;
             _environment = environment;
             _addressRepository = addressRepository;
         }
-        // displays all the employers
+
+        // Displays the employers to the admin side, provides all employers in a table
         public async Task<IActionResult> Index(string sortOrder, string nameFilter, string usernameFilter, string emailFilter, string companyFilter, int page = 1, int pageSize = 8)
         {
+            // Set the page name for breadcrumbs
             ViewData["ActivePage"] = "Employer";
+
+            // Set the view data variables to the provided form data
+            // This is all used for sorting and filtering
+            // Filter values
             ViewData["CurrentNameFilter"] = nameFilter;
             ViewData["CurrentUsernameFilter"] = usernameFilter;
             ViewData["CurrentEmailFilter"] = emailFilter;
             ViewData["CurrentCompanyFilter"] = companyFilter;
+
+            // Sort Values
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["UsernameSortParm"] = sortOrder == "username" ? "username_desc" : "username";
             ViewData["EmailSortParm"] = sortOrder == "email" ? "email_desc" : "email";
             ViewData["CompanySortParm"] = sortOrder == "company" ? "company_desc" : "company";
 
+            // Grab all users that are employers
             var users = _userManager.Users.Where(u => u.EmployerId.HasValue);
             IEnumerable<Employer> employers = await _employerRepository.GetAll();
 
+            // Fill in the employer data for each user in users
             foreach (var user in users)
             {
                 foreach (var employer in employers)
@@ -61,25 +62,31 @@ namespace CITPracticum.Controllers
                 }
             }
 
-            // Apply filters
+            // Check if the first name is associated with any users
             if (!string.IsNullOrEmpty(nameFilter))
             {
                 users = users.Where(u => u.Employer.FirstName.Contains(nameFilter));
             }
+
+            // Check if the username is associated with any users
             if (!string.IsNullOrEmpty(usernameFilter))
             {
                 users = users.Where(u => u.UserName.Contains(usernameFilter));
             }
+
+            // Check if the email is associated with any users
             if (!string.IsNullOrEmpty(emailFilter))
             {
                 users = users.Where(u => u.Email.Contains(emailFilter));
             }
+
+            // Check if the company is associated with any users
             if (!string.IsNullOrEmpty(companyFilter))
             {
                 users = users.Where(u => u.Employer.CompanyName.Contains(companyFilter));
             }
 
-            // Apply sorting
+            // Apply sorting, (Ex: username = ascending, username_desc = descending)
             switch (sortOrder)
             {
                 case "name_desc":
@@ -110,16 +117,23 @@ namespace CITPracticum.Controllers
 
             return View(users);
         }
-        // function to register a new employer
+
+        // Displays the employer registration page
         public IActionResult Register()
         {
+            // Set the page name for the breadcrumbs
             ViewData["ActivePage"] = "Employer";
+
+            // Create view model for employer registration
             var response = new RegisterEmployerViewModel();
             return View(response);
         }
+
+        // Employer registration, this is after the registration form is submitted
         [HttpPost]
         public async Task<IActionResult> Register(RegisterEmployerViewModel registerVM, List<string> credentialsList)
         {
+            // Set the page name for the breadcrumbs
             ViewData["ActivePage"] = "Employer";
 
             string credentials = string.Join(", ", credentialsList);
@@ -131,23 +145,28 @@ namespace CITPracticum.Controllers
                 ModelState.Remove("Credentials");
             }
 
+            // If a student is creating the employer, set a default password.
+            // The student should not be allowed to set the employer password.
             if (User.IsInRole("student"))
             {
                 registerVM.Password = registerVM.LastName + "Employer1!";
                 registerVM.ConfirmPassword = registerVM.LastName + "Employer1!";
             }
 
+            // If there are fields that were invalid or not filled in, return back to the page.
             if (!ModelState.IsValid) return View(registerVM);
 
+            // Attempt to see if there is a user with the email entered into the system.
             var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
 
-            if(user != null)
-
+            // Display error if the email is already in the system.
+            if (user != null)
             {
                 TempData["Error"] = "This email address is already in use";
                 return View(registerVM);
             }
 
+            // Create the new user, and assign them to being an employer.
             var newUser = new AppUser()
             {
                 Email = registerVM.EmailAddress,
@@ -175,18 +194,23 @@ namespace CITPracticum.Controllers
                     EmployerComments = registerVM.EmployerComments,
                 }
             };
-          
+            
+            // Check if the user was properly created.
             var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
-
+            
+            // If user was created successfully, then add the role to the user.
             if (newUserResponse.Succeeded)
-            await _userManager.AddToRoleAsync(newUser, UserRoles.Employer);
+                await _userManager.AddToRoleAsync(newUser, UserRoles.Employer);
 
+            // Display message for creating the employer successfully/
             TempData["Success"] = "Employer created successfully.";
 
+            // Return students back to the search employer area
             if (User.IsInRole("student"))
             {
                 return RedirectToAction("SearchEmployer", "PracticumForm");
             }
+            // Return other users back to the employer list page.
             else
             {
                 return RedirectToAction("Index", "Employer");
@@ -194,21 +218,34 @@ namespace CITPracticum.Controllers
 
         }
 
-        // shows the page of specific user
+        // Shows the profile page of a specific employer. 
+        // Accessible by admins, and the employers themselves.
         public async Task<IActionResult> Detail(int id)
         {
+            // Grab the current logged in user
             var usr = await _userManager.GetUserAsync(User);
+
+            // Set the id to the employer id if they are the logged in user
             if (User.IsInRole("employer"))
             {
                 id = Convert.ToInt32(usr.EmployerId);
             }
+
+            // Set the page name for the breadcrumbs
             ViewData["ActivePage"] = "Employer";
+
+            // Grab all employers from the database
             var users = await _userManager.GetUsersInRoleAsync(UserRoles.Employer);
+            // Grab all addresses from the database
             var addresses = await _addressRepository.GetAll();
+            // Set the employer to the selected employer
             Employer employer = await _employerRepository.GetByIdAsync(id);
+            // Set the addressId to the selected employer addressId
             int addId = Convert.ToInt32(employer.AddressId);
+            // Set the address to the employer address from the database
             Address address = await _addressRepository.GetByIdAsync(addId);
 
+            // Set the user to the selected employer
             foreach (var selEmployer in users)
             {
                 if (selEmployer.EmployerId == employer.Id)
@@ -216,6 +253,9 @@ namespace CITPracticum.Controllers
                     usr = selEmployer;
                 }
             }
+
+            // Set the employers address information with the data
+            // pulled from the database.
             foreach (var empAddress in addresses)
             {
                 if (empAddress.Id == employer.AddressId)
@@ -228,6 +268,7 @@ namespace CITPracticum.Controllers
                 }
             }
 
+            // Profile page view model, displays a lot of employer information
             var detailEmployerVM = new DetailEmployerViewModel()
             {
                 Id = employer.Id,
@@ -255,117 +296,121 @@ namespace CITPracticum.Controllers
             return View(detailEmployerVM);
         }
 
-        // reset password
+        // Reset password
         public async Task<IActionResult> ResetPassword(string email, int id)
         {
+            // Grab the user with the provided email address
             var user = await _userManager.FindByEmailAsync(email);
+            // Find that specific employer
             Employer employer = await _employerRepository.GetByIdAsync(id);
-            
 
+            // Create a password reset token
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
+            // Store result in boolean, 
             var result = await _userManager.ResetPasswordAsync(user, token, employer.LastName + "Employer1!");
 
-            TempData["Message"] = "Employer password has been reset";
+            // Send success or error message if the result was true or false.
+            if (result.Succeeded)
+            {
+                TempData["Message"] = "Employer password has been reset.";
+            } else
+            {
+                TempData["Error"] = "There was an error resetting the employers password.";
+            }
+
+            // Display employer page, and possibly send a success or error message along.
             return RedirectToAction("Index", "Employer");
         }
-        //change password
+
+        // Change password
         [HttpPost]
         public async Task<IActionResult> ChangePassword(DetailEmployerViewModel detailEmployerVM)
         {
+            // Grab the employer from the database with the given email
             var user = await _userManager.FindByEmailAsync(detailEmployerVM.EmpEmail);
             ModelState.Remove("User");
+
+            // Display error message and return back to the page if there are errors
             if (!ModelState.IsValid)
             {
-                TempData["Message"] = "Password details do not match. Please try again.";
+                TempData["Error"] = "The given passwords did not match. Please try again.";
                 return RedirectToAction("Detail", "Employer");
             }
-            TempData["Message"] = "Password successfully changed.";
+
+            // Success message
+            TempData["Success"] = "Password successfully changed.";
+
+            // Change password in the actual system
             await _userManager.ChangePasswordAsync(user, detailEmployerVM.OldPassword, detailEmployerVM.Password);
 
+            // Return back to the page with the success message.
             return RedirectToAction("Detail", "Employer");
         }
 
-        //var users = await _userManager.GetUsersInRoleAsync(UserRoles.Employer);
-        //Employer emp = await _employerRepository.GetByIdAsync(id);
-        //var user = new AppUser();
-
-        //if (emp == null)
-        //{
-        //    TempData["Error"] = "Employer profile not found.";
-        //    return RedirectToAction("Index");
-        //}
-
-        //foreach (var selectedUser in users)
-        //{
-        //    if (emp.Id == selectedUser.EmployerId)
-        //    {
-        //        user = await _userManager.FindByEmailAsync(selectedUser.Email);
-        //        break;
-        //    }
-        //}
-
-        //var empVM = new ViewEmployerViewModel
-        //{
-        //    Employer = emp,
-        //    User = user
-        //};
-
-        //if (emp != null)
-        //{
-        //    if (User.IsInRole("employer"))
-        //    {
-        //        if (emp.Id != user.EmployerId)
-        //        {
-        //            return RedirectToAction("Detail", new { id = user.EmployerId });
-        //        }
-        //    }
-        //    return View(empVM);
-        //}
-        //else
-        //{
-        //    if (User.IsInRole("employer"))
-        //    {
-        //        return RedirectToAction("Detail", new { id = user.EmployerId });
-        //    }
-        //    TempData["Error"] = "Employer profile not found.";
-        //    return RedirectToAction("Index");
-        //}
-
-        // deletes an employer user
+        // Delete confirmation
         public async Task<IActionResult> Delete(string email, int id)
         {
+            // Set the page name for the breadcrumbs
             ViewData["ActivePage"] = "Employer";
+
+            // Grab the user with the provided email
             AppUser user = await _userManager.FindByEmailAsync(email);
+
+            // Grab the employer with the id from the user
             Employer employer = await _employerRepository.GetByIdAsync(id);
-            user.Employer.FirstName = employer.FirstName;
-            user.Employer.LastName = employer.LastName;
-            user.Employer.Id = employer.Id;
+
+            // Set the employer data to the user.
+            user.Employer = employer;
+
+            // If the user was not found, return an error
             if (user == null) return View("Error");
+
+            // Displays the information to the users page.
             return View(user);
         }
+
+        // Delete function after delete button was pressed.
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteEmployer(string email, int id)
         {
+            // Set the page name for the breadcrumbs
             ViewData["ActivePage"] = "Employer";
+
+            // Grab the user with the given email address.
             AppUser user = await _userManager.FindByEmailAsync(email);
+
+            // Grab the employer with the given id
             Employer employer = await _employerRepository.GetByIdAsync(id);
+
+            // If the user was not found, display an error.
             if (user == null) return View("Error");
 
+            // Attempt to delete the employer from the system
             _employerRepository.Delete(employer);
+            // Attempt to delete the user from the system
             await _userManager.DeleteAsync(user);
 
+            // Display a success message
             TempData["Success"] = "Employer deleted successfully.";
 
-            return RedirectToAction("index");
+            // Redirect user back to index page after deletion
+            return RedirectToAction("Index");
         }
 
-        // edit an employer
+        // Edit form information
         public async Task<IActionResult> Edit(int id)
         {
+            // Set the page name for the breadcrumbs
             ViewData["ActivePage"] = "Employer";
+
+            // Find the employer with the given id
             var employer = await _employerRepository.GetByIdAsync(id);
+
+            // If the employer wasnt found, display an error
             if (employer == null) return View("Error");
+
+            // Create the edit view model for the users page
             var employerVM = new EditEmployerViewModel()
             {
                 Id = id,
@@ -376,25 +421,39 @@ namespace CITPracticum.Controllers
                 EmployerComments = employer.EmployerComments,
                 Affiliation = employer.Affiliation,
             };
+
+            // Display the view model form to the users page
             return View(employerVM);
         }
+
+        // Edit logic after form was submitted
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EditEmployerViewModel employerVM)
         {
+            // Set the page name for the breadcrumbs
             ViewData["ActivePage"] = "Employer";
+
+            // If there are errors, go back to the page
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Failed to edit Employer");
                 return View("Edit", employerVM);
             }
+            
+            // Grab the employer with the given id from the form submit
             var curEmployer = await _employerRepository.GetIdAsyncNoTracking(id);
 
+            // If the employer was found logic
             if (curEmployer != null)
             {
+                // Find the user in the system associated with the employer
                 var user = await _userManager.FindByEmailAsync(curEmployer.EmpEmail);
+
+                // Set the email to the new email 
                 user.Email = employerVM.EmpEmail;
                 user.NormalizedEmail = employerVM.EmpEmail.ToUpper();
 
+                // Set the information of the employer to the new information
                 curEmployer.FirstName = employerVM.FirstName;
                 curEmployer.LastName = employerVM.LastName;
                 curEmployer.CompanyName = employerVM.CompanyName;
@@ -402,39 +461,50 @@ namespace CITPracticum.Controllers
                 curEmployer.EmployerComments = employerVM.EmployerComments;
                 curEmployer.Affiliation = employerVM.Affiliation;
 
+                // Update the employer and user in the database
                 _employerRepository.Update(curEmployer);
                 await _userManager.UpdateAsync(user);
 
+                // Display a success message
                 TempData["Success"] = "Employer edited successfully.";
 
+                // Display the employer page
                 return RedirectToAction("Index");
             }
             else
             {
+                // Display an error message
+                TempData["Error"] = "There was an error finding the employer in the system with the given id.";
+
+                // Return back to the edit form with the given errors
                 return View(employerVM);
             }
         }
+        
+        // Upload profile picture function
         [HttpPost]
         public async Task<IActionResult> UploadPFP(IFormFile profilePicture)
         {
+            // Grab the user and employer from the database
             var user = await _userManager.GetUserAsync(User);
             var employer = await _employerRepository.GetByIdAsync((Int32)user.EmployerId);
 
+            // If the given picture has information
             if (profilePicture != null && profilePicture.Length > 0)
             {
                 // Generate a unique name for the file
                 var fileName = employer.CompanyName + Path.GetExtension(".png");
 
-                // Define the path to save the file to. For example, "wwwroot/uploads/"
-                // Use the web root path to create the save path
+                // Define the path to save the file to
                 var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads/images");
 
-                // Ensure the directory exists
+                // Check if the directory exists
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
                 }
 
+                // Create the save path
                 var savePath = Path.Combine(uploadsFolder, fileName);
 
                 // Save the file
@@ -448,10 +518,19 @@ namespace CITPracticum.Controllers
 
                 // Update the user
                 await _userManager.UpdateAsync(user);
+
+                // Display a success message
+                TempData["Success"] = "Profile picture uploaded successfully.";
+
+                // Send back to the employer page hopefully with their new profile picture
                 return RedirectToAction("Detail", new { id = user.EmployerId });
             }
 
-            return RedirectToAction("Index");
+            // Display an error message
+            TempData["Error"] = "There was an error uploading the selected image to the system.";
+
+            // Redirect back to the employer list
+            return RedirectToAction("Detail", new { id = user.EmployerId });
         }
     }
 }

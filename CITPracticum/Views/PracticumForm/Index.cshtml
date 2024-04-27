@@ -1,5 +1,7 @@
 ﻿@using CITPracticum.Data.Enum;
 @using CITPracticum.ViewModels;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<AppUser> UserManager
 @model IEnumerable<Placement>
 
 @{
@@ -82,7 +84,7 @@
     </ul>
 }
 
-@if (Model == null)
+@if (Model.Count() <= 0)
 {
     <h4>There are currently no student submitted forms attached to your practicum placement.</h4>
 }
@@ -123,7 +125,8 @@ else
         {
             @foreach (var item in Model)
             {
-                @if (User.Identity.Name == item.Employer.FirstName)
+                var user = await UserManager.GetUserAsync(User);
+                @if (user.EmployerId == item.Employer.Id)
                 {
                     <a class="step2" asp-controller="PracticumForm" asp-action="CreateFormB" style="text-decoration: none;">
                         <div class="card mt-3 zoom text-black" style="cursor: pointer; background: linear-gradient(10deg, #FFFFFF, #FFFFFF, #69a620);">

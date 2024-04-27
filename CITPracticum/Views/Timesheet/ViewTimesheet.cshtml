@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Time Entries";
-    ViewData["CurrentPage"] = "Time Entries";
     DateTime now = DateTime.Now;
 }
 
@@ -132,14 +131,14 @@
         }
         else
         {
-            <h4>@Model.Student.FirstName's Time Entries</h4>
+            ViewData["CurrentPage"] = @Model.Student.FirstName + "'s Time Entries";
         }
         if (Model.TimesheetId != null && Model.TimesheetId != 0)
         {
             <table class="table table-striped table-hover step1">
                 <thead>
                     <tr>
-                        <th style="width: 15%;">
+                        <th style="width: 20%;">
                             <div class="d-flex">
                                 <!-- Sortable link with text and icon -->
                                 <a class="text-white" asp-action="ViewTimesheet"
@@ -165,13 +164,13 @@
                         </th>
                         <th style="width: 10%;"># of Hours</th>
                         <th style="width: 35%;">Description</th>
-                        <th style="width: 10%;">Total Approved Hours to Date</th>
+                        <th style="width: 15%;">Total Approved Hours to Date</th>
                         <th style="width: 10%;">Status</th>
                         @if (User.IsInRole("student") || User.IsInRole("admin"))
                         {
                             <th>Action</th>
                         }
-                        <th class="checkbox-column">
+                        <th class="checkbox-column" style="width: 5%;">
                             <div class="select-all-container step8">
                                 <label for="select-all" class="select-all-label">Select All</label>
                                 <input type="checkbox" id="select-all" class="form-check-input">

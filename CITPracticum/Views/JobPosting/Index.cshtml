@@ -159,16 +159,16 @@
                         <div class="btn-group card-footer step4">
                             @if (ViewBag.PageNum != null)
                             {
-                                <a class="btn btn-outline-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
+                                <a class="btn btn-sm btn-outline-primary" asp-controller="JobPosting" asp-action="Detail" asp-route-id="@item.Id">View</a>
                                 @if (User.IsInRole("admin") || User.IsInRole("employer"))
                                 {
-                                    <a class="btn btn-outline-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Edit</a>
-                                    <a class="btn btn-outline-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Delete</a>
+                                    <a class="btn btn-sm btn-outline-secondary" asp-controller="JobPosting" asp-action="Edit" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Edit</a>
+                                    <a class="btn btn-sm btn-outline-danger" asp-controller="JobPosting" asp-action="Delete" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Delete</a>
                                 }
                                 @if (User.IsInRole("admin"))
                                 {
-                                    <a class="btn btn-outline-warning step5" asp-controller="JobPosting" asp-action="ConfirmArchive" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Archive</a>
-                                    <a class="btn btn-outline-dark step6" asp-controller="JobPosting" asp-action="Applicants" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Applicants</a>
+                                    <a class="btn btn-sm btn-outline-warning step5" asp-controller="JobPosting" asp-action="ConfirmArchive" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Archive</a>
+                                    <a class="btn btn-sm btn-outline-dark step6" asp-controller="JobPosting" asp-action="Applicants" asp-route-pageNum="@ViewBag.PageNum" asp-route-id="@item.Id">Applicants</a>
                                 }
                             }
                         </div>
