@@ -39,17 +39,17 @@
             background-color: #7AACDF;
         }
 
-        .btn-primary:hover {
-            background-color: #0077CC;
-        }
+            .btn-primary:hover {
+                background-color: #0077CC;
+            }
 
         .btn-outline-primary {
             color: #7AACDF;
         }
 
-        .btn-outline-primary:hover {
-            background-color: #0077CC;
-        }
+            .btn-outline-primary:hover {
+                background-color: #0077CC;
+            }
 
         .flex-container {
             display: flex;
@@ -67,20 +67,6 @@
 
         .container-fluid a.nav-link.active {
             background-color: #e7e7e7;
-        }
-
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-        }
-
-        .side-nav {
-            position: fixed; /* Fixed position */
-            top: 0; /* Align to the top */
-            left: 0; /* Align to the left */
-            width: 225px; /* Set the width of the sidebar */
-            height: 100vh; /* Full height of the viewport */
-            overflow-y: auto; /* Enable scroll if content is taller than the screen */
         }
 
         textarea {
@@ -101,6 +87,99 @@
         .table tr {
             height: 65px;
         }
+
+        :root {
+            overflow-wrap: break-word;
+        }
+
+        .side-nav {
+            position: fixed; /* Fixed position */
+            top: 0; /* Align to the top */
+            left: 0; /* Align to the left */
+            height: 100vh; /* Full height of the viewport */
+            overflow-y: auto; /* Enable scroll if content is taller than the screen */
+        }
+
+        /* Medium screens (1920x1080) */
+        @@media (min-width: 1024px) and (max-width: 1919px) {
+            :root {
+                font-size: 16px; /* Adjust base font size for 1080p */
+            }
+
+            .text, .side-nav, body, button, input {
+                font-size: 16px; /* Standard font size for 1080p */
+            }
+
+            .side-nav {
+                width: 225px; /* Fixed width for 1080p screens */
+            }
+
+            nav.navbar {
+                left: 225px !important; /* Offset top navbar based on side nav width */
+            }
+        }
+
+        /* Larger screens (1440p and above) */
+        @@media (min-width: 1920px) {
+            :root {
+                font-size: 18px; /* Increase base font size for better visibility */
+            }
+
+            .text, .side-nav, body, button, input {
+                font-size: 20px; /* Larger font size for better readability on 1440p */
+            }
+
+            .side-nav {
+                min-width: 275px; /* Increase width for 1440p screens */
+            }
+
+            h5 {
+                font-size: 25px;
+            }
+
+            h6 {
+                font-size: 20px;
+            }
+
+            nav.navbar {
+                left: 275px !important; /* Offset top navbar based on side nav width */
+            }
+        }
+
+        /* Ensure hamburger menu is only visible on small screens */
+        .navbar-toggler {
+            display: none;
+        }
+
+        @@media (max-width: 991px) {
+            .navbar-toggler {
+                display: block; /* Show the hamburger menu button */
+                margin-right: 20px;
+            }
+
+            .side-nav {
+                display: none !important; /* Hide the side navigation */
+            }
+
+            nav.navbar {
+                left: 0; /* Adjust navbar left position */
+            }
+
+            #maincontent {
+                padding-left: 0 !important;
+            }
+
+            .mobilescaling {
+                width: 99% !important;
+            }
+
+            .btn {
+                padding: 0.27rem 0.7rem; /* Smaller padding than .btn */
+                font-size: 0.9rem; /* Smaller font size than .btn */
+                line-height: 1.5;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -191,7 +270,8 @@
                         @if (User.IsInRole("employer"))
                         {
                             <li><a class="dropdown-item text-black" href="@($"/Employer/Detail/{empId}")">Profile</a></li>
-                        } else if(User.IsInRole("student"))
+                        }
+                        else if (User.IsInRole("student"))
                         {
                             <li><a class="dropdown-item text-black" href="@($"/Student/Detail/{studId}")">Profile</a></li>
                         }
@@ -204,35 +284,108 @@
         </div>
 
         <!-- Top Navbar -->
-        <div class="w-100">
-            <!-- Top Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="left: 225px; right: 0; top: 0;">
-                <div class="container-fluid">
-                    <!-- Page Title -->
-                    <div class="navbar-brand">
-                        <h1 class="h5 mb-0">@ViewData["CurrentPage"]</h1>
-                    </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="left: 0; right: 0; top: 0;">
+            <div class="container-fluid">
+                <!-- Hamburger Menu Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    <!-- Spacer to push the notification icon to the right -->
-                    <div class="d-flex ms-auto">
-                        <a class="nav-link" href="#" onclick="tour.start();">
-                            <i class="fa-regular fa-circle-question fa-xl"></i> Help
-                        </a>
-                    </div>
+                <!-- Page Title -->
+                <div class="navbar-brand">
+                    <h1 class="h5 mb-0">@ViewData["CurrentPage"]</h1>
                 </div>
-            </nav>
+
+                <!-- Spacer -->
+                <div class="d-flex ms-auto">
+                    <a class="nav-link" href="#" onclick="tour.start();">
+                        <i class="fa-regular fa-circle-question fa-xl"></i> Help
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sidebar Navigation (Hamburger Menu Content) -->
+            <div class="collapse w-100" id="sidebarMenu">
+                <div class="bg-light p-4">
+                    <!-- Include the same links as in your existing side nav here -->
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a href="/Dashboard/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Dashboard" ? "active" : "") link-dark" aria-current="page">
+                                <i class="fa-solid fa-gauge fa-lg" style="width: 1.5em;"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <li>
+                                <a href="/Student/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Student" ? "active" : "") link-dark">
+                                    <i class="fa-solid fa-users fa-lg" style="width: 1.5em;"></i>
+                                    <span>Students</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Employer/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Employer" ? "active" : "") link-dark">
+                                    <i class="fa-solid fa-address-book fa-lg" style="width: 1.5em;"></i>
+                                    <span>Employers</span>
+                                </a>
+                            </li>
+                        }
+
+                        <li>
+                            <a href="/JobPosting/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Jobs" ? "active" : "") link-dark">
+                                <i class="fa-solid fa-clipboard fa-lg" style="width: 1.5em;"></i>
+                                <span>Job Postings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/PracticumForm/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Practicum Forms" ? "active" : "") link-dark">
+                                <i class="fa-solid fa-file-waveform fa-lg" style="width: 1.5em;"></i>
+                                <span>Practicum Forms</span>
+                            </a>
+                        </li>
+                        @if (User.IsInRole("student"))
+                        {
+                            <li>
+                                <a href="/Timesheet/ViewTimesheet" class="nav-link @((ViewData["ActivePage"] as string) == "Timesheets" ? "active" : "") link-dark">
+                                    <i class="fa-solid fa-clock fa-lg" style="width: 1.5em;"></i>
+                                    <span>Timesheets</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/Timesheet/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Timesheets" ? "active" : "") link-dark">
+                                    <i class="fa-solid fa-clock fa-lg" style="width: 1.5em;"></i>
+                                    <span>Timesheets</span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole("admin") || User.IsInRole("student"))
+                        {
+                            <li>
+                                <a href="/Documents/Index" class="nav-link @((ViewData["ActivePage"] as string) == "Documents" ? "active" : "") link-dark">
+                                    <i class="fa-solid fa-folder-open fa-lg" style="width: 1.5em;"></i>
+                                    <span>Documents</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
 
             <!-- Main content -->
-            <div class="container-fluid mt-5" style="padding-top: 3rem; width: 85%;">
+            <div class="container-fluid mt-5 mobilescaling" style="padding-top: 3rem; width: 85%;">
                 <div class="row">
-                    <main class="col" style="padding-left: 225px;">
+                    <main class="col" id="maincontent" style="padding-left: 225px;">
                         @RenderBody()
                     </main>
                 </div>
             </div>
 
         </div>
-    </div>
     @RenderSection("Scripts", required: false)
 
     <script>

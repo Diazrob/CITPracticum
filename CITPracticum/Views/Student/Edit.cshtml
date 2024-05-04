@@ -10,6 +10,7 @@
 
 <div class="row">
     <div class="col-md-6 offset-3 step1">
+        <button type="button" onclick="window.history.back();" class="btn btn-secondary mb-3"><i class="fa-solid fa-chevron-left"></i> Back</button>
         <p>
             <h4>Edit a Student</h4>
         </p>
@@ -21,7 +22,6 @@
         }
         <div class="row">
             <div class="col-md-8">
-
                 <form method="post" asp-action="Edit" enctype="multipart/form-data">
                     <input type="hidden" value="Id" id="Id" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

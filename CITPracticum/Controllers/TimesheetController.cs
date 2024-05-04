@@ -1,15 +1,8 @@
-﻿using CITPracticum.Data;
-using CITPracticum.Data.Migrations;
-using CITPracticum.Interfaces;
+﻿using CITPracticum.Interfaces;
 using CITPracticum.Models;
-using CITPracticum.Repository;
 using CITPracticum.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace CITPracticum.Controllers
 {
@@ -31,47 +24,68 @@ namespace CITPracticum.Controllers
             _timeEntryRepository = timeEntryRepository;
             _employerRepository = employerRepository;
         }
+        
+        // Main timesheet page, list of students with placements
         public async Task<IActionResult> Index(string sortOrder, string nameFilter)
         {
+            // Set the page name for breadcrumbs
             ViewData["ActivePage"] = "Timesheets";
+
+            // Sort view variable
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            // Filter view variable
             ViewData["CurrentNameFilter"] = nameFilter;
 
+
+            // Grab all placements
             var placements = await _placementRepository.GetAll();
 
+            // Employer logic
             if (User.IsInRole("employer"))
             {
+                // Grab current user, employer, and make a list of placements
                 var usr = await _userManager.GetUserAsync(User);
                 var emp = await _employerRepository.GetByIdAsync((Int32)usr.EmployerId);
                 var empPlacements = new List<Placement>();
 
+                // Loop logic for setting the timesheet data to their placements
                 foreach (var placement in placements)
                 {
+                    // Check for all users that belong to this employer
                     if (emp.Id != placement.EmployerId)
                     {
-                        //The employer does not have this student attached to their placement
+                        // The employer does not have this student attached to their placement
                         continue;
                     }
                     else
                     {
+                        // Enter the placement to the return list if they belong to the placement
                         empPlacements.Add(placement);
                     }
 
+                    // Grab student attached to the placement
                     var student = await _studentRepository.GetByIdAsync((Int32)placement.StudentId);
                     placement.Student = student;
+                    
+                    // Check if there is a timesheet on the placement
                     if (placement.TimesheetId == null || placement.TimesheetId == 0)
                     {
+                        // If the timesheet is null, skip the current placement
                         continue;
                     }
+                    // Check if timesheet was found, but no student
                     if (placement.StudentId == null || placement.StudentId == 0)
                     {
-                        // No student attached to placement
+                        // No student attached to placement with timesheet
                         // Return error
                     }
 
+                    // Grab timesheet from placement
                     var timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
                     await _timeEntryRepository.GetAll();
 
+                    // Fill the timesheet information to the placement
                     placement.Timesheet = timesheet;
                 }
 
@@ -92,13 +106,18 @@ namespace CITPracticum.Controllers
                         break;
                 }
 
+                // Return employer assigned placements
                 return View(empPlacements);
             }
 
+            // Admin logic
             foreach (var placement in placements)
             {
+                // Grab student
                 var student = await _studentRepository.GetByIdAsync((Int32)placement.StudentId);
                 placement.Student = student;
+                
+                // Check if timesheet was found
                 if (placement.TimesheetId == null || placement.TimesheetId == 0)
                 {
                     continue;
@@ -109,9 +128,9 @@ namespace CITPracticum.Controllers
                     // Return error
                 }
 
+                // Grab timesheet, and fill info into placement
                 var timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
                 await _timeEntryRepository.GetAll();
-
                 placement.Timesheet = timesheet;
             }
 
@@ -131,20 +150,30 @@ namespace CITPracticum.Controllers
                     placements = placements.OrderBy(u => u.Student.FirstName);
                     break;
             }
-
+            
+            // Return all placements for admin view
             return View(placements.ToList());
         }
+
+        // View time entries for a selected student
         public async Task<IActionResult> ViewTimesheet(int? id, string sortOrder, DateTime? dateFilter)
         {
+            // Set the page name for breadcrumbs
             ViewData["ActivePage"] = "Timesheets";
+            // Sorting view variable
             ViewData["DateSortParm"] = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
+            // Filter view variable
             ViewData["DateFilter"] = dateFilter;
 
-            if (!User.IsInRole("student"))
+            // Admin and employe logic
+            if (User.IsInRole("admin") || User.IsInRole("employer"))
             {
+                // Grab placement, and its students information
                 var placement = await _placementRepository.GetByIdAsync((Int32)id);
                 var student = await _studentRepository.GetByIdAsync((Int32)placement.StudentId);
                 placement.Student = student;
+
+                // Grab the timesheet and fill the placement with its information
                 Timesheet timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
                 await _timeEntryRepository.GetAll();
                 placement.Timesheet = timesheet;
@@ -171,16 +200,21 @@ namespace CITPracticum.Controllers
                 return View(placement);
             }
 
+            // Student logic, they can only see their own entries
             if (User.IsInRole("student"))
             {
+                // Grab the logged in user and the student account
                 var usr = await _userManager.GetUserAsync(User);
-                int stuId = Convert.ToInt32(usr.StudentId);
-                var student = await _studentRepository.GetByIdAsync(stuId);
+                var student = await _studentRepository.GetByIdAsync((Int32)usr.StudentId);
+                // Create variable for timesheet data
                 var timesheet = new Timesheet();
 
+                // Grab all placements
                 var placements = await _placementRepository.GetAll();
+                // Create variable for their assigned placement
                 var assignedPlacement = new Placement();
 
+                // Loop to find the students placement
                 foreach (var placement in placements)
                 {
                     if (placement.StudentId == usr.StudentId)
@@ -190,16 +224,21 @@ namespace CITPracticum.Controllers
                     }
                 }
 
+                // Fill the placement with student information
                 assignedPlacement.Student = student;
+                // If there was a placement found, assign timesheet variable with the present data
                 if (assignedPlacement.TimesheetId != null)
                 {
                     timesheet = await _timesheetRepository.GetByIdAsync((Int32)assignedPlacement.TimesheetId);
                 }
 
+                // Grab all time entry information
                 var timeEntries = await _timeEntryRepository.GetAll();
 
+                // If there are no time entries on the timesheet
                 if (timesheet.TimeEntries == null)
                 {
+                    // Assign the proper time entries to the timesheet
                     foreach (var entry in timeEntries)
                     {
                         if (timesheet.Id == entry.TimesheetId)
@@ -228,78 +267,106 @@ namespace CITPracticum.Controllers
                         break;
                 }
 
+                // Final assigning of timesheet
                 assignedPlacement.Timesheet = timesheet;
 
+                // Return the student placement to their view
                 return View(assignedPlacement);
             }
 
             return View();
         }
 
+        // Internal method to ensure that the total hours are correct on each entry.
         public decimal TotalHoursToEntryDate(Timesheet ts, TimeEntry currentEntry)
         {
+            // Check if entered information is valid
             if (ts == null || currentEntry == null)
             {
                 return 0;
             }
-
+            
+            // Initialize to zero
             decimal totalCountToDate = 0;
+
+            // Loop to ensure the hours field is accurate
             foreach (var entry in ts.TimeEntries)
             {
                 // Check if the entry date is less than or equal to the current entry's date
                 if (entry.ShiftDate <= currentEntry.ShiftDate && entry.ApprovalCategory == Data.Enum.ApprovalCategory.Yes)
                 {
+                    // Add the current value plus the new value
                     totalCountToDate += entry.Hours;
                 }
             }
 
+            // Return the total hours that were calculated
             return totalCountToDate;
         }
 
+        // Create time entry logic
         public async Task<IActionResult> CreateTimeEntry(int? id)
         {
+            // Check if input was valid
             if (id != null)
             {
+                // Grab current user
                 var usr = await _userManager.GetUserAsync(User);
+                // Initialize the view model
                 CreateTimeEntryViewModel vm = new CreateTimeEntryViewModel();
+                // Grab the assigned placement
                 var placement = await _placementRepository.GetByIdAsync((Int32)id);
+                
+                // Student logic
                 if (User.IsInRole("student"))
                 {
                     if (usr.StudentId != placement.StudentId)
                     {
                         //This prevents students from adding time entries to other students timesheets.
-                        return NotFound();
+                        ViewData["Error"] = "You do not have access to that page.";
+                        return RedirectToAction("ViewTimesheet", new { id = usr.StudentId });
                     }
                 }
+
+                // Grab the student on the placement
                 placement.Student = await _studentRepository.GetByIdAsync((Int32)placement.StudentId);
 
+                // Check if there is a timesheet on the placement
                 if (placement.TimesheetId == null)
                 {
-                    //Create new timesheet if there is no timesheet
+                    // Create new timesheet if there is no timesheet
                     placement.Timesheet = new Timesheet();
                     _timesheetRepository.Add(placement.Timesheet);
                     _timesheetRepository.Save();
-                    //Assign placement timesheet to newly created timesheet
+                    // Assign placement timesheet to newly created timesheet
                     placement.TimesheetId = placement.Timesheet.Id;
                     _placementRepository.Update(placement);
                     _placementRepository.Save();
                 }
                 else
                 {
+                    // Grab placement timesheet
                     placement.Timesheet = await _timesheetRepository.GetByIdAsync((Int32)placement.TimesheetId);
                 }
 
+                // Grab all time entries
                 await _timeEntryRepository.GetAll();
 
+                // Put information into the viewmodel
                 vm.Placement = placement;
+
+                // Return the view model to the user
                 return View(vm);
             }
             else
             {
-                return View();
+                // Display error message
+                ViewData["Error"] = "The given id was not found in the system.";
+                return RedirectToAction("ViewTimesheet");
             }
         }
 
+        // Modal logic, this sends the user to the correct area based on the modal they are opening.
         [HttpPost]
         public async Task<IActionResult> ProcessEntries(List<int>? timeEntryIds, string actionType, int id)
         {
@@ -316,27 +383,21 @@ namespace CITPracticum.Controllers
             }
         }
 
+        // Approve and Deny time entry logic
         [HttpGet("Timesheet/ViewTimesheet/{id}")]
         private async Task<IActionResult> ApproveDeny(int id, List<int> timeEntryIds, string actionType)
         {
+            // Loop that deals with the selected time entries
             foreach (var entryId in timeEntryIds)
             {
+                // Find the time entry
                 var entry = await _timeEntryRepository.GetByIdAsync(entryId);
+                // Find the timesheet that belongs to the entry
                 var timesheet = await _timesheetRepository.GetByIdAsync(entry.TimesheetId);
                 await _timeEntryRepository.GetAll();
 
                 var placements = await _placementRepository.GetAll();
-                var assignedPlacement = new Placement();
                 var usr = await _userManager.GetUserAsync(User);
-
-                foreach (var placement in placements)
-                {
-                    if (placement.StudentId == usr.StudentId)
-                    {
-                        assignedPlacement = placement;
-                        break;
-                    }
-                }
 
                 if (actionType == "approve")
                 {

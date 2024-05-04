@@ -252,9 +252,9 @@
                     <td>@item.Email</td>
                     <td>@item.Student.StuId</td>
                     <td class="step3">
-                        <a class="btn btn-sm btn-outline-primary" asp-controller="Student" asp-action="Detail" asp-route-id="@item.Student.Id">View</a>
-                        <a class="btn btn-sm btn-outline-secondary" asp-controller="Student" asp-action="Edit" asp-route-id="@item.Student.Id">Edit</a>
-                        <a class="btn btn-sm btn-outline-danger" asp-controller="Student" asp-action="Delete" asp-route-email="@item.Email" asp-route-id="@item.Student.Id">Delete</a>
+                        <a class="btn btn-outline-primary" asp-controller="Student" asp-action="Detail" asp-route-id="@item.Student.Id">View</a>
+                        <a class="btn btn-outline-secondary" asp-controller="Student" asp-action="Edit" asp-route-id="@item.Student.Id">Edit</a>
+                        <a class="btn btn-outline-danger" asp-controller="Student" asp-action="Delete" asp-route-email="@item.Email" asp-route-id="@item.Student.Id">Delete</a>
                     </td>
                 </tr>
             }

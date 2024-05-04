@@ -76,11 +76,9 @@
 
 <form method="post" enctype="multipart/form-data">
     <div class="mx-auto step1">
+        <button type="button" onclick="window.history.back();" class="btn btn-secondary mb-3"><i class="fa-solid fa-chevron-left"></i> Back</button>
         <div class="row">
-            <div class="col-md-2 mt-2" style="margin-left: -100px;">
-                <button type="button" onclick="window.history.back();" class="btn btn-secondary mb-3"><i class="fa-solid fa-chevron-left"></i> Back</button>
-            </div>
-            <div class="col-md-10" style="margin-left: -135px;">
+            <div class="col-md-12">
                 @if (User.IsInRole("admin"))
                 {
                     @if (@Model.LastName[Model.LastName.Length - 1] == 's')
@@ -298,7 +296,7 @@
 }
 @if (User.IsInRole("admin"))
 {
-
+    <hr />
     <div class="row mt-2 mb-5">
         <div class="col-md-12">
             <h4>Reset Password</h4>
